@@ -4,45 +4,9 @@
 
 @layer base {
   body {
-    @apply bg-[#0b1938] text-[#F8F4EB];
+    background-color: #F8F5EE;
+    color: #0B1B3D;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-
-  /* Full Luxury Warm Cream Mode (When user switches to Cream Background) */
-  body.theme-cream {
-    background-color: #F8F5EE !important;
-    color: #0b1938 !important;
-  }
-
-  body.theme-cream .bg-atelier-950 {
-    background-color: #F8F5EE !important;
-  }
-
-  body.theme-cream .bg-atelier-900 {
-    background-color: #ECE5D8 !important;
-  }
-
-  body.theme-cream .bg-atelier-850 {
-    background-color: #E2D7C5 !important;
-  }
-
-  body.theme-cream .text-atelier-cream,
-  body.theme-cream .text-atelier-100 {
-    color: #0b1938 !important;
-  }
-
-  body.theme-cream .text-atelier-200 {
-    color: #173066 !important;
-  }
-
-  body.theme-cream .text-atelier-300 {
-    color: #3b4e76 !important;
-  }
-
-  body.theme-cream .border-white\/10,
-  body.theme-cream .border-white\/5 {
-    border-color: rgba(11, 25, 56, 0.15) !important;
   }
 
   /* Custom smooth scrollbar with Navy & Coral */
@@ -50,10 +14,10 @@
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0b1938;
+    background: #F8F5EE;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1f4088;
+    background: #0B1B3D;
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {

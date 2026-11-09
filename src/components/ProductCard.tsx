@@ -54,7 +54,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Product Image Box with clickable Link to dedicated product page */}
       <Link
         to={`/products/${product.id}`}
-        className="relative aspect-[3/4] w-full overflow-hidden bg-atelier-900 border border-white/5 flex items-center justify-center p-4 block cursor-pointer"
+        className="relative aspect-[3/4] w-full overflow-hidden bg-white border border-[#0B1B3D]/10 hover:border-atelier-coral/50 transition-colors flex items-center justify-center p-4 block cursor-pointer shadow-sm"
         title={`View ${product.name} (Right click to open in new tab)`}
       >
         {/* Dynamic Real Mockup */}
@@ -67,10 +67,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Top-Left Badges: GSM & Stock */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
-          <span className="bg-atelier-950/90 backdrop-blur-md border border-white/10 text-atelier-gold text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-bold">
+          <span className="bg-[#0B1B3D] border border-[#1E3B75] text-[#F8F5EE] text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-bold shadow">
             {product.gsm} GSM
           </span>
-          <span className="bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono">
+          <span className="bg-emerald-900/90 border border-emerald-400/40 text-emerald-200 text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono">
             In Stock &bull; Printrove
           </span>
         </div>
@@ -79,36 +79,36 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="absolute top-3 right-3 z-10">
           <button
             onClick={handleToggleHeart}
-            className={`w-8 h-8 rounded-full backdrop-blur-md border flex items-center justify-center transition-colors shadow-lg cursor-pointer ${
+            className={`w-8 h-8 rounded-full backdrop-blur-md border flex items-center justify-center transition-colors shadow cursor-pointer ${
               isSaved
-                ? 'bg-rose-950/80 border-rose-500/50 text-rose-400'
-                : 'bg-atelier-950/80 border-white/20 text-atelier-200 hover:text-white hover:border-atelier-gold'
+                ? 'bg-rose-50 border-rose-400 text-rose-500'
+                : 'bg-white/90 border-[#0B1B3D]/15 text-[#0B1B3D] hover:text-rose-500 hover:border-rose-400'
             }`}
             title="Wishlist"
           >
-            <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-rose-400' : ''}`} />
+            <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-rose-500' : ''}`} />
           </button>
         </div>
 
         {/* Quick Size Selector Drawer */}
         <div
-          className={`absolute bottom-0 inset-x-0 p-3 bg-atelier-950/95 backdrop-blur-md border-t border-white/10 transition-all duration-300 z-10 ${
+          className={`absolute bottom-0 inset-x-0 p-3 bg-[#0B1B3D] border-t border-[#1E3B75] transition-all duration-300 z-10 ${
             showQuickSizes
               ? 'translate-y-0 opacity-100'
               : 'translate-y-full opacity-0 pointer-events-none'
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="text-[10px] uppercase tracking-wider text-neutral-400 mb-2 flex justify-between font-mono">
+          <div className="text-[10px] uppercase tracking-wider text-atelier-cream/80 mb-2 flex justify-between font-mono">
             <span>Size for {selectedColor}:</span>
-            <span className="text-atelier-gold font-bold">{formatPrice(product.priceINR)}</span>
+            <span className="text-atelier-coral font-bold">{formatPrice(product.priceINR)}</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {product.sizes.map((size) => (
               <button
                 key={size}
                 onClick={(e) => handleQuickAdd(size, e)}
-                className="flex-1 min-w-[34px] py-1 text-[11px] font-mono border border-white/20 text-atelier-100 hover:border-atelier-coral hover:bg-atelier-coral hover:text-atelier-950 transition-colors uppercase cursor-pointer"
+                className="flex-1 min-w-[34px] py-1 text-[11px] font-mono border border-white/20 text-[#F8F5EE] hover:border-atelier-coral hover:bg-atelier-coral hover:text-white transition-colors uppercase cursor-pointer"
               >
                 {size}
               </button>
@@ -130,7 +130,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 e.stopPropagation();
                 setShowQuickSizes(true);
               }}
-              className="w-full py-2.5 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-atelier-950 font-bold text-[11px] uppercase tracking-wider hover:brightness-110 shadow-lg shadow-black/40 flex items-center justify-center gap-1.5 cursor-pointer font-mono transition-all"
+              className="w-full py-2.5 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white font-bold text-[11px] uppercase tracking-wider hover:brightness-110 shadow-lg flex items-center justify-center gap-1.5 cursor-pointer font-mono transition-all"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Select Size & Add &bull; {formatPrice(product.priceINR)}</span>
@@ -141,25 +141,25 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
       {/* Product Details with Link */}
       <div className="pt-3.5 pb-2 space-y-1">
-        <div className="flex items-center justify-between text-[11px] text-neutral-400">
+        <div className="flex items-center justify-between text-[11px] text-[#2A3C5E]/70">
           <Link
             to={`/collections/${product.category.toLowerCase().replace(/\s+/g, '-')}`}
-            className="text-atelier-gold hover:underline uppercase tracking-wider text-[10px] font-mono font-medium"
+            className="text-atelier-coral hover:underline uppercase tracking-wider text-[10px] font-mono font-bold"
           >
             {product.category}
           </Link>
-          <span className="font-mono text-emerald-400 text-[10px]">Color: {selectedColor}</span>
+          <span className="font-mono text-emerald-700 text-[10px] font-medium">Color: {selectedColor}</span>
         </div>
 
         <Link
           to={`/products/${product.id}`}
-          className="font-serif text-base text-atelier-100 hover:text-atelier-gold transition-colors line-clamp-1 block"
+          className="font-serif text-base text-[#0B1B3D] hover:text-atelier-coral transition-colors line-clamp-1 block font-normal"
         >
           {product.name}
         </Link>
 
         <div className="flex items-center justify-between pt-1">
-          <div className="font-mono text-base font-bold text-atelier-100 tracking-wider">
+          <div className="font-mono text-base font-bold text-[#0B1B3D] tracking-wider">
             {formatPrice(product.priceINR)}
           </div>
 
@@ -176,8 +176,8 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 style={{ backgroundColor: c.hex }}
                 className={`w-3.5 h-3.5 rounded-full border transition-all cursor-pointer ${
                   selectedColor === c.name
-                    ? 'border-atelier-gold scale-125 ring-2 ring-atelier-gold/40'
-                    : 'border-white/20 hover:scale-110'
+                    ? 'border-atelier-coral scale-125 ring-2 ring-atelier-coral/40'
+                    : 'border-[#0B1B3D]/20 hover:scale-110'
                 }`}
                 title={`Switch to ${c.name}`}
               />

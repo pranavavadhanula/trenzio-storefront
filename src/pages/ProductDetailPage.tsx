@@ -238,9 +238,9 @@ export const ProductDetailPage: React.FC = () => {
             {/* 3D Virtual Try-On Studio Trigger */}
             <Link
               to={`/try-on?product=${product.id}&color=${encodeURIComponent(selectedColor)}&size=${selectedSize}`}
-              className="w-full py-3.5 bg-atelier-950 border border-atelier-gold text-atelier-gold hover:bg-atelier-gold hover:text-atelier-950 transition-all duration-300 text-xs font-mono uppercase tracking-widest font-bold flex items-center justify-center gap-2 cursor-pointer shadow-xl"
+              className="w-full py-3.5 bg-[#0B1B3D] border border-atelier-coral text-atelier-coral hover:bg-atelier-coral hover:text-white transition-all duration-300 text-xs font-mono uppercase tracking-widest font-bold flex items-center justify-center gap-2 cursor-pointer shadow-md"
             >
-              <Sparkles className="w-4 h-4 text-atelier-gold group-hover:text-atelier-950" />
+              <Sparkles className="w-4 h-4 text-atelier-coral group-hover:text-white" />
               <span>⚡ Try On Yourself in 3D Fitting Studio</span>
             </Link>
 
@@ -248,10 +248,10 @@ export const ProductDetailPage: React.FC = () => {
               {/* Add to Bag */}
               <button
                 onClick={handleAdd}
-                className={`flex-1 py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-black/40 ${
+                className={`flex-1 py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg ${
                   isAdded
                     ? 'bg-emerald-600 text-white'
-                    : 'bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-atelier-950 hover:brightness-110'
+                    : 'bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white hover:brightness-110'
                 }`}
               >
                 {isAdded ? (
@@ -268,7 +268,7 @@ export const ProductDetailPage: React.FC = () => {
               <button
                 onClick={handleBuyNow}
                 disabled={isCheckingOut}
-                className="px-6 py-4 border border-atelier-gold/40 text-atelier-100 hover:bg-atelier-gold hover:text-atelier-950 text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer"
+                className="px-6 py-4 bg-[#0B1B3D] border border-[#0B1B3D] text-white hover:bg-atelier-coral hover:border-atelier-coral text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-md"
                 title="Instant Checkout via Shopify"
               >
                 {isCheckingOut ? (
