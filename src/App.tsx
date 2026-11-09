@@ -32,7 +32,7 @@ function ScrollToTop() {
 
 function MainStorefront() {
   return (
-    <div className="min-h-screen bg-atelier-950 text-atelier-100 flex flex-col font-sans selection:bg-atelier-gold selection:text-atelier-950">
+    <div className="min-h-screen bg-atelier-950 text-atelier-100 flex flex-col font-sans selection:bg-atelier-coral selection:text-atelier-950 bg-[radial-gradient(ellipse_120%_80%_at_50%_-15%,rgba(31,64,136,0.35),rgba(11,25,56,0))]">
       <ScrollToTop />
 
       {/* Top Banner (Free Pan-India Delivery over ₹1,999) */}

@@ -5,12 +5,8 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 export const HomePage: React.FC = () => {
   return (
     <div className="min-h-[85vh] flex flex-col justify-center px-4 sm:px-8 py-8 sm:py-12 max-w-7xl mx-auto w-full">
-      {/* Editorial Header */}
-      <div className="text-center mb-8 sm:mb-12 space-y-2">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-atelier-coral/10 border border-atelier-coral/40 text-atelier-coral text-[10px] uppercase tracking-[0.3em] font-mono font-bold">
-          <Sparkles className="w-3 h-3" />
-          <span>New Drop &bull; 240–400 GSM Pure Cotton</span>
-        </div>
+      {/* Editorial Header - Ultra Minimalist Zara Aesthetic */}
+      <div className="text-center mb-6 sm:mb-10 space-y-2">
         <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-atelier-cream font-light tracking-tight">
           Choose Your Line
         </h1>
@@ -27,14 +23,14 @@ export const HomePage: React.FC = () => {
           className="group relative min-h-[460px] sm:min-h-[580px] rounded-none overflow-hidden bg-atelier-900 border border-white/10 hover:border-atelier-coral/70 transition-all duration-500 flex flex-col justify-end p-8 sm:p-12 cursor-pointer shadow-2xl"
           title="Explore Men's Wear (Right click to open in new tab)"
         >
-          {/* Background Photography */}
+          {/* Authentic Male Streetwear Model Photography */}
           <img
-            src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=85"
+            src="https://images.unsplash.com/photo-1550246140-5119ae4790b8?auto=format&fit=crop&w=1400&q=85"
             alt="Men's Wear Heavyweight Streetwear"
-            className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 opacity-65 filter contrast-115 brightness-95"
+            className="absolute inset-0 w-full h-full object-cover object-top sm:object-center group-hover:scale-105 transition-transform duration-700 opacity-75 filter contrast-110 brightness-95"
           />
           {/* Deep Navy Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-atelier-950 via-atelier-950/60 to-atelier-950/20 group-hover:via-atelier-950/40 transition-colors duration-500" />
+          <div className="absolute inset-0 bg-gradient-to-t from-atelier-950 via-atelier-950/70 to-atelier-950/20 group-hover:via-atelier-950/50 transition-colors duration-500" />
 
           {/* Card Content */}
           <div className="relative z-10 space-y-3">

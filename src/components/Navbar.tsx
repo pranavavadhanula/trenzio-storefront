@@ -21,6 +21,21 @@ export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
 
+  // Website Background Palette Toggle (Navy Luxe vs. Warm Cream)
+  const [isCreamTheme, setIsCreamTheme] = useState(() => {
+    return localStorage.getItem('trenzio_theme') === 'cream';
+  });
+
+  useEffect(() => {
+    if (isCreamTheme) {
+      document.body.classList.add('theme-cream');
+      localStorage.setItem('trenzio_theme', 'cream');
+    } else {
+      document.body.classList.remove('theme-cream');
+      localStorage.setItem('trenzio_theme', 'navy');
+    }
+  }, [isCreamTheme]);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
@@ -99,8 +114,19 @@ export const Navbar: React.FC = () => {
           </p>
         </Link>
 
-        {/* Right: Actions (Currency, Wishlist, Bag) */}
-        <div className="flex items-center space-x-3 sm:space-x-5">
+        {/* Right: Actions (Theme Palette, Currency, Wishlist, Bag) */}
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          {/* Background Palette Toggle: Midnight Navy vs. Warm Cream */}
+          <button
+            onClick={() => setIsCreamTheme(!isCreamTheme)}
+            className="flex items-center space-x-1.5 text-xs tracking-wider text-atelier-100 hover:text-atelier-coral py-1 px-2.5 rounded border border-white/10 bg-white/5 transition-all cursor-pointer font-mono text-[10px]"
+            title="Toggle between Midnight Navy and Warm Cream background"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-atelier-coral animate-pulse"></span>
+            <span className="hidden sm:inline">{isCreamTheme ? 'CREAM THEME' : 'NAVY THEME'}</span>
+            <span className="sm:hidden">{isCreamTheme ? 'CREAM' : 'NAVY'}</span>
+          </button>
+
           {/* Currency Switcher */}
           <div className="relative">
             <button
