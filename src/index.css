@@ -4,21 +4,22 @@
 
 @layer base {
   body {
-    @apply bg-[#0a0a0a] text-[#f5f5f4];
+    @apply bg-[#070d1e] text-[#F8F4EB];
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  /* Custom smooth scrollbar */
+  /* Custom smooth scrollbar with Navy & Coral */
   ::-webkit-scrollbar {
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #0a0a0a;
+    background: #070d1e;
   }
   ::-webkit-scrollbar-thumb {
-    background: #262626;
+    background: #142243;
+    border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #c5a880;
+    background: #FF6355;
   }
 }

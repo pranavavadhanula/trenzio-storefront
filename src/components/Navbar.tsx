@@ -38,12 +38,11 @@ export const Navbar: React.FC = () => {
 
   // Zara-style Main Navigation Tabs
   const NAV_TABS = [
-    { label: 'NEW IN', path: '/collections/all' },
+    { label: "MEN'S WEAR", path: '/collections/men' },
+    { label: "WOMEN'S WEAR", path: '/collections/women' },
     { label: 'OVERSIZED TEES', path: '/collections/oversized-tees' },
     { label: 'SWEATSHIRTS', path: '/collections/sweatshirts' },
-    { label: 'CLASSIC TEES', path: '/collections/classic-tees' },
-    { label: 'MEN', path: '/collections/men' },
-    { label: 'WOMEN', path: '/collections/women' },
+    { label: 'ALL DROPS', path: '/collections/all' },
     { label: '⚡ 3D TRY-ON', path: '/try-on' },
     { label: 'THE CRAFT', path: '/about' },
     { label: 'CONCIERGE', path: '/contact' },

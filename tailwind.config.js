@@ -12,17 +12,21 @@ export default {
       },
       colors: {
         atelier: {
-          950: '#0a0a0a',
-          900: '#121212',
-          850: '#1a1a1a',
-          800: '#262626',
-          700: '#404040',
-          300: '#d4d4d4',
-          200: '#e5e5e5',
-          100: '#f5f5f4',
-          50: '#fafaf9',
-          gold: '#c5a880',
-          sand: '#e8e2d8'
+          950: '#070d1e', // Deep Midnight Navy (Primary Background)
+          900: '#0d172e', // Rich Obsidian Navy (Cards & Drawers)
+          850: '#142243', // Midnight Navy Surface
+          800: '#1c2d56', // Navy Border
+          700: '#2a3f72', // Soft Navy Border
+          300: '#DDD3C0', // Muted Editorial Cream
+          200: '#ECE4D4', // Soft Warm Cream
+          100: '#F8F4EB', // Pure Editorial Cream (Primary Typography)
+          50: '#FDFBF7',  // Bright Cream Highlight
+          gold: '#FF6355', // Electric Coral Accent Pop
+          coral: '#FF6355', // Electric Luxury Coral
+          'coral-hover': '#FF4A3B',
+          navy: '#070d1e',
+          cream: '#F8F4EB',
+          sand: '#ECE4D4',
         }
       },
       letterSpacing: {

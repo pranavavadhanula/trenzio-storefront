@@ -251,7 +251,7 @@ export const ProductDetailPage: React.FC = () => {
                 className={`flex-1 py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg shadow-black/40 ${
                   isAdded
                     ? 'bg-emerald-600 text-white'
-                    : 'bg-gradient-to-r from-atelier-gold via-[#d4b38a] to-atelier-gold text-atelier-950 hover:brightness-110'
+                    : 'bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-atelier-950 hover:brightness-110'
                 }`}
               >
                 {isAdded ? (

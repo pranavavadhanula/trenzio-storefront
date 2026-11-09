@@ -253,11 +253,11 @@ export const CartDrawer: React.FC = () => {
                 </div>
               )}
 
-              {/* Checkout Button - Pure Luxury Gold, No Stark White */}
+              {/* Checkout Button - Electric Coral & Midnight Navy Luxury */}
               <button
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
-                className="w-full py-4 bg-gradient-to-r from-atelier-gold via-[#d4b38a] to-atelier-gold text-atelier-950 text-xs font-bold uppercase tracking-widest hover:brightness-110 shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="w-full py-4 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-atelier-950 text-xs font-bold uppercase tracking-widest hover:brightness-110 shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {isCheckingOut ? (
                   <span>Opening Secure Checkout...</span>

@@ -108,7 +108,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               <button
                 key={size}
                 onClick={(e) => handleQuickAdd(size, e)}
-                className="flex-1 min-w-[34px] py-1 text-[11px] font-mono border border-white/20 text-atelier-100 hover:border-atelier-gold hover:bg-atelier-gold hover:text-atelier-950 transition-colors uppercase cursor-pointer"
+                className="flex-1 min-w-[34px] py-1 text-[11px] font-mono border border-white/20 text-atelier-100 hover:border-atelier-coral hover:bg-atelier-coral hover:text-atelier-950 transition-colors uppercase cursor-pointer"
               >
                 {size}
               </button>
@@ -116,7 +116,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* Quick Add CTA Bar - Pure Gold, No Stark White */}
+        {/* Quick Add CTA Bar - Electric Coral & Navy, Pure Luxury */}
         {!showQuickSizes && (
           <div
             className={`absolute bottom-0 inset-x-0 transition-all duration-300 ${
@@ -130,7 +130,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 e.stopPropagation();
                 setShowQuickSizes(true);
               }}
-              className="w-full py-2.5 bg-gradient-to-r from-atelier-gold to-[#b39369] text-atelier-950 font-bold text-[11px] uppercase tracking-wider hover:brightness-110 shadow-lg shadow-black/40 flex items-center justify-center gap-1.5 cursor-pointer font-mono transition-all"
+              className="w-full py-2.5 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-atelier-950 font-bold text-[11px] uppercase tracking-wider hover:brightness-110 shadow-lg shadow-black/40 flex items-center justify-center gap-1.5 cursor-pointer font-mono transition-all"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Select Size & Add &bull; {formatPrice(product.priceINR)}</span>

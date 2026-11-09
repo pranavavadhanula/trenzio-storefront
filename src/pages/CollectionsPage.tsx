@@ -25,12 +25,12 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     desc: 'Everyday refined luxury cut with tailored sleeves and reinforced ribbed collar.',
   },
   'men': {
-    label: "Men's Collection",
+    label: "Men's Wear",
     genderFilter: 'Men',
-    desc: 'Heavyweight street fits designed for men with masculine boxy drape.',
+    desc: 'Heavyweight street fits engineered for men with masculine boxy drape and reinforced ribbed collars.',
   },
   'women': {
-    label: "Women's Collection",
+    label: "Women's Wear",
     genderFilter: 'Women',
     desc: 'Relaxed unisex oversized streetwear cuts tailored for effortless everyday styling.',
   },
