@@ -5,56 +5,50 @@ import { Heart, Trash2, ArrowRight, ShoppingBag } from 'lucide-react';
 import { Product } from '../types';
 
 export const WishlistPage: React.FC = () => {
-  const {
-    products,
-    wishlist,
-    toggleWishlist,
-    formatPrice,
-    addToCart,
-  } = useShop();
+  const { wishlist, products, toggleWishlist, addToCart, formatPrice } = useShop();
 
   const wishlistedProducts = products.filter((p) => wishlist.includes(p.id));
 
   const handleMoveToBag = (product: Product) => {
-    addToCart(product, product.sizes[0] || 'M', product.colors[0]?.name || 'Standard');
+    addToCart(product, product.sizes[0] || 'M', product.colors[0]?.name || 'Black');
     toggleWishlist(product.id);
   };
 
   return (
-    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10">
-      <div className="mb-10 pb-6 border-b border-white/10 flex items-center justify-between">
+    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#F8F5EE] text-[#0B1B3D]">
+      <div className="mb-10 pb-6 border-b border-[#0B1B3D]/10 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Heart className="w-6 h-6 text-rose-400 fill-rose-400" />
+          <Heart className="w-6 h-6 text-rose-500 fill-rose-500" />
           <div>
-            <span className="text-[10px] uppercase tracking-widest text-atelier-gold font-mono">Saved Items</span>
-            <h1 className="font-serif text-3xl sm:text-5xl font-light text-atelier-100 tracking-tight mt-1">
+            <span className="text-[10px] uppercase tracking-widest text-atelier-coral font-mono font-bold">Saved Items</span>
+            <h1 className="font-serif text-3xl sm:text-5xl font-light text-[#0B1B3D] tracking-tight mt-1">
               Your Wishlist
             </h1>
           </div>
         </div>
         <Link
           to="/collections/all"
-          className="text-xs uppercase tracking-wider text-neutral-400 hover:text-atelier-gold font-mono"
+          className="text-xs uppercase tracking-wider text-[#2A3C5E]/80 hover:text-atelier-coral font-mono font-medium"
         >
           &larr; Browse Catalog
         </Link>
       </div>
 
       {wishlistedProducts.length === 0 ? (
-        <div className="py-24 text-center border border-white/10 p-8 sm:p-14 bg-atelier-900/40 space-y-4 max-w-xl mx-auto">
-          <div className="w-14 h-14 mx-auto rounded-full bg-atelier-950 border border-white/10 flex items-center justify-center text-neutral-400">
-            <Heart className="w-6 h-6" />
+        <div className="py-24 text-center border border-[#0B1B3D]/10 p-8 sm:p-14 bg-white space-y-4 max-w-xl mx-auto shadow-sm">
+          <div className="w-14 h-14 mx-auto rounded-full bg-[#F8F5EE] border border-[#0B1B3D]/10 flex items-center justify-center text-[#0B1B3D]">
+            <Heart className="w-6 h-6 text-[#0B1B3D]/40" />
           </div>
-          <h2 className="font-serif text-2xl sm:text-3xl text-atelier-100 font-light">
+          <h2 className="font-serif text-2xl sm:text-3xl text-[#0B1B3D] font-light">
             Your wishlist is empty
           </h2>
-          <p className="text-xs text-neutral-400 max-w-md mx-auto font-light leading-relaxed">
+          <p className="text-xs text-[#2A3C5E]/80 max-w-md mx-auto font-light leading-relaxed">
             Click the heart icon on any heavyweight oversized tee or luxury sweatshirt to bookmark it here.
           </p>
           <div className="pt-4">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-atelier-gold to-[#b39369] text-atelier-950 text-xs uppercase tracking-widest font-bold hover:brightness-110 shadow-lg shadow-black/40 transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white text-xs uppercase tracking-widest font-bold hover:brightness-110 shadow-lg transition-all cursor-pointer"
             >
               <span>Explore Collection</span>
               <ArrowRight className="w-4 h-4" />
@@ -66,9 +60,9 @@ export const WishlistPage: React.FC = () => {
           {wishlistedProducts.map((product) => (
             <div
               key={product.id}
-              className="group p-4 bg-atelier-900 border border-white/10 flex flex-col justify-between space-y-4 hover:border-atelier-gold/40 transition-all"
+              className="group p-4 bg-white border border-[#0B1B3D]/10 flex flex-col justify-between space-y-4 hover:border-atelier-coral/50 transition-all shadow-sm"
             >
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-atelier-950 p-4 flex items-center justify-center">
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#F8F5EE] p-4 flex items-center justify-center">
                 <img
                   src={product.images.primary}
                   alt={product.name}
@@ -76,7 +70,7 @@ export const WishlistPage: React.FC = () => {
                 />
                 <button
                   onClick={() => toggleWishlist(product.id)}
-                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-atelier-950/80 border border-white/10 flex items-center justify-center text-rose-400 cursor-pointer hover:border-rose-400"
+                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white border border-[#0B1B3D]/10 flex items-center justify-center text-neutral-400 hover:text-rose-500 cursor-pointer shadow-sm"
                   title="Remove from wishlist"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -84,22 +78,22 @@ export const WishlistPage: React.FC = () => {
               </div>
 
               <div className="space-y-1">
-                <span className="text-[10px] uppercase font-mono text-atelier-gold">{product.gsm} GSM</span>
+                <span className="text-[10px] uppercase font-mono text-atelier-coral font-bold">{product.gsm} GSM</span>
                 <Link
                   to={`/products/${product.id}`}
-                  className="font-serif text-lg text-atelier-100 hover:text-atelier-gold transition-colors block line-clamp-1"
+                  className="font-serif text-lg text-[#0B1B3D] hover:text-atelier-coral transition-colors block line-clamp-1 font-normal"
                 >
                   {product.name}
                 </Link>
-                <div className="font-mono text-sm font-bold text-atelier-100">
+                <div className="font-mono text-sm font-bold text-[#0B1B3D]">
                   {formatPrice(product.priceINR)}
                 </div>
               </div>
 
-              {/* Move to bag CTA - Pure Luxury Gold, No Stark White */}
+              {/* Move to bag CTA */}
               <button
                 onClick={() => handleMoveToBag(product)}
-                className="w-full py-3 bg-gradient-to-r from-atelier-gold to-[#b39369] text-atelier-950 text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-1.5 cursor-pointer font-mono"
+                className="w-full py-3 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white text-xs font-bold uppercase tracking-wider hover:brightness-110 shadow-md transition-all flex items-center justify-center gap-1.5 cursor-pointer font-mono"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
                 <span>Move to Bag</span>

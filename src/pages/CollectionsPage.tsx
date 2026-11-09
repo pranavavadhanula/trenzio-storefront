@@ -59,7 +59,7 @@ export const CollectionsPage: React.FC = () => {
   }, [products, config, sortBy]);
 
   return (
-    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10">
+    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#F8F5EE] text-[#0B1B3D]">
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#2A3C5E]/70 font-mono mb-8">
         <Link to="/" className="hover:text-atelier-coral transition-colors">Home</Link>
@@ -92,7 +92,7 @@ export const CollectionsPage: React.FC = () => {
                 className={`px-4 py-2 text-xs uppercase tracking-wider border transition-all cursor-pointer font-mono ${
                   isTabActive
                     ? 'border-atelier-coral bg-atelier-coral text-white font-bold shadow-md'
-                    : 'border-[#0B1B3D]/15 text-[#0B1B3D] hover:border-atelier-coral/50 bg-white'
+                    : 'border-[#0B1B3D]/20 text-[#0B1B3D] hover:border-atelier-coral hover:text-atelier-coral bg-transparent'
                 }`}
                 title={`Open ${item.label} (Right click to open in new tab)`}
               >

@@ -2,10 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+html, body, #root {
+  background-color: #F8F5EE !important;
+  color: #0B1B3D !important;
+}
+
 @layer base {
   body {
-    background-color: #F8F5EE;
-    color: #0B1B3D;
+    background-color: #F8F5EE !important;
+    color: #0B1B3D !important;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 

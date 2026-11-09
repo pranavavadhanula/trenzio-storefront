@@ -33,9 +33,9 @@ export const ProductDetailPage: React.FC = () => {
   if (!product) {
     return (
       <div className="py-32 text-center max-w-xl mx-auto px-6">
-        <h2 className="font-serif text-3xl text-atelier-100">Product Not Found</h2>
-        <p className="text-xs text-neutral-400 mt-2">The requested piece may have been updated.</p>
-        <Link to="/collections/all" className="inline-block mt-6 px-6 py-3 bg-atelier-gold text-atelier-950 font-bold uppercase text-xs">
+        <h2 className="font-serif text-3xl text-[#0B1B3D]">Product Not Found</h2>
+        <p className="text-xs text-[#2A3C5E]/70 mt-2">The requested piece may have been updated.</p>
+        <Link to="/collections/all" className="inline-block mt-6 px-6 py-3 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white font-bold uppercase text-xs shadow-md">
           Browse Catalog
         </Link>
       </div>
@@ -73,26 +73,26 @@ export const ProductDetailPage: React.FC = () => {
   return (
     <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-6 sm:px-10">
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-neutral-400 font-mono mb-8">
-        <Link to="/" className="hover:text-atelier-gold transition-colors">Home</Link>
+      <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#2A3C5E]/70 font-mono mb-8">
+        <Link to="/" className="hover:text-atelier-coral transition-colors">Home</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <Link to="/collections/all" className="hover:text-atelier-gold transition-colors">Collections</Link>
+        <Link to="/collections/all" className="hover:text-atelier-coral transition-colors">Collections</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <Link
           to={`/collections/${product.category.toLowerCase().replace(/\s+/g, '-')}`}
-          className="hover:text-atelier-gold transition-colors"
+          className="hover:text-atelier-coral transition-colors"
         >
           {product.category}
         </Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-atelier-gold font-bold truncate max-w-xs">{product.name}</span>
+        <span className="text-atelier-coral font-bold truncate max-w-xs">{product.name}</span>
       </nav>
 
       {/* Main PDP Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
         {/* Left Gallery (7 Cols) */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="aspect-[3/4] w-full bg-atelier-900 border border-white/5 flex items-center justify-center p-8 relative overflow-hidden">
+          <div className="aspect-[3/4] w-full bg-white border border-[#0B1B3D]/10 flex items-center justify-center p-8 relative overflow-hidden shadow-sm">
             <img
               src={activeImage}
               alt={`${product.name} in ${selectedColor}`}
@@ -101,14 +101,14 @@ export const ProductDetailPage: React.FC = () => {
             {/* Top-Right Wishlist Floating Button */}
             <button
               onClick={() => toggleWishlist(product.id)}
-              className={`absolute top-4 right-4 w-10 h-10 rounded-full border backdrop-blur-md flex items-center justify-center transition-colors cursor-pointer shadow-xl ${
+              className={`absolute top-4 right-4 w-10 h-10 rounded-full border flex items-center justify-center transition-colors cursor-pointer shadow-md ${
                 isSaved
-                  ? 'bg-rose-950/80 border-rose-500/50 text-rose-400'
-                  : 'bg-atelier-950/80 border-white/20 text-atelier-200 hover:text-white hover:border-atelier-gold'
+                  ? 'bg-rose-50 border-rose-400 text-rose-500'
+                  : 'bg-white/90 border-[#0B1B3D]/15 text-[#0B1B3D] hover:text-rose-500'
               }`}
               title="Save to Wishlist"
             >
-              <Heart className={`w-4 h-4 ${isSaved ? 'fill-rose-400' : ''}`} />
+              <Heart className={`w-4 h-4 ${isSaved ? 'fill-rose-500' : ''}`} />
             </button>
           </div>
 
@@ -121,10 +121,10 @@ export const ProductDetailPage: React.FC = () => {
                 <button
                   key={c.name}
                   onClick={() => setSelectedColor(c.name)}
-                  className={`aspect-square p-1.5 border transition-all flex flex-col items-center justify-center bg-atelier-950 cursor-pointer ${
+                  className={`aspect-square p-1.5 border transition-all flex flex-col items-center justify-center bg-white cursor-pointer ${
                     isSelected
-                      ? 'border-atelier-gold ring-2 ring-atelier-gold/40'
-                      : 'border-white/10 opacity-70 hover:opacity-100 hover:border-white/30'
+                      ? 'border-atelier-coral ring-2 ring-atelier-coral/40'
+                      : 'border-[#0B1B3D]/15 opacity-80 hover:opacity-100 hover:border-atelier-coral/50'
                   }`}
                   title={`Color: ${c.name}`}
                 >
@@ -133,7 +133,7 @@ export const ProductDetailPage: React.FC = () => {
                   ) : (
                     <span className="w-4 h-4 rounded-full" style={{ backgroundColor: c.hex }} />
                   )}
-                  <span className="text-[8px] font-mono mt-1 truncate max-w-full text-neutral-400">
+                  <span className="text-[8px] font-mono mt-1 truncate max-w-full text-[#2A3C5E]/80">
                     {c.name.split(' ')[0]}
                   </span>
                 </button>
@@ -147,45 +147,45 @@ export const ProductDetailPage: React.FC = () => {
           <div className="space-y-6">
             {/* Badges */}
             <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider font-mono">
-              <span className="bg-atelier-gold text-atelier-950 px-2.5 py-0.5 font-bold">
+              <span className="bg-[#0B1B3D] text-[#F8F5EE] px-2.5 py-0.5 font-bold shadow-sm">
                 {product.gsm} GSM Combed Cotton
               </span>
-              <span className="text-emerald-400 border border-emerald-500/30 px-2 py-0.5">
+              <span className="text-emerald-700 bg-emerald-50 border border-emerald-300 px-2 py-0.5 font-medium">
                 Vendor: Printrove &bull; In Stock
               </span>
             </div>
 
             {/* Title & Price */}
             <div>
-              <h1 className="font-serif text-3xl sm:text-4xl text-atelier-100 font-light leading-tight">
+              <h1 className="font-serif text-3xl sm:text-4xl text-[#0B1B3D] font-light leading-tight">
                 {product.name}
               </h1>
-              <div className="text-3xl font-mono font-bold text-atelier-100 tracking-wider mt-3">
+              <div className="text-3xl font-mono font-bold text-[#0B1B3D] tracking-wider mt-3">
                 {formatPrice(product.priceINR)}
               </div>
-              <p className="text-[11px] text-neutral-400 font-mono mt-1">
+              <p className="text-[11px] text-[#2A3C5E]/70 font-mono mt-1">
                 Inclusive of all taxes &bull; Free express delivery across India
               </p>
             </div>
 
             {/* Color Selection */}
             <div>
-              <div className="flex justify-between text-xs tracking-wider uppercase text-neutral-400 mb-2.5 font-mono">
+              <div className="flex justify-between text-xs tracking-wider uppercase text-[#2A3C5E]/80 mb-2.5 font-mono">
                 <span>Selected Colorway:</span>
-                <span className="text-atelier-gold font-bold">{selectedColor}</span>
+                <span className="text-atelier-coral font-bold">{selectedColor}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {product.colors.map((c) => (
                   <button
                     key={c.name}
                     onClick={() => setSelectedColor(c.name)}
-                    className={`flex items-center gap-2 px-3 py-2 border text-xs transition-all cursor-pointer ${
+                    className={`flex items-center gap-2 px-3 py-2 border text-xs transition-all cursor-pointer font-mono ${
                       selectedColor === c.name
-                        ? 'border-atelier-gold bg-white/10 text-atelier-100 font-bold'
-                        : 'border-white/10 text-neutral-400 hover:border-white/30'
+                        ? 'border-atelier-coral bg-atelier-coral/10 text-[#0B1B3D] font-bold'
+                        : 'border-[#0B1B3D]/15 text-[#0B1B3D] hover:border-atelier-coral bg-white'
                     }`}
                   >
-                    <span className="w-3 h-3 rounded-full border border-white/20" style={{ backgroundColor: c.hex }} />
+                    <span className="w-3 h-3 rounded-full border border-[#0B1B3D]/20" style={{ backgroundColor: c.hex }} />
                     <span>{c.name}</span>
                   </button>
                 ))}
@@ -194,11 +194,11 @@ export const ProductDetailPage: React.FC = () => {
 
             {/* Size Selection */}
             <div>
-              <div className="flex justify-between items-center text-xs tracking-wider uppercase text-neutral-400 mb-2.5 font-mono">
+              <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#2A3C5E]/80 mb-2.5 font-mono">
                 <span>Select Size:</span>
                 <button
                   onClick={() => setIsSizeGuideOpen(true)}
-                  className="flex items-center gap-1 text-atelier-gold hover:underline cursor-pointer lowercase"
+                  className="flex items-center gap-1 text-atelier-coral hover:underline cursor-pointer lowercase font-medium"
                 >
                   <Ruler className="w-3.5 h-3.5" />
                   <span>Printrove Chest Measurements</span>
@@ -211,8 +211,8 @@ export const ProductDetailPage: React.FC = () => {
                     onClick={() => setSelectedSize(s)}
                     className={`py-3 text-xs font-mono font-bold border transition-all cursor-pointer ${
                       selectedSize === s
-                        ? 'border-atelier-gold bg-atelier-gold text-atelier-950 font-bold shadow-lg shadow-black/40'
-                        : 'border-white/10 text-atelier-200 hover:border-white/40 bg-white/5'
+                        ? 'border-atelier-coral bg-atelier-coral text-white font-bold shadow-md'
+                        : 'border-[#0B1B3D]/15 text-[#0B1B3D] hover:border-atelier-coral bg-white'
                     }`}
                   >
                     {s}
@@ -222,12 +222,12 @@ export const ProductDetailPage: React.FC = () => {
             </div>
 
             {/* Fabric & Fit Details */}
-            <div className="p-4 bg-white/[0.03] border border-white/10 space-y-2 text-xs text-neutral-300 font-light leading-relaxed">
-              <div className="flex items-center gap-2 text-atelier-gold font-mono uppercase text-[10px]">
+            <div className="p-4 bg-white border border-[#0B1B3D]/10 space-y-2 text-xs text-[#2A3C5E] font-light leading-relaxed shadow-sm">
+              <div className="flex items-center gap-2 text-atelier-coral font-mono uppercase text-[10px] font-bold">
                 <span>Specifications</span>
               </div>
               <p>{product.fabric}</p>
-              <p className="border-t border-white/5 pt-2 text-[11px] text-neutral-400">
+              <p className="border-t border-[#0B1B3D]/10 pt-2 text-[11px] text-[#2A3C5E]/80">
                 {product.fitDescription} &bull; {product.modelMeasurements}
               </p>
             </div>
@@ -283,13 +283,13 @@ export const ProductDetailPage: React.FC = () => {
             </div>
 
             {/* Direct Official Shopify Link */}
-            <div className="pt-2 flex justify-between items-center text-[11px] font-mono text-neutral-400 border-t border-white/5">
+            <div className="pt-2 flex justify-between items-center text-[11px] font-mono text-[#2A3C5E]/80 border-t border-[#0B1B3D]/10">
               <span>View live on official store:</span>
               <a
                 href="https://0g1xp7-qd.myshopify.com/products/overshized-plain-t-shirt"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-atelier-gold hover:underline flex items-center gap-1"
+                className="text-atelier-coral hover:underline flex items-center gap-1 font-bold"
               >
                 <span>0g1xp7-qd.myshopify.com</span>
                 <ExternalLink className="w-3 h-3" />
@@ -297,21 +297,21 @@ export const ProductDetailPage: React.FC = () => {
             </div>
 
             {/* D2C Guarantees */}
-            <div className="grid grid-cols-2 gap-3 text-[10px] text-neutral-400 uppercase tracking-wider pt-3 font-mono border-t border-white/5">
+            <div className="grid grid-cols-2 gap-3 text-[10px] text-[#2A3C5E]/80 uppercase tracking-wider pt-3 font-mono border-t border-[#0B1B3D]/10">
               <div className="flex items-center gap-2">
-                <Truck className="w-3.5 h-3.5 text-atelier-gold" />
+                <Truck className="w-3.5 h-3.5 text-atelier-coral" />
                 <span>Pan-India Delivery</span>
               </div>
               <div className="flex items-center gap-2">
-                <RotateCcw className="w-3.5 h-3.5 text-atelier-gold" />
+                <RotateCcw className="w-3.5 h-3.5 text-atelier-coral" />
                 <span>7-Day Size Exchanges</span>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-atelier-gold" />
+                <ShieldCheck className="w-3.5 h-3.5 text-atelier-coral" />
                 <span>UPI & COD Accepted</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="w-3.5 h-3.5 text-atelier-gold" />
+                <Check className="w-3.5 h-3.5 text-atelier-coral" />
                 <span>Zero Shrinkage Guarantee</span>
               </div>
             </div>
