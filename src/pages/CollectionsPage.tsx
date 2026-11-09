@@ -82,17 +82,17 @@ export const CollectionsPage: React.FC = () => {
         </p>
 
         {/* Collection Tab Links (Can be opened in separate tabs!) */}
-        <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-[#0B1B3D]/5">
+        <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-[#0B1B3D]/10">
           {Object.entries(CATEGORY_MAP).map(([slug, item]) => {
             const isTabActive = currentCategory === slug;
             return (
               <Link
                 key={slug}
                 to={`/collections/${slug}`}
-                className={`px-4 py-2 text-xs uppercase tracking-wider border transition-all cursor-pointer font-mono ${
+                className={`px-4 py-2 text-xs uppercase tracking-wider border-2 transition-all cursor-pointer font-mono ${
                   isTabActive
                     ? 'border-atelier-coral bg-atelier-coral text-white font-bold shadow-md'
-                    : 'border-[#0B1B3D]/20 text-[#0B1B3D] hover:border-atelier-coral hover:text-atelier-coral bg-transparent'
+                    : 'border-[#0B1B3D] bg-[#0B1B3D] text-[#F8F5EE] hover:bg-atelier-coral hover:border-atelier-coral transition-colors font-bold'
                 }`}
                 title={`Open ${item.label} (Right click to open in new tab)`}
               >
@@ -105,17 +105,17 @@ export const CollectionsPage: React.FC = () => {
 
       {/* Filter and Count Bar */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#0B1B3D]/10 text-xs">
-        <span className="text-[11px] font-mono text-[#2A3C5E]/80">
-          Showing <strong className="text-[#0B1B3D]">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'piece' : 'pieces'}
+        <span className="text-[11px] font-mono text-[#0B1B3D] font-medium">
+          Showing <strong className="text-atelier-coral font-bold">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'piece' : 'pieces'}
         </span>
 
-        <div className="flex items-center gap-2 text-[#2A3C5E]">
-          <SlidersHorizontal className="w-3.5 h-3.5 text-[#2A3C5E]/70" />
-          <span className="text-[10px] uppercase font-mono">Sort:</span>
+        <div className="flex items-center gap-2 text-[#0B1B3D]">
+          <SlidersHorizontal className="w-3.5 h-3.5 text-atelier-coral" />
+          <span className="text-[10px] uppercase font-mono font-bold">Sort:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="bg-white border border-[#0B1B3D]/15 text-xs uppercase tracking-wider text-[#0B1B3D] px-3 py-1.5 focus:outline-none focus:border-atelier-coral font-mono cursor-pointer"
+            className="bg-[#0B1B3D] border border-[#1E3B75] text-xs uppercase tracking-wider text-[#F8F5EE] px-3 py-1.5 focus:outline-none focus:border-atelier-coral font-mono cursor-pointer"
           >
             <option value="featured">Featured Drops</option>
             <option value="price-asc">Price: Low to High</option>
@@ -128,25 +128,25 @@ export const CollectionsPage: React.FC = () => {
       {isLoadingProducts ? (
         <div className="py-28 text-center flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 text-atelier-coral animate-spin" />
-          <p className="text-xs uppercase tracking-widest text-[#2A3C5E]/80 font-mono">
+          <p className="text-xs uppercase tracking-widest text-[#0B1B3D] font-mono font-bold">
             Loading Trenzio Catalog...
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="py-20 text-center border border-[#0B1B3D]/10 p-8 sm:p-14 bg-white space-y-5 shadow-sm">
-          <div className="w-14 h-14 mx-auto rounded-full bg-[#F8F5EE] border border-atelier-coral/40 flex items-center justify-center text-atelier-coral">
+        <div className="py-20 text-center border border-[#1E3B75] p-8 sm:p-14 bg-[#0B1B3D] text-[#F8F5EE] space-y-5 shadow-2xl">
+          <div className="w-14 h-14 mx-auto rounded-full bg-[#10224A] border border-atelier-coral/40 flex items-center justify-center text-atelier-coral">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h3 className="font-serif text-2xl sm:text-3xl text-[#0B1B3D] font-light">
+          <h3 className="font-serif text-2xl sm:text-3xl text-[#F8F5EE] font-light">
             New Drop Dropping Soon
           </h3>
-          <p className="text-xs sm:text-sm text-[#2A3C5E]/80 max-w-md mx-auto font-light leading-relaxed">
-            Our next heavyweight pieces for <strong>{config.label}</strong> are currently in production with Printrove.
+          <p className="text-xs sm:text-sm text-[#E2DCD1] max-w-md mx-auto font-light leading-relaxed">
+            Our next heavyweight pieces for <strong className="text-atelier-coral">{config.label}</strong> are currently in production with Printrove.
           </p>
           <div className="pt-2">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white text-xs uppercase tracking-widest font-bold hover:brightness-110 shadow-lg transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white text-xs uppercase tracking-widest font-bold hover:brightness-110 shadow-lg transition-all cursor-pointer font-mono"
             >
               <span>Explore All Available Drops</span>
             </Link>

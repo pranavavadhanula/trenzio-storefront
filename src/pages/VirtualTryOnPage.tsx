@@ -391,7 +391,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2.5 bg-white border border-[#0B1B3D]/20 text-[#0B1B3D] hover:border-atelier-coral hover:text-atelier-coral transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-sm"
+            className="px-4 py-2.5 bg-[#0B1B3D] border border-[#1E3B75] text-[#F8F5EE] hover:bg-atelier-coral hover:border-atelier-coral transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-md"
             title="Upload your own full-body or upper-body photo"
           >
             <Upload className="w-4 h-4 text-atelier-coral" />
@@ -400,10 +400,10 @@ export const VirtualTryOnPage: React.FC = () => {
 
           <button
             onClick={isCameraActive ? stopCamera : startCamera}
-            className="px-4 py-2.5 bg-white border border-[#0B1B3D]/20 text-[#0B1B3D] hover:border-atelier-coral hover:text-atelier-coral transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-sm"
+            className="px-4 py-2.5 bg-[#0B1B3D] border border-[#1E3B75] text-[#F8F5EE] hover:bg-atelier-coral hover:border-atelier-coral transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-md"
             title="Snap a live selfie using your webcam"
           >
-            <Camera className="w-4 h-4 text-emerald-600" />
+            <Camera className="w-4 h-4 text-emerald-400" />
             <span>{isCameraActive ? 'Cancel Camera' : 'Live Selfie Camera'}</span>
           </button>
         </div>
@@ -414,7 +414,7 @@ export const VirtualTryOnPage: React.FC = () => {
         {/* Left Column: Interactive 3D Fitting Mirror (7 Cols) */}
         <div className="lg:col-span-7 space-y-4">
           {/* Fitting Canvas Viewport */}
-          <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full bg-white border border-[#0B1B3D]/15 overflow-hidden shadow-xl flex items-center justify-center select-none">
+          <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full bg-[#0B1B3D] border-2 border-[#1E3B75] overflow-hidden shadow-2xl flex items-center justify-center select-none">
             {/* Live Camera View Mode */}
             {isCameraActive ? (
               <div className="absolute inset-0 z-20 bg-black flex flex-col items-center justify-center">
@@ -513,7 +513,7 @@ export const VirtualTryOnPage: React.FC = () => {
                 className={`w-9 h-9 rounded-full backdrop-blur-md border flex items-center justify-center text-xs transition-colors cursor-pointer shadow-md ${
                   showBodyGuide
                     ? 'bg-atelier-coral text-white border-atelier-coral font-bold'
-                    : 'bg-white/90 border-[#0B1B3D]/15 text-[#0B1B3D] hover:text-atelier-coral hover:border-atelier-coral'
+                    : 'bg-[#0B1B3D] border-[#1E3B75] text-[#F8F5EE] hover:text-atelier-coral hover:border-atelier-coral'
                 }`}
                 title="Toggle Body Fit Grid Lines"
               >
@@ -525,7 +525,7 @@ export const VirtualTryOnPage: React.FC = () => {
                 className={`w-9 h-9 rounded-full backdrop-blur-md border flex items-center justify-center text-xs transition-colors cursor-pointer shadow-md ${
                   compareMode
                     ? 'bg-atelier-coral text-white border-atelier-coral font-bold'
-                    : 'bg-white/90 border-[#0B1B3D]/15 text-[#0B1B3D] hover:text-atelier-coral hover:border-atelier-coral'
+                    : 'bg-[#0B1B3D] border-[#1E3B75] text-[#F8F5EE] hover:text-atelier-coral hover:border-atelier-coral'
                 }`}
                 title="Toggle Before/After Split Comparison"
               >
@@ -534,7 +534,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
               <button
                 onClick={handleResetControls}
-                className="w-9 h-9 rounded-full backdrop-blur-md bg-white/90 border border-[#0B1B3D]/15 text-[#0B1B3D] hover:text-atelier-coral hover:border-atelier-coral flex items-center justify-center transition-colors cursor-pointer shadow-md"
+                className="w-9 h-9 rounded-full backdrop-blur-md bg-[#0B1B3D] border border-[#1E3B75] text-[#F8F5EE] hover:text-atelier-coral hover:border-atelier-coral flex items-center justify-center transition-colors cursor-pointer shadow-md"
                 title="Reset Fit Alignment"
               >
                 <RefreshCw className="w-4 h-4" />
@@ -550,8 +550,8 @@ export const VirtualTryOnPage: React.FC = () => {
           </div>
 
           {/* Model Presets Quick Bar */}
-          <div className="p-4 bg-white border border-[#0B1B3D]/10 space-y-2 shadow-sm">
-            <div className="flex items-center justify-between text-[11px] font-mono text-[#2A3C5E]/70">
+          <div className="p-4 bg-[#0B1B3D] border border-[#1E3B75] space-y-2 shadow-xl text-[#F8F5EE]">
+            <div className="flex items-center justify-between text-[11px] font-mono text-[#E2DCD1]/80">
               <span className="flex items-center gap-1.5">
                 <User className="w-3.5 h-3.5 text-atelier-coral" />
                 <span>Select Model Preset:</span>
@@ -573,18 +573,18 @@ export const VirtualTryOnPage: React.FC = () => {
                   }}
                   className={`p-2 border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
                     activePhotoUrl === preset.url
-                      ? 'border-atelier-coral bg-atelier-coral/10 text-[#0B1B3D]'
-                      : 'border-[#0B1B3D]/15 text-[#0B1B3D] hover:border-atelier-coral bg-[#F8F5EE]/50'
+                      ? 'border-atelier-coral bg-atelier-coral text-white font-bold'
+                      : 'border-[#1E3B75] text-[#F8F5EE] hover:border-atelier-coral bg-[#10224A]'
                   }`}
                 >
                   <img
                     src={preset.url}
                     alt={preset.name}
-                    className="w-8 h-8 rounded-full object-cover border border-[#0B1B3D]/15"
+                    className="w-8 h-8 rounded-full object-cover border border-[#1E3B75]"
                   />
                   <div className="truncate">
-                    <div className="text-[10px] font-mono font-bold truncate text-[#0B1B3D]">{preset.name}</div>
-                    <div className="text-[8px] text-[#2A3C5E]/60 uppercase font-mono">{preset.gender}</div>
+                    <div className="text-[10px] font-mono font-bold truncate">{preset.name}</div>
+                    <div className="text-[8px] opacity-75 uppercase font-mono">{preset.gender}</div>
                   </div>
                 </button>
               ))}
@@ -592,15 +592,15 @@ export const VirtualTryOnPage: React.FC = () => {
           </div>
 
           {/* 3D Position & Scale Fine-Tuning Controls */}
-          <div className="p-4 bg-white border border-[#0B1B3D]/10 space-y-4 shadow-sm">
-            <div className="flex items-center justify-between text-xs font-mono text-[#0B1B3D]">
+          <div className="p-4 bg-[#0B1B3D] border border-[#1E3B75] space-y-4 shadow-xl text-[#F8F5EE]">
+            <div className="flex items-center justify-between text-xs font-mono">
               <span className="flex items-center gap-1.5 text-atelier-coral uppercase font-bold text-[10px]">
                 <Sliders className="w-3.5 h-3.5" />
                 <span>3D Fit & Perspective Calibration</span>
               </span>
               <button
                 onClick={handleResetControls}
-                className="text-[10px] uppercase text-[#2A3C5E]/70 hover:text-atelier-coral underline cursor-pointer"
+                className="text-[10px] uppercase text-[#E2DCD1]/70 hover:text-atelier-coral underline cursor-pointer"
               >
                 Reset
               </button>
@@ -609,9 +609,9 @@ export const VirtualTryOnPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
               {/* Scale Slider */}
               <div className="space-y-1">
-                <div className="flex justify-between text-[10px] text-[#2A3C5E]/70">
+                <div className="flex justify-between text-[10px] text-[#E2DCD1]/80">
                   <span>Fit Volume:</span>
-                  <span className="text-[#0B1B3D] font-bold">{Math.round(garmentScale * 100)}%</span>
+                  <span className="text-atelier-coral font-bold">{Math.round(garmentScale * 100)}%</span>
                 </div>
                 <input
                   type="range"
@@ -626,9 +626,9 @@ export const VirtualTryOnPage: React.FC = () => {
 
               {/* 3D Yaw Rotation */}
               <div className="space-y-1">
-                <div className="flex justify-between text-[10px] text-[#2A3C5E]/70">
+                <div className="flex justify-between text-[10px] text-[#E2DCD1]/80">
                   <span>3D Body Angle:</span>
-                  <span className="text-[#0B1B3D] font-bold">{rotationY}&deg;</span>
+                  <span className="text-atelier-coral font-bold">{rotationY}&deg;</span>
                 </div>
                 <input
                   type="range"
@@ -643,9 +643,9 @@ export const VirtualTryOnPage: React.FC = () => {
 
               {/* Vertical Shoulder Position */}
               <div className="space-y-1">
-                <div className="flex justify-between text-[10px] text-[#2A3C5E]/70">
+                <div className="flex justify-between text-[10px] text-[#E2DCD1]/80">
                   <span>Shoulder Height:</span>
-                  <span className="text-[#0B1B3D] font-bold">{garmentPosY}%</span>
+                  <span className="text-atelier-coral font-bold">{garmentPosY}%</span>
                 </div>
                 <input
                   type="range"
@@ -661,8 +661,8 @@ export const VirtualTryOnPage: React.FC = () => {
 
             {/* Compare slider when active */}
             {compareMode && (
-              <div className="pt-2 border-t border-[#0B1B3D]/10 space-y-1">
-                <div className="flex justify-between text-[10px] font-mono text-[#2A3C5E]/70">
+              <div className="pt-2 border-t border-[#1E3B75] space-y-1">
+                <div className="flex justify-between text-[10px] font-mono text-[#E2DCD1]/80">
                   <span>Split Comparison (Original &larr;&rarr; Fitted):</span>
                   <span className="text-atelier-coral font-bold">{compareSlider}%</span>
                 </div>
@@ -683,28 +683,28 @@ export const VirtualTryOnPage: React.FC = () => {
         <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
           <div className="space-y-6">
             {/* Garment Header Card */}
-            <div className="p-6 bg-white border border-[#0B1B3D]/10 space-y-4 shadow-sm text-[#0B1B3D]">
+            <div className="p-6 bg-[#0B1B3D] border border-[#1E3B75] space-y-4 shadow-xl text-[#F8F5EE]">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-wider font-mono">
-                <span className="bg-[#0B1B3D] text-[#F8F5EE] px-2 py-0.5 font-bold">
+                <span className="bg-[#10224A] border border-[#1E3B75] text-atelier-coral px-2 py-0.5 font-bold">
                   {selectedProduct.gsm} GSM Bio-Washed Cotton
                 </span>
-                <span className="text-emerald-700 font-medium">
+                <span className="text-emerald-400 font-medium">
                   Vendor: Printrove &bull; 9,999 in Stock
                 </span>
               </div>
 
               <div>
-                <h2 className="font-serif text-2xl sm:text-3xl text-[#0B1B3D] font-light">
+                <h2 className="font-serif text-2xl sm:text-3xl text-[#F8F5EE] font-light">
                   {selectedProduct.name}
                 </h2>
-                <div className="text-2xl font-mono font-bold text-[#0B1B3D] tracking-wider mt-1">
+                <div className="text-2xl font-mono font-bold text-white tracking-wider mt-1">
                   {formatPrice(selectedProduct.priceINR)}
                 </div>
               </div>
 
               {/* Garment Selector Dropdown / Pills */}
-              <div className="pt-2 border-t border-[#0B1B3D]/10 space-y-1.5">
-                <label className="block text-[10px] uppercase font-mono text-[#2A3C5E]/70">
+              <div className="pt-2 border-t border-[#1E3B75] space-y-1.5">
+                <label className="block text-[10px] uppercase font-mono text-[#E2DCD1]/80">
                   Switch Outfit in 3D:
                 </label>
                 <div className="grid grid-cols-1 gap-2">
@@ -714,8 +714,8 @@ export const VirtualTryOnPage: React.FC = () => {
                       onClick={() => setSelectedProductId(p.id)}
                       className={`px-3 py-2 border text-left text-xs font-mono flex items-center justify-between transition-all cursor-pointer ${
                         selectedProductId === p.id
-                          ? 'border-atelier-coral bg-atelier-coral/10 text-[#0B1B3D] font-bold'
-                          : 'border-[#0B1B3D]/15 text-[#0B1B3D] hover:border-atelier-coral bg-[#F8F5EE]/50'
+                          ? 'border-atelier-coral bg-atelier-coral text-white font-bold'
+                          : 'border-[#1E3B75] text-[#F8F5EE] hover:border-atelier-coral bg-[#10224A]'
                       }`}
                     >
                       <span className="truncate">{p.name}</span>
@@ -726,8 +726,8 @@ export const VirtualTryOnPage: React.FC = () => {
               </div>
 
               {/* Colorways Selector with Live Texture Swap */}
-              <div className="space-y-2 pt-2 border-t border-[#0B1B3D]/10">
-                <div className="flex justify-between text-xs tracking-wider uppercase text-[#2A3C5E]/70 font-mono">
+              <div className="space-y-2 pt-2 border-t border-[#1E3B75]">
+                <div className="flex justify-between text-xs tracking-wider uppercase text-[#E2DCD1]/80 font-mono">
                   <span>Selected Colorway:</span>
                   <span className="text-atelier-coral font-bold">{selectedColor}</span>
                 </div>
@@ -736,10 +736,10 @@ export const VirtualTryOnPage: React.FC = () => {
                     <button
                       key={c.name}
                       onClick={() => setSelectedColor(c.name)}
-                      className={`aspect-square p-1 border transition-all flex items-center justify-center bg-white cursor-pointer ${
+                      className={`aspect-square p-1 border-2 transition-all flex items-center justify-center bg-[#10224A] cursor-pointer ${
                         selectedColor === c.name
-                          ? 'border-atelier-coral ring-2 ring-atelier-coral/40 scale-105'
-                          : 'border-[#0B1B3D]/15 opacity-70 hover:opacity-100'
+                          ? 'border-atelier-coral ring-2 ring-atelier-coral/50 scale-105'
+                          : 'border-[#1E3B75] opacity-75 hover:opacity-100'
                       }`}
                       title={c.name}
                     >
@@ -753,8 +753,8 @@ export const VirtualTryOnPage: React.FC = () => {
               </div>
 
               {/* Size Selector */}
-              <div className="space-y-2 pt-2 border-t border-[#0B1B3D]/10">
-                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#2A3C5E]/70 font-mono">
+              <div className="space-y-2 pt-2 border-t border-[#1E3B75]">
+                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#E2DCD1]/80 font-mono">
                   <span>Select Size:</span>
                   <span className="text-atelier-coral font-bold">
                     {selectedSize} (Chest {selectedSize === 'XS' ? '40"' : selectedSize === 'S' ? '42"' : selectedSize === 'M' ? '44"' : selectedSize === 'L' ? '46"' : selectedSize === 'XL' ? '48"' : '50"'})
@@ -768,7 +768,7 @@ export const VirtualTryOnPage: React.FC = () => {
                       className={`py-2.5 text-xs font-mono font-bold border transition-all cursor-pointer ${
                         selectedSize === s
                           ? 'border-atelier-coral bg-atelier-coral text-white font-bold shadow'
-                          : 'border-[#0B1B3D]/20 text-[#0B1B3D] hover:border-[#0B1B3D]/50 bg-[#F8F5EE]/50'
+                          : 'border-[#1E3B75] text-[#F8F5EE] hover:bg-atelier-coral hover:border-atelier-coral bg-[#10224A]'
                       }`}
                     >
                       {s}
@@ -779,22 +779,22 @@ export const VirtualTryOnPage: React.FC = () => {
             </div>
 
             {/* Smart AI Fit Advisor Card */}
-            <div className="p-5 bg-white border border-[#0B1B3D]/10 space-y-4 shadow-sm text-[#0B1B3D]">
+            <div className="p-5 bg-[#0B1B3D] border border-[#1E3B75] space-y-4 shadow-xl text-[#F8F5EE]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 text-atelier-coral font-mono uppercase text-[11px] font-bold">
                   <Ruler className="w-4 h-4" />
                   <span>AI Size & Fit Recommendation</span>
                 </div>
-                <span className="text-[10px] uppercase font-mono px-2 py-0.5 bg-emerald-100 text-emerald-800 border border-emerald-300 font-bold">
+                <span className="text-[10px] uppercase font-mono px-2 py-0.5 bg-emerald-900 border border-emerald-500 text-emerald-200 font-bold">
                   Best Fit: Size {recommendedSize}
                 </span>
               </div>
 
               <div className="grid grid-cols-2 gap-4 text-xs font-mono">
                 <div className="space-y-1">
-                  <div className="flex justify-between text-[#2A3C5E]/70 text-[10px]">
+                  <div className="flex justify-between text-[#E2DCD1]/80 text-[10px]">
                     <span>Height:</span>
-                    <span className="text-[#0B1B3D] font-bold">{userHeightCm} cm</span>
+                    <span className="text-white font-bold">{userHeightCm} cm</span>
                   </div>
                   <input
                     type="range"
@@ -807,9 +807,9 @@ export const VirtualTryOnPage: React.FC = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <div className="flex justify-between text-[#2A3C5E]/70 text-[10px]">
+                  <div className="flex justify-between text-[#E2DCD1]/80 text-[10px]">
                     <span>Weight:</span>
-                    <span className="text-[#0B1B3D] font-bold">{userWeightKg} kg</span>
+                    <span className="text-white font-bold">{userWeightKg} kg</span>
                   </div>
                   <input
                     type="range"
@@ -822,15 +822,15 @@ export const VirtualTryOnPage: React.FC = () => {
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-[#0B1B3D]/10 text-[11px] font-mono">
-                <span className="text-[#2A3C5E]/70">Streetwear Fit Preference:</span>
-                <div className="flex border border-[#0B1B3D]/20">
+              <div className="flex items-center justify-between pt-2 border-t border-[#1E3B75] text-[11px] font-mono">
+                <span className="text-[#E2DCD1]/80">Streetwear Fit Preference:</span>
+                <div className="flex border border-[#1E3B75] bg-[#10224A]">
                   <button
                     onClick={() => setFitPreference('oversized')}
                     className={`px-2.5 py-1 text-[10px] uppercase cursor-pointer font-bold ${
                       fitPreference === 'oversized'
-                        ? 'bg-[#0B1B3D] text-white'
-                        : 'text-[#0B1B3D]/70 bg-white'
+                        ? 'bg-atelier-coral text-white'
+                        : 'text-[#E2DCD1]/70'
                     }`}
                   >
                     Oversized Drop
@@ -839,8 +839,8 @@ export const VirtualTryOnPage: React.FC = () => {
                     onClick={() => setFitPreference('regular')}
                     className={`px-2.5 py-1 text-[10px] uppercase cursor-pointer font-bold ${
                       fitPreference === 'regular'
-                        ? 'bg-[#0B1B3D] text-white'
-                        : 'text-[#0B1B3D]/70 bg-white'
+                        ? 'bg-atelier-coral text-white'
+                        : 'text-[#E2DCD1]/70'
                     }`}
                   >
                     Fitted
@@ -850,7 +850,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
               <button
                 onClick={() => handleSizeChange(recommendedSize)}
-                className="w-full py-2 border border-[#0B1B3D] text-[#0B1B3D] hover:bg-[#0B1B3D] hover:text-white transition-colors text-[10px] uppercase tracking-wider font-mono cursor-pointer"
+                className="w-full py-2.5 border-2 border-atelier-coral text-atelier-coral hover:bg-atelier-coral hover:text-white transition-colors text-[10px] uppercase tracking-wider font-mono font-bold cursor-pointer"
               >
                 Apply Recommended Size ({recommendedSize}) to 3D Model
               </button>
@@ -862,10 +862,10 @@ export const VirtualTryOnPage: React.FC = () => {
             {/* Add to Bag */}
             <button
               onClick={handleAddToBag}
-              className={`w-full py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg font-mono ${
+              className={`w-full py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xl font-mono ${
                 isAdded
                   ? 'bg-emerald-600 text-white'
-                  : 'bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white hover:brightness-110'
+                  : 'bg-gradient-to-r from-atelier-coral to-[#ff4736] text-white hover:brightness-110'
               }`}
             >
               {isAdded ? (
@@ -883,14 +883,14 @@ export const VirtualTryOnPage: React.FC = () => {
               <button
                 onClick={handleInstantBuy}
                 disabled={isCheckingOut}
-                className="py-3.5 border border-[#0B1B3D] text-[#0B1B3D] hover:bg-[#0B1B3D] hover:text-white text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold"
+                className="py-3.5 border-2 border-[#0B1B3D] bg-[#0B1B3D] text-[#F8F5EE] hover:bg-atelier-coral hover:border-atelier-coral text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-md"
               >
                 {isCheckingOut ? (
                   <span>Connecting...</span>
                 ) : (
                   <>
                     <span>Instant Checkout</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
+                    <ArrowRight className="w-4 h-4" />
                   </>
                 )}
               </button>
@@ -898,7 +898,7 @@ export const VirtualTryOnPage: React.FC = () => {
               <button
                 onClick={handleDownloadLook}
                 disabled={downloading}
-                className="py-3.5 border border-[#0B1B3D]/20 text-[#0B1B3D] hover:border-atelier-coral hover:text-atelier-coral text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer bg-white"
+                className="py-3.5 border-2 border-[#0B1B3D] bg-[#EFE8DC] text-[#0B1B3D] hover:border-atelier-coral hover:text-atelier-coral text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-md"
                 title="Download High-Res Styled Image for Instagram or WhatsApp"
               >
                 <Download className="w-3.5 h-3.5 text-atelier-coral" />
@@ -907,7 +907,7 @@ export const VirtualTryOnPage: React.FC = () => {
             </div>
 
             {/* D2C Badges */}
-            <div className="grid grid-cols-2 gap-2 text-[10px] text-[#2A3C5E]/70 uppercase tracking-wider pt-2 font-mono">
+            <div className="grid grid-cols-2 gap-2 text-[10px] text-[#0B1B3D]/80 uppercase tracking-wider pt-2 font-mono font-medium">
               <div className="flex items-center gap-1.5">
                 <Truck className="w-3.5 h-3.5 text-atelier-coral" />
                 <span>Pan-India Doorstep Dispatch</span>

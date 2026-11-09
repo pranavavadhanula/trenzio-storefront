@@ -35,20 +35,20 @@ export const WishlistPage: React.FC = () => {
       </div>
 
       {wishlistedProducts.length === 0 ? (
-        <div className="py-24 text-center border border-[#0B1B3D]/10 p-8 sm:p-14 bg-white space-y-4 max-w-xl mx-auto shadow-sm">
-          <div className="w-14 h-14 mx-auto rounded-full bg-[#F8F5EE] border border-[#0B1B3D]/10 flex items-center justify-center text-[#0B1B3D]">
-            <Heart className="w-6 h-6 text-[#0B1B3D]/40" />
+        <div className="py-24 text-center border border-[#1E3B75] p-8 sm:p-14 bg-[#0B1B3D] text-[#F8F5EE] space-y-4 max-w-xl mx-auto shadow-2xl">
+          <div className="w-14 h-14 mx-auto rounded-full bg-[#10224A] border border-[#1E3B75] flex items-center justify-center text-atelier-coral">
+            <Heart className="w-6 h-6 text-atelier-coral" />
           </div>
-          <h2 className="font-serif text-2xl sm:text-3xl text-[#0B1B3D] font-light">
+          <h2 className="font-serif text-2xl sm:text-3xl text-white font-light">
             Your wishlist is empty
           </h2>
-          <p className="text-xs text-[#2A3C5E]/80 max-w-md mx-auto font-light leading-relaxed">
+          <p className="text-xs text-[#E2DCD1]/80 max-w-md mx-auto font-light leading-relaxed">
             Click the heart icon on any heavyweight oversized tee or luxury sweatshirt to bookmark it here.
           </p>
           <div className="pt-4">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white text-xs uppercase tracking-widest font-bold hover:brightness-110 shadow-lg transition-all cursor-pointer"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-atelier-coral to-[#ff7b6f] text-white text-xs uppercase tracking-widest font-bold hover:brightness-110 shadow-lg transition-all cursor-pointer font-mono"
             >
               <span>Explore Collection</span>
               <ArrowRight className="w-4 h-4" />
@@ -60,9 +60,9 @@ export const WishlistPage: React.FC = () => {
           {wishlistedProducts.map((product) => (
             <div
               key={product.id}
-              className="group p-4 bg-white border border-[#0B1B3D]/10 flex flex-col justify-between space-y-4 hover:border-atelier-coral/50 transition-all shadow-sm"
+              className="group p-4 bg-[#0B1B3D] border border-[#1E3B75] flex flex-col justify-between space-y-4 hover:border-atelier-coral transition-all shadow-xl text-[#F8F5EE]"
             >
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#F8F5EE] p-4 flex items-center justify-center">
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#EFE8DC] p-4 flex items-center justify-center border border-[#1E3B75]">
                 <img
                   src={product.images.primary}
                   alt={product.name}
@@ -70,7 +70,7 @@ export const WishlistPage: React.FC = () => {
                 />
                 <button
                   onClick={() => toggleWishlist(product.id)}
-                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white border border-[#0B1B3D]/10 flex items-center justify-center text-neutral-400 hover:text-rose-500 cursor-pointer shadow-sm"
+                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-[#0B1B3D] border border-[#1E3B75] flex items-center justify-center text-[#E2DCD1] hover:text-atelier-coral cursor-pointer shadow-md"
                   title="Remove from wishlist"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -81,11 +81,11 @@ export const WishlistPage: React.FC = () => {
                 <span className="text-[10px] uppercase font-mono text-atelier-coral font-bold">{product.gsm} GSM</span>
                 <Link
                   to={`/products/${product.id}`}
-                  className="font-serif text-lg text-[#0B1B3D] hover:text-atelier-coral transition-colors block line-clamp-1 font-normal"
+                  className="font-serif text-lg text-[#F8F5EE] hover:text-atelier-coral transition-colors block line-clamp-1 font-normal"
                 >
                   {product.name}
                 </Link>
-                <div className="font-mono text-sm font-bold text-[#0B1B3D]">
+                <div className="font-mono text-sm font-bold text-white">
                   {formatPrice(product.priceINR)}
                 </div>
               </div>

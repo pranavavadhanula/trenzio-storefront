@@ -42,7 +42,7 @@ export const ProductGrid: React.FC = () => {
               className={`px-4 py-2 text-xs uppercase tracking-wider rounded-none border transition-all cursor-pointer font-mono ${
                 selectedCategory === cat
                   ? 'border-atelier-coral bg-atelier-coral text-white font-bold'
-                  : 'border-[#0B1B3D]/15 text-[#0B1B3D] hover:border-atelier-coral bg-white'
+                  : 'border-[#1E3B75] text-[#F8F5EE] hover:border-atelier-coral bg-[#0B1B3D]'
               }`}
             >
               {cat}
@@ -82,7 +82,7 @@ export const ProductGrid: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-white text-xs uppercase tracking-wider text-[#0B1B3D] border border-[#0B1B3D]/15 px-2 py-1 focus:outline-none cursor-pointer font-mono"
+              className="bg-[#0B1B3D] text-xs uppercase tracking-wider text-[#F8F5EE] border border-[#1E3B75] px-2 py-1 focus:outline-none cursor-pointer font-mono"
             >
               <option value="featured">Featured</option>
               <option value="price-asc">Price: Low to High</option>
@@ -101,7 +101,7 @@ export const ProductGrid: React.FC = () => {
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="py-20 text-center border border-[#0B1B3D]/10 p-8 sm:p-14 bg-white space-y-5 shadow-sm">
+        <div className="py-20 text-center border border-[#1E3B75] p-8 sm:p-14 bg-[#0B1B3D] text-[#F8F5EE] space-y-5 shadow-2xl">
           <div className="w-14 h-14 mx-auto rounded-full bg-[#F8F5EE] border border-atelier-coral/40 flex items-center justify-center text-atelier-coral">
             <Sparkles className="w-6 h-6" />
           </div>

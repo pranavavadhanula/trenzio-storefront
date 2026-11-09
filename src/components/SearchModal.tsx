@@ -85,7 +85,7 @@ export const SearchModal: React.FC = () => {
                   }}
                   className="group p-3 bg-white/5 border border-white/10 hover:border-atelier-coral/60 transition-all cursor-pointer flex flex-col justify-between"
                 >
-                  <div className="aspect-[3/4] w-full overflow-hidden bg-white mb-3 p-3 flex items-center justify-center">
+                  <div className="aspect-[3/4] w-full overflow-hidden bg-[#EFE8DC] mb-3 p-3 flex items-center justify-center border border-[#1E3B75]">
                     <img
                       src={product.images.primary}
                       alt={product.name}

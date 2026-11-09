@@ -54,7 +54,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Product Image Box with clickable Link to dedicated product page */}
       <Link
         to={`/products/${product.id}`}
-        className="relative aspect-[3/4] w-full overflow-hidden bg-white border border-[#0B1B3D]/10 hover:border-atelier-coral/50 transition-colors flex items-center justify-center p-4 block cursor-pointer shadow-sm"
+        className="relative aspect-[3/4] w-full overflow-hidden bg-[#EFE8DC] border-2 border-[#0B1B3D]/15 hover:border-atelier-coral transition-colors flex items-center justify-center p-4 block cursor-pointer shadow-md"
         title={`View ${product.name} (Right click to open in new tab)`}
       >
         {/* Dynamic Real Mockup */}
@@ -67,10 +67,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Top-Left Badges: GSM & Stock */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
-          <span className="bg-[#0B1B3D] border border-[#1E3B75] text-[#F8F5EE] text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-bold shadow">
+          <span className="bg-[#0B1B3D] border border-[#1E3B75] text-[#F8F5EE] text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-bold shadow-md">
             {product.gsm} GSM
           </span>
-          <span className="bg-emerald-900/90 border border-emerald-400/40 text-emerald-200 text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono">
+          <span className="bg-atelier-coral text-white text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-bold shadow-md">
             In Stock &bull; Printrove
           </span>
         </div>
@@ -79,14 +79,14 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <div className="absolute top-3 right-3 z-10">
           <button
             onClick={handleToggleHeart}
-            className={`w-8 h-8 rounded-full backdrop-blur-md border flex items-center justify-center transition-colors shadow cursor-pointer ${
+            className={`w-8 h-8 rounded-full border flex items-center justify-center transition-colors shadow-md cursor-pointer ${
               isSaved
-                ? 'bg-rose-50 border-rose-400 text-rose-500'
-                : 'bg-white/90 border-[#0B1B3D]/15 text-[#0B1B3D] hover:text-rose-500 hover:border-rose-400'
+                ? 'bg-atelier-coral border-atelier-coral text-white'
+                : 'bg-[#0B1B3D] border-[#1E3B75] text-[#F8F5EE] hover:text-atelier-coral hover:border-atelier-coral'
             }`}
             title="Wishlist"
           >
-            <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-rose-500' : ''}`} />
+            <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-white' : ''}`} />
           </button>
         </div>
 

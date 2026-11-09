@@ -27,17 +27,17 @@ export const SizingModal: React.FC = () => {
       />
 
       {/* Modal Box */}
-      <div className="relative w-full max-w-xl bg-white border border-[#0B1B3D]/15 p-6 sm:p-8 shadow-2xl z-10 space-y-6 text-[#0B1B3D]">
-        <div className="flex items-center justify-between border-b border-[#0B1B3D]/10 pb-4">
+      <div className="relative w-full max-w-xl bg-[#0B1B3D] border border-[#1E3B75] p-6 sm:p-8 shadow-2xl z-10 space-y-6 text-[#F8F5EE]">
+        <div className="flex items-center justify-between border-b border-[#1E3B75] pb-4">
           <div className="flex items-center gap-2">
             <Ruler className="w-5 h-5 text-atelier-coral" />
-            <h3 className="font-serif text-2xl text-[#0B1B3D] font-light">
+            <h3 className="font-serif text-2xl text-white font-light">
               Oversized T-Shirt Size Guide
             </h3>
           </div>
           <button
             onClick={() => setIsSizeGuideOpen(false)}
-            className="w-8 h-8 rounded-full border border-[#0B1B3D]/15 flex items-center justify-center text-[#0B1B3D] hover:text-atelier-coral hover:border-atelier-coral cursor-pointer"
+            className="w-8 h-8 rounded-full border border-[#1E3B75] flex items-center justify-center text-[#F8F5EE] hover:text-atelier-coral hover:border-atelier-coral cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -45,14 +45,14 @@ export const SizingModal: React.FC = () => {
 
         {/* Unit switcher */}
         <div className="flex items-center justify-between gap-4">
-          <p className="text-xs text-[#2A3C5E]/80 font-light">
+          <p className="text-xs text-[#E2DCD1]/80 font-light">
             Exact dimensions from Printrove fulfillment specifications.
           </p>
-          <div className="flex border border-[#0B1B3D]/20">
+          <div className="flex border border-[#1E3B75] bg-[#10224A]">
             <button
               onClick={() => setUnit('in')}
               className={`px-3 py-1 text-xs uppercase font-mono cursor-pointer ${
-                unit === 'in' ? 'bg-atelier-coral text-white font-bold' : 'text-[#0B1B3D] hover:bg-[#F8F5EE]'
+                unit === 'in' ? 'bg-atelier-coral text-white font-bold' : 'text-[#E2DCD1] hover:bg-white/5'
               }`}
             >
               In (Inches)
@@ -60,7 +60,7 @@ export const SizingModal: React.FC = () => {
             <button
               onClick={() => setUnit('cm')}
               className={`px-3 py-1 text-xs uppercase font-mono cursor-pointer ${
-                unit === 'cm' ? 'bg-atelier-coral text-white font-bold' : 'text-[#0B1B3D] hover:bg-[#F8F5EE]'
+                unit === 'cm' ? 'bg-atelier-coral text-white font-bold' : 'text-[#E2DCD1] hover:bg-white/5'
               }`}
             >
               Cm (Centimeters)
@@ -72,16 +72,16 @@ export const SizingModal: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-[#0B1B3D]/15 text-[10px] uppercase tracking-widest text-atelier-coral font-mono font-bold">
+              <tr className="border-b border-[#1E3B75] text-[10px] uppercase tracking-widest text-atelier-coral font-mono font-bold">
                 <th className="py-2.5">Size</th>
                 <th className="py-2.5">Chest (Around)</th>
                 <th className="py-2.5">Length (Neck to Hem)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#0B1B3D]/10 font-mono text-[#2A3C5E]">
+            <tbody className="divide-y divide-[#1E3B75] font-mono text-[#E2DCD1]">
               {tShirtSizes.map((row) => (
-                <tr key={row.size} className="hover:bg-[#F8F5EE]">
-                  <td className="py-3 font-bold text-[#0B1B3D]">{row.size}</td>
+                <tr key={row.size} className="hover:bg-[#10224A]">
+                  <td className="py-3 font-bold text-white">{row.size}</td>
                   <td className="py-3">{unit === 'in' ? `${row.chestIn}"` : `${row.chestCm} cm`}</td>
                   <td className="py-3">{unit === 'in' ? `${row.lengthIn}"` : `${row.lengthCm} cm`}</td>
                 </tr>
@@ -91,7 +91,7 @@ export const SizingModal: React.FC = () => {
         </div>
 
         {/* Help Note */}
-        <div className="flex items-start gap-2.5 p-3 bg-[#F8F5EE] border border-[#0B1B3D]/10 text-xs text-[#2A3C5E]">
+        <div className="flex items-start gap-2.5 p-3 bg-[#10224A] border border-[#1E3B75] text-xs text-[#E2DCD1]">
           <HelpCircle className="w-4 h-4 text-atelier-coral flex-shrink-0 mt-0.5" />
           <span>
             The final size may vary by &plusmn;0.5 inches due to manual cutting and bio-wash finishing.

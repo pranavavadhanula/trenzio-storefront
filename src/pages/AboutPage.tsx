@@ -21,54 +21,54 @@ export const AboutPage: React.FC = () => {
 
       {/* The 3 Core Pillars */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-        <div className="p-8 bg-white border border-[#0B1B3D]/10 space-y-4 shadow-sm">
+        <div className="p-8 bg-[#0B1B3D] border border-[#1E3B75] space-y-4 shadow-xl text-[#F8F5EE]">
           <Feather className="w-6 h-6 text-atelier-coral" />
-          <h3 className="font-serif text-2xl text-[#0B1B3D]">350 GSM Density</h3>
-          <p className="text-xs text-[#2A3C5E]/80 font-light leading-relaxed">
+          <h3 className="font-serif text-2xl text-[#F8F5EE]">350 GSM Density</h3>
+          <p className="text-xs text-[#E2DCD1]/80 font-light leading-relaxed">
             Twice the weight of fast-fashion blanks. Creates a sharp, boxy drape that does not cling or wrinkle throughout the day.
           </p>
         </div>
 
-        <div className="p-8 bg-white border border-[#0B1B3D]/10 space-y-4 shadow-sm">
+        <div className="p-8 bg-[#0B1B3D] border border-[#1E3B75] space-y-4 shadow-xl text-[#F8F5EE]">
           <ShieldCheck className="w-6 h-6 text-atelier-coral" />
-          <h3 className="font-serif text-2xl text-[#0B1B3D]">Zero Shrinkage</h3>
-          <p className="text-xs text-[#2A3C5E]/80 font-light leading-relaxed">
+          <h3 className="font-serif text-2xl text-[#F8F5EE]">Zero Shrinkage</h3>
+          <p className="text-xs text-[#E2DCD1]/80 font-light leading-relaxed">
             Our fabrics undergo biological enzyme washes and rigorous pre-shrinking. Your tee fits the exact same way after 50 machine cycles.
           </p>
         </div>
 
-        <div className="p-8 bg-white border border-[#0B1B3D]/10 space-y-4 shadow-sm">
+        <div className="p-8 bg-[#0B1B3D] border border-[#1E3B75] space-y-4 shadow-xl text-[#F8F5EE]">
           <Sparkles className="w-6 h-6 text-atelier-coral" />
-          <h3 className="font-serif text-2xl text-[#0B1B3D]">Unisex Geometry</h3>
-          <p className="text-xs text-[#2A3C5E]/80 font-light leading-relaxed">
+          <h3 className="font-serif text-2xl text-[#F8F5EE]">Unisex Geometry</h3>
+          <p className="text-xs text-[#E2DCD1]/80 font-light leading-relaxed">
             Calibrated dropped shoulders and tailored armholes that flatter both men and women with relaxed effortless drape.
           </p>
         </div>
       </div>
 
       {/* Narrative Section */}
-      <div className="p-8 sm:p-14 bg-white border border-[#0B1B3D]/10 space-y-6 mb-20 text-[#2A3C5E] font-light leading-relaxed text-xs sm:text-sm shadow-sm">
-        <h2 className="font-serif text-2xl sm:text-3xl text-[#0B1B3D] font-light">
+      <div className="p-8 sm:p-14 bg-[#0B1B3D] border border-[#1E3B75] space-y-6 mb-20 text-[#E2DCD1] font-light leading-relaxed text-xs sm:text-sm shadow-2xl">
+        <h2 className="font-serif text-2xl sm:text-3xl text-white font-light">
           Crafted With Printrove Fulfillment Across India
         </h2>
         <p>
           We partnered directly with Printrove's cutting-edge facilities to ensure every garment meets strict dimensional accuracy. Every seam is double-needle stitched, collars are reinforced with 1x1 elastane ribbed cotton, and eco-friendly Oeko-Tex certified inks ensure color stays rich wash after wash.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#0B1B3D]/10 font-mono text-xs text-[#0B1B3D]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#1E3B75] font-mono text-xs text-[#F8F5EE]">
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-emerald-600 font-bold" />
+            <Check className="w-4 h-4 text-atelier-coral font-bold" />
             <span>100% Super-Combed Indian Cotton</span>
           </div>
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-emerald-600 font-bold" />
+            <Check className="w-4 h-4 text-atelier-coral font-bold" />
             <span>Bio-Washed & Silicon Softened</span>
           </div>
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-emerald-600 font-bold" />
+            <Check className="w-4 h-4 text-atelier-coral font-bold" />
             <span>Anti-Pilling Yarn Construction</span>
           </div>
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-emerald-600 font-bold" />
+            <Check className="w-4 h-4 text-atelier-coral font-bold" />
             <span>Pan-India Doorstep Dispatch within 24h</span>
           </div>
         </div>
