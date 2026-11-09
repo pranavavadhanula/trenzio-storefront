@@ -128,59 +128,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* 3. Zara-Style Spotlight Piece (Your Live Printrove T-Shirt) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="p-8 sm:p-14 bg-gradient-to-b from-atelier-900/90 to-atelier-950 border border-white/10">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 sm:gap-12 items-center">
-            {/* Visual */}
-            <div className="md:col-span-6 aspect-square sm:aspect-[4/3] bg-atelier-950 border border-white/5 flex items-center justify-center p-8">
-              <img
-                src="/images/products/ash-grey.png"
-                alt="Overshized Plain T-Shirt in Ash Grey"
-                className="max-h-full max-w-full object-contain"
-              />
-            </div>
-
-            {/* Details */}
-            <div className="md:col-span-6 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-atelier-gold text-atelier-950 text-[10px] uppercase tracking-widest font-mono font-bold">
-                Live Shopify Drop &bull; Printrove Fulfillment
-              </div>
-
-              <h2 className="font-serif text-3xl sm:text-4xl text-atelier-100 font-light">
-                Overshized Plain T-Shirt
-              </h2>
-
-              <div className="font-mono text-2xl font-bold text-atelier-gold">
-                ₹285.00
-              </div>
-
-              <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
-                Constructed with 350 GSM combed cotton. Features 7 distinct colorways (Ash Grey, Beige, Black, Olive Green, Navy Blue, Crimson Red, Maroon) and 6 sizes from XS to 2XL.
-              </p>
-
-              <div className="pt-2 flex flex-col sm:flex-row gap-3">
-                <Link
-                  to="/products/44119548559395"
-                  className="px-8 py-3.5 bg-gradient-to-r from-atelier-gold to-[#b39369] text-atelier-950 text-xs font-bold uppercase tracking-widest hover:brightness-110 shadow-lg shadow-black/40 transition-all flex items-center justify-center gap-2 font-mono cursor-pointer"
-                >
-                  <span>Open Dedicated Product Page</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  to="/try-on?product=44119548559395"
-                  className="px-6 py-3.5 border border-atelier-gold/40 text-atelier-gold text-xs uppercase tracking-widest hover:bg-atelier-gold hover:text-atelier-950 transition-colors flex items-center justify-center gap-1.5 font-mono cursor-pointer"
-                >
-                  <Sparkles className="w-3.5 h-3.5" />
-                  <span>Try on in 3D</span>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 4. Interactive 3D Virtual Try-On Studio Banner */}
+      {/* 3. Interactive 3D Virtual Try-On Studio Banner */}
       <section className="max-w-7xl mx-auto px-4 sm:px-8">
         <div className="relative p-8 sm:p-14 bg-atelier-900/90 border border-atelier-gold/40 overflow-hidden shadow-2xl">
           <div className="relative z-10 max-w-xl space-y-4">
