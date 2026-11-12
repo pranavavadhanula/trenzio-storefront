@@ -49,7 +49,7 @@ const MEN_RUNWAY_ITEMS: RunwayItem[] = [
     startingPrice: 'Starts @ ₹2,999',
     gsm: 'Silk Blend',
     image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=800&q=80',
-    tag: 'Festive Atelier',
+    tag: 'Festive Edition',
   },
 ];
 
@@ -451,7 +451,7 @@ export const CollectionsPage: React.FC = () => {
             <div>
               <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#F88379] font-bold font-sans">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>{selectedDept === 'women' ? "Women's 3D Atelier Runway" : "Men's 3D Atelier Runway"}</span>
+                <span>{selectedDept === 'women' ? "Women's 3D Perspective Runway" : "Men's 3D Perspective Runway"}</span>
               </div>
               <h2 className="text-xl sm:text-2xl font-extrabold text-white font-sans mt-0.5">
                 {selectedDept === 'women' ? "Interactive Women's Silhouettes" : "Interactive Men's Silhouettes"}

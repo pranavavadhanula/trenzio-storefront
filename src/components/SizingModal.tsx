@@ -54,7 +54,7 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
         {/* Unit switcher */}
         <div className="flex items-center justify-between gap-4">
           <p className="text-xs text-[#3B82F6] font-light">
-            Exact dimensions from Trevori atelier specifications.
+            Exact dimensions from Trevori studio specifications.
           </p>
           <div className="flex border border-white/15 bg-white/[0.03]">
             <button

@@ -50,7 +50,7 @@ export const AboutPage: React.FC = () => {
       {/* Narrative Section */}
       <div className="p-8 sm:p-14 bg-[#0B1A30] border border-[#1E3A66]/60 space-y-6 mb-20 text-[#CBD5E1] font-normal leading-relaxed text-xs sm:text-sm shadow-2xl backdrop-blur-md">
         <h2 className="font-sans text-2xl sm:text-3xl text-white font-bold">
-          Crafted In Our Dedicated Indian Ateliers
+          Crafted In Our Dedicated Design Studios
         </h2>
         <p className="text-[#94A3B8]">
           We operate direct artisan production facilities across India to ensure every garment meets strict dimensional accuracy. Every seam is double-needle stitched, collars are reinforced with 1x1 elastane ribbed cotton, and eco-friendly Oeko-Tex certified inks ensure color stays rich wash after wash.

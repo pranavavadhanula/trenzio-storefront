@@ -54,7 +54,7 @@ export const Footer: React.FC = () => {
               </h2>
             </Link>
             <p className="text-xs text-[#94A3B8] font-normal max-w-sm leading-relaxed">
-              India's premium heavyweight streetwear brand. Crafting 240–350 GSM oversized tees and 400 GSM French Terry sweatshirts for men and women. Designed and crafted in India.
+              Wear Your Perspective. Modern luxury streetwear engineered with uncompromising drape, architectural silhouettes, and distinctive aesthetics for men and women.
             </p>
             <div className="text-xs text-[#F88379] pt-2 font-sans flex flex-wrap gap-x-4 gap-y-1 font-semibold">
               <span>

@@ -116,7 +116,7 @@ export const Navbar: React.FC = () => {
             TREVORI
           </h1>
           <p className="text-[9px] uppercase tracking-[0.32em] text-[#94A3B8] mt-0.5 font-sans font-medium group-hover:text-white transition-colors">
-            Luxury Streetwear Atelier
+            Wear Your Perspective
           </p>
         </Link>
 

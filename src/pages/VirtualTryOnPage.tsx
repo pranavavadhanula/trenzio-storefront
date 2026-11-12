@@ -61,7 +61,7 @@ const MODEL_PRESETS = [
   },
   {
     id: 'preset-mannequin',
-    name: 'Atelier Tailor Mannequin',
+    name: 'Tailor Mannequin',
     gender: 'Neutral',
     url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85',
     defaultY: 30,
@@ -693,7 +693,7 @@ export const VirtualTryOnPage: React.FC = () => {
                   {selectedProduct.gsm} GSM Bio-Washed Cotton
                 </span>
                 <span className="text-[#F88379] font-medium">
-                  Trevori Atelier &bull; In Stock
+                  Trevori Edition &bull; In Stock
                 </span>
               </div>
 
