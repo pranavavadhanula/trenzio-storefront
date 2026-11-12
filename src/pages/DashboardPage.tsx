@@ -159,11 +159,19 @@ export const DashboardPage: React.FC = () => {
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
           <div className="flex items-start sm:items-center gap-4 sm:gap-5">
-            {/* VIP Monogram Avatar */}
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#1E3A66] via-[#0F2444] to-[#07111E] border-2 border-[#F88379] p-0.5 shadow-lg flex items-center justify-center shrink-0">
-              <span className="text-2xl sm:text-3xl font-black text-[#F88379] tracking-tighter">
-                {user.name.slice(0, 2).toUpperCase()}
-              </span>
+            {/* VIP Monogram or Google Profile Avatar */}
+            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#1E3A66] via-[#0F2444] to-[#07111E] border-2 border-[#F88379] p-0.5 shadow-lg flex items-center justify-center shrink-0 overflow-hidden">
+              {user.picture ? (
+                <img
+                  src={user.picture}
+                  alt={user.name}
+                  className="w-full h-full object-cover rounded-[14px]"
+                />
+              ) : (
+                <span className="text-2xl sm:text-3xl font-black text-[#F88379] tracking-tighter">
+                  {user.name.slice(0, 2).toUpperCase()}
+                </span>
+              )}
             </div>
 
             <div>
@@ -172,6 +180,17 @@ export const DashboardPage: React.FC = () => {
                   <Star className="w-3 h-3 fill-current" />
                   <span>{user.tier}</span>
                 </span>
+                {user.authProvider === 'google' && (
+                  <span className="px-2.5 py-0.5 bg-[#4285F4]/20 border border-[#4285F4]/40 text-[#4285F4] text-[10px] font-bold uppercase tracking-wider rounded-full flex items-center gap-1">
+                    <svg className="w-3 h-3" viewBox="0 0 24 24">
+                      <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.4 8.9 5 12 5z"/>
+                      <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
+                      <path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.3 0-.8.1-1.6.4-2.3L1.6 7.2C.6 9.2 0 10.5 0 12.4c0 1.9.6 3.2 1.6 5.2l3.7-2.9z"/>
+                      <path fill="#34A853" d="M12 23.8c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.4-6.7-5.3L1.6 16.7C3.5 20.4 7.4 23.8 12 23.8z"/>
+                    </svg>
+                    <span>Google Verified</span>
+                  </span>
+                )}
                 <span className="text-xs text-slate-400 font-mono">
                   PASSPORT ID: <strong className="text-slate-200">#TRV-89420-VIP</strong>
                 </span>

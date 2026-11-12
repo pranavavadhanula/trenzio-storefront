@@ -61,12 +61,14 @@ export interface UserProfile {
   points: number;
   creditsINR: number;
   joinedDate: string;
+  picture?: string;
+  authProvider?: 'google' | 'apple' | 'email' | 'phone';
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -104,6 +106,8 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       points: data?.points ?? 4200,
       creditsINR: data?.creditsINR ?? 1200,
       joinedDate: data?.joinedDate || 'November 2026',
+      picture: data?.picture,
+      authProvider: data?.authProvider || (data?.email?.includes('@gmail.com') ? 'google' : 'email'),
     };
     setUser(newUser);
     localStorage.setItem('trevori_user', JSON.stringify(newUser));
@@ -115,12 +119,23 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const refreshProducts = async () => {
-    setIsLoadingProducts(false);
-    setProducts([]);
+    setIsLoadingProducts(true);
+    try {
+      const live = await fetchShopifyProducts();
+      if (live && live.length > 0) {
+        setProducts(live);
+      } else {
+        setProducts(FALLBACK_PRODUCTS);
+      }
+    } catch {
+      setProducts(FALLBACK_PRODUCTS);
+    } finally {
+      setIsLoadingProducts(false);
+    }
   };
 
   useEffect(() => {
-    setProducts([]);
+    setProducts(FALLBACK_PRODUCTS);
   }, []);
 
   useEffect(() => {

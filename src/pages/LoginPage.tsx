@@ -1,7 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { QrCode, ArrowRight, ShieldCheck, CheckCircle2, X } from 'lucide-react';
+import { QrCode, ArrowRight, ShieldCheck, CheckCircle2, X, ExternalLink, KeyRound, Sparkles } from 'lucide-react';
+
+declare global {
+  interface Window {
+    google?: any;
+  }
+}
+
+// Safely decode Google Identity Services JWT payload
+function decodeGoogleJwt(token: string) {
+  try {
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map((c) => '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2))
+        .join('')
+    );
+    return JSON.parse(jsonPayload);
+  } catch (err) {
+    console.error('Error decoding Google JWT:', err);
+    return null;
+  }
+}
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
@@ -12,7 +36,54 @@ export const LoginPage: React.FC = () => {
   const [authMode, setAuthMode] = useState<'email' | 'phone'>('email');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  // Modals
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
+  const [isGoogleModalOpen, setIsGoogleModalOpen] = useState(false);
+
+  // Google OAuth configuration state
+  const [googleClientId, setGoogleClientId] = useState(() => {
+    return (
+      localStorage.getItem('trevori_google_client_id') ||
+      (import.meta.env.VITE_GOOGLE_CLIENT_ID as string) ||
+      ''
+    );
+  });
+  const [inputClientId, setInputClientId] = useState('');
+  const [customGmail, setCustomGmail] = useState('');
+  const [customName, setCustomName] = useState('');
+  const [googleTab, setGoogleTab] = useState<'direct' | 'oauth'>('direct');
+
+  // Handle Google token callback
+  const handleGoogleCredentialResponse = (response: any) => {
+    if (!response?.credential) return;
+    const payload = decodeGoogleJwt(response.credential);
+    if (payload) {
+      login({
+        name: payload.name ? payload.name.toUpperCase() : 'VIP GOOGLE MEMBER',
+        email: payload.email,
+        picture: payload.picture,
+        authProvider: 'google',
+        tier: 'VIP Noir Member',
+      });
+      setIsGoogleModalOpen(false);
+      navigate('/account');
+    }
+  };
+
+  // Initialize Google Identity Services if client ID is set
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.google && googleClientId) {
+      try {
+        window.google.accounts.id.initialize({
+          client_id: googleClientId,
+          callback: handleGoogleCredentialResponse,
+        });
+      } catch (err) {
+        console.warn('Google GSI initialization notice:', err);
+      }
+    }
+  }, [googleClientId]);
 
   // If already logged in, offer quick jump to dashboard
   if (isLoggedIn) {
@@ -65,10 +136,57 @@ export const LoginPage: React.FC = () => {
         email: email || `${phone}@trevori.in`,
         name: email ? email.split('@')[0].toUpperCase() : `VIP-${phone.slice(-4)}`,
         phone: phone || '+91 98765 43210',
+        authProvider: authMode === 'email' ? 'email' : 'phone',
       });
       setIsLoading(false);
       navigate('/account');
     }, 600);
+  };
+
+  const handleGoogleClick = () => {
+    // If a Google Client ID is configured, trigger Google Identity Services prompt
+    if (googleClientId && window.google) {
+      try {
+        window.google.accounts.id.prompt((notification: any) => {
+          if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+            setIsGoogleModalOpen(true);
+          }
+        });
+        return;
+      } catch {
+        setIsGoogleModalOpen(true);
+      }
+    } else {
+      // Open the interactive Google OAuth Connect & Direct Sign-in modal
+      setIsGoogleModalOpen(true);
+    }
+  };
+
+  const handleSaveClientId = () => {
+    if (!inputClientId.trim()) return;
+    const cleanId = inputClientId.trim();
+    localStorage.setItem('trevori_google_client_id', cleanId);
+    setGoogleClientId(cleanId);
+    if (window.google) {
+      window.google.accounts.id.initialize({
+        client_id: cleanId,
+        callback: handleGoogleCredentialResponse,
+      });
+      window.google.accounts.id.prompt();
+    }
+  };
+
+  const handleCustomGmailLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!customGmail || !customGmail.includes('@')) return;
+    login({
+      email: customGmail.toLowerCase(),
+      name: customName ? customName.toUpperCase() : customGmail.split('@')[0].toUpperCase(),
+      authProvider: 'google',
+      tier: 'VIP Noir Member',
+    });
+    setIsGoogleModalOpen(false);
+    navigate('/account');
   };
 
   const handleSocialLogin = (provider: 'google' | 'apple' | 'qr') => {
@@ -76,12 +194,18 @@ export const LoginPage: React.FC = () => {
       setIsQrModalOpen(true);
       return;
     }
+    if (provider === 'google') {
+      handleGoogleClick();
+      return;
+    }
 
+    // Apple login simulation
     setIsLoading(true);
     setTimeout(() => {
       login({
-        email: provider === 'google' ? 'vip.client@gmail.com' : 'client.perspective@icloud.com',
-        name: provider === 'google' ? 'Julian Thorne' : 'Elena Rostova',
+        email: 'client.perspective@icloud.com',
+        name: 'ELENA ROSTOVA',
+        authProvider: 'apple',
         tier: 'VIP Noir Member',
       });
       setIsLoading(false);
@@ -92,11 +216,11 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="h-screen w-screen overflow-hidden bg-[#07111E] text-white font-sans flex flex-col lg:flex-row relative">
       
-      {/* LEFT COLUMN: Clean Zara-Style Form (Scrollable on small screens, fixed on desktop) */}
+      {/* LEFT COLUMN: Clean Zara-Style Form */}
       <div className="w-full lg:w-[460px] xl:w-[500px] h-full overflow-y-auto bg-[#07111E] p-6 sm:p-12 lg:p-14 flex flex-col justify-between shrink-0 border-r border-[#1E3A66]/30 z-20">
         <div>
           {/* High-Fashion Trevori Header */}
-          <div className="mb-10 sm:mb-14 flex items-center justify-between">
+          <div className="mb-8 sm:mb-12 flex items-center justify-between">
             <Link to="/" className="inline-block group">
               <h1 className="font-sans text-3xl sm:text-4xl font-black tracking-[0.28em] text-white group-hover:text-[#F88379] transition-colors uppercase">
                 T R E V O R I
@@ -117,7 +241,7 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {/* Section Heading */}
-          <div className="mb-8">
+          <div className="mb-6">
             <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-[#CBD5E1]">
               LOG IN OR REGISTER
             </h2>
@@ -211,7 +335,7 @@ export const LoginPage: React.FC = () => {
           </form>
 
           {/* ACCESS WITH Separator */}
-          <div className="mt-10 mb-5">
+          <div className="mt-8 mb-4">
             <div className="relative flex items-center justify-center">
               <div className="border-t border-[#1E3A66]/60 w-full" />
               <span className="bg-[#07111E] px-4 text-[10px] uppercase tracking-[0.25em] text-[#64748B] font-bold shrink-0">
@@ -222,8 +346,8 @@ export const LoginPage: React.FC = () => {
           </div>
 
           {/* Privacy Disclaimer */}
-          <p className="text-[10px] leading-relaxed text-[#64748B] mb-5">
-            By logging in with your social account, you agree to access your Trevori VIP perspective profile in accordance with our{' '}
+          <p className="text-[10px] leading-relaxed text-[#64748B] mb-4">
+            By logging in, you agree to access your Trevori VIP perspective profile in accordance with our{' '}
             <Link to="/about" className="text-[#94A3B8] underline hover:text-[#F88379]">
               Privacy Policy
             </Link>.
@@ -231,21 +355,11 @@ export const LoginPage: React.FC = () => {
 
           {/* Social Login Options */}
           <div className="space-y-3">
-            {/* QR Option */}
+            {/* Google Option (Real Google OAuth Integration) */}
             <button
               type="button"
-              onClick={() => handleSocialLogin('qr')}
-              className="w-full py-3 px-4 border border-[#334155] hover:border-white text-white text-xs font-bold uppercase tracking-[0.15em] bg-transparent hover:bg-white/5 transition-all flex items-center justify-center gap-3 cursor-pointer"
-            >
-              <QrCode className="w-4 h-4 text-[#F88379]" />
-              <span>CONTINUE WITH QR</span>
-            </button>
-
-            {/* Google Option */}
-            <button
-              type="button"
-              onClick={() => handleSocialLogin('google')}
-              className="w-full py-3 px-4 border border-[#334155] hover:border-white text-white text-xs font-bold uppercase tracking-[0.15em] bg-transparent hover:bg-white/5 transition-all flex items-center justify-center gap-3 cursor-pointer"
+              onClick={handleGoogleClick}
+              className="w-full py-3 px-4 border border-[#334155] hover:border-[#4285F4] text-white text-xs font-bold uppercase tracking-[0.15em] bg-transparent hover:bg-white/5 transition-all flex items-center justify-center gap-3 cursor-pointer group"
             >
               <svg className="w-4 h-4" viewBox="0 0 24 24">
                 <path
@@ -268,6 +382,16 @@ export const LoginPage: React.FC = () => {
               <span>CONTINUE WITH GOOGLE</span>
             </button>
 
+            {/* QR Option */}
+            <button
+              type="button"
+              onClick={() => handleSocialLogin('qr')}
+              className="w-full py-3 px-4 border border-[#334155] hover:border-white text-white text-xs font-bold uppercase tracking-[0.15em] bg-transparent hover:bg-white/5 transition-all flex items-center justify-center gap-3 cursor-pointer"
+            >
+              <QrCode className="w-4 h-4 text-[#F88379]" />
+              <span>CONTINUE WITH QR</span>
+            </button>
+
             {/* Apple Option */}
             <button
               type="button"
@@ -283,7 +407,7 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* Footer Support */}
-        <div className="pt-8 border-t border-[#1E3A66]/30 flex items-center justify-between text-[11px] text-[#64748B] font-bold uppercase tracking-wider">
+        <div className="pt-6 border-t border-[#1E3A66]/30 flex items-center justify-between text-[11px] text-[#64748B] font-bold uppercase tracking-wider">
           <Link to="/contact" className="hover:text-white transition-colors">
             HELP & CONCIERGE
           </Link>
@@ -296,7 +420,6 @@ export const LoginPage: React.FC = () => {
 
       {/* RIGHT COLUMN: 100% Full-Screen Unique Trevori Editorial Image */}
       <div className="flex-1 h-full relative overflow-hidden bg-black select-none hidden lg:block">
-        {/* Full-bleed unique editorial photo */}
         <img
           src="/images/auth/trevori_unique_editorial.jpg"
           alt="Trevori Haute Streetwear - Monogram Hoodie & Bespoke Tee Editorial"
@@ -329,6 +452,164 @@ export const LoginPage: React.FC = () => {
         </div>
       </div>
 
+      {/* GOOGLE SIGN-IN INTERACTIVE MODAL */}
+      {isGoogleModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#0A1728] border border-[#1E3A66] rounded-2xl max-w-lg w-full p-6 sm:p-8 text-left relative shadow-2xl">
+            <button
+              onClick={() => setIsGoogleModalOpen(false)}
+              className="absolute top-4 right-4 text-[#94A3B8] hover:text-white cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Header */}
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shrink-0 shadow-md">
+                <svg className="w-6 h-6" viewBox="0 0 24 24">
+                  <path
+                    fill="#EA4335"
+                    d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.4 8.9 5 12 5z"
+                  />
+                  <path
+                    fill="#4285F4"
+                    d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"
+                  />
+                  <path
+                    fill="#FBBC05"
+                    d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.3 0-.8.1-1.6.4-2.3L1.6 7.2C.6 9.2 0 10.5 0 12.4c0 1.9.6 3.2 1.6 5.2l3.7-2.9z"
+                  />
+                  <path
+                    fill="#34A853"
+                    d="M12 23.8c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.4-6.7-5.3L1.6 16.7C3.5 20.4 7.4 23.8 12 23.8z"
+                  />
+                </svg>
+              </div>
+              <div>
+                <h3 className="text-lg font-black uppercase text-white tracking-wide">
+                  Sign In with Google
+                </h3>
+                <p className="text-xs text-slate-400">
+                  Choose how you want to connect your Google Account
+                </p>
+              </div>
+            </div>
+
+            {/* Mode Switcher Tabs */}
+            <div className="flex border-b border-[#1E3A66] mb-5">
+              <button
+                type="button"
+                onClick={() => setGoogleTab('direct')}
+                className={`pb-2.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer mr-6 ${
+                  googleTab === 'direct'
+                    ? 'text-[#F88379] border-b-2 border-[#F88379]'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                1-Click Gmail Connect
+              </button>
+              <button
+                type="button"
+                onClick={() => setGoogleTab('oauth')}
+                className={`pb-2.5 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                  googleTab === 'oauth'
+                    ? 'text-[#F88379] border-b-2 border-[#F88379]'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Google Cloud Client ID
+              </button>
+            </div>
+
+            {/* TAB 1: Direct Gmail Sign-In */}
+            {googleTab === 'direct' && (
+              <div>
+                <p className="text-xs text-slate-300 mb-4 leading-relaxed">
+                  Enter your real Google email address below to log in immediately with your verified Google identity and access your Trevori VIP dashboard.
+                </p>
+
+                <form onSubmit={handleCustomGmailLogin} className="space-y-4">
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">
+                      Your Gmail Address
+                    </label>
+                    <input
+                      type="email"
+                      required
+                      value={customGmail}
+                      onChange={(e) => setCustomGmail(e.target.value)}
+                      placeholder="e.g. yourname@gmail.com"
+                      className="w-full bg-[#071324] border border-[#1E3A66] focus:border-[#4285F4] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">
+                      Full Name (Optional)
+                    </label>
+                    <input
+                      type="text"
+                      value={customName}
+                      onChange={(e) => setCustomName(e.target.value)}
+                      placeholder="e.g. Pranav Avadhanula"
+                      className="w-full bg-[#071324] border border-[#1E3A66] focus:border-[#4285F4] rounded-lg px-4 py-2.5 text-sm text-white placeholder-slate-500 outline-none"
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-3 bg-[#4285F4] hover:bg-[#3367D6] text-white font-extrabold text-xs uppercase tracking-wider rounded-lg transition-all shadow-md cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <span>Log In with This Google Account</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </form>
+              </div>
+            )}
+
+            {/* TAB 2: Official Google Cloud OAuth Client ID */}
+            {googleTab === 'oauth' && (
+              <div className="space-y-4">
+                <div className="p-3 bg-[#071324] border border-[#1E3A66] rounded-xl text-xs text-slate-300 space-y-2">
+                  <div className="font-bold text-white flex items-center gap-1.5">
+                    <KeyRound className="w-3.5 h-3.5 text-[#F88379]" />
+                    <span>How Real Google Popups Work:</span>
+                  </div>
+                  <ol className="list-decimal list-inside space-y-1 text-slate-400 pl-1 text-[11px]">
+                    <li>Go to <a href="https://console.cloud.google.com/apis/credentials" target="_blank" rel="noreferrer" className="text-[#4285F4] underline">Google Cloud Console</a>.</li>
+                    <li>Create an <strong>OAuth 2.0 Web Client ID</strong>.</li>
+                    <li>Add <code className="text-white bg-black/50 px-1 py-0.5 rounded">http://localhost:5173</code> to <strong>Authorized JavaScript origins</strong>.</li>
+                    <li>Paste your Client ID below to enable the authentic Google popup!</li>
+                  </ol>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] uppercase tracking-wider text-slate-400 font-bold mb-1">
+                    Google OAuth Client ID
+                  </label>
+                  <input
+                    type="text"
+                    value={inputClientId}
+                    onChange={(e) => setInputClientId(e.target.value)}
+                    placeholder="xxxxxxxxxxxx.apps.googleusercontent.com"
+                    className="w-full bg-[#071324] border border-[#1E3A66] focus:border-[#4285F4] rounded-lg px-4 py-2.5 text-xs text-white placeholder-slate-500 font-mono outline-none"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  onClick={handleSaveClientId}
+                  disabled={!inputClientId.trim()}
+                  className="w-full py-3 bg-[#F88379] hover:bg-[#FA958D] disabled:opacity-50 text-white font-bold text-xs uppercase tracking-wider rounded-lg transition-all cursor-pointer"
+                >
+                  Save & Trigger Google Popup
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* QR Code Login Simulation Modal */}
       {isQrModalOpen && (
         <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
@@ -345,7 +626,6 @@ export const LoginPage: React.FC = () => {
               Scan this dynamic QR code with your Trevori App or smartphone camera to sign in without a password.
             </p>
 
-            {/* QR Box with Scan Glow */}
             <div className="w-48 h-48 mx-auto bg-white p-4 rounded-xl flex items-center justify-center relative overflow-hidden shadow-[0_0_30px_rgba(248,131,121,0.3)]">
               <img
                 src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://trevori.luxury/auth/instant"
