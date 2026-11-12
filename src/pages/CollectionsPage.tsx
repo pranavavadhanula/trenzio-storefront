@@ -1,8 +1,8 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { useParams, Link, useNavigate } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from '../components/ProductCard';
-import { SlidersHorizontal, Sparkles, Loader2, ChevronRight, ChevronDown } from 'lucide-react';
+import { SlidersHorizontal, Sparkles, Loader2, ChevronRight } from 'lucide-react';
 
 const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFilter?: string; desc: string; dept: 'men' | 'women' }> = {
   // Men's Section
@@ -105,9 +105,24 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
   },
 };
 
+const MEN_COLLECTIONS = [
+  { slug: 'men', label: "All Men's Wear" },
+  { slug: 'men-oversized-tees', label: 'Oversized T-Shirts' },
+  { slug: 'men-sweatshirts', label: 'Sweatshirts & Hoodies' },
+  { slug: 'men-classic-tees', label: 'Classic Tees' },
+  { slug: 'traditional-men', label: "Men's Traditional Wear" },
+];
+
+const WOMEN_COLLECTIONS = [
+  { slug: 'women', label: "All Women's Wear" },
+  { slug: 'women-oversized-tees', label: 'Oversized T-Shirts' },
+  { slug: 'women-sweatshirts', label: 'Sweatshirts & Hoodies' },
+  { slug: 'women-classic-tees', label: 'Classic Tees' },
+  { slug: 'traditional-women', label: "Women's Traditional Wear" },
+];
+
 export const CollectionsPage: React.FC = () => {
   const { category: rawCategory = 'men' } = useParams<{ category?: string }>();
-  const navigate = useNavigate();
   const currentCategory = rawCategory.toLowerCase();
   const config = CATEGORY_MAP[currentCategory] || CATEGORY_MAP['men'];
 
@@ -140,72 +155,44 @@ export const CollectionsPage: React.FC = () => {
       });
   }, [products, config, sortBy]);
 
-  // Handle switching department (Men's <-> Women's)
-  const handleDepartmentChange = (dept: 'men' | 'women') => {
-    setSelectedDept(dept);
-    if (dept === 'women') {
-      if (currentCategory.includes('sweatshirts')) navigate('/collections/women-sweatshirts');
-      else if (currentCategory.includes('oversized-tees')) navigate('/collections/women-oversized-tees');
-      else if (currentCategory.includes('classic-tees')) navigate('/collections/women-classic-tees');
-      else if (currentCategory.includes('traditional')) navigate('/collections/traditional-women');
-      else navigate('/collections/women');
-    } else {
-      if (currentCategory.includes('sweatshirts')) navigate('/collections/men-sweatshirts');
-      else if (currentCategory.includes('oversized-tees')) navigate('/collections/men-oversized-tees');
-      else if (currentCategory.includes('classic-tees')) navigate('/collections/men-classic-tees');
-      else if (currentCategory.includes('traditional')) navigate('/collections/traditional-men');
-      else navigate('/collections/men');
-    }
-  };
-
-  // Derive active selection value for Men's category dropdown
-  const currentMenValue =
-    currentCategory === 'sweatshirts' || currentCategory === 'men-sweatshirts'
-      ? 'men-sweatshirts'
-      : currentCategory === 'oversized-tees' || currentCategory === 'men-oversized-tees'
-      ? 'men-oversized-tees'
-      : currentCategory === 'classic-tees' || currentCategory === 'men-classic-tees'
-      ? 'men-classic-tees'
-      : currentCategory === 'traditional-men'
-      ? 'traditional-men'
-      : 'men';
-
-  // Derive active selection value for Women's category dropdown
-  const currentWomenValue =
-    currentCategory === 'women-sweatshirts'
-      ? 'women-sweatshirts'
-      : currentCategory === 'women-oversized-tees'
-      ? 'women-oversized-tees'
-      : currentCategory === 'women-classic-tees'
-      ? 'women-classic-tees'
-      : currentCategory === 'traditional-women'
-      ? 'traditional-women'
-      : 'women';
-
   return (
     <div className="relative min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#07111E] text-white overflow-hidden font-sans">
       {/* Dark Blue Atmospheric Glow */}
       <div className="pointer-events-none absolute top-4 left-1/4 w-[520px] h-48 bg-gradient-to-r from-[#1D4ED8]/25 via-[#2563EB]/15 to-transparent blur-3xl rounded-full" />
 
-      {/* Breadcrumb Navigation */}
-      <nav className="relative z-10 flex items-center space-x-2 text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-medium mb-8">
-        <Link to="/" className="hover:text-[#F88379] transition-colors">Home</Link>
-        <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
+      {/* Breadcrumb Navigation & Department Switcher */}
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 mb-8">
+        <nav className="flex items-center space-x-2 text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-medium">
+          <Link to="/" className="hover:text-[#F88379] transition-colors">Home</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
+          <Link
+            to={selectedDept === 'women' ? '/collections/women' : '/collections/men'}
+            className="hover:text-[#F88379] transition-colors font-bold text-white"
+          >
+            {selectedDept === 'women' ? "Women's Wear" : "Men's Wear"}
+          </Link>
+          {currentCategory !== 'men' && currentCategory !== 'women' && (
+            <>
+              <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
+              <span className="text-[#F88379] font-bold">{config.label}</span>
+            </>
+          )}
+        </nav>
+
+        {/* Quick Link to Other Department */}
         <Link
-          to={selectedDept === 'women' ? '/collections/women' : '/collections/men'}
-          className="hover:text-[#F88379] transition-colors"
+          to={selectedDept === 'women' ? '/collections/men' : '/collections/women'}
+          className="text-xs uppercase tracking-wider px-3.5 py-1.5 border border-[#1E3A66] bg-[#0B1A30] text-[#94A3B8] hover:border-[#F88379] hover:text-[#F88379] transition-all font-sans font-bold shadow-sm"
         >
-          {selectedDept === 'women' ? "Women's Wear" : "Men's Wear"}
+          {selectedDept === 'women' ? "Switch to Men's Wear →" : "Switch to Women's Wear →"}
         </Link>
-        <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
-        <span className="text-[#F88379] font-bold">{config.label}</span>
-      </nav>
+      </div>
 
       {/* Header */}
       <div className="relative z-10 mb-10 pb-8 border-b border-[#1E3A66]/50">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] text-[10px] uppercase tracking-wider font-sans font-bold shadow-sm mb-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#F88379] animate-pulse" />
-          <span>The Heavyweight Catalog</span>
+          <span>{selectedDept === 'women' ? "Women's Collection" : "Men's Collection"}</span>
         </div>
         <h1 className="font-sans text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-1 mb-3">
           {config.label}
@@ -214,70 +201,51 @@ export const CollectionsPage: React.FC = () => {
           {config.desc}
         </p>
 
-        {/* Clean Dropdown Selection: Department & Gender-Specific Category */}
-        <div className="mt-8 pt-6 border-t border-[#1E3A66]/40 flex flex-col sm:flex-row items-stretch sm:items-center gap-4 sm:gap-6">
-          {/* 1. Department Dropdown */}
-          <div className="flex-1 sm:flex-initial">
-            <label className="block text-[10px] uppercase tracking-widest text-[#94A3B8] font-bold mb-2">
-              Select Wear
-            </label>
-            <div className="relative">
-              <select
-                value={selectedDept}
-                onChange={(e) => handleDepartmentChange(e.target.value as 'men' | 'women')}
-                className="w-full sm:w-56 bg-[#0B1A30] text-white border-2 border-[#1E3A66] hover:border-[#F88379] focus:border-[#F88379] px-4 py-3 text-xs uppercase tracking-wider font-bold appearance-none rounded-none cursor-pointer transition-all shadow-lg focus:outline-none focus:ring-1 focus:ring-[#F88379]"
-              >
-                <option value="men">Men's Wear</option>
-                <option value="women">Women's Wear</option>
-              </select>
-              <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F88379]" />
-            </div>
-          </div>
+        {/* Separated Collection Tabs: Shows ONLY Men's or ONLY Women's Categories */}
+        <div className="flex flex-wrap items-center gap-2 mt-6 pt-6 border-t border-[#1E3A66]/40">
+          {selectedDept === 'men' ? (
+            MEN_COLLECTIONS.map((item) => {
+              const isTabActive =
+                currentCategory === item.slug ||
+                (item.slug === 'men' && currentCategory === 'all') ||
+                (item.slug === 'men-sweatshirts' && currentCategory === 'sweatshirts') ||
+                (item.slug === 'men-oversized-tees' && currentCategory === 'oversized-tees') ||
+                (item.slug === 'men-classic-tees' && currentCategory === 'classic-tees');
 
-          {/* 2. Men's Section Dropdown - ONLY rendered when Men's Wear is selected */}
-          {selectedDept === 'men' && (
-            <div className="flex-1 sm:flex-initial animate-fadeIn">
-              <label className="block text-[10px] uppercase tracking-widest text-[#F88379] font-bold mb-2">
-                Men's Section
-              </label>
-              <div className="relative">
-                <select
-                  value={currentMenValue}
-                  onChange={(e) => navigate(`/collections/${e.target.value}`)}
-                  className="w-full sm:w-72 bg-[#0B1A30] text-white border-2 border-[#F88379] px-4 py-3 text-xs uppercase tracking-wider font-bold appearance-none rounded-none cursor-pointer transition-all shadow-[0_4px_20px_rgba(248,131,121,0.25)] focus:outline-none focus:ring-1 focus:ring-[#F88379]"
+              return (
+                <Link
+                  key={item.slug}
+                  to={`/collections/${item.slug}`}
+                  className={`px-4 sm:px-5 py-2.5 text-xs uppercase tracking-wider border transition-all duration-300 cursor-pointer font-sans ${
+                    isTabActive
+                      ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_4px_16px_rgba(248,131,121,0.45)] scale-[1.02]'
+                      : 'border-[#1E3A66]/70 bg-[#0B1A30] text-[#CBD5E1] hover:border-[#F88379] hover:text-[#F88379] font-medium'
+                  }`}
+                  title={`Open ${item.label}`}
                 >
-                  <option value="men">All Men's Wear</option>
-                  <option value="men-sweatshirts">Sweatshirts & Hoodies</option>
-                  <option value="men-oversized-tees">Oversized T-Shirts</option>
-                  <option value="men-classic-tees">Classic Tees</option>
-                  <option value="traditional-men">Men's Traditional Wear</option>
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F88379]" />
-              </div>
-            </div>
-          )}
+                  {item.label}
+                </Link>
+              );
+            })
+          ) : (
+            WOMEN_COLLECTIONS.map((item) => {
+              const isTabActive = currentCategory === item.slug;
 
-          {/* 3. Women's Section Dropdown - ONLY rendered when Women's Wear is selected */}
-          {selectedDept === 'women' && (
-            <div className="flex-1 sm:flex-initial animate-fadeIn">
-              <label className="block text-[10px] uppercase tracking-widest text-[#F88379] font-bold mb-2">
-                Women's Section
-              </label>
-              <div className="relative">
-                <select
-                  value={currentWomenValue}
-                  onChange={(e) => navigate(`/collections/${e.target.value}`)}
-                  className="w-full sm:w-72 bg-[#0B1A30] text-white border-2 border-[#F88379] px-4 py-3 text-xs uppercase tracking-wider font-bold appearance-none rounded-none cursor-pointer transition-all shadow-[0_4px_20px_rgba(248,131,121,0.25)] focus:outline-none focus:ring-1 focus:ring-[#F88379]"
+              return (
+                <Link
+                  key={item.slug}
+                  to={`/collections/${item.slug}`}
+                  className={`px-4 sm:px-5 py-2.5 text-xs uppercase tracking-wider border transition-all duration-300 cursor-pointer font-sans ${
+                    isTabActive
+                      ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_4px_16px_rgba(248,131,121,0.45)] scale-[1.02]'
+                      : 'border-[#1E3A66]/70 bg-[#0B1A30] text-[#CBD5E1] hover:border-[#F88379] hover:text-[#F88379] font-medium'
+                  }`}
+                  title={`Open ${item.label}`}
                 >
-                  <option value="women">All Women's Wear</option>
-                  <option value="women-sweatshirts">Sweatshirts & Hoodies</option>
-                  <option value="women-oversized-tees">Oversized T-Shirts</option>
-                  <option value="women-classic-tees">Classic Tees</option>
-                  <option value="traditional-women">Women's Traditional Wear</option>
-                </select>
-                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-[#F88379]" />
-              </div>
-            </div>
+                  {item.label}
+                </Link>
+              );
+            })
           )}
         </div>
       </div>
