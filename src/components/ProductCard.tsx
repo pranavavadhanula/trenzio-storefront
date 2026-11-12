@@ -54,7 +54,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       {/* Product Image Box with clickable Link to dedicated product page */}
       <Link
         to={`/products/${product.id}`}
-        className="relative aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-white/[0.04] to-[#162E21]/40 backdrop-blur-md border border-[#D4C3A3]/20 hover:border-[#E6D7C3] transition-all duration-300 flex items-center justify-center p-4 block cursor-pointer shadow-lg"
+        className="relative aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-white/[0.05] to-[#2563EB]/[0.04] backdrop-blur-md border border-[#2563EB]/20 hover:border-[#3B82F6] transition-all duration-300 flex items-center justify-center p-4 block cursor-pointer shadow-lg"
         title={`View ${product.name} (Right click to open in new tab)`}
       >
         {/* Dynamic Real Mockup */}
@@ -67,10 +67,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Top-Left Badges: GSM & Stock */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
-          <span className="bg-[#0A160F]/90 border border-[#D4C3A3]/30 text-[#F4ECE1] text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-bold shadow-md">
+          <span className="bg-[#060C1A]/90 border border-[#2563EB]/30 text-white text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-bold shadow-md">
             {product.gsm} GSM
           </span>
-          <span className="bg-[#E6D7C3] text-[#0A160F] text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-extrabold shadow-[0_0_12px_rgba(212,195,163,0.35)]">
+          <span className="bg-[#2563EB] text-white text-[9px] uppercase tracking-wider px-2 py-0.5 font-mono font-extrabold shadow-[0_0_12px_rgba(37,99,235,0.4)]">
             In Stock &bull; Printrove
           </span>
         </div>
@@ -81,34 +81,34 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             onClick={handleToggleHeart}
             className={`w-8 h-8 rounded-full border flex items-center justify-center transition-all shadow-md cursor-pointer ${
               isSaved
-                ? 'bg-[#E6D7C3] border-[#E6D7C3] text-[#0A160F] shadow-[0_0_12px_rgba(212,195,163,0.4)]'
-                : 'bg-[#112319]/80 border-[#D4C3A3]/25 text-[#F4ECE1] hover:text-[#E6D7C3] hover:border-[#E6D7C3]'
+                ? 'bg-[#2563EB] border-[#2563EB] text-white shadow-[0_0_12px_rgba(37,99,235,0.45)]'
+                : 'bg-[#0D1B3A]/80 border-[#2563EB]/25 text-white hover:text-[#3B82F6] hover:border-[#3B82F6]'
             }`}
             title="Wishlist"
           >
-            <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-[#0A160F]' : ''}`} />
+            <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-white' : ''}`} />
           </button>
         </div>
 
         {/* Quick Size Selector Drawer */}
         <div
-          className={`absolute bottom-0 inset-x-0 p-3 bg-[#112319]/95 backdrop-blur-xl border-t border-[#D4C3A3]/25 transition-all duration-300 z-10 ${
+          className={`absolute bottom-0 inset-x-0 p-3 bg-[#0D1B3A]/95 backdrop-blur-xl border-t border-[#2563EB]/25 transition-all duration-300 z-10 ${
             showQuickSizes
               ? 'translate-y-0 opacity-100'
               : 'translate-y-full opacity-0 pointer-events-none'
           }`}
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="text-[10px] uppercase tracking-wider text-[#D4C3A3] mb-2 flex justify-between font-mono">
+          <div className="text-[10px] uppercase tracking-wider text-[#94A3B8] mb-2 flex justify-between font-mono">
             <span>Size for {selectedColor}:</span>
-            <span className="text-[#E6D7C3] font-bold">{formatPrice(product.priceINR)}</span>
+            <span className="text-[#3B82F6] font-bold">{formatPrice(product.priceINR)}</span>
           </div>
           <div className="flex flex-wrap gap-1.5">
             {product.sizes.map((size) => (
               <button
                 key={size}
                 onClick={(e) => handleQuickAdd(size, e)}
-                className="flex-1 min-w-[34px] py-1 text-[11px] font-mono border border-[#D4C3A3]/25 text-[#F4ECE1] hover:border-[#E6D7C3] hover:bg-[#E6D7C3] hover:text-[#0A160F] transition-colors uppercase cursor-pointer"
+                className="flex-1 min-w-[34px] py-1 text-[11px] font-mono border border-[#2563EB]/25 text-white hover:border-[#3B82F6] hover:bg-[#2563EB] hover:text-white transition-colors uppercase cursor-pointer"
               >
                 {size}
               </button>
@@ -116,7 +116,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           </div>
         </div>
 
-        {/* Quick Add CTA Bar - Sand Beige Fill with Forest Green Text */}
+        {/* Quick Add CTA Bar - Royal Blue Gradient */}
         {!showQuickSizes && (
           <div
             className={`absolute bottom-0 inset-x-0 transition-all duration-300 ${
@@ -130,7 +130,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 e.stopPropagation();
                 setShowQuickSizes(true);
               }}
-              className="w-full py-2.5 bg-gradient-to-r from-[#E6D7C3] to-[#D4C3A3] hover:from-[#F4ECE1] hover:to-[#E6D7C3] text-[#0A160F] font-black text-[11px] uppercase tracking-wider shadow-[0_0_20px_rgba(212,195,163,0.35)] flex items-center justify-center gap-1.5 cursor-pointer font-mono transition-all"
+              className="w-full py-2.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white font-black text-[11px] uppercase tracking-wider shadow-[0_0_20px_rgba(37,99,235,0.45)] flex items-center justify-center gap-1.5 cursor-pointer font-mono transition-all"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Select Size & Add &bull; {formatPrice(product.priceINR)}</span>
@@ -141,19 +141,19 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
       {/* Product Details with Link */}
       <div className="pt-3.5 pb-2 space-y-1">
-        <div className="flex items-center justify-between text-[11px] text-[#D4C3A3]">
+        <div className="flex items-center justify-between text-[11px] text-[#94A3B8]">
           <Link
             to={`/collections/${product.category.toLowerCase().replace(/\s+/g, '-')}`}
-            className="text-[#E6D7C3] hover:underline uppercase tracking-wider text-[10px] font-mono font-bold"
+            className="text-[#3B82F6] hover:underline uppercase tracking-wider text-[10px] font-mono font-bold"
           >
             {product.category}
           </Link>
-          <span className="font-mono text-[#D4C3A3] text-[10px]">Color: {selectedColor}</span>
+          <span className="font-mono text-[#94A3B8] text-[10px]">Color: {selectedColor}</span>
         </div>
 
         <Link
           to={`/products/${product.id}`}
-          className="font-serif text-base text-[#F4ECE1] hover:text-[#E6D7C3] transition-colors line-clamp-1 block font-normal"
+          className="font-serif text-base text-white hover:text-[#3B82F6] transition-colors line-clamp-1 block font-normal"
         >
           {product.name}
         </Link>
@@ -171,7 +171,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 }}
                 className={`w-3.5 h-3.5 rounded-full border transition-all cursor-pointer ${
                   isSelected
-                    ? 'border-[#E6D7C3] ring-2 ring-[#E6D7C3]/50 scale-110'
+                    ? 'border-[#3B82F6] ring-2 ring-[#3B82F6]/50 scale-110'
                     : 'border-white/20 hover:scale-105 opacity-80 hover:opacity-100'
                 }`}
                 style={{ backgroundColor: color.hex }}
@@ -183,10 +183,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
         {/* Pricing in INR */}
         <div className="flex items-baseline space-x-2 pt-1 font-mono">
-          <span className="text-sm font-bold text-[#F4ECE1]">
+          <span className="text-sm font-bold text-white">
             {formatPrice(product.priceINR)}
           </span>
-          <span className="text-[10px] text-[#2D6E49] font-bold">
+          <span className="text-[10px] text-[#38BDF8] font-bold">
             Tax Incl.
           </span>
         </div>

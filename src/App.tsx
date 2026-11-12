@@ -32,17 +32,17 @@ function ScrollToTop() {
 
 function MainStorefront() {
   return (
-    <div className="min-h-screen bg-[#0A160F] text-[#F4ECE1] flex flex-col font-sans selection:bg-[#D4C3A3] selection:text-[#0A160F]">
+    <div className="min-h-screen bg-[#060C1A] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#2563EB] selection:text-white">
       <ScrollToTop />
 
-      {/* Top Banner (Free Pan-India Delivery over ₹1,999) */}
+      {/* Top Banner (The Above: Forest Green) */}
       <AnnouncementBar />
 
-      {/* Navigation Bar with Dropdown lists under Men's Wear & Women's Wear */}
+      {/* Navigation Bar (The Above: Forest Green with Men's Wear & Women's Wear Dropdowns) */}
       <Navbar />
 
-      {/* Main Multi-Page Routed Content */}
-      <main className="flex-1 bg-[#0A160F]">
+      {/* Main Multi-Page Routed Content (The Other Thing: Blue Only) */}
+      <main className="flex-1 bg-[#060C1A]">
         <Routes>
           {/* Home Page: Hero, Heavyweight Drops, Fabric Promise */}
           <Route path="/" element={<HomePage />} />
@@ -74,7 +74,7 @@ function MainStorefront() {
         </Routes>
       </main>
 
-      {/* Footer with India D2C Guarantees & Shopify Integration Details */}
+      {/* Footer in Deep Midnight Sapphire */}
       <Footer />
 
       {/* Global Slide-Over Drawers & Modals */}

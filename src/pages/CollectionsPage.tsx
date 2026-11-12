@@ -59,34 +59,34 @@ export const CollectionsPage: React.FC = () => {
   }, [products, config, sortBy]);
 
   return (
-    <div className="relative min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#0A160F] text-[#F4ECE1] overflow-hidden">
-      {/* Subtle Sand Beige & Forest Green Atmospheric Ambient Glow */}
-      <div className="pointer-events-none absolute top-4 left-1/4 w-[500px] h-44 bg-gradient-to-r from-[#D4C3A3]/10 via-[#2D6E49]/12 to-transparent blur-3xl rounded-full" />
+    <div className="relative min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#060C1A] text-white overflow-hidden">
+      {/* Luminous Royal Blue Atmospheric Ambient Glow */}
+      <div className="pointer-events-none absolute top-4 left-1/4 w-[520px] h-48 bg-gradient-to-r from-[#2563EB]/25 via-[#1D4ED8]/15 to-transparent blur-3xl rounded-full" />
 
       {/* Breadcrumb Navigation */}
-      <nav className="relative z-10 flex items-center space-x-2 text-xs uppercase tracking-widest text-[#D4C3A3] font-mono mb-8">
-        <Link to="/" className="hover:text-[#F4ECE1] transition-colors">Home</Link>
-        <ChevronRight className="w-3.5 h-3.5 text-[#D4C3A3]/60" />
-        <Link to="/collections/all" className="hover:text-[#F4ECE1] transition-colors">Collections</Link>
-        <ChevronRight className="w-3.5 h-3.5 text-[#D4C3A3]/60" />
-        <span className="text-[#E6D7C3] font-bold drop-shadow-[0_0_8px_rgba(230,215,195,0.4)]">{config.label}</span>
+      <nav className="relative z-10 flex items-center space-x-2 text-xs uppercase tracking-widest text-[#94A3B8] font-mono mb-8">
+        <Link to="/" className="hover:text-[#3B82F6] transition-colors">Home</Link>
+        <ChevronRight className="w-3.5 h-3.5 text-[#3B82F6]/60" />
+        <Link to="/collections/all" className="hover:text-[#3B82F6] transition-colors">Collections</Link>
+        <ChevronRight className="w-3.5 h-3.5 text-[#3B82F6]/60" />
+        <span className="text-[#3B82F6] font-bold drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">{config.label}</span>
       </nav>
 
       {/* Header */}
-      <div className="relative z-10 mb-10 pb-8 border-b border-[#D4C3A3]/20">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#162E21] border border-[#D4C3A3]/35 text-[#E6D7C3] text-[10px] uppercase tracking-[0.28em] font-mono font-bold shadow-[0_0_14px_rgba(212,195,163,0.15)] mb-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#E6D7C3] shadow-[0_0_6px_#E6D7C3] animate-pulse" />
+      <div className="relative z-10 mb-10 pb-8 border-b border-[#2563EB]/20">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/15 border border-[#2563EB]/40 text-[#60A5FA] text-[10px] uppercase tracking-[0.28em] font-mono font-bold shadow-[0_0_15px_rgba(37,99,235,0.25)] mb-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] shadow-[0_0_8px_#3B82F6] animate-pulse" />
           <span>The Heavyweight Catalog</span>
         </div>
-        <h1 className="font-serif text-3xl sm:text-5xl font-light text-[#F4ECE1] tracking-tight mt-1 mb-3">
+        <h1 className="font-serif text-3xl sm:text-5xl font-light text-white tracking-tight mt-1 mb-3">
           {config.label}
         </h1>
-        <p className="text-xs sm:text-sm text-[#D4C3A3] font-light max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#94A3B8] font-light max-w-2xl leading-relaxed">
           {config.desc}
         </p>
 
         {/* Collection Tab Links */}
-        <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-[#D4C3A3]/15">
+        <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-white/10">
           {Object.entries(CATEGORY_MAP).map(([slug, item]) => {
             const isTabActive = currentCategory === slug;
             return (
@@ -95,8 +95,8 @@ export const CollectionsPage: React.FC = () => {
                 to={`/collections/${slug}`}
                 className={`px-4 py-2 text-xs uppercase tracking-wider border transition-all duration-300 cursor-pointer font-mono ${
                   isTabActive
-                    ? 'border-[#E6D7C3] bg-gradient-to-r from-[#E6D7C3] to-[#D4C3A3] text-[#0A160F] font-black shadow-[0_0_20px_rgba(212,195,163,0.35)] scale-[1.02]'
-                    : 'border-white/10 bg-white/[0.04] text-[#F4ECE1] hover:border-[#D4C3A3] hover:text-[#E6D7C3] hover:bg-white/[0.08]'
+                    ? 'border-[#3B82F6] bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white font-black shadow-[0_0_22px_rgba(37,99,235,0.55)] scale-[1.02]'
+                    : 'border-white/10 bg-white/[0.04] text-[#CBD5E1] hover:border-[#3B82F6] hover:text-[#60A5FA] hover:bg-[#2563EB]/10'
                 }`}
                 title={`Open ${item.label} (Right click to open in new tab)`}
               >
@@ -108,18 +108,18 @@ export const CollectionsPage: React.FC = () => {
       </div>
 
       {/* Filter and Count Bar */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#D4C3A3]/20 text-xs">
-        <span className="text-[11px] font-mono text-[#D4C3A3]">
-          Showing <strong className="text-[#E6D7C3] font-bold drop-shadow-[0_0_6px_rgba(230,215,195,0.3)]">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'piece' : 'pieces'}
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#2563EB]/20 text-xs">
+        <span className="text-[11px] font-mono text-[#94A3B8]">
+          Showing <strong className="text-[#3B82F6] font-bold drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'piece' : 'pieces'}
         </span>
 
-        <div className="flex items-center gap-2 text-[#D4C3A3]">
-          <SlidersHorizontal className="w-3.5 h-3.5 text-[#D4C3A3]" />
-          <span className="text-[10px] uppercase font-mono font-bold text-[#F4ECE1]">Sort:</span>
+        <div className="flex items-center gap-2 text-[#94A3B8]">
+          <SlidersHorizontal className="w-3.5 h-3.5 text-[#3B82F6]" />
+          <span className="text-[10px] uppercase font-mono font-bold text-white">Sort:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="bg-[#112319] border border-[#D4C3A3]/25 text-xs uppercase tracking-wider text-[#F4ECE1] px-3 py-1.5 focus:outline-none focus:border-[#E6D7C3] focus:ring-1 focus:ring-[#E6D7C3] font-mono cursor-pointer"
+            className="bg-[#0D1B3A] border border-[#2563EB]/30 text-xs uppercase tracking-wider text-white px-3 py-1.5 focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] font-mono cursor-pointer"
           >
             <option value="featured">Featured Drops</option>
             <option value="price-asc">Price: Low to High</option>
@@ -131,26 +131,26 @@ export const CollectionsPage: React.FC = () => {
       {/* Products Grid */}
       {isLoadingProducts ? (
         <div className="py-28 text-center flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="w-8 h-8 text-[#E6D7C3] animate-spin" />
-          <p className="text-xs uppercase tracking-widest text-[#D4C3A3] font-mono font-bold">
+          <Loader2 className="w-8 h-8 text-[#3B82F6] animate-spin" />
+          <p className="text-xs uppercase tracking-widest text-[#94A3B8] font-mono font-bold">
             Loading Trenzio Catalog...
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="py-20 text-center border border-[#D4C3A3]/25 p-8 sm:p-14 bg-[#112319] text-[#F4ECE1] space-y-5 shadow-2xl backdrop-blur-xl">
-          <div className="w-14 h-14 mx-auto rounded-full bg-white/[0.04] border border-[#D4C3A3]/40 flex items-center justify-center text-[#E6D7C3]">
+        <div className="py-20 text-center border border-[#2563EB]/25 p-8 sm:p-14 bg-[#0D1B3A] text-white space-y-5 shadow-2xl backdrop-blur-xl">
+          <div className="w-14 h-14 mx-auto rounded-full bg-white/[0.04] border border-[#3B82F6]/40 flex items-center justify-center text-[#3B82F6]">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h3 className="font-serif text-2xl sm:text-3xl text-[#F4ECE1] font-light">
+          <h3 className="font-serif text-2xl sm:text-3xl text-white font-light">
             New Drop Dropping Soon
           </h3>
-          <p className="text-xs sm:text-sm text-[#D4C3A3] max-w-md mx-auto font-light leading-relaxed">
-            Our next heavyweight pieces for <strong className="text-[#E6D7C3]">{config.label}</strong> are currently in production with Printrove.
+          <p className="text-xs sm:text-sm text-[#94A3B8] max-w-md mx-auto font-light leading-relaxed">
+            Our next heavyweight pieces for <strong className="text-[#3B82F6]">{config.label}</strong> are currently in production with Printrove.
           </p>
           <div className="pt-2">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#E6D7C3] to-[#D4C3A3] hover:from-[#F4ECE1] hover:to-[#E6D7C3] text-[#0A160F] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(212,195,163,0.35)] transition-all cursor-pointer font-mono"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(37,99,235,0.45)] transition-all cursor-pointer font-mono"
             >
               <span>Explore All Available Drops</span>
             </Link>

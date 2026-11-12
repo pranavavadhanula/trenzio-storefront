@@ -12,52 +12,55 @@ export default {
       },
       colors: {
         atelier: {
-          // Forest Green & Sand Beige Palette
-          forest: '#112319',           // Rich Forest Green
-          'forest-deep': '#0A160F',    // Midnight Forest Canvas
-          'forest-surface': '#162E21', // Forest Container Surface
-          'forest-card': '#112319',    // Card Elevation
-          'forest-accent': '#2D6E49',  // Vibrant Pine Green Accent
-          'forest-border': 'rgba(212, 195, 163, 0.22)',
+          // "The Above": Forest Green Palette
+          forest: '#0E2619',
+          'forest-deep': '#08170F',
+          'forest-surface': '#133320',
+          'forest-border': '#1E452E',
+          'forest-accent': '#22C55E',
 
-          sand: '#E6D7C3',             // Warm Sand Beige
-          'sand-light': '#F4ECE1',     // Soft Sand Beige Light
-          'sand-medium': '#D4C3A3',    // Classic Sand Beige Accent
-          'sand-muted': '#A39277',     // Muted Sand Beige Subtext
-          'sand-dark': '#0A160F',      // Contrast Forest Green Text
-          'sand-border': 'rgba(212, 195, 163, 0.25)',
+          // "The Other Thing": Blue Only Palette
+          blue: '#2563EB',
+          'blue-night': '#060C1A',
+          'blue-deep': '#081026',
+          'blue-surface': '#0D1B3A',
+          'blue-card': '#10224A',
+          'blue-border': 'rgba(37, 99, 235, 0.25)',
+          'blue-vivid': '#3B82F6',
+          'blue-electric': '#00D2FF',
+          'blue-slate': '#94A3B8',
+          'blue-light': '#F8FAFC',
 
           // Semantic backwards-compatible mappings
-          ink: '#0A160F',
-          'ink-dark': '#07100B',
-          'ink-surface': '#112319',
-          'ink-card': '#162E21',
-          silver: '#F4ECE1',
-          'silver-muted': '#D4C3A3',
-          'silver-glass': 'rgba(212, 195, 163, 0.06)',
-          'silver-border': 'rgba(212, 195, 163, 0.22)',
-          lime: '#D4C3A3',
-          'lime-hover': '#F4ECE1',
-          'lime-soft': 'rgba(212, 195, 163, 0.14)',
-          navy: '#112319',
-          'navy-dark': '#0A160F',
-          'navy-surface': '#162E21',
-          'navy-border': 'rgba(212, 195, 163, 0.22)',
-          'navy-muted': '#D4C3A3',
-          cream: '#0A160F',
-          coral: '#D4C3A3',
-          'coral-hover': '#F4ECE1',
-          'coral-soft': 'rgba(212, 195, 163, 0.14)',
+          ink: '#060C1A',
+          'ink-dark': '#040812',
+          'ink-surface': '#0D1B3A',
+          'ink-card': '#10224A',
+          silver: '#F8FAFC',
+          'silver-muted': '#94A3B8',
+          'silver-glass': 'rgba(37, 99, 235, 0.08)',
+          'silver-border': 'rgba(37, 99, 235, 0.25)',
+          lime: '#2563EB',
+          'lime-hover': '#3B82F6',
+          'lime-soft': 'rgba(37, 99, 235, 0.15)',
+          navy: '#0D1B3A',
+          'navy-dark': '#060C1A',
+          'navy-surface': '#10224A',
+          'navy-border': 'rgba(37, 99, 235, 0.25)',
+          'navy-muted': '#94A3B8',
+          coral: '#2563EB',
+          'coral-hover': '#3B82F6',
+          'coral-soft': 'rgba(37, 99, 235, 0.15)',
 
           // Standard semantic numbers for unified theme
-          950: '#0A160F', // Canvas
-          900: '#112319', // Cards
-          850: '#162E21', // Surface
-          800: 'rgba(212, 195, 163, 0.22)', // Borders
-          700: '#D4C3A3', // Secondary
-          300: '#A39277', // Muted
-          200: '#D4C3A3', // Body
-          100: '#F4ECE1', // Primary Heading
+          950: '#060C1A', // Canvas
+          900: '#0D1B3A', // Cards
+          850: '#10224A', // Surface
+          800: 'rgba(37, 99, 235, 0.25)', // Borders
+          700: '#94A3B8', // Secondary
+          300: '#64748B', // Muted
+          200: '#CBD5E1', // Body
+          100: '#F8FAFC', // Primary Heading
         },
       },
     },

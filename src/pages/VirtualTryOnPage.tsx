@@ -353,27 +353,27 @@ export const VirtualTryOnPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-4 sm:px-8 bg-[#0A160F] text-[#F4ECE1]">
+    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-4 sm:px-8 bg-[#060C1A] text-[#FFFFFF]">
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#D4C3A3] font-mono mb-6">
-        <Link to="/" className="hover:text-[#E6D7C3] transition-colors">Home</Link>
+      <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#3B82F6] font-mono mb-6">
+        <Link to="/" className="hover:text-[#2563EB] transition-colors">Home</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <Link to="/collections/all" className="hover:text-[#E6D7C3] transition-colors">Collections</Link>
+        <Link to="/collections/all" className="hover:text-[#2563EB] transition-colors">Collections</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-[#E6D7C3] font-bold">3D Virtual Fitting Studio</span>
+        <span className="text-[#2563EB] font-bold">3D Virtual Fitting Studio</span>
       </nav>
 
       {/* Header */}
-      <div className="mb-8 pb-6 border-b border-[#D4C3A3]/20 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="mb-8 pb-6 border-b border-[#3B82F6]/20 flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#E6D7C3]/15 border border-[#E6D7C3]/40 text-[#E6D7C3] text-[10px] uppercase tracking-widest font-mono font-medium mb-2 shadow-[0_0_12px_rgba(212,195,163,0.3)]">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#2563EB]/15 border border-[#2563EB]/40 text-[#2563EB] text-[10px] uppercase tracking-widest font-mono font-medium mb-2 shadow-[0_0_12px_rgba(37,99,235,0.3)]">
             <Sparkles className="w-3.5 h-3.5" />
             <span>Interactive 3D Fit & Try-On Technology</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl font-light text-[#F4ECE1] tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl font-light text-[#FFFFFF] tracking-tight">
             Virtual Dressing Studio
           </h1>
-          <p className="text-xs sm:text-sm text-[#D4C3A3] font-light mt-1">
+          <p className="text-xs sm:text-sm text-[#3B82F6] font-light mt-1">
             Upload your photo or choose a model to see how Trenzio's 350 GSM boxy streetwear cuts drape on your body before buying.
           </p>
         </div>
@@ -391,19 +391,19 @@ export const VirtualTryOnPage: React.FC = () => {
 
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2.5 bg-white/[0.04] border border-[#D4C3A3]/25 text-[#F4ECE1] hover:bg-white/[0.08] hover:text-[#E6D7C3] hover:border-[#E6D7C3] transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-md"
+            className="px-4 py-2.5 bg-white/[0.04] border border-[#3B82F6]/25 text-[#FFFFFF] hover:bg-white/[0.08] hover:text-[#2563EB] hover:border-[#2563EB] transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-md"
             title="Upload your own full-body or upper-body photo"
           >
-            <Upload className="w-4 h-4 text-[#E6D7C3]" />
+            <Upload className="w-4 h-4 text-[#2563EB]" />
             <span>Upload Your Photo</span>
           </button>
 
           <button
             onClick={isCameraActive ? stopCamera : startCamera}
-            className="px-4 py-2.5 bg-white/[0.04] border border-[#D4C3A3]/25 text-[#F4ECE1] hover:bg-white/[0.08] hover:text-[#E6D7C3] hover:border-[#E6D7C3] transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-md"
+            className="px-4 py-2.5 bg-white/[0.04] border border-[#3B82F6]/25 text-[#FFFFFF] hover:bg-white/[0.08] hover:text-[#2563EB] hover:border-[#2563EB] transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-md"
             title="Snap a live selfie using your webcam"
           >
-            <Camera className="w-4 h-4 text-[#E6D7C3]" />
+            <Camera className="w-4 h-4 text-[#2563EB]" />
             <span>{isCameraActive ? 'Cancel Camera' : 'Live Selfie Camera'}</span>
           </button>
         </div>
@@ -414,7 +414,7 @@ export const VirtualTryOnPage: React.FC = () => {
         {/* Left Column: Interactive 3D Fitting Mirror (7 Cols) */}
         <div className="lg:col-span-7 space-y-4">
           {/* Fitting Canvas Viewport */}
-          <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full bg-[#112319] border-2 border-[#D4C3A3]/25 overflow-hidden shadow-2xl flex items-center justify-center select-none backdrop-blur-xl">
+          <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full bg-[#0D1B3A] border-2 border-[#3B82F6]/25 overflow-hidden shadow-2xl flex items-center justify-center select-none backdrop-blur-xl">
             {/* Live Camera View Mode */}
             {isCameraActive ? (
               <div className="absolute inset-0 z-20 bg-black flex flex-col items-center justify-center">
@@ -427,13 +427,13 @@ export const VirtualTryOnPage: React.FC = () => {
                 />
                 <div className="absolute bottom-6 inset-x-0 flex flex-col items-center gap-2">
                   {cameraCountdown ? (
-                    <div className="w-16 h-16 rounded-full bg-[#E6D7C3] text-black font-extrabold text-3xl flex items-center justify-center animate-ping">
+                    <div className="w-16 h-16 rounded-full bg-[#2563EB] text-black font-extrabold text-3xl flex items-center justify-center animate-ping">
                       {cameraCountdown}
                     </div>
                   ) : (
                     <button
                       onClick={captureCameraPhoto}
-                      className="px-8 py-3.5 bg-gradient-to-r from-[#E6D7C3] to-[#D4C3A3] hover:from-[#F4ECE1] hover:to-[#E6D7C3] text-black font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(212,195,163,0.5)] cursor-pointer font-mono"
+                      className="px-8 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(37,99,235,0.5)] cursor-pointer font-mono"
                     >
                       Snap Photo
                     </button>
@@ -452,7 +452,7 @@ export const VirtualTryOnPage: React.FC = () => {
             {/* Split Screen Before/After Compare View Slider */}
             {compareMode ? (
               <div
-                className="absolute inset-0 overflow-hidden border-r-2 border-[#E6D7C3] z-10 pointer-events-none"
+                className="absolute inset-0 overflow-hidden border-r-2 border-[#2563EB] z-10 pointer-events-none"
                 style={{ width: `${compareSlider}%` }}
               >
                 <img
@@ -494,12 +494,12 @@ export const VirtualTryOnPage: React.FC = () => {
 
             {/* Shoulder & Torso Alignment Guide Overlay */}
             {showBodyGuide && !compareMode && (
-              <div className="absolute inset-0 pointer-events-none border border-[#E6D7C3]/30 flex flex-col justify-between p-6">
-                <div className="border-t border-dashed border-[#E6D7C3]/40 text-[9px] font-mono text-[#E6D7C3] font-bold pt-1 flex justify-between">
+              <div className="absolute inset-0 pointer-events-none border border-[#2563EB]/30 flex flex-col justify-between p-6">
+                <div className="border-t border-dashed border-[#2563EB]/40 text-[9px] font-mono text-[#2563EB] font-bold pt-1 flex justify-between">
                   <span>SHOULDER LINE &bull; DROP FIT</span>
                   <span>PRINTROVE 350 GSM</span>
                 </div>
-                <div className="border-t border-dashed border-[#E6D7C3]/30 text-[9px] font-mono text-[#E6D7C3] font-bold pt-1 flex justify-between">
+                <div className="border-t border-dashed border-[#2563EB]/30 text-[9px] font-mono text-[#2563EB] font-bold pt-1 flex justify-between">
                   <span>CHEST MEASUREMENT ({selectedProduct.sizes.includes(selectedSize) ? selectedSize : 'L'})</span>
                   <span>RELAXED WAIST</span>
                 </div>
@@ -512,8 +512,8 @@ export const VirtualTryOnPage: React.FC = () => {
                 onClick={() => setShowBodyGuide(!showBodyGuide)}
                 className={`w-9 h-9 rounded-full backdrop-blur-md border flex items-center justify-center text-xs transition-colors cursor-pointer shadow-md ${
                   showBodyGuide
-                    ? 'bg-[#E6D7C3] text-black border-[#E6D7C3] font-bold shadow-[0_0_12px_rgba(212,195,163,0.5)]'
-                    : 'bg-[#112319]/80 border-[#D4C3A3]/25 text-[#F4ECE1] hover:text-[#E6D7C3] hover:border-[#E6D7C3]'
+                    ? 'bg-[#2563EB] text-black border-[#2563EB] font-bold shadow-[0_0_12px_rgba(37,99,235,0.5)]'
+                    : 'bg-[#0D1B3A]/80 border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB]'
                 }`}
                 title="Toggle Body Fit Grid Lines"
               >
@@ -524,8 +524,8 @@ export const VirtualTryOnPage: React.FC = () => {
                 onClick={() => setCompareMode(!compareMode)}
                 className={`w-9 h-9 rounded-full backdrop-blur-md border flex items-center justify-center text-xs transition-colors cursor-pointer shadow-md ${
                   compareMode
-                    ? 'bg-[#E6D7C3] text-black border-[#E6D7C3] font-bold shadow-[0_0_12px_rgba(212,195,163,0.5)]'
-                    : 'bg-[#112319]/80 border-[#D4C3A3]/25 text-[#F4ECE1] hover:text-[#E6D7C3] hover:border-[#E6D7C3]'
+                    ? 'bg-[#2563EB] text-black border-[#2563EB] font-bold shadow-[0_0_12px_rgba(37,99,235,0.5)]'
+                    : 'bg-[#0D1B3A]/80 border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB]'
                 }`}
                 title="Toggle Before/After Split Comparison"
               >
@@ -534,7 +534,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
               <button
                 onClick={handleResetControls}
-                className="w-9 h-9 rounded-full backdrop-blur-md bg-[#112319]/80 border border-[#D4C3A3]/25 text-[#F4ECE1] hover:text-[#E6D7C3] hover:border-[#E6D7C3] flex items-center justify-center transition-colors cursor-pointer shadow-md"
+                className="w-9 h-9 rounded-full backdrop-blur-md bg-[#0D1B3A]/80 border border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB] flex items-center justify-center transition-colors cursor-pointer shadow-md"
                 title="Reset Fit Alignment"
               >
                 <RefreshCw className="w-4 h-4" />
@@ -543,20 +543,20 @@ export const VirtualTryOnPage: React.FC = () => {
 
             {/* Bottom Watermark Tag */}
             <div className="absolute bottom-4 left-4 z-20 pointer-events-none">
-              <span className="bg-[#112319]/90 border border-[#D4C3A3]/30 text-[#F4ECE1] text-[9px] uppercase tracking-widest px-2.5 py-1 font-mono font-bold shadow">
+              <span className="bg-[#0D1B3A]/90 border border-[#3B82F6]/30 text-[#FFFFFF] text-[9px] uppercase tracking-widest px-2.5 py-1 font-mono font-bold shadow">
                 TRENZIO 3D VIRTUAL FIT &bull; {selectedSize}
               </span>
             </div>
           </div>
 
           {/* Model Presets Quick Bar */}
-          <div className="p-4 bg-white/[0.03] backdrop-blur-md border border-[#D4C3A3]/20 space-y-2 shadow-xl text-[#F4ECE1]">
-            <div className="flex items-center justify-between text-[11px] font-mono text-[#D4C3A3]">
+          <div className="p-4 bg-white/[0.03] backdrop-blur-md border border-[#3B82F6]/20 space-y-2 shadow-xl text-[#FFFFFF]">
+            <div className="flex items-center justify-between text-[11px] font-mono text-[#3B82F6]">
               <span className="flex items-center gap-1.5">
-                <User className="w-3.5 h-3.5 text-[#E6D7C3]" />
+                <User className="w-3.5 h-3.5 text-[#2563EB]" />
                 <span>Select Model Preset:</span>
               </span>
-              <span className="text-[#E6D7C3] font-bold">
+              <span className="text-[#2563EB] font-bold">
                 {photoSourceType === 'upload' ? 'Your Uploaded Photo' : photoSourceType === 'camera' ? 'Your Live Selfie' : 'Preset Model'}
               </span>
             </div>
@@ -573,8 +573,8 @@ export const VirtualTryOnPage: React.FC = () => {
                   }}
                   className={`p-2 border text-left flex items-center gap-2.5 transition-all cursor-pointer ${
                     activePhotoUrl === preset.url
-                      ? 'border-[#E6D7C3] bg-[#E6D7C3] text-black font-extrabold shadow-[0_0_12px_rgba(212,195,163,0.45)]'
-                      : 'border-[#D4C3A3]/25 text-[#F4ECE1] hover:border-[#E6D7C3] bg-white/[0.02]'
+                      ? 'border-[#2563EB] bg-[#2563EB] text-black font-extrabold shadow-[0_0_12px_rgba(37,99,235,0.45)]'
+                      : 'border-[#3B82F6]/25 text-[#FFFFFF] hover:border-[#2563EB] bg-white/[0.02]'
                   }`}
                 >
                   <img
@@ -592,15 +592,15 @@ export const VirtualTryOnPage: React.FC = () => {
           </div>
 
           {/* 3D Position & Scale Fine-Tuning Controls */}
-          <div className="p-4 bg-white/[0.03] backdrop-blur-md border border-[#D4C3A3]/20 space-y-4 shadow-xl text-[#F4ECE1]">
+          <div className="p-4 bg-white/[0.03] backdrop-blur-md border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF]">
             <div className="flex items-center justify-between text-xs font-mono">
-              <span className="flex items-center gap-1.5 text-[#E6D7C3] uppercase font-bold text-[10px]">
+              <span className="flex items-center gap-1.5 text-[#2563EB] uppercase font-bold text-[10px]">
                 <Sliders className="w-3.5 h-3.5" />
                 <span>3D Fit & Perspective Calibration</span>
               </span>
               <button
                 onClick={handleResetControls}
-                className="text-[10px] uppercase text-[#D4C3A3] hover:text-[#E6D7C3] underline cursor-pointer"
+                className="text-[10px] uppercase text-[#3B82F6] hover:text-[#2563EB] underline cursor-pointer"
               >
                 Reset
               </button>
@@ -609,9 +609,9 @@ export const VirtualTryOnPage: React.FC = () => {
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs font-mono">
               {/* Scale Slider */}
               <div className="space-y-1">
-                <div className="flex justify-between text-[10px] text-[#D4C3A3]">
+                <div className="flex justify-between text-[10px] text-[#3B82F6]">
                   <span>Fit Volume:</span>
-                  <span className="text-[#E6D7C3] font-bold">{Math.round(garmentScale * 100)}%</span>
+                  <span className="text-[#2563EB] font-bold">{Math.round(garmentScale * 100)}%</span>
                 </div>
                 <input
                   type="range"
@@ -620,15 +620,15 @@ export const VirtualTryOnPage: React.FC = () => {
                   step="0.01"
                   value={garmentScale}
                   onChange={(e) => setGarmentScale(parseFloat(e.target.value))}
-                  className="w-full accent-[#E6D7C3] cursor-pointer"
+                  className="w-full accent-[#2563EB] cursor-pointer"
                 />
               </div>
 
               {/* 3D Yaw Rotation */}
               <div className="space-y-1">
-                <div className="flex justify-between text-[10px] text-[#D4C3A3]">
+                <div className="flex justify-between text-[10px] text-[#3B82F6]">
                   <span>3D Body Angle:</span>
-                  <span className="text-[#E6D7C3] font-bold">{rotationY}&deg;</span>
+                  <span className="text-[#2563EB] font-bold">{rotationY}&deg;</span>
                 </div>
                 <input
                   type="range"
@@ -637,15 +637,15 @@ export const VirtualTryOnPage: React.FC = () => {
                   step="1"
                   value={rotationY}
                   onChange={(e) => setRotationY(parseInt(e.target.value))}
-                  className="w-full accent-[#E6D7C3] cursor-pointer"
+                  className="w-full accent-[#2563EB] cursor-pointer"
                 />
               </div>
 
               {/* Vertical Shoulder Position */}
               <div className="space-y-1">
-                <div className="flex justify-between text-[10px] text-[#D4C3A3]">
+                <div className="flex justify-between text-[10px] text-[#3B82F6]">
                   <span>Shoulder Height:</span>
-                  <span className="text-[#E6D7C3] font-bold">{garmentPosY}%</span>
+                  <span className="text-[#2563EB] font-bold">{garmentPosY}%</span>
                 </div>
                 <input
                   type="range"
@@ -654,17 +654,17 @@ export const VirtualTryOnPage: React.FC = () => {
                   step="1"
                   value={garmentPosY}
                   onChange={(e) => setGarmentPosY(parseInt(e.target.value))}
-                  className="w-full accent-[#E6D7C3] cursor-pointer"
+                  className="w-full accent-[#2563EB] cursor-pointer"
                 />
               </div>
             </div>
 
             {/* Compare slider when active */}
             {compareMode && (
-              <div className="pt-2 border-t border-[#D4C3A3]/20 space-y-1">
-                <div className="flex justify-between text-[10px] font-mono text-[#D4C3A3]">
+              <div className="pt-2 border-t border-[#3B82F6]/20 space-y-1">
+                <div className="flex justify-between text-[10px] font-mono text-[#3B82F6]">
                   <span>Split Comparison (Original &larr;&rarr; Fitted):</span>
-                  <span className="text-[#E6D7C3] font-bold">{compareSlider}%</span>
+                  <span className="text-[#2563EB] font-bold">{compareSlider}%</span>
                 </div>
                 <input
                   type="range"
@@ -672,7 +672,7 @@ export const VirtualTryOnPage: React.FC = () => {
                   max="100"
                   value={compareSlider}
                   onChange={(e) => setCompareSlider(parseInt(e.target.value))}
-                  className="w-full accent-[#E6D7C3] cursor-pointer"
+                  className="w-full accent-[#2563EB] cursor-pointer"
                 />
               </div>
             )}
@@ -683,9 +683,9 @@ export const VirtualTryOnPage: React.FC = () => {
         <div className="lg:col-span-5 flex flex-col justify-between space-y-6">
           <div className="space-y-6">
             {/* Garment Header Card */}
-            <div className="p-6 bg-white/[0.03] backdrop-blur-md border border-[#D4C3A3]/20 space-y-4 shadow-xl text-[#F4ECE1]">
+            <div className="p-6 bg-white/[0.03] backdrop-blur-md border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF]">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-wider font-mono">
-                <span className="bg-[#112319] border border-[#D4C3A3]/30 text-[#E6D7C3] px-2 py-0.5 font-bold">
+                <span className="bg-[#0D1B3A] border border-[#3B82F6]/30 text-[#2563EB] px-2 py-0.5 font-bold">
                   {selectedProduct.gsm} GSM Bio-Washed Cotton
                 </span>
                 <span className="text-emerald-400 font-medium">
@@ -694,17 +694,17 @@ export const VirtualTryOnPage: React.FC = () => {
               </div>
 
               <div>
-                <h2 className="font-serif text-2xl sm:text-3xl text-[#F4ECE1] font-light">
+                <h2 className="font-serif text-2xl sm:text-3xl text-[#FFFFFF] font-light">
                   {selectedProduct.name}
                 </h2>
-                <div className="text-2xl font-mono font-bold text-[#E6D7C3] tracking-wider mt-1">
+                <div className="text-2xl font-mono font-bold text-[#2563EB] tracking-wider mt-1">
                   {formatPrice(selectedProduct.priceINR)}
                 </div>
               </div>
 
               {/* Garment Selector Dropdown / Pills */}
-              <div className="pt-2 border-t border-[#D4C3A3]/20 space-y-1.5">
-                <label className="block text-[10px] uppercase font-mono text-[#D4C3A3]">
+              <div className="pt-2 border-t border-[#3B82F6]/20 space-y-1.5">
+                <label className="block text-[10px] uppercase font-mono text-[#3B82F6]">
                   Switch Outfit in 3D:
                 </label>
                 <div className="grid grid-cols-1 gap-2">
@@ -714,22 +714,22 @@ export const VirtualTryOnPage: React.FC = () => {
                       onClick={() => setSelectedProductId(p.id)}
                       className={`px-3 py-2 border text-left text-xs font-mono flex items-center justify-between transition-all cursor-pointer ${
                         selectedProductId === p.id
-                          ? 'border-[#E6D7C3] bg-[#E6D7C3] text-black font-extrabold shadow-[0_0_12px_rgba(212,195,163,0.4)]'
-                          : 'border-[#D4C3A3]/25 text-[#F4ECE1] hover:border-[#E6D7C3] bg-white/[0.02]'
+                          ? 'border-[#2563EB] bg-[#2563EB] text-black font-extrabold shadow-[0_0_12px_rgba(37,99,235,0.4)]'
+                          : 'border-[#3B82F6]/25 text-[#FFFFFF] hover:border-[#2563EB] bg-white/[0.02]'
                       }`}
                     >
                       <span className="truncate">{p.name}</span>
-                      <span className="text-[#E6D7C3] font-bold ml-2">{formatPrice(p.priceINR)}</span>
+                      <span className="text-[#2563EB] font-bold ml-2">{formatPrice(p.priceINR)}</span>
                     </button>
                   ))}
                 </div>
               </div>
 
               {/* Colorways Selector with Live Texture Swap */}
-              <div className="space-y-2 pt-2 border-t border-[#D4C3A3]/20">
-                <div className="flex justify-between text-xs tracking-wider uppercase text-[#D4C3A3] font-mono">
+              <div className="space-y-2 pt-2 border-t border-[#3B82F6]/20">
+                <div className="flex justify-between text-xs tracking-wider uppercase text-[#3B82F6] font-mono">
                   <span>Selected Colorway:</span>
-                  <span className="text-[#E6D7C3] font-bold">{selectedColor}</span>
+                  <span className="text-[#2563EB] font-bold">{selectedColor}</span>
                 </div>
                 <div className="grid grid-cols-7 gap-1.5">
                   {selectedProduct.colors.map((c) => (
@@ -738,8 +738,8 @@ export const VirtualTryOnPage: React.FC = () => {
                       onClick={() => setSelectedColor(c.name)}
                       className={`aspect-square p-1 border transition-all flex items-center justify-center bg-white/[0.04] cursor-pointer ${
                         selectedColor === c.name
-                          ? 'border-[#E6D7C3] ring-2 ring-[#E6D7C3]/50 scale-105'
-                          : 'border-[#D4C3A3]/25 opacity-75 hover:opacity-100'
+                          ? 'border-[#2563EB] ring-2 ring-[#2563EB]/50 scale-105'
+                          : 'border-[#3B82F6]/25 opacity-75 hover:opacity-100'
                       }`}
                       title={c.name}
                     >
@@ -753,10 +753,10 @@ export const VirtualTryOnPage: React.FC = () => {
               </div>
 
               {/* Size Selector */}
-              <div className="space-y-2 pt-2 border-t border-[#D4C3A3]/20">
-                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#D4C3A3] font-mono">
+              <div className="space-y-2 pt-2 border-t border-[#3B82F6]/20">
+                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#3B82F6] font-mono">
                   <span>Select Size:</span>
-                  <span className="text-[#E6D7C3] font-bold">
+                  <span className="text-[#2563EB] font-bold">
                     {selectedSize} (Chest {selectedSize === 'XS' ? '40"' : selectedSize === 'S' ? '42"' : selectedSize === 'M' ? '44"' : selectedSize === 'L' ? '46"' : selectedSize === 'XL' ? '48"' : '50"'})
                   </span>
                 </div>
@@ -767,8 +767,8 @@ export const VirtualTryOnPage: React.FC = () => {
                       onClick={() => handleSizeChange(s)}
                       className={`py-2.5 text-xs font-mono font-bold border transition-all cursor-pointer ${
                         selectedSize === s
-                          ? 'border-[#E6D7C3] bg-[#E6D7C3] text-black font-extrabold shadow-[0_0_12px_rgba(212,195,163,0.4)]'
-                          : 'border-[#D4C3A3]/25 text-[#F4ECE1] hover:border-[#E6D7C3] bg-white/[0.02]'
+                          ? 'border-[#2563EB] bg-[#2563EB] text-black font-extrabold shadow-[0_0_12px_rgba(37,99,235,0.4)]'
+                          : 'border-[#3B82F6]/25 text-[#FFFFFF] hover:border-[#2563EB] bg-white/[0.02]'
                       }`}
                     >
                       {s}
@@ -779,20 +779,20 @@ export const VirtualTryOnPage: React.FC = () => {
             </div>
 
             {/* Smart AI Fit Advisor Card */}
-            <div className="p-5 bg-white/[0.03] backdrop-blur-md border border-[#D4C3A3]/20 space-y-4 shadow-xl text-[#F4ECE1]">
+            <div className="p-5 bg-white/[0.03] backdrop-blur-md border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF]">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-[#E6D7C3] font-mono uppercase text-[11px] font-bold">
+                <div className="flex items-center gap-2 text-[#2563EB] font-mono uppercase text-[11px] font-bold">
                   <Ruler className="w-4 h-4" />
                   <span>AI Size & Fit Recommendation</span>
                 </div>
-                <span className="text-[10px] uppercase font-mono px-2 py-0.5 bg-[#E6D7C3] text-black font-black shadow-[0_0_10px_rgba(212,195,163,0.4)]">
+                <span className="text-[10px] uppercase font-mono px-2 py-0.5 bg-[#2563EB] text-black font-black shadow-[0_0_10px_rgba(37,99,235,0.4)]">
                   Best Fit: Size {recommendedSize}
                 </span>
               </div>
 
               <div className="grid grid-cols-2 gap-4 text-xs font-mono">
                 <div className="space-y-1">
-                  <div className="flex justify-between text-[#D4C3A3] text-[10px]">
+                  <div className="flex justify-between text-[#3B82F6] text-[10px]">
                     <span>Height:</span>
                     <span className="text-white font-bold">{userHeightCm} cm</span>
                   </div>
@@ -802,12 +802,12 @@ export const VirtualTryOnPage: React.FC = () => {
                     max="205"
                     value={userHeightCm}
                     onChange={(e) => setUserHeightCm(parseInt(e.target.value))}
-                    className="w-full accent-[#E6D7C3] cursor-pointer"
+                    className="w-full accent-[#2563EB] cursor-pointer"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <div className="flex justify-between text-[#D4C3A3] text-[10px]">
+                  <div className="flex justify-between text-[#3B82F6] text-[10px]">
                     <span>Weight:</span>
                     <span className="text-white font-bold">{userWeightKg} kg</span>
                   </div>
@@ -817,20 +817,20 @@ export const VirtualTryOnPage: React.FC = () => {
                     max="120"
                     value={userWeightKg}
                     onChange={(e) => setUserWeightKg(parseInt(e.target.value))}
-                    className="w-full accent-[#E6D7C3] cursor-pointer"
+                    className="w-full accent-[#2563EB] cursor-pointer"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-between pt-2 border-t border-[#D4C3A3]/20 text-[11px] font-mono">
-                <span className="text-[#D4C3A3]">Streetwear Fit Preference:</span>
-                <div className="flex border border-[#D4C3A3]/25 bg-white/[0.02]">
+              <div className="flex items-center justify-between pt-2 border-t border-[#3B82F6]/20 text-[11px] font-mono">
+                <span className="text-[#3B82F6]">Streetwear Fit Preference:</span>
+                <div className="flex border border-[#3B82F6]/25 bg-white/[0.02]">
                   <button
                     onClick={() => setFitPreference('oversized')}
                     className={`px-2.5 py-1 text-[10px] uppercase cursor-pointer font-bold ${
                       fitPreference === 'oversized'
-                        ? 'bg-[#E6D7C3] text-black'
-                        : 'text-[#D4C3A3]'
+                        ? 'bg-[#2563EB] text-black'
+                        : 'text-[#3B82F6]'
                     }`}
                   >
                     Oversized Drop
@@ -839,8 +839,8 @@ export const VirtualTryOnPage: React.FC = () => {
                     onClick={() => setFitPreference('regular')}
                     className={`px-2.5 py-1 text-[10px] uppercase cursor-pointer font-bold ${
                       fitPreference === 'regular'
-                        ? 'bg-[#E6D7C3] text-black'
-                        : 'text-[#D4C3A3]'
+                        ? 'bg-[#2563EB] text-black'
+                        : 'text-[#3B82F6]'
                     }`}
                   >
                     Fitted
@@ -850,7 +850,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
               <button
                 onClick={() => handleSizeChange(recommendedSize)}
-                className="w-full py-2.5 border border-[#E6D7C3] text-[#E6D7C3] hover:bg-[#E6D7C3] hover:text-black transition-colors text-[10px] uppercase tracking-wider font-mono font-bold cursor-pointer"
+                className="w-full py-2.5 border border-[#2563EB] text-[#2563EB] hover:bg-[#2563EB] hover:text-black transition-colors text-[10px] uppercase tracking-wider font-mono font-bold cursor-pointer"
               >
                 Apply Recommended Size ({recommendedSize}) to 3D Model
               </button>
@@ -858,14 +858,14 @@ export const VirtualTryOnPage: React.FC = () => {
           </div>
 
           {/* Action CTAs */}
-          <div className="space-y-3 pt-4 border-t border-[#D4C3A3]/20">
+          <div className="space-y-3 pt-4 border-t border-[#3B82F6]/20">
             {/* Add to Bag */}
             <button
               onClick={handleAddToBag}
               className={`w-full py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xl font-mono ${
                 isAdded
                   ? 'bg-emerald-500 text-black'
-                  : 'bg-gradient-to-r from-[#E6D7C3] to-[#D4C3A3] hover:from-[#F4ECE1] hover:to-[#E6D7C3] text-black shadow-[0_0_25px_rgba(212,195,163,0.5)]'
+                  : 'bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black shadow-[0_0_25px_rgba(37,99,235,0.5)]'
               }`}
             >
               {isAdded ? (
@@ -883,7 +883,7 @@ export const VirtualTryOnPage: React.FC = () => {
               <button
                 onClick={handleInstantBuy}
                 disabled={isCheckingOut}
-                className="py-3.5 border border-[#D4C3A3]/25 bg-white/[0.04] text-[#F4ECE1] hover:border-[#E6D7C3] hover:text-[#E6D7C3] text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-md"
+                className="py-3.5 border border-[#3B82F6]/25 bg-white/[0.04] text-[#FFFFFF] hover:border-[#2563EB] hover:text-[#2563EB] text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-md"
               >
                 {isCheckingOut ? (
                   <span>Connecting...</span>
@@ -898,22 +898,22 @@ export const VirtualTryOnPage: React.FC = () => {
               <button
                 onClick={handleDownloadLook}
                 disabled={downloading}
-                className="py-3.5 border border-[#D4C3A3]/25 bg-white/[0.04] text-[#F4ECE1] hover:border-[#E6D7C3] hover:text-[#E6D7C3] text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-md"
+                className="py-3.5 border border-[#3B82F6]/25 bg-white/[0.04] text-[#FFFFFF] hover:border-[#2563EB] hover:text-[#2563EB] text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-md"
                 title="Download High-Res Styled Image for Instagram or WhatsApp"
               >
-                <Download className="w-3.5 h-3.5 text-[#E6D7C3]" />
+                <Download className="w-3.5 h-3.5 text-[#2563EB]" />
                 <span>{downloading ? 'Rendering...' : 'Save Look'}</span>
               </button>
             </div>
 
             {/* D2C Badges */}
-            <div className="grid grid-cols-2 gap-2 text-[10px] text-[#D4C3A3] uppercase tracking-wider pt-2 font-mono font-medium">
+            <div className="grid grid-cols-2 gap-2 text-[10px] text-[#3B82F6] uppercase tracking-wider pt-2 font-mono font-medium">
               <div className="flex items-center gap-1.5">
-                <Truck className="w-3.5 h-3.5 text-[#E6D7C3]" />
+                <Truck className="w-3.5 h-3.5 text-[#2563EB]" />
                 <span>Pan-India Doorstep Dispatch</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#E6D7C3]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" />
                 <span>UPI, Cards & COD Accepted</span>
               </div>
             </div>
