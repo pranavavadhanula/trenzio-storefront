@@ -34,6 +34,20 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     genderFilter: 'Women',
     desc: 'Relaxed unisex oversized streetwear cuts tailored for effortless everyday styling.',
   },
+  'accessories': {
+    label: 'Accessories',
+    desc: 'Curated accessories to complement your heavyweight streetwear — caps, bags, chains & more.',
+  },
+  'traditional-men': {
+    label: "Men's Traditional Wear",
+    genderFilter: 'Men',
+    desc: 'Premium kurtas, sherwanis and ethnic wear crafted with the finest fabrics for every occasion.',
+  },
+  'traditional-women': {
+    label: "Women's Traditional Wear",
+    genderFilter: 'Women',
+    desc: 'Elegant sarees, lehengas and ethnic drapes designed for the modern Indian woman.',
+  },
 };
 
 export const CollectionsPage: React.FC = () => {

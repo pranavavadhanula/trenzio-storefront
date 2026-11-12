@@ -37,10 +37,6 @@ export const HomePage: React.FC = () => {
 
           {/* Card Content */}
           <div className="relative z-10 space-y-3">
-            <span className="inline-block px-2.5 py-1 bg-[#2563EB] text-white text-[10px] uppercase tracking-[0.25em] font-mono font-extrabold shadow-[0_0_18px_rgba(37,99,235,0.4)]">
-              Line 01 &bull; Heavyweight Cuts
-            </span>
-
             <h2 className="font-serif text-4xl sm:text-5xl text-white font-light group-hover:text-[#60A5FA] transition-colors tracking-tight">
               Men's Wear
             </h2>
@@ -50,7 +46,7 @@ export const HomePage: React.FC = () => {
             </p>
 
             <div className="pt-3">
-              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white font-black text-xs uppercase tracking-widest font-mono shadow-[0_0_25px_rgba(37,99,235,0.45)] group-hover:translate-x-1 transition-all">
+              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#060C1A] font-black text-xs uppercase tracking-widest font-mono shadow-[0_0_20px_rgba(237,224,204,0.25)] group-hover:translate-x-1 transition-all">
                 <span>Explore Men's Wear</span>
                 <ArrowRight className="w-4 h-4" />
               </span>
@@ -75,10 +71,6 @@ export const HomePage: React.FC = () => {
 
           {/* Card Content */}
           <div className="relative z-10 space-y-3">
-            <span className="inline-block px-2.5 py-1 bg-[#2563EB] text-white text-[10px] uppercase tracking-[0.25em] font-mono font-extrabold shadow-[0_0_18px_rgba(37,99,235,0.4)]">
-              Line 02 &bull; Oversized Silhouettes
-            </span>
-
             <h2 className="font-serif text-4xl sm:text-5xl text-white font-light group-hover:text-[#60A5FA] transition-colors tracking-tight">
               Women's Wear
             </h2>
@@ -88,7 +80,7 @@ export const HomePage: React.FC = () => {
             </p>
 
             <div className="pt-3">
-              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white font-black text-xs uppercase tracking-widest font-mono shadow-[0_0_25px_rgba(37,99,235,0.45)] group-hover:translate-x-1 transition-all">
+              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#060C1A] font-black text-xs uppercase tracking-widest font-mono shadow-[0_0_20px_rgba(237,224,204,0.25)] group-hover:translate-x-1 transition-all">
                 <span>Explore Women's Wear</span>
                 <ArrowRight className="w-4 h-4" />
               </span>

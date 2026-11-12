@@ -20,7 +20,7 @@ export const Navbar: React.FC = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<'men' | 'women' | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<'men' | 'women' | 'traditional' | null>(null);
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
 
@@ -38,7 +38,7 @@ export const Navbar: React.FC = () => {
     setOpenDropdown(null);
   }, [location.pathname]);
 
-  const handleMouseEnter = (menu: 'men' | 'women') => {
+  const handleMouseEnter = (menu: 'men' | 'women' | 'traditional') => {
     if (dropdownTimeoutRef.current) {
       clearTimeout(dropdownTimeoutRef.current);
     }
@@ -65,6 +65,11 @@ export const Navbar: React.FC = () => {
     { label: 'Oversized T-Shirts', path: '/collections/oversized-tees', sub: 'Draped dropped-shoulder tees' },
     { label: 'Sweatshirts & Hoodies', path: '/collections/sweatshirts', sub: '400 GSM luxury French Terry' },
     { label: 'Classic Tees', path: '/collections/classic-tees', sub: 'Minimalist heavyweight basics' },
+  ];
+
+  const TRADITIONAL_SUB_ITEMS: SubCategoryItem[] = [
+    { label: "Men's Traditional Wear", path: '/collections/traditional-men', sub: 'Kurtas, sherwanis & ethnic wear' },
+    { label: "Women's Traditional Wear", path: '/collections/traditional-women', sub: 'Sarees, lehengas & ethnic drapes' },
   ];
 
   return (
@@ -163,8 +168,8 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Secondary Bar Below Search: Men's Wear & Women's Wear With Interactive Dropdown Lists */}
-      <nav className="relative max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center space-x-10 sm:space-x-16 text-[12px] uppercase tracking-[0.25em] font-mono py-3 border-t border-[#1E452E]/50">
+      {/* Secondary Bar: Men's Wear, Women's Wear, Accessories, Traditional Wear */}
+      <nav className="relative max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center space-x-6 sm:space-x-12 text-[12px] uppercase tracking-[0.25em] font-mono py-3 border-t border-[#1E452E]/50">
         {/* Item 1: MEN'S WEAR with Dropdown */}
         <div
           className="relative"
@@ -294,6 +299,72 @@ export const Navbar: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* Item 3: ACCESSORIES (standalone link, no dropdown) */}
+        <Link
+          to="/collections/accessories"
+          className={`pb-1 border-b-2 transition-all duration-300 font-mono ${
+            currentPath.startsWith('/collections/accessories')
+              ? 'border-[#4ADE80] text-[#4ADE80] font-bold shadow-[0_2px_14px_rgba(74,222,128,0.35)]'
+              : 'border-transparent text-[#A7F3D0] hover:text-white hover:border-[#4ADE80]/40'
+          }`}
+        >
+          ACCESSORIES
+        </Link>
+
+        {/* Item 4: TRADITIONAL WEAR with Dropdown */}
+        <div
+          className="relative"
+          onMouseEnter={() => handleMouseEnter('traditional')}
+          onMouseLeave={handleMouseLeave}
+        >
+          <button
+            onClick={() => setOpenDropdown(openDropdown === 'traditional' ? null : 'traditional')}
+            className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer font-mono ${
+              currentPath.startsWith('/collections/traditional') || openDropdown === 'traditional'
+                ? 'border-[#4ADE80] text-[#4ADE80] font-bold shadow-[0_2px_14px_rgba(74,222,128,0.35)]'
+                : 'border-transparent text-[#A7F3D0] hover:text-white hover:border-[#4ADE80]/40'
+            }`}
+          >
+            <span>TRADITIONAL WEAR</span>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-[#86EFAC] transition-transform duration-300 ${
+                openDropdown === 'traditional' ? 'rotate-180 text-[#4ADE80]' : ''
+              }`}
+            />
+          </button>
+
+          {/* Traditional Wear Dropdown List */}
+          {openDropdown === 'traditional' && (
+            <div
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 bg-[#0D2418]/98 backdrop-blur-2xl border border-[#22C55E]/30 shadow-[0_20px_50px_rgba(0,0,0,0.85)] py-2 z-50 text-white animate-fadeIn"
+              onMouseEnter={() => handleMouseEnter('traditional')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="px-4 py-2 text-[9px] uppercase tracking-[0.3em] text-[#86EFAC] font-bold border-b border-[#1E452E] bg-[#08170F] flex items-center justify-between">
+                <span>Traditional & Ethnic Wear</span>
+                <span className="text-[8px] text-[#A7F3D0]/70">Premium</span>
+              </div>
+              <div className="py-1">
+                {TRADITIONAL_SUB_ITEMS.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    onClick={() => setOpenDropdown(null)}
+                    className="block px-4 py-2.5 hover:bg-[#133320] transition-colors group cursor-pointer"
+                  >
+                    <div className="text-[11px] font-bold text-white group-hover:text-[#4ADE80] tracking-wider">
+                      {item.label}
+                    </div>
+                    <div className="text-[9px] text-[#A7F3D0]/80 font-sans normal-case tracking-normal">
+                      {item.sub}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
 
       {/* Mobile Drawer */}
@@ -330,6 +401,34 @@ export const Navbar: React.FC = () => {
             </Link>
             <div className="pl-3 space-y-2 font-mono">
               {WOMEN_SUB_ITEMS.map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  className="block text-[11px] uppercase tracking-wider text-[#A7F3D0] hover:text-white"
+                >
+                  &bull; {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Accessories */}
+          <div className="space-y-2 border-b border-[#1E452E] pb-4">
+            <Link
+              to="/collections/accessories"
+              className="text-xs uppercase tracking-widest text-[#4ADE80] font-bold font-mono block"
+            >
+              ACCESSORIES
+            </Link>
+          </div>
+
+          {/* Traditional Wear Accordion */}
+          <div className="space-y-2 border-b border-[#1E452E] pb-4">
+            <span className="text-xs uppercase tracking-widest text-[#4ADE80] font-bold font-mono block">
+              TRADITIONAL WEAR
+            </span>
+            <div className="pl-3 space-y-2 font-mono">
+              {TRADITIONAL_SUB_ITEMS.map((item) => (
                 <Link
                   key={item.label}
                   to={item.path}
