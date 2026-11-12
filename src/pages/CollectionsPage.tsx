@@ -1,8 +1,252 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from '../components/ProductCard';
-import { SlidersHorizontal, Sparkles, Loader2, ChevronRight } from 'lucide-react';
+import { SlidersHorizontal, Sparkles, Loader2, ChevronRight, ArrowRight } from 'lucide-react';
+
+interface RunwayItem {
+  slug: string;
+  title: string;
+  subtitle: string;
+  startingPrice: string;
+  gsm: string;
+  image: string;
+  tag: string;
+}
+
+const MEN_RUNWAY_ITEMS: RunwayItem[] = [
+  {
+    slug: 'men-sweatshirts',
+    title: 'Heavyweight Hoodies',
+    subtitle: 'Diagonal Loop French Terry',
+    startingPrice: 'Starts @ ₹2,499',
+    gsm: '400 GSM',
+    image: '/images/models/man_streetwear_hoodie.jpg',
+    tag: 'Cold Drops',
+  },
+  {
+    slug: 'men-oversized-tees',
+    title: 'Oversized Street Tees',
+    subtitle: 'Structured Dropped Shoulders',
+    startingPrice: 'Starts @ ₹1,499',
+    gsm: '240–350 GSM',
+    image: '/images/models/street_tee.jpg',
+    tag: 'Signature',
+  },
+  {
+    slug: 'men-classic-tees',
+    title: 'Tailored Classic Tees',
+    subtitle: 'Reinforced 1x1 Ribbed Collar',
+    startingPrice: 'Starts @ ₹1,199',
+    gsm: '280 GSM',
+    image: '/images/models/man_model_fashion.jpg',
+    tag: 'Everyday Luxury',
+  },
+  {
+    slug: 'traditional-men',
+    title: 'Royal Ethnic Wear',
+    subtitle: 'Artisan Silks & Sherwanis',
+    startingPrice: 'Starts @ ₹2,999',
+    gsm: 'Silk Blend',
+    image: 'https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=800&q=80',
+    tag: 'Festive Atelier',
+  },
+];
+
+const WOMEN_RUNWAY_ITEMS: RunwayItem[] = [
+  {
+    slug: 'women-sweatshirts',
+    title: 'Cropped & Relaxed Hoodies',
+    subtitle: '400 GSM French Terry Drape',
+    startingPrice: 'Starts @ ₹2,499',
+    gsm: '400 GSM',
+    image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=80',
+    tag: 'Cozy Luxury',
+  },
+  {
+    slug: 'women-oversized-tees',
+    title: 'Draped Oversized Tees',
+    subtitle: 'Effortless Streetwear Cut',
+    startingPrice: 'Starts @ ₹1,499',
+    gsm: '240 GSM',
+    image: 'https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=800&q=80',
+    tag: 'Bio-Washed',
+  },
+  {
+    slug: 'women-classic-tees',
+    title: 'Minimal Everyday Tees',
+    subtitle: 'Tailored Ribbed Luxury',
+    startingPrice: 'Starts @ ₹1,199',
+    gsm: '280 GSM',
+    image: 'https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=800&q=80',
+    tag: 'Essential Fit',
+  },
+  {
+    slug: 'traditional-women',
+    title: 'Modern Festive Drapes',
+    subtitle: 'Contemporary Sarees & Silks',
+    startingPrice: 'Starts @ ₹2,999',
+    gsm: 'Pure Loom',
+    image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80',
+    tag: 'Festive Haute',
+  },
+];
+
+const Runway3DCard: React.FC<{
+  item: RunwayItem;
+  isActive: boolean;
+}> = ({ item, isActive }) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [tilt, setTilt] = useState({
+    rotateX: 0,
+    rotateY: 0,
+    glareX: 50,
+    glareY: 50,
+    isHovered: false,
+  });
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const normX = (x / rect.width) * 2 - 1;
+    const normY = (y / rect.height) * 2 - 1;
+    setTilt({
+      rotateX: -normY * 12,
+      rotateY: normX * 12,
+      glareX: (x / rect.width) * 100,
+      glareY: (y / rect.height) * 100,
+      isHovered: true,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setTilt({
+      rotateX: 0,
+      rotateY: 0,
+      glareX: 50,
+      glareY: 50,
+      isHovered: false,
+    });
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className="relative flex-1 w-full"
+      style={{ perspective: '1000px' }}
+    >
+      {/* 3D Pedestal Floor Glow */}
+      <div
+        className={`pointer-events-none absolute -bottom-4 inset-x-4 h-8 rounded-full blur-xl transition-all duration-500 ${
+          tilt.isHovered || isActive
+            ? 'bg-[#F88379]/45 opacity-100 scale-105'
+            : 'bg-[#1E3A66]/30 opacity-40 scale-95'
+        }`}
+      />
+
+      <Link
+        to={`/collections/${item.slug}`}
+        className={`group relative block h-[420px] sm:h-[460px] rounded-2xl overflow-hidden border-2 transition-all duration-300 cursor-pointer will-change-transform ${
+          isActive
+            ? 'border-[#F88379] shadow-[0_20px_50px_rgba(248,131,121,0.35)]'
+            : 'border-[#1E3A66]/80 hover:border-[#F88379] shadow-[0_15px_35px_rgba(0,0,0,0.8)]'
+        }`}
+        style={{
+          transform: `rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale3d(${
+            tilt.isHovered ? 1.035 : 1
+          }, ${tilt.isHovered ? 1.035 : 1}, 1) translate3d(0, ${tilt.isHovered ? -10 : 0}px, 0)`,
+          transformStyle: 'preserve-3d',
+          transition: tilt.isHovered
+            ? 'transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s ease, border-color 0.3s ease'
+            : 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.3s ease',
+          background: 'linear-gradient(180deg, #0A1628 0%, #07111E 100%)',
+        }}
+      >
+        {/* Parallax Photo Layer */}
+        <div
+          className="absolute inset-0 w-full h-full overflow-hidden"
+          style={{
+            transform: `scale(${tilt.isHovered ? 1.1 : 1.02}) translate3d(${
+              -tilt.rotateY * 1.5
+            }px, ${tilt.rotateX * 1.5}px, 0)`,
+            transition: tilt.isHovered
+              ? 'transform 0.15s cubic-bezier(0.2, 0, 0, 1)'
+              : 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <img
+            src={item.image}
+            alt={item.title}
+            className="w-full h-full object-cover object-center filter contrast-115 brightness-90 group-hover:brightness-100 transition-all duration-500"
+          />
+        </div>
+
+        {/* Ambient Dark Gradient Base */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07111E] via-[#07111E]/60 to-transparent group-hover:via-[#07111E]/40 transition-colors duration-500 z-10" />
+
+        {/* Dynamic Specular Gloss Glare Sheen */}
+        <div
+          className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
+          style={{
+            opacity: tilt.isHovered ? 1 : 0,
+            background: `radial-gradient(circle 380px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.08) 40%, transparent 75%)`,
+            mixBlendMode: 'overlay',
+          }}
+        />
+
+        {/* High-Gloss Edge Bevels & Diagonal Reflection */}
+        <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-tr from-white/[0.14] via-transparent to-white/[0.18] opacity-70 group-hover:opacity-100 transition-opacity duration-500" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/[0.2] to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-0 rounded-2xl z-20 shadow-[inset_0_2px_4px_rgba(255,255,255,0.35),inset_0_-2px_4px_rgba(0,0,0,0.8)]" />
+
+        {/* Top Badges (GSM + Tag) */}
+        <div className="absolute top-4 inset-x-4 flex items-center justify-between z-30 pointer-events-none">
+          <span className="px-2.5 py-1 rounded-full bg-[#0B1A30]/90 border border-white/20 text-white text-[9px] uppercase tracking-wider font-bold backdrop-blur-md shadow-md">
+            {item.gsm}
+          </span>
+          <span className="px-2.5 py-1 rounded-full bg-[#F88379] text-white text-[9px] uppercase tracking-wider font-bold shadow-[0_2px_10px_rgba(248,131,121,0.5)]">
+            {item.tag}
+          </span>
+        </div>
+
+        {/* Floating 3D Foreground Details */}
+        <div
+          className="relative z-30 flex flex-col justify-end h-full p-5 sm:p-6 space-y-2.5"
+          style={{
+            transform: `translate3d(${tilt.rotateY * 1.5}px, ${-tilt.rotateX * 1.5}px, 30px)`,
+            transformStyle: 'preserve-3d',
+            transition: tilt.isHovered
+              ? 'transform 0.15s cubic-bezier(0.2, 0, 0, 1)'
+              : 'transform 0.6s cubic-bezier(0.16, 1, 0.3, 1)',
+          }}
+        >
+          <div>
+            <h3 className="font-sans text-xl sm:text-2xl text-white font-extrabold group-hover:text-[#F88379] transition-colors tracking-tight drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+              {item.title}
+            </h3>
+            <p className="text-[11px] text-[#CBD5E1] font-medium drop-shadow-sm mt-0.5 line-clamp-1">
+              {item.subtitle}
+            </p>
+          </div>
+
+          <div className="pt-2 flex items-center justify-between border-t border-white/15">
+            <span className="text-xs font-extrabold text-[#F88379] font-sans tracking-wide">
+              {item.startingPrice}
+            </span>
+            <span className="inline-flex items-center gap-1 text-[11px] uppercase tracking-wider font-bold text-white group-hover:text-[#F88379] transition-colors">
+              <span>View Drop</span>
+              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            </span>
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+};
 
 const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFilter?: string; desc: string; dept: 'men' | 'women' }> = {
   // Men's Section
@@ -200,6 +444,40 @@ export const CollectionsPage: React.FC = () => {
         <p className="text-xs sm:text-sm text-[#94A3B8] font-normal max-w-2xl leading-relaxed">
           {config.desc}
         </p>
+
+        {/* Unique 3D Interactive Runway Showcase: Men's & Women's Section Separately */}
+        <div className="mt-8 pt-8 border-t border-[#1E3A66]/40">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+            <div>
+              <div className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest text-[#F88379] font-bold font-sans">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>{selectedDept === 'women' ? "Women's 3D Atelier Runway" : "Men's 3D Atelier Runway"}</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-extrabold text-white font-sans mt-0.5">
+                {selectedDept === 'women' ? "Interactive Women's Silhouettes" : "Interactive Men's Silhouettes"}
+              </h2>
+            </div>
+            <span className="text-[11px] text-[#94A3B8] font-sans font-medium">
+              3D interactive cards &bull; Move cursor to tilt &bull; Click to explore drop
+            </span>
+          </div>
+
+          {/* 3D Cards Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            {(selectedDept === 'men' ? MEN_RUNWAY_ITEMS : WOMEN_RUNWAY_ITEMS).map((item) => (
+              <Runway3DCard
+                key={item.slug}
+                item={item}
+                isActive={
+                  currentCategory === item.slug ||
+                  (item.slug === 'men-sweatshirts' && currentCategory === 'sweatshirts') ||
+                  (item.slug === 'men-oversized-tees' && currentCategory === 'oversized-tees') ||
+                  (item.slug === 'men-classic-tees' && currentCategory === 'classic-tees')
+                }
+              />
+            ))}
+          </div>
+        </div>
 
         {/* Separated Collection Tabs: Shows ONLY Men's or ONLY Women's Categories */}
         <div className="flex flex-wrap items-center gap-2 mt-6 pt-6 border-t border-[#1E3A66]/40">
