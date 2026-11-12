@@ -3,29 +3,29 @@
 @tailwind utilities;
 
 html, body, #root {
-  background-color: #F8F5EE !important;
-  color: #0B1B3D !important;
+  background-color: #F9F6F0 !important;
+  color: #2A1810 !important;
 }
 
 @layer base {
   body {
-    background-color: #F8F5EE !important;
-    color: #0B1B3D !important;
+    background-color: #F9F6F0 !important;
+    color: #2A1810 !important;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  /* Custom smooth scrollbar with Navy & Coral */
+  /* Custom smooth scrollbar with Deep Chocolate Brown & Baby Blue */
   ::-webkit-scrollbar {
     width: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #F8F5EE;
+    background: #F9F6F0;
   }
   ::-webkit-scrollbar-thumb {
-    background: #0B1B3D;
+    background: #2A1810;
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #FF6355;
+    background: #7BB8E8;
   }
 }

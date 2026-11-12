@@ -32,7 +32,7 @@ function ScrollToTop() {
 
 function MainStorefront() {
   return (
-    <div className="min-h-screen bg-[#F8F5EE] text-[#0B1B3D] flex flex-col font-sans selection:bg-[#FF6355] selection:text-white">
+    <div className="min-h-screen bg-[#F9F6F0] text-[#2A1810] flex flex-col font-sans selection:bg-[#7BB8E8] selection:text-[#2A1810]">
       <ScrollToTop />
 
       {/* Top Banner (Free Pan-India Delivery over ₹1,999) */}
@@ -42,7 +42,7 @@ function MainStorefront() {
       <Navbar />
 
       {/* Main Multi-Page Routed Content */}
-      <main className="flex-1 bg-[#F8F5EE]">
+      <main className="flex-1 bg-[#F9F6F0]">
         <Routes>
           {/* Home Page: Hero, Heavyweight Drops, Fabric Promise */}
           <Route path="/" element={<HomePage />} />

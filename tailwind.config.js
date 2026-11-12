@@ -12,37 +12,47 @@ export default {
       },
       colors: {
         atelier: {
-          // Navy Palette
-          navy: '#0B1B3D',        // Deep Midnight Navy (Primary Brand Anchor)
-          'navy-dark': '#061024',  // Ultra Deep Obsidian Navy
-          'navy-surface': '#12254E', // Elevated Navy Surface
-          'navy-border': '#1E3B75', // Navy Border
-          'navy-muted': '#3A4E78',  // Secondary Navy Text
+          // Deep Luxury Chocolate Brown Palette
+          brown: '#2A1810',          // Deep Chocolate Espresso (Primary Brand Anchor)
+          'brown-dark': '#1A0E08',   // Deepest Obsidian Roast
+          'brown-surface': '#362016',// Elevated Rich Cocoa Surface
+          'brown-border': '#4E3022', // Warm Cocoa Border
+          'brown-muted': '#6E4733',  // Secondary Muted Cocoa
 
-          // Cream Palette
-          cream: '#F8F5EE',       // Primary Editorial Warm Cream (Canvas)
-          'cream-surface': '#FFFFFF', // Clean Product Surface
-          'cream-card': '#EFECE4', // Subtle Warm Card
-          'cream-border': '#E2DCD1', // Warm Cream Border
-          'cream-muted': '#8A8275', // Muted Warm Cream
+          // Warm Editorial Cream Palette
+          cream: '#F9F6F0',          // Primary Editorial Warm Linen Cream (Canvas)
+          'cream-surface': '#FFFFFF',
+          'cream-card': '#EFE9DC',   // Warm Parchment Card
+          'cream-border': '#DFD7C7', // Linen Border
+          'cream-muted': '#8E8271',  // Muted Warm Linen
 
-          // Coral Accent Pop (The "Crazy" High-Fashion Pop)
-          coral: '#FF6355',       // Electric Luxury Coral
-          'coral-hover': '#FF4A3B',
-          'coral-soft': 'rgba(255, 99, 85, 0.12)',
+          // Baby Blue Accent (The Chic High-Fashion Pop)
+          babyblue: '#7BB8E8',       // Elegant Powder / Baby Blue
+          'babyblue-hover': '#5E9ED5',
+          'babyblue-soft': 'rgba(123, 184, 232, 0.16)',
+
+          // Backward-compatible semantic mappings
+          navy: '#2A1810',           // Mapped to Chocolate Brown
+          'navy-dark': '#1A0E08',
+          'navy-surface': '#362016',
+          'navy-border': '#4E3022',
+          'navy-muted': '#6E4733',
+          coral: '#7BB8E8',          // Mapped to Baby Blue for instant compatibility
+          'coral-hover': '#5E9ED5',
+          'coral-soft': 'rgba(123, 184, 232, 0.16)',
 
           // Standard semantic mappings for unified theme
-          950: '#F8F5EE', // Page Background -> Warm Editorial Cream
-          900: '#FFFFFF', // Card Background -> Clean White / Cream
-          850: '#EFECE4', // Surface Background
-          800: '#E2DCD1', // Border
-          700: '#9AA5B8', // Secondary Border/Text
-          300: '#5A6B8B', // Muted Text
-          200: '#2A3C5E', // Body Text
-          100: '#0B1B3D', // Primary Headings & Bold Text -> Deep Navy
-          50: '#061024',
-          gold: '#FF6355', // Mapped to Coral for instant compatibility
-          sand: '#ECE4D4',
+          950: '#F9F6F0', // Page Background -> Warm Linen Cream
+          900: '#2A1810', // Deep Chocolate Brown
+          850: '#362016', // Cocoa Surface
+          800: '#DFD7C7', // Linen Border
+          700: '#A49887', // Secondary Border/Text
+          300: '#6E4733', // Muted Text
+          200: '#3D2418', // Body Text Brown
+          100: '#2A1810', // Primary Headings & Bold Text -> Deep Brown
+          50: '#1A0E08',
+          gold: '#7BB8E8', // Baby Blue
+          sand: '#EFE9DC',
         }
       },
       letterSpacing: {
