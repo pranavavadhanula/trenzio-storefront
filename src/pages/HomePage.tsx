@@ -165,15 +165,6 @@ export const HomePage: React.FC = () => {
       {/* Deep Royal Midnight Ambient Glow */}
       <div className="pointer-events-none absolute top-10 left-1/3 w-[650px] h-72 bg-gradient-to-r from-[#1D4ED8]/25 via-[#2563EB]/15 to-transparent blur-3xl rounded-full" />
 
-      {/* Editorial Header - Dark Blue Haute Aesthetics */}
-      <div className="relative z-10 text-center mb-8 sm:mb-12 space-y-2.5">
-        <h1 className="font-sans text-3xl sm:text-5xl md:text-6xl text-white font-extrabold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
-          Choose Your Line
-        </h1>
-        <p className="text-sm sm:text-base text-[#94A3B8] font-normal max-w-lg mx-auto leading-relaxed">
-          Heavyweight luxury streetwear engineered with bio-washed combed cotton and zero post-wash shrinkage.
-        </p>
-      </div>
 
       {/* Main Split Showcase: 3D Interactive Parallax Cards with Fully Glossy Glass Sheen */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 flex-1">
