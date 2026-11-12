@@ -11,7 +11,6 @@ interface Showcase3DCardProps {
   imageSrc: string;
   imageAlt: string;
   imagePosition?: string;
-  badgeText?: string;
 }
 
 const Showcase3DCard: React.FC<Showcase3DCardProps> = ({
@@ -23,7 +22,6 @@ const Showcase3DCard: React.FC<Showcase3DCardProps> = ({
   imageSrc,
   imageAlt,
   imagePosition = 'object-center',
-  badgeText = 'Heavyweight 240–400 GSM',
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [tilt, setTilt] = useState({
@@ -141,12 +139,6 @@ const Showcase3DCard: React.FC<Showcase3DCardProps> = ({
               : 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#F88379]/20 border border-[#F88379]/60 text-[#F88379] text-[10px] uppercase tracking-wider font-bold shadow-sm backdrop-blur-md w-fit">
-            <Sparkles className="w-3 h-3 text-[#F88379]" />
-            <span>{badgeText}</span>
-          </div>
-
           <h2 className="font-sans text-4xl sm:text-6xl text-white font-extrabold group-hover:text-[#F88379] transition-colors tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
             {heading}
           </h2>
@@ -195,7 +187,6 @@ export const HomePage: React.FC = () => {
           imageSrc="/images/models/man_streetwear_hoodie.jpg"
           imageAlt="Men's Wear Heavyweight Streetwear Hoodie"
           imagePosition="object-top sm:object-center"
-          badgeText="Men's Heavyweight 240–400 GSM"
         />
 
         {/* Card 2: WOMEN'S WEAR (3D Glossy Interactive Parallax Card) */}
@@ -208,7 +199,6 @@ export const HomePage: React.FC = () => {
           imageSrc="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85"
           imageAlt="Women's Wear Oversized Cuts"
           imagePosition="object-center"
-          badgeText="Women's Heavyweight 240–400 GSM"
         />
       </div>
 
