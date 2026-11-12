@@ -35,10 +35,10 @@ function MainStorefront() {
     <div className="min-h-screen bg-[#060C1A] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#2563EB] selection:text-white">
       <ScrollToTop />
 
-      {/* Top Banner (The Above: Forest Green) */}
+      {/* Top Banner (Pure Black Glossy) */}
       <AnnouncementBar />
 
-      {/* Navigation Bar (The Above: Forest Green with Men's Wear & Women's Wear Dropdowns) */}
+      {/* Navigation Bar (Pure Black Glossy with Haute Obsidian Glass Finish) */}
       <Navbar />
 
       {/* Main Multi-Page Routed Content (The Other Thing: Blue Only) */}
