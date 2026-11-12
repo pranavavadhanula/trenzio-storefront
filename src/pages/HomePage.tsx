@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { UnifiedPanoramicRunway } from '../components/UnifiedPanoramicRunway';
 
 interface Showcase3DCardProps {
   to: string;
@@ -165,6 +166,11 @@ export const HomePage: React.FC = () => {
       {/* Deep Royal Midnight Ambient Glow */}
       <div className="pointer-events-none absolute top-10 left-1/3 w-[650px] h-72 bg-gradient-to-r from-[#1D4ED8]/25 via-[#2563EB]/15 to-transparent blur-3xl rounded-full" />
 
+
+      {/* Dynamic Unified Panoramic Runway Stage: Scrolling Ticker + Combined Visual Showcase */}
+      <div className="relative z-10 mb-8 sm:mb-12">
+        <UnifiedPanoramicRunway allowSwitch={true} />
+      </div>
 
       {/* Main Split Showcase: 3D Interactive Parallax Cards with Fully Glossy Glass Sheen */}
       <div className="relative z-10 grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-10 flex-1">

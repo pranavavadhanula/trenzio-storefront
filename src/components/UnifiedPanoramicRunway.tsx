@@ -98,21 +98,25 @@ const WOMEN_PANORAMIC_ITEMS: PanoramicItem[] = [
 ];
 
 interface UnifiedPanoramicRunwayProps {
-  department: 'men' | 'women';
+  department?: 'men' | 'women';
   currentCategory?: string;
   onSelectCategory?: (slug: string) => void;
+  allowSwitch?: boolean;
 }
 
 export const UnifiedPanoramicRunway: React.FC<UnifiedPanoramicRunwayProps> = ({
-  department,
+  department = 'men',
   currentCategory,
   onSelectCategory,
+  allowSwitch = false,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [internalDept, setInternalDept] = useState<'men' | 'women'>(department);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0, isHovered: false });
 
-  const items = department === 'women' ? WOMEN_PANORAMIC_ITEMS : MEN_PANORAMIC_ITEMS;
+  const currentDept = allowSwitch ? internalDept : department;
+  const items = currentDept === 'women' ? WOMEN_PANORAMIC_ITEMS : MEN_PANORAMIC_ITEMS;
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -302,11 +306,38 @@ export const UnifiedPanoramicRunway: React.FC<UnifiedPanoramicRunwayProps> = ({
         </div>
 
         {/* 3. BOTTOM SUB-BAR (Matches "BASICS @ 20% OFF" in reference) */}
-        <div className="relative z-20 bg-[#02050B] border-t border-[#1E3A66]/50 py-3 px-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs font-sans">
-          <div className="flex items-center gap-3">
-            <span className="uppercase tracking-[0.24em] font-extrabold text-white text-[11px] sm:text-xs">
-              {department === 'women' ? "WOMEN'S PERSPECTIVE DROPS" : "MEN'S PERSPECTIVE DROPS"}
-            </span>
+        <div className="relative z-20 bg-[#02050B] border-t border-[#1E3A66]/50 py-3 px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-sans">
+          <div className="flex flex-wrap items-center gap-3">
+            {allowSwitch ? (
+              <div className="inline-flex rounded-full bg-[#081222] p-1 border border-[#1E3A66]/60 shadow-inner">
+                <button
+                  type="button"
+                  onClick={() => setInternalDept('men')}
+                  className={`px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider transition-all ${
+                    currentDept === 'men'
+                      ? 'bg-[#F88379] text-white shadow-[0_2px_10px_rgba(248,131,121,0.5)]'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Men's Drops
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInternalDept('women')}
+                  className={`px-3 py-1 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider transition-all ${
+                    currentDept === 'women'
+                      ? 'bg-[#F88379] text-white shadow-[0_2px_10px_rgba(248,131,121,0.5)]'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  Women's Drops
+                </button>
+              </div>
+            ) : (
+              <span className="uppercase tracking-[0.24em] font-extrabold text-white text-[11px] sm:text-xs">
+                {currentDept === 'women' ? "WOMEN'S PERSPECTIVE DROPS" : "MEN'S PERSPECTIVE DROPS"}
+              </span>
+            )}
             <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-[#F88379]" />
             <span className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
               All Silhouettes Available In Dark Palette

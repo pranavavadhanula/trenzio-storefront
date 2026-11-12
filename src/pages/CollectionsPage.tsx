@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from '../components/ProductCard';
 import { SlidersHorizontal, Sparkles, Loader2, ChevronRight, ArrowRight } from 'lucide-react';
-import { UnifiedPanoramicRunway } from '../components/UnifiedPanoramicRunway';
 
 
 
@@ -204,13 +203,6 @@ export const CollectionsPage: React.FC = () => {
           {config.desc}
         </p>
 
-        {/* Unified Panoramic Visual Stage: Combined like a single picture with top scrolling ticker */}
-        <div className="mt-8 pt-6 border-t border-[#1E3A66]/40">
-          <UnifiedPanoramicRunway
-            department={selectedDept}
-            currentCategory={currentCategory}
-          />
-        </div>
 
         {/* Separated Collection Tabs: Shows ONLY Men's or ONLY Women's Categories */}
         <div className="flex flex-wrap items-center gap-2 mt-6 pt-6 border-t border-[#1E3A66]/40">
