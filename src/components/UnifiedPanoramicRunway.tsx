@@ -118,36 +118,12 @@ export const UnifiedPanoramicRunway: React.FC<UnifiedPanoramicRunwayProps> = ({
   const items = currentDept === 'women' ? WOMEN_PANORAMIC_ITEMS : MEN_PANORAMIC_ITEMS;
 
   return (
-    <section className="w-full select-none font-sans overflow-hidden bg-black">
-      {/* 1. TOP MARQUEE TICKER: Full-Bleed Infinite Scrolling Line */}
-      <div className="relative w-full overflow-hidden bg-black border-y border-white/10 py-2.5 sm:py-3 shadow-[0_4px_24px_rgba(0,0,0,0.8)] z-30">
-        <div className="animate-marquee-infinite flex items-center whitespace-nowrap">
-          {[...Array(6)].map((_, loopIdx) => (
-            <div
-              key={loopIdx}
-              className="flex items-center text-[11px] sm:text-xs uppercase tracking-[0.28em] font-extrabold text-white mx-5 gap-6 font-sans"
-            >
-              <span className="text-[#F88379] flex items-center gap-1.5 drop-shadow-[0_0_12px_rgba(248,131,121,0.6)]">
-                <Sparkles className="w-3.5 h-3.5 inline text-[#F88379]" />
-                FREE SHIPPING AND 10% OFF ON FIRST ORDER
-              </span>
-              <span className="text-white/30 font-light">\\</span>
-              <span className="text-white">TREVORI PERSPECTIVE DROP</span>
-              <span className="text-white/30 font-light">✦</span>
-              <span className="text-slate-300">LIMITED TIME OFFER • CODE: TREVORI200</span>
-              <span className="text-white/30 font-light">\\</span>
-              <span className="text-[#F88379]">UPTO 60% • NO RESTOCKS</span>
-              <span className="text-white/30 font-light">✦</span>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* 2. FULL-BLEED PANORAMIC STAGE: Edge-to-Edge from left corner to right corner (0 gap) */}
+    <section className="w-full select-none font-sans overflow-hidden bg-black border-y border-white/10">
+      {/* 1. FULL-BLEED PANORAMIC STAGE: Edge-to-Edge from left corner to right corner (0 gap) */}
       <div
         ref={containerRef}
         onMouseLeave={() => setHoveredIdx(null)}
-        className="relative w-full overflow-hidden bg-black border-b border-white/10"
+        className="relative w-full overflow-hidden bg-black"
       >
         {/* Continuous 5-Item Grid: Fills 100% width with 0 gap and 0 space between photos */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-full gap-0 p-0 m-0">
@@ -225,50 +201,74 @@ export const UnifiedPanoramicRunway: React.FC<UnifiedPanoramicRunwayProps> = ({
             );
           })}
         </div>
+      </div>
 
-        {/* 3. BOTTOM SUB-BAR: Full-Bleed width */}
-        <div className="relative z-20 bg-[#02050B] border-t border-white/10 py-3 px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-sans w-full">
-          <div className="flex flex-wrap items-center gap-3">
-            {allowSwitch ? (
-              <div className="inline-flex rounded-full bg-[#081222] p-1 border border-[#1E3A66]/60 shadow-inner">
-                <button
-                  type="button"
-                  onClick={() => setInternalDept('men')}
-                  className={`px-4 py-1.5 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider transition-all ${
-                    currentDept === 'men'
-                      ? 'bg-[#F88379] text-white shadow-[0_2px_12px_rgba(248,131,121,0.6)]'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  Men's Drops
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setInternalDept('women')}
-                  className={`px-4 py-1.5 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider transition-all ${
-                    currentDept === 'women'
-                      ? 'bg-[#F88379] text-white shadow-[0_2px_12px_rgba(248,131,121,0.6)]'
-                      : 'text-slate-400 hover:text-white'
-                  }`}
-                >
-                  Women's Drops
-                </button>
-              </div>
-            ) : (
-              <span className="uppercase tracking-[0.24em] font-extrabold text-white text-[11px] sm:text-xs">
-                {currentDept === 'women' ? "WOMEN'S PERSPECTIVE DROPS" : "MEN'S PERSPECTIVE DROPS"}
+      {/* 2. BOTTOM MARQUEE TICKER: Full-Bleed Infinite Scrolling Line Moving at the Bottom of the Photos */}
+      <div className="relative w-full overflow-hidden bg-black border-t border-white/10 py-2.5 sm:py-3 shadow-[0_4px_24px_rgba(0,0,0,0.8)] z-30">
+        <div className="animate-marquee-infinite flex items-center whitespace-nowrap">
+          {[...Array(6)].map((_, loopIdx) => (
+            <div
+              key={loopIdx}
+              className="flex items-center text-[11px] sm:text-xs uppercase tracking-[0.28em] font-extrabold text-white mx-5 gap-6 font-sans"
+            >
+              <span className="text-[#F88379] flex items-center gap-1.5 drop-shadow-[0_0_12px_rgba(248,131,121,0.6)]">
+                <Sparkles className="w-3.5 h-3.5 inline text-[#F88379]" />
+                FREE SHIPPING AND 10% OFF ON FIRST ORDER
               </span>
-            )}
-            <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-[#F88379]" />
-            <span className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
-              All Silhouettes Available In Dark Palette
-            </span>
-          </div>
+              <span className="text-white/30 font-light">\\</span>
+              <span className="text-white">TREVORI PERSPECTIVE DROP</span>
+              <span className="text-white/30 font-light">✦</span>
+              <span className="text-slate-300">LIMITED TIME OFFER • CODE: TREVORI200</span>
+              <span className="text-white/30 font-light">\\</span>
+              <span className="text-[#F88379]">UPTO 60% • NO RESTOCKS</span>
+              <span className="text-white/30 font-light">✦</span>
+            </div>
+          ))}
+        </div>
+      </div>
 
-          <div className="flex items-center gap-2 text-[#F88379] font-bold text-[11px] uppercase tracking-wider">
-            <span>Click any silhouette to view drop</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </div>
+      {/* 3. BOTTOM SUB-BAR: Full-Bleed width */}
+      <div className="relative z-20 bg-[#02050B] border-t border-white/10 py-3 px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs font-sans w-full">
+        <div className="flex flex-wrap items-center gap-3">
+          {allowSwitch ? (
+            <div className="inline-flex rounded-full bg-[#081222] p-1 border border-[#1E3A66]/60 shadow-inner">
+              <button
+                type="button"
+                onClick={() => setInternalDept('men')}
+                className={`px-4 py-1.5 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider transition-all ${
+                  currentDept === 'men'
+                    ? 'bg-[#F88379] text-white shadow-[0_2px_12px_rgba(248,131,121,0.6)]'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Men's Drops
+              </button>
+              <button
+                type="button"
+                onClick={() => setInternalDept('women')}
+                className={`px-4 py-1.5 rounded-full text-[10px] sm:text-[11px] font-extrabold uppercase tracking-wider transition-all ${
+                  currentDept === 'women'
+                    ? 'bg-[#F88379] text-white shadow-[0_2px_12px_rgba(248,131,121,0.6)]'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                Women's Drops
+              </button>
+            </div>
+          ) : (
+            <span className="uppercase tracking-[0.24em] font-extrabold text-white text-[11px] sm:text-xs">
+              {currentDept === 'women' ? "WOMEN'S PERSPECTIVE DROPS" : "MEN'S PERSPECTIVE DROPS"}
+            </span>
+          )}
+          <span className="hidden sm:inline-block w-1.5 h-1.5 rounded-full bg-[#F88379]" />
+          <span className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
+            All Silhouettes Available In Dark Palette
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2 text-[#F88379] font-bold text-[11px] uppercase tracking-wider">
+          <span>Click any silhouette to view drop</span>
+          <ArrowRight className="w-3.5 h-3.5" />
         </div>
       </div>
     </section>
