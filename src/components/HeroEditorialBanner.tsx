@@ -5,12 +5,12 @@ import { ArrowRight } from 'lucide-react';
 export const HeroEditorialBanner: React.FC = () => {
   return (
     <section className="relative w-full select-none font-sans overflow-hidden bg-black">
-      <div className="relative w-full h-[650px] sm:h-[820px] lg:h-[940px] min-h-[85vh] overflow-hidden">
+      <div className="relative w-full h-[680px] sm:h-[840px] lg:h-[960px] min-h-[85vh] overflow-hidden">
         {/* Pure, Natural High-Resolution Photo - Zero Distortions or Tilt */}
         <img
           src="/images/hero_banner.jpg"
-          alt="Trevori Haute Streetwear - Models in Custom Monogram Hoodie and Graphic Streetwear Tee"
-          className="w-full h-full object-cover object-top sm:object-[50%_6%]"
+          alt="Trevori Haute Streetwear - Models in Custom Monogram Hoodie with Baggy Jeans and Graphic Streetwear Tee"
+          className="w-full h-full object-cover object-top sm:object-[50%_8%]"
         />
 
         {/* Minimal Soft Gradient Strictly at Bottom for Legibility */}
@@ -19,8 +19,8 @@ export const HeroEditorialBanner: React.FC = () => {
         {/* Clean Foreground Content: Title, Subtitle, CTA */}
         <div className="relative z-20 h-full max-w-[1480px] mx-auto px-4 sm:px-10 lg:px-14 flex flex-col justify-end pb-12 sm:pb-16">
           <div className="max-w-2xl">
-            <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)] leading-[1.05]">
-              Wear Your Perspective
+            <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-[0.05em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.95)] leading-[1.05]">
+              WEAR YOUR PERSPECTIVE
             </h1>
 
             <p className="text-xs sm:text-base md:text-lg text-slate-200 font-normal mt-4 max-w-xl leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
