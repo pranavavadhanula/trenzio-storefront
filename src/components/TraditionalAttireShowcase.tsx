@@ -11,7 +11,7 @@ export const TraditionalAttireShowcase: React.FC = () => {
         <img
           src="/images/traditional_couture_banner.jpg"
           alt="Trevori Royal Traditional Couture - Men's and Women's Indian Heritage Wear"
-          className="w-full h-full object-cover object-[50%_25%] sm:object-center filter brightness-95 contrast-105"
+          className="absolute inset-0 w-full h-full object-cover object-[50%_20%] sm:object-center filter brightness-95 contrast-105"
         />
 
         {/* Cinematic Midnight Shading & Ambient Vignette Matching Dark Blue Website Theme */}
