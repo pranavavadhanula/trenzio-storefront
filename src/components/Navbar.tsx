@@ -54,16 +54,16 @@ export const Navbar: React.FC = () => {
 
   const MEN_SUB_ITEMS: SubCategoryItem[] = [
     { label: "All Men's Wear", path: '/collections/men', sub: 'Complete 240–400 GSM catalog' },
-    { label: 'Oversized T-Shirts', path: '/collections/oversized-tees', sub: 'Structured boxy dropped shoulders' },
-    { label: 'Sweatshirts & Hoodies', path: '/collections/sweatshirts', sub: '400 GSM diagonal loop French Terry' },
-    { label: 'Classic Tees', path: '/collections/classic-tees', sub: 'Tailored everyday luxury' },
+    { label: 'Oversized T-Shirts', path: '/collections/men-oversized-tees', sub: 'Structured boxy dropped shoulders' },
+    { label: 'Sweatshirts & Hoodies', path: '/collections/men-sweatshirts', sub: '400 GSM diagonal loop French Terry' },
+    { label: 'Classic Tees', path: '/collections/men-classic-tees', sub: 'Tailored everyday luxury' },
   ];
 
   const WOMEN_SUB_ITEMS: SubCategoryItem[] = [
     { label: "All Women's Wear", path: '/collections/women', sub: 'Complete oversized silhouettes' },
-    { label: 'Oversized T-Shirts', path: '/collections/oversized-tees', sub: 'Draped dropped-shoulder tees' },
-    { label: 'Sweatshirts & Hoodies', path: '/collections/sweatshirts', sub: '400 GSM luxury French Terry' },
-    { label: 'Classic Tees', path: '/collections/classic-tees', sub: 'Minimalist heavyweight basics' },
+    { label: 'Oversized T-Shirts', path: '/collections/women-oversized-tees', sub: 'Draped dropped-shoulder tees' },
+    { label: 'Sweatshirts & Hoodies', path: '/collections/women-sweatshirts', sub: '400 GSM luxury French Terry' },
+    { label: 'Classic Tees', path: '/collections/women-classic-tees', sub: 'Minimalist heavyweight basics' },
   ];
 
   const TRADITIONAL_SUB_ITEMS: SubCategoryItem[] = [
