@@ -52,7 +52,7 @@ export const CartDrawer: React.FC = () => {
     } catch (err: any) {
       console.error(err);
       setCheckoutError(
-        err?.message || 'Unable to open Shopify checkout. Please check that your store checkout is unlocked.'
+        err?.message || 'Unable to open checkout. Please try again.'
       );
     } finally {
       setIsCheckingOut(false);

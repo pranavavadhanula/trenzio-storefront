@@ -16,7 +16,7 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
 
   if (!visible) return null;
 
-  // Exact Printrove sizing chart from your Shopify product
+  // Exact Trenzio heavyweight sizing chart
   const tShirtSizes = [
     { size: 'XS', chestIn: 40, chestCm: 101.6, lengthIn: 27, lengthCm: 68.6 },
     { size: 'S', chestIn: 42, chestCm: 106.7, lengthIn: 28, lengthCm: 71.1 },
@@ -54,7 +54,7 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
         {/* Unit switcher */}
         <div className="flex items-center justify-between gap-4">
           <p className="text-xs text-[#3B82F6] font-light">
-            Exact dimensions from Printrove fulfillment specifications.
+            Exact dimensions from Trenzio atelier specifications.
           </p>
           <div className="flex border border-white/15 bg-white/[0.03]">
             <button

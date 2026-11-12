@@ -111,8 +111,8 @@ export const ProductDetailModal: React.FC = () => {
                 <span className="bg-[#10224A] border border-white/15 text-[#FFFFFF] px-2 py-0.5 font-bold">
                   {selectedProduct.gsm} GSM
                 </span>
-                <span className="text-emerald-400 font-medium">
-                  Vendor: Printrove &bull; In Stock
+                <span className="text-[#F88379] font-medium">
+                  Trenzio Atelier &bull; In Stock
                 </span>
               </div>
 
@@ -120,15 +120,15 @@ export const ProductDetailModal: React.FC = () => {
                 {selectedProduct.name}
               </h2>
 
-              <div className="text-3xl font-mono font-bold text-[#2563EB] tracking-wider mt-2">
+              <div className="text-3xl font-mono font-bold text-[#F88379] tracking-wider mt-2">
                 {formatPrice(selectedProduct.priceINR)}
               </div>
 
               {/* Color Select */}
               <div className="mt-6">
-                <div className="flex justify-between text-xs tracking-wider uppercase text-[#3B82F6] mb-2 font-mono">
+                <div className="flex justify-between text-xs tracking-wider uppercase text-[#94A3B8] mb-2 font-mono">
                   <span>Selected Colorway:</span>
-                  <span className="text-[#2563EB] font-bold">{selectedColor}</span>
+                  <span className="text-[#F88379] font-bold">{selectedColor}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {selectedProduct.colors.map((c) => (
@@ -137,8 +137,8 @@ export const ProductDetailModal: React.FC = () => {
                       onClick={() => setSelectedColor(c.name)}
                       className={`flex items-center gap-1.5 px-2.5 py-1.5 border text-xs transition-all cursor-pointer font-mono ${
                         selectedColor === c.name
-                          ? 'border-[#2563EB] bg-[#2563EB] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]'
-                          : 'border-white/15 text-[#FFFFFF] hover:border-[#2563EB] bg-white/[0.04]'
+                          ? 'border-[#F88379] bg-[#F88379] text-white font-extrabold shadow-[0_0_10px_rgba(248,131,121,0.3)]'
+                          : 'border-white/15 text-[#FFFFFF] hover:border-[#F88379] bg-white/[0.04]'
                       }`}
                     >
                       <span className="w-3 h-3 rounded-full border border-black/20" style={{ backgroundColor: c.hex }} />
@@ -150,14 +150,14 @@ export const ProductDetailModal: React.FC = () => {
 
               {/* Size Select */}
               <div className="mt-6">
-                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#3B82F6] mb-2 font-mono">
+                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#94A3B8] mb-2 font-mono">
                   <span>Select Size:</span>
                   <button
                     onClick={() => setIsSizeGuideOpen(true)}
-                    className="flex items-center gap-1 text-[#2563EB] hover:underline text-xs cursor-pointer lowercase font-bold"
+                    className="flex items-center gap-1 text-[#F88379] hover:underline text-xs cursor-pointer lowercase font-bold"
                   >
                     <Ruler className="w-3.5 h-3.5" />
-                    <span>View Printrove Chest Measurements</span>
+                    <span>View Chest Measurements</span>
                   </button>
                 </div>
                 <div className="grid grid-cols-6 gap-1.5">
@@ -167,8 +167,8 @@ export const ProductDetailModal: React.FC = () => {
                       onClick={() => setSelectedSize(s)}
                       className={`py-2 text-xs font-mono font-bold border transition-all cursor-pointer ${
                         selectedSize === s
-                          ? 'border-[#2563EB] bg-[#2563EB] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]'
-                          : 'border-white/15 text-[#FFFFFF] hover:bg-[#2563EB] hover:text-black hover:border-[#2563EB] bg-white/[0.04]'
+                          ? 'border-[#F88379] bg-[#F88379] text-white font-extrabold shadow-[0_0_10px_rgba(248,131,121,0.3)]'
+                          : 'border-white/15 text-[#FFFFFF] hover:bg-[#F88379] hover:text-white hover:border-[#F88379] bg-white/[0.04]'
                       }`}
                     >
                       {s}
@@ -178,7 +178,7 @@ export const ProductDetailModal: React.FC = () => {
               </div>
 
               {/* Fit Description */}
-              <div className="mt-4 text-[11px] text-[#3B82F6] font-light border-l-2 border-[#2563EB] pl-3 py-0.5">
+              <div className="mt-4 text-[11px] text-[#94A3B8] font-light border-l-2 border-[#F88379] pl-3 py-0.5">
                 {selectedProduct.fitDescription} &bull; {selectedProduct.modelMeasurements}
               </div>
             </div>
@@ -188,7 +188,7 @@ export const ProductDetailModal: React.FC = () => {
               <div className="flex gap-2">
                 <button
                   onClick={handleAdd}
-                  className={`flex-1 py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 shadow-xl cursor-pointer font-mono ${
+                  className={`w-full py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 shadow-xl cursor-pointer font-mono ${
                     isAdded
                       ? 'bg-emerald-500 text-black'
                       : 'bg-[#F88379] hover:bg-[#FA958D] text-white shadow-[0_4px_20px_rgba(248,131,121,0.45)]'
@@ -203,26 +203,16 @@ export const ProductDetailModal: React.FC = () => {
                     <span>Add to Bag &bull; {formatPrice(selectedProduct.priceINR)}</span>
                   )}
                 </button>
-                <a
-                  href="https://0g1xp7-qd.myshopify.com/products/overshized-plain-t-shirt"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-4 border border-white/15 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB] text-xs uppercase tracking-wider font-mono flex items-center justify-center gap-1.5 transition-colors bg-white/[0.04]"
-                  title="Open Official Shopify Store Listing"
-                >
-                  <ExternalLink className="w-4 h-4 text-[#2563EB]" />
-                  <span className="hidden sm:inline text-[11px]">Shopify</span>
-                </a>
               </div>
 
               {/* Domestic Shipping badges */}
-              <div className="grid grid-cols-2 gap-2 text-[10px] text-[#3B82F6] uppercase tracking-wider pt-1 font-mono">
+              <div className="grid grid-cols-2 gap-2 text-[10px] text-[#94A3B8] uppercase tracking-wider pt-1 font-mono">
                 <div className="flex items-center gap-1.5">
-                  <Truck className="w-3.5 h-3.5 text-[#2563EB]" />
-                  <span>Doorstep Delivery (Printrove)</span>
+                  <Truck className="w-3.5 h-3.5 text-[#F88379]" />
+                  <span>Doorstep Delivery (Express)</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#F88379]" />
                   <span>UPI, Cards & COD Accepted</span>
                 </div>
               </div>

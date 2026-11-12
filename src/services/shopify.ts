@@ -8,7 +8,7 @@ export interface ShopifyConfig {
 }
 
 export const SHOPIFY_CONFIG: ShopifyConfig = {
-  storeDomain: import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || '0g1xp7-qd.myshopify.com',
+  storeDomain: import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || '',
   storefrontAccessToken: import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN || '',
   apiVersion: '2024-07',
 };
@@ -80,7 +80,7 @@ export async function createShopifyCheckout(
   lineItems: ShopifyCheckoutItem[],
   countryCode: string = "IN"
 ): Promise<string> {
-  const domain = SHOPIFY_CONFIG.storeDomain || '0g1xp7-qd.myshopify.com';
+  const domain = SHOPIFY_CONFIG.storeDomain;
   const token = SHOPIFY_CONFIG.storefrontAccessToken;
   const version = SHOPIFY_CONFIG.apiVersion;
 

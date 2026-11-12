@@ -71,7 +71,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             {product.gsm} GSM
           </span>
           <span className="bg-[#F88379] text-white text-[9px] uppercase tracking-wider px-2 py-0.5 font-bold shadow-sm">
-            In Stock &bull; Printrove
+            In Stock &bull; Ready to Ship
           </span>
         </div>
 

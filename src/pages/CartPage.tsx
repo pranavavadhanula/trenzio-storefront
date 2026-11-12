@@ -48,7 +48,7 @@ export const CartPage: React.FC = () => {
     } catch (err: any) {
       console.error(err);
       setCheckoutError(
-        err?.message || 'Unable to open Shopify checkout. Please check that your store checkout is unlocked.'
+        err?.message || 'Unable to open checkout. Please try again.'
       );
     } finally {
       setIsCheckingOut(false);
@@ -259,7 +259,7 @@ export const CartPage: React.FC = () => {
                 className="w-full py-4 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-black uppercase tracking-widest shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 font-mono"
               >
                 {isCheckingOut ? (
-                  <span>Opening Shopify Checkout...</span>
+                  <span>Opening Secure Checkout...</span>
                 ) : (
                   <>
                     <span>Proceed to Checkout</span>
@@ -268,10 +268,10 @@ export const CartPage: React.FC = () => {
                 )}
               </button>
 
-              <div className="pt-2 flex flex-col items-center gap-1.5 text-[10px] text-[#3B82F6]/70 font-mono text-center">
+              <div className="pt-2 flex flex-col items-center gap-1.5 text-[10px] text-[#94A3B8] font-sans text-center">
                 <div className="flex items-center gap-1.5 text-white">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#2563EB]" />
-                  <span>Encrypted 256-Bit Shopify Checkout</span>
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#F88379]" />
+                  <span>Encrypted 256-Bit Secure Checkout</span>
                 </div>
                 <span>UPI &bull; Credit & Debit Cards &bull; Cash on Delivery</span>
               </div>

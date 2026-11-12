@@ -143,7 +143,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
   // AI recommended size calculation
   const recommendedSize = useMemo(() => {
-    // Formula calibrated to Printrove 350 GSM chest measurements
+    // Formula calibrated to Trenzio 350 GSM chest measurements
     const bmi = userWeightKg / Math.pow(userHeightCm / 100, 2);
     if (bmi < 20) return fitPreference === 'oversized' ? 'M' : 'S';
     if (bmi < 23) return fitPreference === 'oversized' ? 'L' : 'M';
@@ -334,7 +334,7 @@ export const VirtualTryOnPage: React.FC = () => {
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  // Instant Checkout via Shopify
+  // Instant Checkout
   const handleInstantBuy = async () => {
     setIsCheckingOut(true);
     try {
@@ -344,9 +344,13 @@ export const VirtualTryOnPage: React.FC = () => {
           quantity: 1,
         },
       ], 'IN');
-      window.location.href = checkoutUrl;
-    } catch (err: any) {
-      window.location.href = `https://0g1xp7-qd.myshopify.com/cart/${selectedProduct.id}:1?currency=INR`;
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      } else {
+        addToCart(selectedProduct, selectedSize, selectedColor);
+      }
+    } catch {
+      addToCart(selectedProduct, selectedSize, selectedColor);
     } finally {
       setIsCheckingOut(false);
     }
@@ -497,7 +501,7 @@ export const VirtualTryOnPage: React.FC = () => {
               <div className="absolute inset-0 pointer-events-none border border-[#2563EB]/30 flex flex-col justify-between p-6">
                 <div className="border-t border-dashed border-[#2563EB]/40 text-[9px] font-mono text-[#2563EB] font-bold pt-1 flex justify-between">
                   <span>SHOULDER LINE &bull; DROP FIT</span>
-                  <span>PRINTROVE 350 GSM</span>
+                  <span>TRENZIO 350 GSM</span>
                 </div>
                 <div className="border-t border-dashed border-[#2563EB]/30 text-[9px] font-mono text-[#2563EB] font-bold pt-1 flex justify-between">
                   <span>CHEST MEASUREMENT ({selectedProduct.sizes.includes(selectedSize) ? selectedSize : 'L'})</span>
@@ -688,8 +692,8 @@ export const VirtualTryOnPage: React.FC = () => {
                 <span className="bg-white border border-[#3B82F6]/30 text-[#2563EB] px-2 py-0.5 font-bold">
                   {selectedProduct.gsm} GSM Bio-Washed Cotton
                 </span>
-                <span className="text-emerald-400 font-medium">
-                  Vendor: Printrove &bull; In Stock
+                <span className="text-[#F88379] font-medium">
+                  Trenzio Atelier &bull; In Stock
                 </span>
               </div>
 

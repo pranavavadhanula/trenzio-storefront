@@ -71,30 +71,34 @@ export const ProductDetailPage: React.FC = () => {
           quantity: 1,
         },
       ], 'IN');
-      window.location.href = checkoutUrl;
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      } else {
+        addToCart(product, selectedSize, selectedColor);
+      }
     } catch {
-      window.location.href = `https://0g1xp7-qd.myshopify.com/cart/${product.id}:1?currency=INR`;
+      addToCart(product, selectedSize, selectedColor);
     } finally {
       setIsCheckingOut(false);
     }
   };
 
   return (
-    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-6 sm:px-10 bg-[#EBF3FA] text-white">
+    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-6 sm:px-10 bg-[#07111E] text-white font-sans">
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#94A3B8] font-mono mb-8">
-        <Link to="/" className="hover:text-[#3B82F6] transition-colors">Home</Link>
+      <nav className="flex items-center space-x-2 text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-medium mb-8">
+        <Link to="/" className="hover:text-[#F88379] transition-colors">Home</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <Link to="/collections/all" className="hover:text-[#3B82F6] transition-colors">Collections</Link>
+        <Link to="/collections/all" className="hover:text-[#F88379] transition-colors">Collections</Link>
         <ChevronRight className="w-3.5 h-3.5" />
         <Link
           to={`/collections/${product.category.toLowerCase().replace(/\s+/g, '-')}`}
-          className="hover:text-[#3B82F6] transition-colors"
+          className="hover:text-[#F88379] transition-colors"
         >
           {product.category}
         </Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-[#3B82F6] font-bold truncate max-w-xs">{product.name}</span>
+        <span className="text-[#F88379] font-bold truncate max-w-xs">{product.name}</span>
       </nav>
 
       {/* Main PDP Grid */}
@@ -155,43 +159,43 @@ export const ProductDetailPage: React.FC = () => {
         <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
           <div className="space-y-6">
             {/* Badges */}
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider font-mono">
-              <span className="bg-white border border-[#2563EB]/30 text-white px-2.5 py-0.5 font-bold shadow-sm">
+            <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider font-sans">
+              <span className="bg-[#0B1A30] border border-[#1E3A66] text-white px-2.5 py-0.5 font-bold shadow-sm">
                 {product.gsm} GSM Combed Cotton
               </span>
-              <span className="bg-[#2563EB] text-white px-2 py-0.5 font-extrabold shadow-[0_0_12px_rgba(37,99,235,0.4)]">
-                Vendor: Printrove &bull; In Stock
+              <span className="bg-[#F88379] text-white px-2 py-0.5 font-bold shadow-sm">
+                Trenzio Atelier &bull; In Stock
               </span>
             </div>
 
             {/* Title & Price */}
             <div>
-              <h1 className="font-serif text-3xl sm:text-4xl text-white font-light leading-tight">
+              <h1 className="font-sans text-3xl sm:text-4xl text-white font-extrabold leading-tight">
                 {product.name}
               </h1>
-              <div className="text-3xl font-mono font-bold text-[#3B82F6] tracking-wider mt-3">
+              <div className="text-3xl font-sans font-bold text-[#F88379] tracking-wider mt-3">
                 {formatPrice(product.priceINR)}
               </div>
-              <p className="text-[11px] text-[#94A3B8] font-mono mt-1">
+              <p className="text-[11px] text-[#94A3B8] font-sans mt-1 font-medium">
                 Inclusive of all taxes &bull; Free express delivery across India
               </p>
             </div>
 
             {/* Color Selection */}
             <div>
-              <div className="flex justify-between text-xs tracking-wider uppercase text-white mb-2.5 font-mono">
+              <div className="flex justify-between text-xs tracking-wider uppercase text-white mb-2.5 font-sans font-semibold">
                 <span>Selected Colorway:</span>
-                <span className="text-[#3B82F6] font-bold">{selectedColor}</span>
+                <span className="text-[#F88379] font-bold">{selectedColor}</span>
               </div>
               <div className="flex flex-wrap gap-2">
                 {product.colors.map((c) => (
                   <button
                     key={c.name}
                     onClick={() => setSelectedColor(c.name)}
-                    className={`flex items-center gap-2 px-3 py-2 border text-xs transition-all cursor-pointer font-mono ${
+                    className={`flex items-center gap-2 px-3 py-2 border text-xs transition-all cursor-pointer font-sans ${
                       selectedColor === c.name
-                        ? 'border-[#3B82F6] bg-[#2563EB] text-white font-extrabold shadow-[0_0_12px_rgba(37,99,235,0.4)]'
-                        : 'border-[#2563EB]/25 bg-white/[0.04] text-white hover:border-[#3B82F6]'
+                        ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_2px_10px_rgba(248,131,121,0.4)]'
+                        : 'border-[#1E3A66] bg-[#0B1A30] text-white hover:border-[#F88379]'
                     }`}
                   >
                     <span className="w-3 h-3 rounded-full border border-white/20" style={{ backgroundColor: c.hex }} />
@@ -203,14 +207,14 @@ export const ProductDetailPage: React.FC = () => {
 
             {/* Size Selection */}
             <div>
-              <div className="flex justify-between items-center text-xs tracking-wider uppercase text-white mb-2.5 font-mono">
+              <div className="flex justify-between items-center text-xs tracking-wider uppercase text-white mb-2.5 font-sans font-semibold">
                 <span>Select Size:</span>
                 <button
                   onClick={() => setIsSizeGuideOpen(true)}
-                  className="flex items-center gap-1 text-[#3B82F6] hover:underline cursor-pointer lowercase font-bold"
+                  className="flex items-center gap-1 text-[#F88379] hover:underline cursor-pointer lowercase font-bold"
                 >
                   <Ruler className="w-3.5 h-3.5" />
-                  <span>Printrove Chest Measurements</span>
+                  <span>View Chest Measurements</span>
                 </button>
               </div>
               <div className="grid grid-cols-6 gap-2">
@@ -218,10 +222,10 @@ export const ProductDetailPage: React.FC = () => {
                   <button
                     key={s}
                     onClick={() => setSelectedSize(s)}
-                    className={`py-3 text-xs font-mono font-bold border transition-all cursor-pointer ${
+                    className={`py-3 text-xs font-sans font-bold border transition-all cursor-pointer ${
                       selectedSize === s
-                        ? 'border-[#3B82F6] bg-[#2563EB] text-white font-extrabold shadow-[0_0_12px_rgba(37,99,235,0.4)]'
-                        : 'border-[#2563EB]/25 bg-white/[0.04] text-white hover:border-[#3B82F6] hover:text-[#3B82F6]'
+                        ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_2px_10px_rgba(248,131,121,0.4)]'
+                        : 'border-[#1E3A66] bg-[#0B1A30] text-white hover:border-[#F88379] hover:text-[#F88379]'
                     }`}
                   >
                     {s}
@@ -231,25 +235,25 @@ export const ProductDetailPage: React.FC = () => {
             </div>
 
             {/* Fabric & Fit Details */}
-            <div className="p-5 bg-white/[0.03] backdrop-blur-md text-white border border-[#2563EB]/20 space-y-2 text-xs font-light leading-relaxed shadow-xl">
-              <div className="flex items-center gap-2 text-[#3B82F6] font-mono uppercase text-[10px] font-bold">
+            <div className="p-5 bg-[#0B1A30] backdrop-blur-md text-white border border-[#1E3A66] space-y-2 text-xs font-normal leading-relaxed shadow-xl">
+              <div className="flex items-center gap-2 text-[#F88379] font-sans uppercase text-[10px] font-bold">
                 <span>Specifications</span>
               </div>
               <p className="text-[#CBD5E1]">{product.fabric}</p>
-              <p className="border-t border-[#2563EB]/20 pt-2 text-[11px] text-[#94A3B8] font-mono">
+              <p className="border-t border-[#1E3A66] pt-2 text-[11px] text-[#94A3B8] font-sans">
                 {product.fitDescription} &bull; {product.modelMeasurements}
               </p>
             </div>
           </div>
 
           {/* Action CTAs */}
-          <div className="space-y-3 pt-6 border-t border-[#2563EB]/20">
+          <div className="space-y-3 pt-6 border-t border-[#1E3A66]">
             {/* 3D Virtual Try-On Studio Trigger */}
             <Link
               to={`/try-on?product=${product.id}&color=${encodeURIComponent(selectedColor)}&size=${selectedSize}`}
-              className="w-full py-3.5 bg-[#2563EB]/15 border border-[#3B82F6] text-[#60A5FA] hover:bg-[#2563EB] hover:text-white transition-all duration-300 text-xs font-mono uppercase tracking-widest font-bold flex items-center justify-center gap-2 cursor-pointer shadow-[0_0_15px_rgba(37,99,235,0.25)]"
+              className="w-full py-3.5 bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] hover:bg-[#F88379] hover:text-white transition-all duration-300 text-xs font-sans uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
-              <Sparkles className="w-4 h-4 text-[#3B82F6]" />
+              <Sparkles className="w-4 h-4 text-[#F88379]" />
               <span>⚡ Try On Yourself in 3D Fitting Studio</span>
             </Link>
 
@@ -257,7 +261,7 @@ export const ProductDetailPage: React.FC = () => {
               {/* Add to Bag */}
               <button
                 onClick={handleAdd}
-                className={`flex-1 py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg ${
+                className={`flex-1 py-4 uppercase tracking-wider text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg font-sans ${
                   isAdded
                     ? 'bg-emerald-500 text-black'
                     : 'bg-[#F88379] hover:bg-[#FA958D] text-white shadow-[0_4px_20px_rgba(248,131,121,0.45)]'
@@ -273,12 +277,12 @@ export const ProductDetailPage: React.FC = () => {
                 )}
               </button>
 
-              {/* Instant Buy with Shopify */}
+              {/* Instant Buy */}
               <button
                 onClick={handleBuyNow}
                 disabled={isCheckingOut}
-                className="px-6 py-4 bg-white border border-[#CCE3F5] text-[#0A192F] hover:border-[#F88379] hover:text-[#F88379] text-xs uppercase tracking-wider font-sans flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-sm"
-                title="Instant Checkout via Shopify"
+                className="px-6 py-4 bg-[#0B1A30] border border-[#1E3A66] text-white hover:border-[#F88379] hover:text-[#F88379] text-xs uppercase tracking-wider font-sans flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-sm"
+                title="Instant Checkout"
               >
                 {isCheckingOut ? (
                   <span>Connecting...</span>
@@ -291,36 +295,22 @@ export const ProductDetailPage: React.FC = () => {
               </button>
             </div>
 
-            {/* Direct Official Shopify Link */}
-            <div className="pt-2 flex justify-between items-center text-[11px] font-mono text-[#94A3B8] border-t border-[#2563EB]/20">
-              <span>View live on official store:</span>
-              <a
-                href="https://0g1xp7-qd.myshopify.com/products/overshized-plain-t-shirt"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-[#3B82F6] hover:underline flex items-center gap-1 font-bold"
-              >
-                <span>0g1xp7-qd.myshopify.com</span>
-                <ExternalLink className="w-3 h-3" />
-              </a>
-            </div>
-
             {/* D2C Guarantees */}
-            <div className="grid grid-cols-2 gap-3 text-[10px] text-[#94A3B8] uppercase tracking-wider pt-3 font-mono border-t border-[#2563EB]/20">
+            <div className="grid grid-cols-2 gap-3 text-[10px] text-[#94A3B8] uppercase tracking-wider pt-3 font-sans border-t border-[#1E3A66]">
               <div className="flex items-center gap-2">
-                <Truck className="w-3.5 h-3.5 text-[#3B82F6]" />
+                <Truck className="w-3.5 h-3.5 text-[#F88379]" />
                 <span>Pan-India Delivery</span>
               </div>
               <div className="flex items-center gap-2">
-                <RotateCcw className="w-3.5 h-3.5 text-[#3B82F6]" />
+                <RotateCcw className="w-3.5 h-3.5 text-[#F88379]" />
                 <span>7-Day Size Exchanges</span>
               </div>
               <div className="flex items-center gap-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#3B82F6]" />
+                <ShieldCheck className="w-3.5 h-3.5 text-[#F88379]" />
                 <span>UPI & COD Accepted</span>
               </div>
               <div className="flex items-center gap-2">
-                <Check className="w-3.5 h-3.5 text-[#3B82F6]" />
+                <Check className="w-3.5 h-3.5 text-[#F88379]" />
                 <span>Zero Shrinkage Guarantee</span>
               </div>
             </div>

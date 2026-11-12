@@ -69,54 +69,47 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div className="lg:col-span-2 space-y-2">
-            <div className="text-[10px] uppercase tracking-widest text-[#3B82F6] font-mono font-bold">Collections</div>
+            <div className="text-[10px] uppercase tracking-widest text-[#F88379] font-sans font-bold">Collections</div>
             <ul className="space-y-1.5 text-xs text-[#94A3B8]">
               <li>
-                <Link to="/collections/oversized-tees" className="hover:text-[#3B82F6] transition-colors">Oversized Tees</Link>
+                <Link to="/collections/oversized-tees" className="hover:text-[#F88379] transition-colors">Oversized Tees</Link>
               </li>
               <li>
-                <Link to="/collections/sweatshirts" className="hover:text-[#3B82F6] transition-colors">Sweatshirts</Link>
+                <Link to="/collections/sweatshirts" className="hover:text-[#F88379] transition-colors">Sweatshirts</Link>
               </li>
               <li>
-                <Link to="/collections/classic-tees" className="hover:text-[#3B82F6] transition-colors">Classic Tees</Link>
+                <Link to="/collections/classic-tees" className="hover:text-[#F88379] transition-colors">Classic Tees</Link>
               </li>
               <li>
-                <Link to="/collections/men" className="hover:text-[#3B82F6] transition-colors">Men's Fit</Link>
+                <Link to="/collections/men" className="hover:text-[#F88379] transition-colors">Men's Fit</Link>
               </li>
               <li>
-                <Link to="/collections/women" className="hover:text-[#3B82F6] transition-colors">Women's Fit</Link>
+                <Link to="/collections/women" className="hover:text-[#F88379] transition-colors">Women's Fit</Link>
               </li>
               <li>
-                <Link to="/collections/all" className="hover:text-[#3B82F6] transition-colors">View All Drops</Link>
+                <Link to="/collections/all" className="hover:text-[#F88379] transition-colors">View All Drops</Link>
               </li>
             </ul>
           </div>
 
           {/* Company Links */}
           <div className="lg:col-span-2 space-y-2">
-            <div className="text-[10px] uppercase tracking-widest text-[#3B82F6] font-mono font-bold">Trenzio</div>
+            <div className="text-[10px] uppercase tracking-widest text-[#F88379] font-sans font-bold">Trenzio</div>
             <ul className="space-y-1.5 text-xs text-[#94A3B8]">
               <li>
-                <Link to="/about" className="hover:text-[#3B82F6] transition-colors">About Our Craft</Link>
+                <Link to="/about" className="hover:text-[#F88379] transition-colors">About Our Craft</Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-[#3B82F6] transition-colors">Contact & Support</Link>
+                <Link to="/contact" className="hover:text-[#F88379] transition-colors">Contact & Support</Link>
               </li>
               <li>
-                <Link to="/cart" className="hover:text-[#3B82F6] transition-colors">Shopping Bag</Link>
+                <Link to="/cart" className="hover:text-[#F88379] transition-colors">Shopping Bag</Link>
               </li>
               <li>
-                <Link to="/wishlist" className="hover:text-[#3B82F6] transition-colors">Saved Wishlist</Link>
+                <Link to="/wishlist" className="hover:text-[#F88379] transition-colors">Saved Wishlist</Link>
               </li>
               <li>
-                <a
-                  href="https://0g1xp7-qd.myshopify.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hover:text-white transition-colors text-[#3B82F6] font-bold"
-                >
-                  Official Shopify Store &rarr;
-                </a>
+                <Link to="/try-on" className="hover:text-[#F88379] transition-colors">Virtual 3D Studio</Link>
               </li>
             </ul>
           </div>
