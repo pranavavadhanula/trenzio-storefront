@@ -4,16 +4,16 @@ import { ArrowRight, Sparkles } from 'lucide-react';
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="relative min-h-[85vh] flex flex-col justify-center px-4 sm:px-8 py-8 sm:py-12 max-w-7xl mx-auto w-full bg-[#060C1A] text-white overflow-hidden">
+    <div className="relative min-h-[85vh] flex flex-col justify-center px-4 sm:px-8 py-8 sm:py-12 max-w-7xl mx-auto w-full bg-[#060C1A] text-white overflow-hidden font-sans">
       {/* Luminous Royal Blue Ambient Lighting Glow */}
       <div className="pointer-events-none absolute top-10 left-1/3 w-[550px] h-60 bg-gradient-to-r from-[#2563EB]/20 via-[#1D4ED8]/15 to-transparent blur-3xl rounded-full" />
 
       {/* Editorial Header - Royal Sapphire Haute Couture */}
       <div className="relative z-10 text-center mb-6 sm:mb-10 space-y-2">
-        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl text-white font-light tracking-tight">
+        <h1 className="font-sans text-3xl sm:text-5xl md:text-6xl text-white font-extrabold tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
           Choose Your Line
         </h1>
-        <p className="text-xs sm:text-sm text-[#94A3B8] font-light max-w-md mx-auto">
+        <p className="text-sm sm:text-base text-[#cbd5e1] font-normal max-w-lg mx-auto leading-relaxed">
           Heavyweight luxury streetwear engineered with bio-washed combed cotton and zero post-wash shrinkage.
         </p>
       </div>
@@ -37,16 +37,16 @@ export const HomePage: React.FC = () => {
 
           {/* Card Content */}
           <div className="relative z-10 space-y-3">
-            <h2 className="font-serif text-4xl sm:text-5xl text-white font-light group-hover:text-[#60A5FA] transition-colors tracking-tight">
+            <h2 className="font-sans text-3xl sm:text-5xl text-white font-extrabold group-hover:text-[#EDE0CC] transition-colors tracking-tight drop-shadow-md">
               Men's Wear
             </h2>
 
-            <p className="text-xs sm:text-sm text-[#CBD5E1] font-light max-w-sm leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#e2e8f0] font-medium max-w-sm leading-relaxed">
               Boxy dropped-shoulders, reinforced ribbed collars, and structured 240–400 GSM bio-washed cotton.
             </p>
 
             <div className="pt-3">
-              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#060C1A] font-bold text-xs uppercase tracking-wider font-sans shadow-[0_0_20px_rgba(237,224,204,0.25)] group-hover:translate-x-1 transition-all">
+              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#0A0A0A] font-bold text-xs uppercase tracking-wider font-sans shadow-[0_0_20px_rgba(237,224,204,0.3)] group-hover:translate-x-1 transition-all">
                 <span>Explore Men's Wear</span>
                 <ArrowRight className="w-4 h-4" />
               </span>
@@ -71,16 +71,16 @@ export const HomePage: React.FC = () => {
 
           {/* Card Content */}
           <div className="relative z-10 space-y-3">
-            <h2 className="font-serif text-4xl sm:text-5xl text-white font-light group-hover:text-[#60A5FA] transition-colors tracking-tight">
+            <h2 className="font-sans text-3xl sm:text-5xl text-white font-extrabold group-hover:text-[#EDE0CC] transition-colors tracking-tight drop-shadow-md">
               Women's Wear
             </h2>
 
-            <p className="text-xs sm:text-sm text-[#CBD5E1] font-light max-w-sm leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#e2e8f0] font-medium max-w-sm leading-relaxed">
               Relaxed dropped-shoulder drape with proportioned armholes and 400 GSM diagonal loop French Terry.
             </p>
 
             <div className="pt-3">
-              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#060C1A] font-bold text-xs uppercase tracking-wider font-sans shadow-[0_0_20px_rgba(237,224,204,0.25)] group-hover:translate-x-1 transition-all">
+              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#0A0A0A] font-bold text-xs uppercase tracking-wider font-sans shadow-[0_0_20px_rgba(237,224,204,0.3)] group-hover:translate-x-1 transition-all">
                 <span>Explore Women's Wear</span>
                 <ArrowRight className="w-4 h-4" />
               </span>
@@ -90,7 +90,7 @@ export const HomePage: React.FC = () => {
       </div>
 
       {/* Subtle Footer Bar */}
-      <div className="relative z-10 mt-8 pt-6 border-t border-[#1E293B] flex flex-wrap items-center justify-between text-xs font-mono text-[#94A3B8] gap-4 text-center sm:text-left">
+      <div className="relative z-10 mt-8 pt-6 border-t border-[#1E293B] flex flex-wrap items-center justify-between text-xs font-sans font-medium text-[#94A3B8] gap-4 text-center sm:text-left">
         <div>Pan-India Express Dispatch &bull; Delivery in 3–5 Days</div>
         <div className="flex items-center gap-4 mx-auto sm:mx-0">
           <Link to="/try-on" className="text-[#3B82F6] hover:underline font-bold flex items-center gap-1 shadow-sm">
@@ -98,7 +98,7 @@ export const HomePage: React.FC = () => {
             <span>Try in 3D Fitting Room</span>
           </Link>
           <span>&bull;</span>
-          <Link to="/about" className="text-white hover:text-[#3B82F6] transition-colors font-medium">
+          <Link to="/about" className="text-white hover:text-[#3B82F6] transition-colors font-semibold">
             Our 350 GSM Craft
           </Link>
         </div>
