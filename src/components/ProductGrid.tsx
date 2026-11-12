@@ -21,14 +21,15 @@ export const ProductGrid: React.FC = () => {
   });
 
   return (
-    <section id="collection-section" className="py-20 sm:py-28 max-w-7xl mx-auto px-6 sm:px-10">
+    <section id="collection-section" className="py-20 sm:py-28 max-w-7xl mx-auto px-6 sm:px-10 text-[#FAF5FF]">
       {/* Top Filter Bar */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
         <div>
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#7BB8E8] font-mono font-bold">
-            Heavyweight Streetwear &bull; India
-          </span>
-          <h2 className="font-serif text-3xl sm:text-4xl font-light text-[#2A1810] tracking-tight mt-1">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#FF7A00]/15 border border-[#FF7A00]/40 text-[#FF8A3D] text-[10px] uppercase tracking-[0.3em] font-mono font-bold shadow-[0_0_15px_rgba(255,122,0,0.25)] mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#FF7A00] animate-pulse" />
+            <span>Heavyweight Streetwear &bull; India</span>
+          </div>
+          <h2 className="font-serif text-3xl sm:text-4xl font-light text-[#FAF5FF] tracking-tight mt-1">
             {selectedCategory === 'All' ? 'Catalog' : selectedCategory}
           </h2>
         </div>
@@ -41,8 +42,8 @@ export const ProductGrid: React.FC = () => {
               onClick={() => setSelectedCategory(cat)}
               className={`px-4 py-2 text-xs uppercase tracking-wider rounded-none border transition-all cursor-pointer font-mono ${
                 selectedCategory === cat
-                  ? 'border-[#7BB8E8] bg-[#7BB8E8] text-[#2A1810] font-bold'
-                  : 'border-[#4E3022] text-[#FAF6EE] hover:border-[#7BB8E8] bg-[#2A1810]'
+                  ? 'border-[#00E5FF] bg-gradient-to-r from-[#00E5FF] to-[#00C2FF] text-black font-black shadow-[0_0_20px_rgba(0,229,255,0.6),0_0_8px_rgba(255,122,0,0.3)] scale-[1.02]'
+                  : 'border-white/15 bg-white/[0.04] text-[#FAF5FF] hover:border-[#00E5FF] hover:text-[#00E5FF]'
               }`}
             >
               {cat}
@@ -52,18 +53,18 @@ export const ProductGrid: React.FC = () => {
       </div>
 
       {/* Sub-bar: Gender Filter + Sorting + Item Count */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-12 border-b border-[#2A1810]/15 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-12 border-b border-[#00E5FF]/20 text-xs">
         {/* Gender Pills */}
         <div className="flex items-center gap-2">
-          <span className="text-[10px] uppercase tracking-wider text-[#6E4733] font-mono">Fit For:</span>
+          <span className="text-[10px] uppercase tracking-wider text-[#D8B4FE] font-mono">Fit For:</span>
           {GENDERS.map((g) => (
             <button
               key={g}
               onClick={() => setSelectedGender(g)}
               className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-colors cursor-pointer font-mono ${
                 selectedGender === g
-                  ? 'text-[#7BB8E8] font-bold underline underline-offset-4'
-                  : 'text-[#2A1810]/70 hover:text-[#7BB8E8]'
+                  ? 'text-[#00E5FF] font-bold underline underline-offset-4'
+                  : 'text-[#D8B4FE] hover:text-[#00E5FF]'
               }`}
             >
               {g}
@@ -72,17 +73,17 @@ export const ProductGrid: React.FC = () => {
         </div>
 
         {/* Sorting & Count */}
-        <div className="flex items-center gap-4 text-[#6E4733]">
+        <div className="flex items-center gap-4 text-[#D8B4FE]">
           <span className="text-[11px] font-mono">
-            Showing <strong className="text-[#2A1810]">{filteredProducts.length}</strong> styles
+            Showing <strong className="text-[#00E5FF]">{filteredProducts.length}</strong> styles
           </span>
 
-          <div className="flex items-center gap-1.5 border-l border-[#2A1810]/15 pl-4">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-[#6E4733]" />
+          <div className="flex items-center gap-1.5 border-l border-white/10 pl-4">
+            <SlidersHorizontal className="w-3.5 h-3.5 text-[#FF7A00]" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-[#2A1810] text-xs uppercase tracking-wider text-[#FAF6EE] border border-[#4E3022] px-2 py-1 focus:outline-none focus:border-[#7BB8E8] cursor-pointer font-mono"
+              className="bg-[#140A21] text-xs uppercase tracking-wider text-[#FAF5FF] border border-white/15 px-2 py-1 focus:outline-none focus:border-[#00E5FF] cursor-pointer font-mono"
             >
               <option value="featured">Featured</option>
               <option value="price-asc">Price: Low to High</option>
@@ -95,28 +96,28 @@ export const ProductGrid: React.FC = () => {
       {/* Product Grid or Clean Waiting State */}
       {isLoadingProducts ? (
         <div className="py-24 text-center flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="w-8 h-8 text-[#7BB8E8] animate-spin" />
-          <p className="text-xs uppercase tracking-widest text-[#6E4733] font-mono">
+          <Loader2 className="w-8 h-8 text-[#00E5FF] animate-spin" />
+          <p className="text-xs uppercase tracking-widest text-[#D8B4FE] font-mono">
             Syncing Catalog with Shopify...
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="py-20 text-center border border-[#4E3022] p-8 sm:p-14 bg-[#2A1810] text-[#FAF6EE] space-y-5 shadow-2xl">
-          <div className="w-14 h-14 mx-auto rounded-full bg-[#362016] border border-[#7BB8E8]/40 flex items-center justify-center text-[#7BB8E8]">
+        <div className="py-20 text-center border border-[#BA55D3]/20 p-8 sm:p-14 bg-[#140A21] text-[#FAF5FF] space-y-5 shadow-2xl backdrop-blur-xl">
+          <div className="w-14 h-14 mx-auto rounded-full bg-white/[0.04] border border-[#DA70D6]/40 flex items-center justify-center text-[#DA70D6]">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h3 className="font-serif text-2xl sm:text-3xl text-[#FAF6EE] font-light">
+          <h3 className="font-serif text-2xl sm:text-3xl text-[#FAF5FF] font-light">
             Ready for Your Shopify Products
           </h3>
-          <p className="text-xs sm:text-sm text-[#EAE2D2] max-w-md mx-auto font-light leading-relaxed">
-            All demo t-shirts have been deleted. You can now add your real products with your photos and prices from your Shopify store (<code className="text-[#7BB8E8] font-mono">0g1xp7-qd.myshopify.com</code>).
+          <p className="text-xs sm:text-sm text-[#D8B4FE] max-w-md mx-auto font-light leading-relaxed">
+            All demo t-shirts have been deleted. You can now add your real products with your photos and prices from your Shopify store (<code className="text-[#00E5FF] font-mono">0g1xp7-qd.myshopify.com</code>).
           </p>
           <div className="pt-2">
             <a
               href="https://admin.shopify.com/store/0g1xp7-qd/products/new"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#7BB8E8] to-[#5E9ED5] text-[#2A1810] text-xs uppercase tracking-widest font-bold hover:brightness-105 shadow-lg transition-all cursor-pointer font-mono"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#DA70D6] to-[#BA55D3] hover:from-[#E056FD] hover:to-[#DA70D6] text-black text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(218,112,214,0.4)] transition-all cursor-pointer font-mono"
             >
               <Plus className="w-4 h-4" />
               <span>Add Your First Product in Shopify</span>

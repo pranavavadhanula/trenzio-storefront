@@ -15,48 +15,48 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#2A1810] text-[#FAF6EE] border-t border-[#4E3022] pt-16 pb-12">
+    <footer className="bg-[#0B0512] text-[#FAF5FF] border-t border-[#BA55D3]/20 pt-16 pb-12">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         {/* Top 3 Trust Columns for Indian D2C Buyers */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-14 border-b border-white/10 text-xs">
-          <div className="flex items-center gap-3 p-4 bg-white/5 border border-white/10">
-            <Truck className="w-5 h-5 text-[#7BB8E8] flex-shrink-0" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-14 border-b border-[#BA55D3]/15 text-xs">
+          <div className="flex items-center gap-3 p-4 bg-white/[0.03] border border-[#BA55D3]/20 backdrop-blur-md">
+            <Truck className="w-5 h-5 text-[#DA70D6] flex-shrink-0" />
             <div>
-              <div className="font-bold text-white uppercase tracking-wider text-[11px]">Free Pan-India Delivery</div>
-              <div className="text-[#EAE2D2] text-[11px] mt-0.5">Dispatched within 24 hours &bull; Delivered in 3-5 days</div>
+              <div className="font-bold text-[#FAF5FF] uppercase tracking-wider text-[11px]">Free Pan-India Delivery</div>
+              <div className="text-[#D8B4FE] text-[11px] mt-0.5">Dispatched within 24 hours &bull; Delivered in 3-5 days</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 bg-white/5 border border-white/10">
-            <RotateCcw className="w-5 h-5 text-[#7BB8E8] flex-shrink-0" />
+          <div className="flex items-center gap-3 p-4 bg-white/[0.03] border border-[#BA55D3]/20 backdrop-blur-md">
+            <RotateCcw className="w-5 h-5 text-[#DA70D6] flex-shrink-0" />
             <div>
-              <div className="font-bold text-white uppercase tracking-wider text-[11px]">Easy 7-Day Size Exchanges</div>
-              <div className="text-[#EAE2D2] text-[11px] mt-0.5">Hassle-free doorstep pickup across 19,000+ pin codes</div>
+              <div className="font-bold text-[#FAF5FF] uppercase tracking-wider text-[11px]">Easy 7-Day Size Exchanges</div>
+              <div className="text-[#D8B4FE] text-[11px] mt-0.5">Hassle-free doorstep pickup across 19,000+ pin codes</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 bg-white/5 border border-white/10">
-            <ShieldCheck className="w-5 h-5 text-[#7BB8E8] flex-shrink-0" />
+          <div className="flex items-center gap-3 p-4 bg-white/[0.03] border border-[#BA55D3]/20 backdrop-blur-md">
+            <ShieldCheck className="w-5 h-5 text-[#DA70D6] flex-shrink-0" />
             <div>
-              <div className="font-bold text-white uppercase tracking-wider text-[11px]">UPI & Cash on Delivery</div>
-              <div className="text-[#EAE2D2] text-[11px] mt-0.5">Pay securely via GPay, PhonePe, Cards or COD</div>
+              <div className="font-bold text-[#FAF5FF] uppercase tracking-wider text-[11px]">UPI & Cash on Delivery</div>
+              <div className="text-[#D8B4FE] text-[11px] mt-0.5">Pay securely via GPay, PhonePe, Cards or COD</div>
             </div>
           </div>
         </div>
 
         {/* Brand & Links Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 py-12 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 py-12 border-b border-[#BA55D3]/15">
           {/* Brand info */}
           <div className="lg:col-span-5 space-y-3">
             <Link to="/" className="inline-block">
-              <h2 className="font-serif text-3xl text-white font-light tracking-[0.3em] hover:text-[#7BB8E8] transition-colors">
+              <h2 className="font-serif text-3xl text-[#FAF5FF] font-light tracking-[0.3em] hover:text-[#DA70D6] transition-colors">
                 TRENZIO
               </h2>
             </Link>
-            <p className="text-xs text-[#EAE2D2] font-light max-w-sm leading-relaxed">
+            <p className="text-xs text-[#D8B4FE] font-light max-w-sm leading-relaxed">
               India's premium heavyweight streetwear brand. Crafting 240–350 GSM oversized tees and 400 GSM French Terry sweatshirts for men and women. Designed and crafted in India.
             </p>
-            <div className="text-xs text-[#7BB8E8] pt-2 font-mono flex flex-wrap gap-x-4 gap-y-1">
+            <div className="text-xs text-[#DA70D6] pt-2 font-mono flex flex-wrap gap-x-4 gap-y-1">
               <span>
                 Email: <a href="mailto:trenzio.shopping1@gmail.com" className="underline hover:text-white transition-colors">trenzio.shopping1@gmail.com</a>
               </span>
@@ -69,51 +69,51 @@ export const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div className="lg:col-span-2 space-y-2">
-            <div className="text-[10px] uppercase tracking-widest text-[#7BB8E8] font-mono font-bold">Collections</div>
-            <ul className="space-y-1.5 text-xs text-[#EAE2D2]">
+            <div className="text-[10px] uppercase tracking-widest text-[#DA70D6] font-mono font-bold">Collections</div>
+            <ul className="space-y-1.5 text-xs text-[#D8B4FE]">
               <li>
-                <Link to="/collections/oversized-tees" className="hover:text-[#7BB8E8] transition-colors">Oversized Tees</Link>
+                <Link to="/collections/oversized-tees" className="hover:text-[#DA70D6] transition-colors">Oversized Tees</Link>
               </li>
               <li>
-                <Link to="/collections/sweatshirts" className="hover:text-[#7BB8E8] transition-colors">Sweatshirts</Link>
+                <Link to="/collections/sweatshirts" className="hover:text-[#DA70D6] transition-colors">Sweatshirts</Link>
               </li>
               <li>
-                <Link to="/collections/classic-tees" className="hover:text-[#7BB8E8] transition-colors">Classic Tees</Link>
+                <Link to="/collections/classic-tees" className="hover:text-[#DA70D6] transition-colors">Classic Tees</Link>
               </li>
               <li>
-                <Link to="/collections/men" className="hover:text-[#7BB8E8] transition-colors">Men's Fit</Link>
+                <Link to="/collections/men" className="hover:text-[#DA70D6] transition-colors">Men's Fit</Link>
               </li>
               <li>
-                <Link to="/collections/women" className="hover:text-[#7BB8E8] transition-colors">Women's Fit</Link>
+                <Link to="/collections/women" className="hover:text-[#DA70D6] transition-colors">Women's Fit</Link>
               </li>
               <li>
-                <Link to="/collections/all" className="hover:text-[#7BB8E8] transition-colors">View All Drops</Link>
+                <Link to="/collections/all" className="hover:text-[#DA70D6] transition-colors">View All Drops</Link>
               </li>
             </ul>
           </div>
 
           {/* Company Links */}
           <div className="lg:col-span-2 space-y-2">
-            <div className="text-[10px] uppercase tracking-widest text-[#7BB8E8] font-mono font-bold">Trenzio</div>
-            <ul className="space-y-1.5 text-xs text-[#EAE2D2]">
+            <div className="text-[10px] uppercase tracking-widest text-[#DA70D6] font-mono font-bold">Trenzio</div>
+            <ul className="space-y-1.5 text-xs text-[#D8B4FE]">
               <li>
-                <Link to="/about" className="hover:text-[#7BB8E8] transition-colors">About Our Craft</Link>
+                <Link to="/about" className="hover:text-[#DA70D6] transition-colors">About Our Craft</Link>
               </li>
               <li>
-                <Link to="/contact" className="hover:text-[#7BB8E8] transition-colors">Contact & Support</Link>
+                <Link to="/contact" className="hover:text-[#DA70D6] transition-colors">Contact & Support</Link>
               </li>
               <li>
-                <Link to="/cart" className="hover:text-[#7BB8E8] transition-colors">Shopping Bag</Link>
+                <Link to="/cart" className="hover:text-[#DA70D6] transition-colors">Shopping Bag</Link>
               </li>
               <li>
-                <Link to="/wishlist" className="hover:text-[#7BB8E8] transition-colors">Saved Wishlist</Link>
+                <Link to="/wishlist" className="hover:text-[#DA70D6] transition-colors">Saved Wishlist</Link>
               </li>
               <li>
                 <a
                   href="https://0g1xp7-qd.myshopify.com"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="hover:text-white transition-colors text-[#7BB8E8] font-bold"
+                  className="hover:text-white transition-colors text-[#DA70D6] font-bold"
                 >
                   Official Shopify Store &rarr;
                 </a>
@@ -123,10 +123,10 @@ export const Footer: React.FC = () => {
 
           {/* Newsletter Box */}
           <div className="lg:col-span-3 flex flex-col justify-center">
-            <span className="text-[10px] uppercase tracking-[0.25em] text-[#7BB8E8] font-mono font-bold">
+            <span className="text-[10px] uppercase tracking-[0.25em] text-[#DA70D6] font-mono font-bold">
               Join The Club
             </span>
-            <h3 className="font-serif text-lg text-white font-light mt-1 mb-2">
+            <h3 className="font-serif text-lg text-[#FAF5FF] font-light mt-1 mb-2">
               Get ₹200 Off on First Order
             </h3>
 
@@ -143,11 +143,11 @@ export const Footer: React.FC = () => {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Enter email..."
                   required
-                  className="flex-1 bg-white/10 border border-white/20 px-3 py-2.5 text-xs text-white placeholder:text-[#EAE2D2]/60 focus:outline-none focus:border-[#7BB8E8]"
+                  className="flex-1 bg-white/[0.04] border border-[#BA55D3]/25 px-3 py-2.5 text-xs text-[#FAF5FF] placeholder:text-[#D8B4FE]/40 focus:outline-none focus:border-[#DA70D6] font-mono"
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 bg-gradient-to-r from-[#7BB8E8] to-[#5E9ED5] text-[#2A1810] text-xs uppercase tracking-wider font-bold hover:brightness-105 shadow-lg transition-all flex items-center gap-1 cursor-pointer"
+                  className="px-4 py-2.5 bg-gradient-to-r from-[#DA70D6] to-[#BA55D3] hover:from-[#E056FD] hover:to-[#DA70D6] text-black text-xs uppercase tracking-wider font-black shadow-[0_0_15px_rgba(218,112,214,0.4)] transition-all flex items-center gap-1 cursor-pointer font-mono"
                 >
                   <span>Claim</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -158,12 +158,12 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#EAE2D2]/60 gap-4 font-mono">
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-[#D8B4FE]/60 gap-4 font-mono">
           <div>
             &copy; {new Date().getFullYear()} TRENZIO APPAREL INDIA. ALL RIGHTS RESERVED.
           </div>
 
-          <div className="flex items-center gap-2 text-[11px] text-[#EAE2D2]/70">
+          <div className="flex items-center gap-2 text-[11px] text-[#D8B4FE]/70">
             <span>Powered by Shopify</span>
             <span>&bull;</span>
             <span>UPI</span>

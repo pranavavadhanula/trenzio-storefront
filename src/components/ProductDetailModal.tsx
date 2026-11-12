@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { X, Ruler, Truck, ShieldCheck, Check, Heart, ExternalLink } from 'lucide-react';
+import { X, Check, Truck, ShieldCheck, Ruler, ExternalLink, Heart } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import { SizingModal } from './SizingModal';
 
 const COLOR_IMAGE_MAP: Record<string, string> = {
   'Ash Grey': '/images/products/ash-grey.png',
@@ -13,60 +14,54 @@ const COLOR_IMAGE_MAP: Record<string, string> = {
 };
 
 export const ProductDetailModal: React.FC = () => {
-  const {
-    selectedProduct,
-    setSelectedProduct,
-    formatPrice,
-    addToCart,
-    setIsSizeGuideOpen,
-    isWishlisted,
-    toggleWishlist,
-  } = useShop();
+  const { selectedProduct, setSelectedProduct, addToCart, formatPrice, isWishlisted, toggleWishlist } = useShop();
 
   if (!selectedProduct) return null;
 
   const [selectedColor, setSelectedColor] = useState(selectedProduct.colors[0]?.name || 'Ash Grey');
-  const [selectedSize, setSelectedSize] = useState<string>(selectedProduct.sizes[0] || 'M');
+  const [selectedSize, setSelectedSize] = useState(selectedProduct.sizes[1] || 'M');
   const [isAdded, setIsAdded] = useState(false);
+  const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
 
   const isSaved = isWishlisted(selectedProduct.id);
-
-  // Dynamic image based on active color
   const activeImage = COLOR_IMAGE_MAP[selectedColor] || selectedProduct.images.primary;
 
   const handleAdd = () => {
     addToCart(selectedProduct, selectedSize, selectedColor);
     setIsAdded(true);
-    setTimeout(() => setIsAdded(false), 2000);
+    setTimeout(() => {
+      setIsAdded(false);
+      setSelectedProduct(null);
+    }, 1200);
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Dark frosted backdrop */}
       <div
-        className="fixed inset-0 bg-[#2A1810]/70 backdrop-blur-md transition-opacity"
+        className="fixed inset-0 bg-[#08080A]/85 backdrop-blur-xl transition-opacity"
         onClick={() => setSelectedProduct(null)}
       />
 
       {/* Modal Dialog */}
-      <div className="relative w-full max-w-4xl bg-[#2A1810] border border-[#4E3022] shadow-2xl overflow-hidden z-10 my-8 text-[#FAF6EE]">
+      <div className="relative w-full max-w-4xl bg-[#0E0F14] border border-white/15 shadow-2xl overflow-hidden z-10 my-8 text-[#F3F4F8]">
         {/* Controls */}
         <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
           <button
             onClick={() => toggleWishlist(selectedProduct.id)}
-            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-colors cursor-pointer ${
+            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
               isSaved
-                ? 'bg-[#7BB8E8] border-[#7BB8E8] text-[#2A1810]'
-                : 'bg-[#362016] border-[#4E3022] text-[#FAF6EE] hover:text-[#7BB8E8] hover:border-[#7BB8E8]'
+                ? 'bg-[#D4FF00] border-[#D4FF00] text-black shadow-[0_0_12px_rgba(212,255,0,0.4)]'
+                : 'bg-white/[0.05] border-white/15 text-[#F3F4F8] hover:text-[#D4FF00] hover:border-[#D4FF00]'
             }`}
             title="Wishlist"
           >
-            <Heart className={`w-4 h-4 ${isSaved ? 'fill-[#2A1810]' : ''}`} />
+            <Heart className={`w-4 h-4 ${isSaved ? 'fill-black' : ''}`} />
           </button>
 
           <button
             onClick={() => setSelectedProduct(null)}
-            className="w-9 h-9 rounded-full bg-[#362016] border border-[#4E3022] flex items-center justify-center text-[#FAF6EE] hover:text-[#7BB8E8] hover:border-[#7BB8E8] transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-full bg-white/[0.05] border border-white/15 flex items-center justify-center text-[#F3F4F8] hover:text-[#D4FF00] hover:border-[#D4FF00] transition-colors cursor-pointer"
           >
             <X className="w-5 h-5" />
           </button>
@@ -74,8 +69,8 @@ export const ProductDetailModal: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 max-h-[85vh] overflow-y-auto">
           {/* Left: Real Mockup Image Gallery */}
-          <div className="p-6 flex flex-col justify-between bg-[#362016]">
-            <div className="aspect-[3/4] w-full overflow-hidden bg-[#EFE9DC] border border-[#4E3022] mb-4 flex items-center justify-center p-6 shadow-inner">
+          <div className="p-6 flex flex-col justify-between bg-black/40">
+            <div className="aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/12 mb-4 flex items-center justify-center p-6 shadow-inner">
               <img
                 src={activeImage}
                 alt={`${selectedProduct.name} in ${selectedColor}`}
@@ -91,10 +86,10 @@ export const ProductDetailModal: React.FC = () => {
                   <button
                     key={c.name}
                     onClick={() => setSelectedColor(c.name)}
-                    className={`aspect-square p-1 overflow-hidden border-2 transition-all flex items-center justify-center bg-[#EFE9DC] ${
+                    className={`aspect-square p-1 overflow-hidden border transition-all flex items-center justify-center bg-white/[0.04] ${
                       selectedColor === c.name
-                        ? 'border-[#7BB8E8] ring-2 ring-[#7BB8E8]/50'
-                        : 'border-[#4E3022] opacity-75 hover:opacity-100 hover:border-[#7BB8E8]'
+                        ? 'border-[#D4FF00] ring-2 ring-[#D4FF00]/50'
+                        : 'border-white/15 opacity-75 hover:opacity-100 hover:border-[#D4FF00]'
                     }`}
                     title={c.name}
                   >
@@ -113,27 +108,27 @@ export const ProductDetailModal: React.FC = () => {
           <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6">
             <div>
               <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider mb-2 font-mono">
-                <span className="bg-[#362016] border border-[#4E3022] text-[#7BB8E8] px-2 py-0.5 font-bold">
+                <span className="bg-[#111216] border border-white/15 text-[#F3F4F8] px-2 py-0.5 font-bold">
                   {selectedProduct.gsm} GSM
                 </span>
                 <span className="text-emerald-400 font-medium">
-                  Vendor: Printrove &bull; 9,999 in Stock
+                  Vendor: Printrove &bull; In Stock
                 </span>
               </div>
 
-              <h2 className="font-serif text-2xl sm:text-3xl text-[#FAF6EE] font-light leading-snug">
+              <h2 className="font-serif text-2xl sm:text-3xl text-[#F3F4F8] font-light leading-snug">
                 {selectedProduct.name}
               </h2>
 
-              <div className="text-3xl font-mono font-bold text-white tracking-wider mt-2">
+              <div className="text-3xl font-mono font-bold text-[#D4FF00] tracking-wider mt-2">
                 {formatPrice(selectedProduct.priceINR)}
               </div>
 
               {/* Color Select */}
               <div className="mt-6">
-                <div className="flex justify-between text-xs tracking-wider uppercase text-[#EAE2D2]/80 mb-2 font-mono">
+                <div className="flex justify-between text-xs tracking-wider uppercase text-[#A0AAB8] mb-2 font-mono">
                   <span>Selected Colorway:</span>
-                  <span className="text-[#7BB8E8] font-bold">{selectedColor}</span>
+                  <span className="text-[#D4FF00] font-bold">{selectedColor}</span>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {selectedProduct.colors.map((c) => (
@@ -142,8 +137,8 @@ export const ProductDetailModal: React.FC = () => {
                       onClick={() => setSelectedColor(c.name)}
                       className={`flex items-center gap-1.5 px-2.5 py-1.5 border text-xs transition-all cursor-pointer font-mono ${
                         selectedColor === c.name
-                          ? 'border-[#7BB8E8] bg-[#7BB8E8] text-[#2A1810] font-bold'
-                          : 'border-[#4E3022] text-[#FAF6EE] hover:border-[#7BB8E8] bg-[#362016]'
+                          ? 'border-[#D4FF00] bg-[#D4FF00] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]'
+                          : 'border-white/15 text-[#F3F4F8] hover:border-[#D4FF00] bg-white/[0.04]'
                       }`}
                     >
                       <span className="w-3 h-3 rounded-full border border-black/20" style={{ backgroundColor: c.hex }} />
@@ -155,11 +150,11 @@ export const ProductDetailModal: React.FC = () => {
 
               {/* Size Select */}
               <div className="mt-6">
-                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#EAE2D2]/80 mb-2 font-mono">
+                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#A0AAB8] mb-2 font-mono">
                   <span>Select Size:</span>
                   <button
                     onClick={() => setIsSizeGuideOpen(true)}
-                    className="flex items-center gap-1 text-[#7BB8E8] hover:underline text-xs cursor-pointer lowercase font-bold"
+                    className="flex items-center gap-1 text-[#D4FF00] hover:underline text-xs cursor-pointer lowercase font-bold"
                   >
                     <Ruler className="w-3.5 h-3.5" />
                     <span>View Printrove Chest Measurements</span>
@@ -172,8 +167,8 @@ export const ProductDetailModal: React.FC = () => {
                       onClick={() => setSelectedSize(s)}
                       className={`py-2 text-xs font-mono font-bold border transition-all cursor-pointer ${
                         selectedSize === s
-                          ? 'border-[#7BB8E8] bg-[#7BB8E8] text-[#2A1810] font-bold shadow'
-                          : 'border-[#4E3022] text-[#FAF6EE] hover:bg-[#7BB8E8] hover:text-[#2A1810] hover:border-[#7BB8E8] bg-[#362016]'
+                          ? 'border-[#D4FF00] bg-[#D4FF00] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]'
+                          : 'border-white/15 text-[#F3F4F8] hover:bg-[#D4FF00] hover:text-black hover:border-[#D4FF00] bg-white/[0.04]'
                       }`}
                     >
                       {s}
@@ -183,20 +178,20 @@ export const ProductDetailModal: React.FC = () => {
               </div>
 
               {/* Fit Description */}
-              <div className="mt-4 text-[11px] text-[#EAE2D2] font-light border-l-2 border-[#7BB8E8] pl-3 py-0.5">
+              <div className="mt-4 text-[11px] text-[#A0AAB8] font-light border-l-2 border-[#D4FF00] pl-3 py-0.5">
                 {selectedProduct.fitDescription} &bull; {selectedProduct.modelMeasurements}
               </div>
             </div>
 
             {/* Actions */}
-            <div className="space-y-4 pt-4 border-t border-[#4E3022]">
+            <div className="space-y-4 pt-4 border-t border-white/10">
               <div className="flex gap-2">
                 <button
                   onClick={handleAdd}
-                  className={`flex-1 py-4 uppercase tracking-widest text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-xl cursor-pointer font-mono ${
+                  className={`flex-1 py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 shadow-xl cursor-pointer font-mono ${
                     isAdded
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-gradient-to-r from-[#7BB8E8] to-[#5E9ED5] text-[#2A1810] hover:brightness-105'
+                      ? 'bg-emerald-500 text-black'
+                      : 'bg-[#D4FF00] hover:bg-[#C2F000] text-black shadow-[0_0_20px_rgba(212,255,0,0.4)]'
                   }`}
                 >
                   {isAdded ? (
@@ -212,22 +207,22 @@ export const ProductDetailModal: React.FC = () => {
                   href="https://0g1xp7-qd.myshopify.com/products/overshized-plain-t-shirt"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-4 border border-[#4E3022] text-[#FAF6EE] hover:text-[#7BB8E8] hover:border-[#7BB8E8] text-xs uppercase tracking-wider font-mono flex items-center justify-center gap-1.5 transition-colors bg-[#362016]"
+                  className="px-4 py-4 border border-white/15 text-[#F3F4F8] hover:text-[#D4FF00] hover:border-[#D4FF00] text-xs uppercase tracking-wider font-mono flex items-center justify-center gap-1.5 transition-colors bg-white/[0.04]"
                   title="Open Official Shopify Store Listing"
                 >
-                  <ExternalLink className="w-4 h-4 text-[#7BB8E8]" />
+                  <ExternalLink className="w-4 h-4 text-[#D4FF00]" />
                   <span className="hidden sm:inline text-[11px]">Shopify</span>
                 </a>
               </div>
 
               {/* Domestic Shipping badges */}
-              <div className="grid grid-cols-2 gap-2 text-[10px] text-[#EAE2D2]/70 uppercase tracking-wider pt-1 font-mono">
+              <div className="grid grid-cols-2 gap-2 text-[10px] text-[#A0AAB8] uppercase tracking-wider pt-1 font-mono">
                 <div className="flex items-center gap-1.5">
-                  <Truck className="w-3.5 h-3.5 text-[#7BB8E8]" />
+                  <Truck className="w-3.5 h-3.5 text-[#D4FF00]" />
                   <span>Doorstep Delivery (Printrove)</span>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#7BB8E8]" />
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#D4FF00]" />
                   <span>UPI, Cards & COD Accepted</span>
                 </div>
               </div>
@@ -235,6 +230,10 @@ export const ProductDetailModal: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {isSizeGuideOpen && (
+        <SizingModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} />
+      )}
     </div>
   );
 };

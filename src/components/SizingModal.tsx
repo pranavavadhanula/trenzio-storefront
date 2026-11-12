@@ -2,11 +2,19 @@ import React, { useState } from 'react';
 import { X, Ruler, HelpCircle } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
-export const SizingModal: React.FC = () => {
-  const { isSizeGuideOpen, setIsSizeGuideOpen } = useShop();
+interface SizingModalProps {
+  isOpen?: boolean;
+  onClose?: () => void;
+}
+
+export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => {
+  const { isSizeGuideOpen: contextIsOpen, setIsSizeGuideOpen } = useShop();
   const [unit, setUnit] = useState<'in' | 'cm'>('in');
 
-  if (!isSizeGuideOpen) return null;
+  const visible = isOpen !== undefined ? isOpen : contextIsOpen;
+  const handleClose = onClose || (() => setIsSizeGuideOpen(false));
+
+  if (!visible) return null;
 
   // Exact Printrove sizing chart from your Shopify product
   const tShirtSizes = [
@@ -22,22 +30,22 @@ export const SizingModal: React.FC = () => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#2A1810]/80 backdrop-blur-md"
-        onClick={() => setIsSizeGuideOpen(false)}
+        className="fixed inset-0 bg-[#08080A]/85 backdrop-blur-md"
+        onClick={handleClose}
       />
 
       {/* Modal Box */}
-      <div className="relative w-full max-w-xl bg-[#2A1810] border border-[#4E3022] p-6 sm:p-8 shadow-2xl z-10 space-y-6 text-[#FAF6EE]">
-        <div className="flex items-center justify-between border-b border-[#4E3022] pb-4">
+      <div className="relative w-full max-w-xl bg-[#0E0F14] border border-white/15 p-6 sm:p-8 shadow-2xl z-10 space-y-6 text-[#F3F4F8]">
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
-            <Ruler className="w-5 h-5 text-[#7BB8E8]" />
-            <h3 className="font-serif text-2xl text-white font-light">
+            <Ruler className="w-5 h-5 text-[#D4FF00]" />
+            <h3 className="font-serif text-2xl text-[#F3F4F8] font-light">
               Oversized T-Shirt Size Guide
             </h3>
           </div>
           <button
-            onClick={() => setIsSizeGuideOpen(false)}
-            className="w-8 h-8 rounded-full border border-[#4E3022] flex items-center justify-center text-[#FAF6EE] hover:text-[#7BB8E8] hover:border-[#7BB8E8] cursor-pointer"
+            onClick={handleClose}
+            className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-[#F3F4F8] hover:text-[#D4FF00] hover:border-[#D4FF00] cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -45,14 +53,14 @@ export const SizingModal: React.FC = () => {
 
         {/* Unit switcher */}
         <div className="flex items-center justify-between gap-4">
-          <p className="text-xs text-[#EAE2D2]/80 font-light">
+          <p className="text-xs text-[#A0AAB8] font-light">
             Exact dimensions from Printrove fulfillment specifications.
           </p>
-          <div className="flex border border-[#4E3022] bg-[#362016]">
+          <div className="flex border border-white/15 bg-white/[0.03]">
             <button
               onClick={() => setUnit('in')}
               className={`px-3 py-1 text-xs uppercase font-mono cursor-pointer ${
-                unit === 'in' ? 'bg-[#7BB8E8] text-[#2A1810] font-bold' : 'text-[#EAE2D2] hover:bg-white/5'
+                unit === 'in' ? 'bg-[#D4FF00] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]' : 'text-[#A0AAB8] hover:bg-white/5'
               }`}
             >
               In (Inches)
@@ -60,7 +68,7 @@ export const SizingModal: React.FC = () => {
             <button
               onClick={() => setUnit('cm')}
               className={`px-3 py-1 text-xs uppercase font-mono cursor-pointer ${
-                unit === 'cm' ? 'bg-[#7BB8E8] text-[#2A1810] font-bold' : 'text-[#EAE2D2] hover:bg-white/5'
+                unit === 'cm' ? 'bg-[#D4FF00] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]' : 'text-[#A0AAB8] hover:bg-white/5'
               }`}
             >
               Cm (Centimeters)
@@ -72,15 +80,15 @@ export const SizingModal: React.FC = () => {
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-[#4E3022] text-[10px] uppercase tracking-widest text-[#7BB8E8] font-mono font-bold">
+              <tr className="border-b border-white/10 text-[10px] uppercase tracking-widest text-[#D4FF00] font-mono font-bold">
                 <th className="py-2.5">Size</th>
                 <th className="py-2.5">Chest (Around)</th>
                 <th className="py-2.5">Length (Neck to Hem)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-[#4E3022] font-mono text-[#EAE2D2]">
+            <tbody className="divide-y divide-white/10 font-mono text-[#F3F4F8]">
               {tShirtSizes.map((row) => (
-                <tr key={row.size} className="hover:bg-[#362016]">
+                <tr key={row.size} className="hover:bg-white/[0.03]">
                   <td className="py-3 font-bold text-white">{row.size}</td>
                   <td className="py-3">{unit === 'in' ? `${row.chestIn}"` : `${row.chestCm} cm`}</td>
                   <td className="py-3">{unit === 'in' ? `${row.lengthIn}"` : `${row.lengthCm} cm`}</td>
@@ -91,8 +99,8 @@ export const SizingModal: React.FC = () => {
         </div>
 
         {/* Help Note */}
-        <div className="flex items-start gap-2.5 p-3 bg-[#362016] border border-[#4E3022] text-xs text-[#EAE2D2]">
-          <HelpCircle className="w-4 h-4 text-[#7BB8E8] flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-2.5 p-3 bg-white/[0.03] border border-white/12 text-xs text-[#A0AAB8]">
+          <HelpCircle className="w-4 h-4 text-[#D4FF00] flex-shrink-0 mt-0.5" />
           <span>
             The final size may vary by &plusmn;0.5 inches due to manual cutting and bio-wash finishing.
           </span>

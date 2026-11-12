@@ -12,47 +12,55 @@ export default {
       },
       colors: {
         atelier: {
-          // Deep Luxury Chocolate Brown Palette
-          brown: '#2A1810',          // Deep Chocolate Espresso (Primary Brand Anchor)
-          'brown-dark': '#1A0E08',   // Deepest Obsidian Roast
-          'brown-surface': '#362016',// Elevated Rich Cocoa Surface
-          'brown-border': '#4E3022', // Warm Cocoa Border
-          'brown-muted': '#6E4733',  // Secondary Muted Cocoa
+          // Pure Orchid Palette
+          orchid: '#DA70D6',           // Radiant Orchid
+          'orchid-vivid': '#E056FD',   // Vivid Electric Orchid
+          'orchid-light': '#F39CFF',   // Luminous Light Orchid
+          'orchid-medium': '#BA55D3',  // Medium Orchid
+          'orchid-deep': '#9932CC',    // Dark Rich Orchid
+          'orchid-night': '#0B0512',   // Midnight Orchid Canvas
+          'orchid-dark': '#06030A',    // Void Dark Orchid
+          'orchid-surface': '#140A21', // Velvet Orchid Surface
+          'orchid-card': '#1B0E2C',    // Card Elevation
+          'orchid-border': 'rgba(218, 112, 214, 0.22)', // Orchid Glass Edge
+          'orchid-soft': 'rgba(218, 112, 214, 0.14)',  // Soft Orchid Tint
+          'orchid-silk': '#FAF5FF',    // Frost Orchid Silky White
+          'orchid-mist': '#D8B4FE',    // Muted Lavender Orchid
 
-          // Warm Editorial Cream Palette
-          cream: '#F9F6F0',          // Primary Editorial Warm Linen Cream (Canvas)
-          'cream-surface': '#FFFFFF',
-          'cream-card': '#EFE9DC',   // Warm Parchment Card
-          'cream-border': '#DFD7C7', // Linen Border
-          'cream-muted': '#8E8271',  // Muted Warm Linen
+          // Semantic backwards-compatible mappings
+          ink: '#0B0512',
+          'ink-dark': '#06030A',
+          'ink-surface': '#140A21',
+          'ink-card': '#1B0E2C',
+          silver: '#FAF5FF',
+          'silver-muted': '#D8B4FE',
+          'silver-glass': 'rgba(218, 112, 214, 0.06)',
+          'silver-border': 'rgba(218, 112, 214, 0.22)',
+          lime: '#DA70D6',
+          'lime-hover': '#F39CFF',
+          'lime-soft': 'rgba(218, 112, 214, 0.14)',
+          navy: '#140A21',
+          'navy-dark': '#0B0512',
+          'navy-surface': '#1B0E2C',
+          'navy-border': 'rgba(218, 112, 214, 0.22)',
+          'navy-muted': '#D8B4FE',
+          cream: '#0B0512',
+          coral: '#DA70D6',
+          'coral-hover': '#F39CFF',
+          'coral-soft': 'rgba(218, 112, 214, 0.14)',
 
-          // Baby Blue Accent (The Chic High-Fashion Pop)
-          babyblue: '#7BB8E8',       // Elegant Powder / Baby Blue
-          'babyblue-hover': '#5E9ED5',
-          'babyblue-soft': 'rgba(123, 184, 232, 0.16)',
-
-          // Backward-compatible semantic mappings
-          navy: '#2A1810',           // Mapped to Chocolate Brown
-          'navy-dark': '#1A0E08',
-          'navy-surface': '#362016',
-          'navy-border': '#4E3022',
-          'navy-muted': '#6E4733',
-          coral: '#7BB8E8',          // Mapped to Baby Blue for instant compatibility
-          'coral-hover': '#5E9ED5',
-          'coral-soft': 'rgba(123, 184, 232, 0.16)',
-
-          // Standard semantic mappings for unified theme
-          950: '#F9F6F0', // Page Background -> Warm Linen Cream
-          900: '#2A1810', // Deep Chocolate Brown
-          850: '#362016', // Cocoa Surface
-          800: '#DFD7C7', // Linen Border
-          700: '#A49887', // Secondary Border/Text
-          300: '#6E4733', // Muted Text
-          200: '#3D2418', // Body Text Brown
-          100: '#2A1810', // Primary Headings & Bold Text -> Deep Brown
-          50: '#1A0E08',
-          gold: '#7BB8E8', // Baby Blue
-          sand: '#EFE9DC',
+          // Standard semantic numbers for unified theme
+          950: '#0B0512', // Canvas
+          900: '#140A21', // Cards
+          850: '#1B0E2C', // Surface
+          800: 'rgba(218, 112, 214, 0.22)', // Borders
+          700: '#D8B4FE', // Secondary
+          300: '#8E7A9F', // Muted
+          200: '#D8B4FE', // Body
+          100: '#FAF5FF', // Primary Heading
+          50: '#FFFFFF',
+          gold: '#DA70D6',
+          sand: '#1B0E2C',
         }
       },
       letterSpacing: {
