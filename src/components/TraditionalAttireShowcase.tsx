@@ -86,66 +86,69 @@ export const TraditionalAttireShowcase: React.FC = () => {
             />
           )}
 
-          {/* Top Left Heritage Badge with Brand Crest */}
-          <div className="absolute top-6 left-6 sm:top-10 sm:left-10 z-20 flex items-center gap-3">
-            <div className="flex items-center gap-2 px-3.5 py-1.5 bg-[#07111E]/80 backdrop-blur-md border border-[#F88379]/40 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.6)]">
-              <Crown className="w-3.5 h-3.5 text-[#F88379]" />
-              <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#F88379]">
-                HERITAGE COUTURE
-              </span>
-            </div>
-          </div>
-
-          {/* Bottom Content Area */}
-          <div className="relative z-20 h-full flex flex-col justify-end p-6 sm:p-12 lg:p-16 max-w-3xl">
-            {/* Sub-badge */}
-            <div className="flex items-center gap-2 mb-3">
-              <Sparkles className="w-4 h-4 text-[#F88379]" />
-              <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#FA958D] uppercase">
-                TREVORI PERSPECTIVE 2026
-              </span>
+          {/* Main Content Layout Container */}
+          <div className="absolute inset-0 z-20 flex flex-col justify-between p-6 sm:p-10 lg:p-14 pointer-events-none">
+            {/* Top Row: Heritage Badge */}
+            <div className="flex items-center gap-3 pointer-events-auto">
+              <div className="flex items-center gap-2 px-3.5 py-1.5 bg-[#07111E]/85 backdrop-blur-md border border-[#F88379]/50 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.6)]">
+                <Crown className="w-3.5 h-3.5 text-[#F88379]" />
+                <span className="text-[10px] sm:text-xs font-bold tracking-[0.2em] uppercase text-[#F88379]">
+                  HERITAGE COUTURE
+                </span>
+              </div>
             </div>
 
-            {/* Headline */}
-            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase tracking-[0.04em] text-white leading-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.9)]">
-              ROYAL TRADITIONAL <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F88379] via-[#FA958D] to-white">COUTURE</span>
-            </h2>
+            {/* Bottom Content Area */}
+            <div className="max-w-2xl pointer-events-auto">
+              {/* Sub-badge */}
+              <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                <Sparkles className="w-4 h-4 text-[#F88379]" />
+                <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] text-[#FA958D] uppercase">
+                  TREVORI PERSPECTIVE 2026
+                </span>
+              </div>
 
-            {/* Description */}
-            <p className="mt-3 sm:mt-4 text-xs sm:text-base text-slate-200 font-normal leading-relaxed max-w-2xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-              Bespoke midnight-navy velvet Bandhgalas, handcrafted Zardozi zari lehengas, and architectural royal silhouettes engineered for timeless celebration.
-            </p>
+              {/* Headline */}
+              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black uppercase tracking-[0.04em] text-white leading-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
+                ROYAL TRADITIONAL <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F88379] via-[#FA958D] to-white">COUTURE</span>
+              </h2>
 
-            {/* Feature Pills */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3 mt-4 sm:mt-5 text-[11px] sm:text-xs text-slate-300 font-medium">
-              <span className="px-3 py-1 bg-[#0A1728]/85 border border-white/15 backdrop-blur-sm">
-                ✦ Handcrafted Zardozi
-              </span>
-              <span className="px-3 py-1 bg-[#0A1728]/85 border border-white/15 backdrop-blur-sm">
-                ✦ Royal Velvet & Raw Silk
-              </span>
-              <span className="px-3 py-1 bg-[#0A1728]/85 border border-white/15 backdrop-blur-sm">
-                ✦ Tailored Bespoke Drape
-              </span>
-            </div>
+              {/* Description */}
+              <p className="mt-2.5 sm:mt-3 text-xs sm:text-sm md:text-base text-slate-200 font-normal leading-relaxed max-w-xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+                Bespoke midnight-navy velvet Bandhgalas, handcrafted Zardozi zari lehengas, and architectural royal silhouettes engineered for timeless celebration.
+              </p>
 
-            {/* Action CTA Buttons */}
-            <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6 sm:mt-8">
-              <Link
-                to="/collections/traditional-men"
-                className="px-6 sm:px-8 py-3.5 sm:py-4 bg-[#F88379] hover:bg-[#FA958D] text-white font-extrabold text-xs sm:text-sm uppercase tracking-widest shadow-[0_6px_24px_rgba(248,131,121,0.5)] transition-all flex items-center gap-2 group cursor-pointer"
-              >
-                <span>Men's Traditional</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-              </Link>
+              {/* Feature Pills */}
+              <div className="flex flex-wrap items-center gap-2 sm:gap-2.5 mt-3 sm:mt-4 text-[10px] sm:text-xs text-slate-300 font-medium">
+                <span className="px-2.5 py-1 bg-[#0A1728]/85 border border-white/15 backdrop-blur-sm">
+                  ✦ Handcrafted Zardozi
+                </span>
+                <span className="px-2.5 py-1 bg-[#0A1728]/85 border border-white/15 backdrop-blur-sm">
+                  ✦ Royal Velvet & Raw Silk
+                </span>
+                <span className="px-2.5 py-1 bg-[#0A1728]/85 border border-white/15 backdrop-blur-sm">
+                  ✦ Tailored Bespoke Drape
+                </span>
+              </div>
 
-              <Link
-                to="/collections/traditional-women"
-                className="px-6 sm:px-8 py-3.5 sm:py-4 bg-[#071324]/80 hover:bg-white hover:text-black border border-white/30 text-white font-bold text-xs sm:text-sm uppercase tracking-widest backdrop-blur-md transition-all flex items-center gap-2 cursor-pointer"
-              >
-                <span>Women's Traditional</span>
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
-              </Link>
+              {/* Action CTA Buttons */}
+              <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-5 sm:mt-7">
+                <Link
+                  to="/collections/traditional-men"
+                  className="px-5 sm:px-7 py-3 sm:py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white font-extrabold text-xs sm:text-sm uppercase tracking-widest shadow-[0_6px_24px_rgba(248,131,121,0.5)] transition-all flex items-center gap-2 group cursor-pointer"
+                >
+                  <span>Men's Traditional</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                </Link>
+
+                <Link
+                  to="/collections/traditional-women"
+                  className="px-5 sm:px-7 py-3 sm:py-3.5 bg-[#071324]/85 hover:bg-white hover:text-black border border-white/30 text-white font-bold text-xs sm:text-sm uppercase tracking-widest backdrop-blur-md transition-all flex items-center gap-2 cursor-pointer"
+                >
+                  <span>Women's Traditional</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform" />
+                </Link>
+              </div>
             </div>
           </div>
         </div>
