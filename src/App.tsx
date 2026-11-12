@@ -35,10 +35,10 @@ function MainStorefront() {
     <div className="min-h-screen bg-[#060C1A] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#2563EB] selection:text-white">
       <ScrollToTop />
 
-      {/* Top Banner (Coral Peach Luxe) */}
+      {/* Top Banner (Very Light Coral Glossy) */}
       <AnnouncementBar />
 
-      {/* Navigation Bar (Coral Peach Luxe with Crisp White Typography & Dropdowns) */}
+      {/* Navigation Bar (Very Light Coral Fully Glossy Luxe Finish) */}
       <Navbar />
 
       {/* Main Multi-Page Routed Content (The Other Thing: Blue Only) */}
