@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { HeroEditorialBanner } from '../components/HeroEditorialBanner';
 import { UnifiedPanoramicRunway } from '../components/UnifiedPanoramicRunway';
 
 interface Showcase3DCardProps {
@@ -166,7 +167,12 @@ export const HomePage: React.FC = () => {
       {/* Deep Royal Midnight Ambient Glow */}
       <div className="pointer-events-none absolute top-10 left-1/3 w-[650px] h-72 bg-gradient-to-r from-[#1D4ED8]/25 via-[#2563EB]/15 to-transparent blur-3xl rounded-full" />
 
-      {/* Full-Bleed Edge-to-Edge Panoramic Runway: 100% From Left Corner to Right Corner with Zero Gaps */}
+      {/* 1. Cinematic Hero Editorial Photo Banner with Custom Shirt & Monogram Hoodie */}
+      <div className="relative z-10 w-full mb-8 sm:mb-10">
+        <HeroEditorialBanner />
+      </div>
+
+      {/* 2. Full-Bleed Edge-to-Edge Panoramic Runway: 100% From Left Corner to Right Corner with Zero Gaps */}
       <div className="relative z-10 w-full mb-10 sm:mb-14">
         <UnifiedPanoramicRunway allowSwitch={true} />
       </div>
