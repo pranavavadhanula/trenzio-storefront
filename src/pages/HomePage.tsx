@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
 import { HeroEditorialBanner } from '../components/HeroEditorialBanner';
 import { UnifiedPanoramicRunway } from '../components/UnifiedPanoramicRunway';
+import { TraditionalAttireShowcase } from '../components/TraditionalAttireShowcase';
 
 interface Showcase3DCardProps {
   to: string;
@@ -175,6 +176,11 @@ export const HomePage: React.FC = () => {
       {/* 2. Full-Bleed Edge-to-Edge Panoramic Runway: 100% From Left Corner to Right Corner with Zero Gaps */}
       <div className="relative z-10 w-full mb-10 sm:mb-14">
         <UnifiedPanoramicRunway allowSwitch={true} />
+      </div>
+
+      {/* 3. Royal Traditional Couture Showcase with Brand Monogram Logo */}
+      <div className="relative z-10 w-full mb-12 sm:mb-16">
+        <TraditionalAttireShowcase />
       </div>
 
       {/* Main Split Showcase: 3D Interactive Parallax Cards with Fully Glossy Glass Sheen */}
