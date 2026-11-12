@@ -16,7 +16,7 @@ export const AboutPage: React.FC = () => {
           <span className="italic text-[#F88379]">Engineering Substance.</span>
         </h1>
         <p className="text-xs sm:text-sm text-[#94A3B8] font-normal leading-relaxed">
-          Trenzio was founded with a single obsession: to dismantle the disposable 160 GSM mall t-shirt culture and create authentic heavyweight luxury streetwear designed, milled, and crafted in India.
+          Trevori was founded with a single obsession: to dismantle the disposable 160 GSM mall t-shirt culture and create authentic heavyweight luxury streetwear designed, milled, and crafted in India.
         </p>
       </div>
 

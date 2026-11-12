@@ -9,7 +9,7 @@ export const CURRENCIES: Record<string, CurrencyConfig> = {
 };
 
 /**
- * TRENZIO CATALOG
+ * TREVORI CATALOG
  * Shopify sync disconnected. No stock currently active.
  */
 export const PRODUCTS: Product[] = [];

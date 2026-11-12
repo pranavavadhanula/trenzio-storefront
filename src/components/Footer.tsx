@@ -50,7 +50,7 @@ export const Footer: React.FC = () => {
           <div className="lg:col-span-5 space-y-3">
             <Link to="/" className="inline-block">
               <h2 className="font-serif text-3xl text-white font-bold tracking-[0.3em] hover:text-[#F88379] transition-colors">
-                TRENZIO
+                TREVORI
               </h2>
             </Link>
             <p className="text-xs text-[#94A3B8] font-normal max-w-sm leading-relaxed">
@@ -58,7 +58,7 @@ export const Footer: React.FC = () => {
             </p>
             <div className="text-xs text-[#F88379] pt-2 font-sans flex flex-wrap gap-x-4 gap-y-1 font-semibold">
               <span>
-                Email: <a href="mailto:trenzio.shopping1@gmail.com" className="underline hover:text-white transition-colors">trenzio.shopping1@gmail.com</a>
+                Email: <a href="mailto:trevori.shopping1@gmail.com" className="underline hover:text-white transition-colors">trevori.shopping1@gmail.com</a>
               </span>
               <span>&bull;</span>
               <span>
@@ -94,7 +94,7 @@ export const Footer: React.FC = () => {
 
           {/* Company Links */}
           <div className="lg:col-span-2 space-y-2">
-            <div className="text-[10px] uppercase tracking-widest text-[#F88379] font-sans font-bold">Trenzio</div>
+            <div className="text-[10px] uppercase tracking-widest text-[#F88379] font-sans font-bold">Trevori</div>
             <ul className="space-y-1.5 text-xs text-[#94A3B8]">
               <li>
                 <Link to="/about" className="hover:text-[#F88379] transition-colors">About Our Craft</Link>
@@ -126,7 +126,7 @@ export const Footer: React.FC = () => {
             {subscribed ? (
               <div className="flex items-center gap-2 p-3 bg-white/5 border border-emerald-500/30 text-emerald-400 text-xs font-mono">
                 <Check className="w-4 h-4" />
-                <span>Code "TRENZIO200" activated!</span>
+                <span>Code "TREVORI200" activated!</span>
               </div>
             ) : (
               <form onSubmit={handleSubscribe} className="flex gap-2">
@@ -153,7 +153,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-[#64748B] gap-3">
           <div>
-            &copy; {new Date().getFullYear()} TRENZIO LUXURY APPAREL. All rights reserved.
+            &copy; {new Date().getFullYear()} TREVORI LUXURY APPAREL. All rights reserved.
           </div>
           <div className="flex items-center gap-4">
             <Link to="/about" className="hover:text-[#3B82F6]">Made in India</Link>

@@ -143,7 +143,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
   // AI recommended size calculation
   const recommendedSize = useMemo(() => {
-    // Formula calibrated to Trenzio 350 GSM chest measurements
+    // Formula calibrated to Trevori 350 GSM chest measurements
     const bmi = userWeightKg / Math.pow(userHeightCm / 100, 2);
     if (bmi < 20) return fitPreference === 'oversized' ? 'M' : 'S';
     if (bmi < 23) return fitPreference === 'oversized' ? 'L' : 'M';
@@ -319,7 +319,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
         // Download trigger
         const link = document.createElement('a');
-        link.download = `trenzio-virtual-tryon-${selectedColor.toLowerCase().replace(/\s+/g, '-')}.png`;
+        link.download = `trevori-virtual-tryon-${selectedColor.toLowerCase().replace(/\s+/g, '-')}.png`;
         link.href = canvas.toDataURL('image/png');
         link.click();
         setDownloading(false);
@@ -378,7 +378,7 @@ export const VirtualTryOnPage: React.FC = () => {
             Virtual Dressing Studio
           </h1>
           <p className="text-xs sm:text-sm text-[#3B82F6] font-light mt-1">
-            Upload your photo or choose a model to see how Trenzio's 350 GSM boxy streetwear cuts drape on your body before buying.
+            Upload your photo or choose a model to see how Trevori's 350 GSM boxy streetwear cuts drape on your body before buying.
           </p>
         </div>
 
@@ -501,7 +501,7 @@ export const VirtualTryOnPage: React.FC = () => {
               <div className="absolute inset-0 pointer-events-none border border-[#2563EB]/30 flex flex-col justify-between p-6">
                 <div className="border-t border-dashed border-[#2563EB]/40 text-[9px] font-mono text-[#2563EB] font-bold pt-1 flex justify-between">
                   <span>SHOULDER LINE &bull; DROP FIT</span>
-                  <span>TRENZIO 350 GSM</span>
+                  <span>TREVORI 350 GSM</span>
                 </div>
                 <div className="border-t border-dashed border-[#2563EB]/30 text-[9px] font-mono text-[#2563EB] font-bold pt-1 flex justify-between">
                   <span>CHEST MEASUREMENT ({selectedProduct.sizes.includes(selectedSize) ? selectedSize : 'L'})</span>
@@ -548,7 +548,7 @@ export const VirtualTryOnPage: React.FC = () => {
             {/* Bottom Watermark Tag */}
             <div className="absolute bottom-4 left-4 z-20 pointer-events-none">
               <span className="bg-white/90 border border-[#3B82F6]/30 text-[#FFFFFF] text-[9px] uppercase tracking-widest px-2.5 py-1 font-mono font-bold shadow">
-                TRENZIO 3D VIRTUAL FIT &bull; {selectedSize}
+                TREVORI 3D VIRTUAL FIT &bull; {selectedSize}
               </span>
             </div>
           </div>
@@ -693,7 +693,7 @@ export const VirtualTryOnPage: React.FC = () => {
                   {selectedProduct.gsm} GSM Bio-Washed Cotton
                 </span>
                 <span className="text-[#F88379] font-medium">
-                  Trenzio Atelier &bull; In Stock
+                  Trevori Atelier &bull; In Stock
                 </span>
               </div>
 

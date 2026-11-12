@@ -7,7 +7,7 @@ export const FabricPromise: React.FC = () => {
       <div className="text-center max-w-2xl mx-auto mb-14">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] text-[10px] uppercase tracking-wider font-sans font-bold shadow-sm mb-3">
           <span className="w-1.5 h-1.5 rounded-full bg-[#F88379] animate-pulse" />
-          <span>The Trenzio Standard</span>
+          <span>The Trevori Standard</span>
         </div>
         <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-white tracking-tight mt-1">
           Engineered to Outlast Standard Tees

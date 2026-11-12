@@ -72,7 +72,7 @@ export const CartDrawer: React.FC = () => {
           {/* Header */}
           <div className="p-6 border-b border-white/10 flex items-center justify-between">
             <div>
-              <h2 className="font-serif text-2xl text-[#FFFFFF] font-light">Your Trenzio Bag</h2>
+              <h2 className="font-serif text-2xl text-[#FFFFFF] font-light">Your Trevori Bag</h2>
               <p className="text-[10px] uppercase tracking-widest text-[#3B82F6] mt-0.5 font-mono">
                 {cart.length} {cart.length === 1 ? 'Item' : 'Items'} Selected
               </p>

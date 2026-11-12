@@ -112,7 +112,7 @@ export const ProductDetailModal: React.FC = () => {
                   {selectedProduct.gsm} GSM
                 </span>
                 <span className="text-[#F88379] font-medium">
-                  Trenzio Atelier &bull; In Stock
+                  Trevori Atelier &bull; In Stock
                 </span>
               </div>
 

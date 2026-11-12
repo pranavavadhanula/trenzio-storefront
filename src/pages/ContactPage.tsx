@@ -33,13 +33,13 @@ export const ContactPage: React.FC = () => {
 
             <div className="space-y-4 text-xs font-sans">
               <a
-                href="mailto:trenzio.shopping1@gmail.com"
+                href="mailto:trevori.shopping1@gmail.com"
                 className="flex items-center gap-3 p-3 bg-white/[0.03] border border-[#1E3A66] hover:border-[#F88379] text-white transition-colors block"
               >
                 <Mail className="w-4 h-4 text-[#F88379] flex-shrink-0" />
                 <div className="truncate">
                   <div className="text-[10px] uppercase text-[#94A3B8] font-bold">Official Support</div>
-                  <div className="text-[#F88379] font-bold">trenzio.shopping1@gmail.com</div>
+                  <div className="text-[#F88379] font-bold">trevori.shopping1@gmail.com</div>
                 </div>
               </a>
 
@@ -91,7 +91,7 @@ export const ContactPage: React.FC = () => {
               </div>
               <h3 className="font-sans text-xl text-white font-bold">Message Received</h3>
               <p className="text-xs text-[#94A3B8] max-w-sm mx-auto font-normal">
-                Thank you for contacting Trenzio. A client concierge will reply to your inquiry within 4 hours.
+                Thank you for contacting Trevori. A client concierge will reply to your inquiry within 4 hours.
               </p>
             </div>
           ) : (

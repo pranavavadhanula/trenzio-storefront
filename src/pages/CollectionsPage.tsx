@@ -554,7 +554,7 @@ export const CollectionsPage: React.FC = () => {
         <div className="py-28 text-center flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 text-[#F88379] animate-spin" />
           <p className="text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-bold">
-            Loading Trenzio Catalog...
+            Loading Trevori Catalog...
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (

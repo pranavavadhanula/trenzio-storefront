@@ -54,12 +54,12 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
-    const saved = localStorage.getItem('trenzio_cart');
+    const saved = localStorage.getItem('trevori_cart') || localStorage.getItem('trenzio_cart');
     return saved ? JSON.parse(saved) : [];
   });
 
   const [wishlist, setWishlist] = useState<string[]>(() => {
-    const saved = localStorage.getItem('trenzio_wishlist');
+    const saved = localStorage.getItem('trevori_wishlist') || localStorage.getItem('trenzio_wishlist');
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -83,11 +83,11 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('trenzio_cart', JSON.stringify(cart));
+    localStorage.setItem('trevori_cart', JSON.stringify(cart));
   }, [cart]);
 
   useEffect(() => {
-    localStorage.setItem('trenzio_wishlist', JSON.stringify(wishlist));
+    localStorage.setItem('trevori_wishlist', JSON.stringify(wishlist));
   }, [wishlist]);
 
   const toggleWishlist = (productId: string) => {

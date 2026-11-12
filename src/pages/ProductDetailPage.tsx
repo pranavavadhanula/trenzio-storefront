@@ -164,7 +164,7 @@ export const ProductDetailPage: React.FC = () => {
                 {product.gsm} GSM Combed Cotton
               </span>
               <span className="bg-[#F88379] text-white px-2 py-0.5 font-bold shadow-sm">
-                Trenzio Atelier &bull; In Stock
+                Trevori Atelier &bull; In Stock
               </span>
             </div>
 
