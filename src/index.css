@@ -51,3 +51,18 @@ html, body, #root {
   animation-play-state: paused;
 }
 
+/* 3D Holographic Shimmer Sweep */
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.animate-shimmer-sweep {
+  animation: shimmer-sweep 5s ease-in-out infinite;
+}
+
+
