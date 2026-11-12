@@ -73,44 +73,44 @@ export const CollectionsPage: React.FC = () => {
   }, [products, config, sortBy]);
 
   return (
-    <div className="relative min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#060C1A] text-white overflow-hidden">
-      {/* Luminous Royal Blue Atmospheric Ambient Glow */}
-      <div className="pointer-events-none absolute top-4 left-1/4 w-[520px] h-48 bg-gradient-to-r from-[#2563EB]/25 via-[#1D4ED8]/15 to-transparent blur-3xl rounded-full" />
+    <div className="relative min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#07111E] text-white overflow-hidden font-sans">
+      {/* Dark Blue Atmospheric Glow */}
+      <div className="pointer-events-none absolute top-4 left-1/4 w-[520px] h-48 bg-gradient-to-r from-[#1D4ED8]/25 via-[#2563EB]/15 to-transparent blur-3xl rounded-full" />
 
       {/* Breadcrumb Navigation */}
-      <nav className="relative z-10 flex items-center space-x-2 text-xs uppercase tracking-widest text-[#94A3B8] font-mono mb-8">
-        <Link to="/" className="hover:text-[#3B82F6] transition-colors">Home</Link>
-        <ChevronRight className="w-3.5 h-3.5 text-[#3B82F6]/60" />
-        <Link to="/collections/all" className="hover:text-[#3B82F6] transition-colors">Collections</Link>
-        <ChevronRight className="w-3.5 h-3.5 text-[#3B82F6]/60" />
-        <span className="text-[#3B82F6] font-bold drop-shadow-[0_0_8px_rgba(59,130,246,0.6)]">{config.label}</span>
+      <nav className="relative z-10 flex items-center space-x-2 text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-medium mb-8">
+        <Link to="/" className="hover:text-[#F88379] transition-colors">Home</Link>
+        <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
+        <Link to="/collections/all" className="hover:text-[#F88379] transition-colors">Collections</Link>
+        <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
+        <span className="text-[#F88379] font-bold">{config.label}</span>
       </nav>
 
       {/* Header */}
-      <div className="relative z-10 mb-10 pb-8 border-b border-[#2563EB]/20">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/15 border border-[#2563EB]/40 text-[#60A5FA] text-[10px] uppercase tracking-[0.28em] font-mono font-bold shadow-[0_0_15px_rgba(37,99,235,0.25)] mb-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] shadow-[0_0_8px_#3B82F6] animate-pulse" />
+      <div className="relative z-10 mb-10 pb-8 border-b border-[#1E3A66]/50">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] text-[10px] uppercase tracking-wider font-sans font-bold shadow-sm mb-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[#F88379] animate-pulse" />
           <span>The Heavyweight Catalog</span>
         </div>
-        <h1 className="font-serif text-3xl sm:text-5xl font-light text-white tracking-tight mt-1 mb-3">
+        <h1 className="font-sans text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-1 mb-3">
           {config.label}
         </h1>
-        <p className="text-xs sm:text-sm text-[#94A3B8] font-light max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#94A3B8] font-normal max-w-2xl leading-relaxed">
           {config.desc}
         </p>
 
-        {/* Collection Tab Links */}
-        <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-white/10">
+        {/* Collection Tab Links with Coral Pink Active Button */}
+        <div className="flex flex-wrap items-center gap-2 mt-6 pt-4 border-t border-[#1E3A66]/40">
           {Object.entries(CATEGORY_MAP).map(([slug, item]) => {
             const isTabActive = currentCategory === slug;
             return (
               <Link
                 key={slug}
                 to={`/collections/${slug}`}
-                className={`px-4 py-2 text-xs uppercase tracking-wider border transition-all duration-300 cursor-pointer font-mono ${
+                className={`px-4 py-2 text-xs uppercase tracking-wider border transition-all duration-300 cursor-pointer font-sans ${
                   isTabActive
-                    ? 'border-[#3B82F6] bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white font-black shadow-[0_0_22px_rgba(37,99,235,0.55)] scale-[1.02]'
-                    : 'border-white/10 bg-white/[0.04] text-[#CBD5E1] hover:border-[#3B82F6] hover:text-[#60A5FA] hover:bg-[#2563EB]/10'
+                    ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_4px_16px_rgba(248,131,121,0.45)] scale-[1.02]'
+                    : 'border-[#1E3A66]/60 bg-[#0B1A30] text-[#CBD5E1] hover:border-[#F88379] hover:text-[#F88379] font-medium'
                 }`}
                 title={`Open ${item.label} (Right click to open in new tab)`}
               >
@@ -122,18 +122,18 @@ export const CollectionsPage: React.FC = () => {
       </div>
 
       {/* Filter and Count Bar */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#2563EB]/20 text-xs">
-        <span className="text-[11px] font-mono text-[#94A3B8]">
-          Showing <strong className="text-[#3B82F6] font-bold drop-shadow-[0_0_8px_rgba(59,130,246,0.5)]">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'piece' : 'pieces'}
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#1E3A66]/50 text-xs">
+        <span className="text-[12px] font-sans text-[#94A3B8] font-medium">
+          Showing <strong className="text-white font-bold">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'piece' : 'pieces'}
         </span>
 
         <div className="flex items-center gap-2 text-[#94A3B8]">
-          <SlidersHorizontal className="w-3.5 h-3.5 text-[#3B82F6]" />
-          <span className="text-[10px] uppercase font-mono font-bold text-white">Sort:</span>
+          <SlidersHorizontal className="w-3.5 h-3.5 text-[#F88379]" />
+          <span className="text-[11px] uppercase font-sans font-bold text-white">Sort:</span>
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="bg-[#0D1B3A] border border-[#2563EB]/30 text-xs uppercase tracking-wider text-white px-3 py-1.5 focus:outline-none focus:border-[#3B82F6] focus:ring-1 focus:ring-[#3B82F6] font-mono cursor-pointer"
+            className="bg-[#0B1A30] border border-[#1E3A66] text-xs uppercase tracking-wider text-white px-3 py-1.5 focus:outline-none focus:border-[#F88379] focus:ring-1 focus:ring-[#F88379] font-sans font-semibold cursor-pointer"
           >
             <option value="featured">Featured Drops</option>
             <option value="price-asc">Price: Low to High</option>
@@ -145,26 +145,26 @@ export const CollectionsPage: React.FC = () => {
       {/* Products Grid */}
       {isLoadingProducts ? (
         <div className="py-28 text-center flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="w-8 h-8 text-[#3B82F6] animate-spin" />
-          <p className="text-xs uppercase tracking-widest text-[#94A3B8] font-mono font-bold">
+          <Loader2 className="w-8 h-8 text-[#F88379] animate-spin" />
+          <p className="text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-bold">
             Loading Trenzio Catalog...
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="py-20 text-center border border-[#2563EB]/25 p-8 sm:p-14 bg-[#0D1B3A] text-white space-y-5 shadow-2xl backdrop-blur-xl">
-          <div className="w-14 h-14 mx-auto rounded-full bg-white/[0.04] border border-[#3B82F6]/40 flex items-center justify-center text-[#3B82F6]">
+        <div className="py-20 text-center border border-[#1E3A66]/60 p-8 sm:p-14 bg-[#0B1A30] text-white space-y-5 shadow-2xl backdrop-blur-xl">
+          <div className="w-14 h-14 mx-auto rounded-full bg-[#F88379]/15 border border-[#F88379]/30 flex items-center justify-center text-[#F88379]">
             <Sparkles className="w-6 h-6" />
           </div>
-          <h3 className="font-serif text-2xl sm:text-3xl text-white font-light">
+          <h3 className="font-sans text-2xl sm:text-3xl text-white font-bold">
             New Drop Dropping Soon
           </h3>
-          <p className="text-xs sm:text-sm text-[#94A3B8] max-w-md mx-auto font-light leading-relaxed">
-            Our next heavyweight pieces for <strong className="text-[#3B82F6]">{config.label}</strong> are currently in production with Printrove.
+          <p className="text-xs sm:text-sm text-[#94A3B8] max-w-md mx-auto font-normal leading-relaxed">
+            Our next heavyweight pieces for <strong className="text-[#F88379]">{config.label}</strong> are currently in production with Printrove.
           </p>
           <div className="pt-2">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all cursor-pointer font-mono"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-wider font-bold shadow-[0_4px_16px_rgba(248,131,121,0.45)] transition-all cursor-pointer font-sans"
             >
               <span>Explore All Available Drops</span>
             </Link>

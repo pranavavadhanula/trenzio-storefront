@@ -15,7 +15,7 @@ export const WishlistPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#060C1A] text-[#FFFFFF]">
+    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#EBF3FA] text-[#FFFFFF]">
       <div className="mb-10 pb-6 border-b border-[#3B82F6]/20 flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Heart className="w-6 h-6 text-[#2563EB] fill-[#2563EB]" />
@@ -35,7 +35,7 @@ export const WishlistPage: React.FC = () => {
       </div>
 
       {wishlistedProducts.length === 0 ? (
-        <div className="py-24 text-center border border-[#3B82F6]/25 p-8 sm:p-14 bg-[#0D1B3A] text-[#FFFFFF] space-y-4 max-w-xl mx-auto shadow-2xl backdrop-blur-xl">
+        <div className="py-24 text-center border border-[#3B82F6]/25 p-8 sm:p-14 bg-white text-[#FFFFFF] space-y-4 max-w-xl mx-auto shadow-2xl backdrop-blur-xl">
           <div className="w-14 h-14 mx-auto rounded-full bg-white/[0.04] border border-[#2563EB]/40 flex items-center justify-center text-[#2563EB]">
             <Heart className="w-6 h-6 text-[#2563EB]" />
           </div>
@@ -48,7 +48,7 @@ export const WishlistPage: React.FC = () => {
           <div className="pt-4">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all cursor-pointer font-mono"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-widest font-black shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all cursor-pointer font-mono"
             >
               <span>Explore Collection</span>
               <ArrowRight className="w-4 h-4" />
@@ -60,7 +60,7 @@ export const WishlistPage: React.FC = () => {
           {wishlistedProducts.map((product) => (
             <div
               key={product.id}
-              className="group p-4 bg-[#0D1B3A] border border-[#3B82F6]/20 flex flex-col justify-between space-y-4 hover:border-[#2563EB] transition-all shadow-xl text-[#FFFFFF]"
+              className="group p-4 bg-white border border-[#3B82F6]/20 flex flex-col justify-between space-y-4 hover:border-[#2563EB] transition-all shadow-xl text-[#FFFFFF]"
             >
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-white/[0.05] to-[#3B82F6]/[0.03] p-4 flex items-center justify-center border border-[#3B82F6]/20">
                 <img
@@ -70,7 +70,7 @@ export const WishlistPage: React.FC = () => {
                 />
                 <button
                   onClick={() => toggleWishlist(product.id)}
-                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-[#0D1B3A] border border-[#3B82F6]/30 flex items-center justify-center text-[#FFFFFF] hover:text-[#2563EB] cursor-pointer shadow-md"
+                  className="absolute top-2 right-2 w-8 h-8 rounded-full bg-white border border-[#3B82F6]/30 flex items-center justify-center text-[#FFFFFF] hover:text-[#2563EB] cursor-pointer shadow-md"
                   title="Remove from wishlist"
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -93,7 +93,7 @@ export const WishlistPage: React.FC = () => {
               {/* Move to bag CTA */}
               <button
                 onClick={() => handleMoveToBag(product)}
-                className="w-full py-3 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs font-black uppercase tracking-wider shadow-[0_0_15px_rgba(237,224,204,0.25)] transition-all flex items-center justify-center gap-1.5 cursor-pointer font-mono"
+                className="w-full py-3 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-black uppercase tracking-wider shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all flex items-center justify-center gap-1.5 cursor-pointer font-mono"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
                 <span>Move to Bag</span>

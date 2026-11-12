@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export const Hero: React.FC = () => {
   return (
-    <section className="relative min-h-[82vh] flex items-center justify-center overflow-hidden bg-[#060C1A]">
+    <section className="relative min-h-[82vh] flex items-center justify-center overflow-hidden bg-[#07111E]">
       {/* Background Hero Image */}
       <div className="absolute inset-0 z-0">
         <img
@@ -12,24 +12,24 @@ export const Hero: React.FC = () => {
           alt="Heavyweight streetwear oversized apparel"
           className="w-full h-full object-cover object-center scale-100 opacity-25 filter contrast-125 brightness-90"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#060C1A] via-[#060C1A]/80 to-[#060C1A]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07111E] via-[#07111E]/80 to-[#07111E]/40" />
       </div>
 
       {/* Hero Content */}
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-center pt-8 pb-16">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#2563EB]/40 bg-[#2563EB]/15 backdrop-blur-md mb-6 shadow-[0_0_15px_rgba(37,99,235,0.25)]">
-          <Sparkles className="w-3 h-3 text-[#3B82F6]" />
-          <span className="text-[10px] uppercase tracking-[0.3em] text-[#60A5FA] font-medium font-mono font-bold">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#F88379]/40 bg-[#F88379]/15 backdrop-blur-md mb-6 shadow-sm">
+          <Sparkles className="w-3 h-3 text-[#F88379]" />
+          <span className="text-[10px] uppercase tracking-[0.3em] text-[#F88379] font-medium font-sans font-bold">
             New Drop &bull; 240–400 GSM Pure Cotton
           </span>
         </div>
 
-        <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-light text-white tracking-tight leading-[1.1] mb-6">
+        <h1 className="font-sans text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
           Heavyweight Oversized Tees <br />
-          <span className="italic font-normal text-[#3B82F6]">& Luxury Sweatshirts</span>
+          <span className="italic font-normal text-[#F88379]">& Luxury Sweatshirts</span>
         </h1>
 
-        <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#94A3B8] font-light leading-relaxed mb-10 tracking-wide">
+        <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#94A3B8] font-normal leading-relaxed mb-10 tracking-wide font-sans">
           Engineered for <strong>Men & Women</strong>. Super-combed bio-washed cotton, structured boxy dropped-shoulders, and zero post-wash shrinkage.
         </p>
 
@@ -37,13 +37,13 @@ export const Hero: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <Link
             to="/collections/oversized-tees"
-            className="w-full sm:w-auto px-8 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all duration-300 flex items-center justify-center cursor-pointer font-mono"
+            className="w-full sm:w-auto px-8 py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-bold uppercase tracking-[0.14em] shadow-[0_4px_16px_rgba(248,131,121,0.45)] transition-all duration-300 flex items-center justify-center cursor-pointer font-sans"
           >
             Shop Oversized Tees (₹285)
           </Link>
           <Link
             to="/collections/sweatshirts"
-            className="w-full sm:w-auto px-8 py-3.5 border border-[#2563EB]/30 bg-white/[0.04] text-white text-xs uppercase tracking-[0.2em] hover:border-[#3B82F6] hover:text-[#3B82F6] transition-all duration-300 backdrop-blur-sm flex items-center justify-center cursor-pointer font-mono"
+            className="w-full sm:w-auto px-8 py-3.5 border border-[#1E3A66] bg-white/[0.04] text-white text-xs uppercase tracking-[0.14em] hover:border-[#F88379] hover:text-[#F88379] transition-all duration-300 backdrop-blur-sm flex items-center justify-center cursor-pointer font-sans font-bold"
           >
             Shop Sweatshirts (400 GSM)
           </Link>

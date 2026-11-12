@@ -15,28 +15,28 @@ export const Footer: React.FC = () => {
   };
 
   return (
-    <footer className="bg-[#060C1A] text-white border-t border-[#1E293B] pt-16 pb-12">
+    <footer className="bg-[#07111E] text-white border-t border-[#1E3A66]/40 pt-16 pb-12 font-sans">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
         {/* Top 3 Trust Columns for Indian D2C Buyers */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-14 border-b border-[#1E293B] text-xs">
-          <div className="flex items-center gap-3 p-4 bg-[#0D1B3A]/60 border border-[#2563EB]/20 backdrop-blur-md">
-            <Truck className="w-5 h-5 text-[#3B82F6] flex-shrink-0" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pb-14 border-b border-[#1E3A66]/40 text-xs">
+          <div className="flex items-center gap-3 p-4 bg-[#0B1A30] border border-[#1E3A66]/60 backdrop-blur-md">
+            <Truck className="w-5 h-5 text-[#F88379] flex-shrink-0" />
             <div>
               <div className="font-bold text-white uppercase tracking-wider text-[11px]">Free Pan-India Delivery</div>
               <div className="text-[#94A3B8] text-[11px] mt-0.5">Dispatched within 24 hours &bull; Delivered in 3-5 days</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 bg-[#0D1B3A]/60 border border-[#2563EB]/20 backdrop-blur-md">
-            <RotateCcw className="w-5 h-5 text-[#3B82F6] flex-shrink-0" />
+          <div className="flex items-center gap-3 p-4 bg-[#0B1A30] border border-[#1E3A66]/60 backdrop-blur-md">
+            <RotateCcw className="w-5 h-5 text-[#F88379] flex-shrink-0" />
             <div>
               <div className="font-bold text-white uppercase tracking-wider text-[11px]">Easy 7-Day Size Exchanges</div>
               <div className="text-[#94A3B8] text-[11px] mt-0.5">Hassle-free doorstep pickup across 19,000+ pin codes</div>
             </div>
           </div>
 
-          <div className="flex items-center gap-3 p-4 bg-[#0D1B3A]/60 border border-[#2563EB]/20 backdrop-blur-md">
-            <ShieldCheck className="w-5 h-5 text-[#3B82F6] flex-shrink-0" />
+          <div className="flex items-center gap-3 p-4 bg-[#0B1A30] border border-[#1E3A66]/60 backdrop-blur-md">
+            <ShieldCheck className="w-5 h-5 text-[#F88379] flex-shrink-0" />
             <div>
               <div className="font-bold text-white uppercase tracking-wider text-[11px]">UPI & Cash on Delivery</div>
               <div className="text-[#94A3B8] text-[11px] mt-0.5">Pay securely via GPay, PhonePe, Cards or COD</div>
@@ -45,18 +45,18 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Brand & Links Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 py-12 border-b border-[#1E293B]">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 py-12 border-b border-[#1E3A66]/40">
           {/* Brand info */}
           <div className="lg:col-span-5 space-y-3">
             <Link to="/" className="inline-block">
-              <h2 className="font-serif text-3xl text-white font-light tracking-[0.3em] hover:text-[#3B82F6] transition-colors">
+              <h2 className="font-serif text-3xl text-white font-bold tracking-[0.3em] hover:text-[#F88379] transition-colors">
                 TRENZIO
               </h2>
             </Link>
-            <p className="text-xs text-[#94A3B8] font-light max-w-sm leading-relaxed">
+            <p className="text-xs text-[#94A3B8] font-normal max-w-sm leading-relaxed">
               India's premium heavyweight streetwear brand. Crafting 240–350 GSM oversized tees and 400 GSM French Terry sweatshirts for men and women. Designed and crafted in India.
             </p>
-            <div className="text-xs text-[#3B82F6] pt-2 font-mono flex flex-wrap gap-x-4 gap-y-1">
+            <div className="text-xs text-[#F88379] pt-2 font-sans flex flex-wrap gap-x-4 gap-y-1 font-semibold">
               <span>
                 Email: <a href="mailto:trenzio.shopping1@gmail.com" className="underline hover:text-white transition-colors">trenzio.shopping1@gmail.com</a>
               </span>
@@ -147,7 +147,7 @@ export const Footer: React.FC = () => {
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-wider font-black shadow-[0_0_15px_rgba(237,224,204,0.25)] transition-all flex items-center gap-1 cursor-pointer font-mono"
+                  className="px-4 py-2.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-wider font-black shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all flex items-center gap-1 cursor-pointer font-mono"
                 >
                   <span>Claim</span>
                   <ArrowRight className="w-3.5 h-3.5" />

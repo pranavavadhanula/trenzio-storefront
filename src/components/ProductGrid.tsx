@@ -23,13 +23,13 @@ export const ProductGrid: React.FC = () => {
   return (
     <section id="collection-section" className="py-20 sm:py-28 max-w-7xl mx-auto px-6 sm:px-10 text-white">
       {/* Top Filter Bar */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 font-sans">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/15 border border-[#2563EB]/40 text-[#60A5FA] text-[10px] uppercase tracking-[0.3em] font-mono font-bold shadow-[0_0_15px_rgba(37,99,235,0.25)] mb-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6] animate-pulse" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] text-[10px] uppercase tracking-wider font-sans font-bold shadow-sm mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#F88379] animate-pulse" />
             <span>Heavyweight Streetwear &bull; India</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl font-light text-white tracking-tight mt-1">
+          <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-white tracking-tight mt-1">
             {selectedCategory === 'All' ? 'Catalog' : selectedCategory}
           </h2>
         </div>
@@ -40,10 +40,10 @@ export const ProductGrid: React.FC = () => {
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 text-xs uppercase tracking-wider rounded-none border transition-all cursor-pointer font-mono ${
+              className={`px-4 py-2 text-xs uppercase tracking-wider rounded-none border transition-all cursor-pointer font-sans ${
                 selectedCategory === cat
-                  ? 'border-[#3B82F6] bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] text-white font-black shadow-[0_0_20px_rgba(37,99,235,0.5)] scale-[1.02]'
-                  : 'border-white/10 bg-white/[0.04] text-[#CBD5E1] hover:border-[#3B82F6] hover:text-[#60A5FA]'
+                  ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_4px_16px_rgba(248,131,121,0.4)] scale-[1.02]'
+                  : 'border-[#1E3A66] bg-[#0B1A30] text-[#CBD5E1] hover:border-[#F88379] hover:text-[#F88379] font-medium'
               }`}
             >
               {cat}
@@ -83,7 +83,7 @@ export const ProductGrid: React.FC = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-[#0D1B3A] text-xs uppercase tracking-wider text-white border border-[#2563EB]/30 px-2 py-1 focus:outline-none focus:border-[#3B82F6] cursor-pointer font-mono"
+              className="bg-white text-xs uppercase tracking-wider text-white border border-[#2563EB]/30 px-2 py-1 focus:outline-none focus:border-[#3B82F6] cursor-pointer font-mono"
             >
               <option value="featured">Featured</option>
               <option value="price-asc">Price: Low to High</option>
@@ -102,7 +102,7 @@ export const ProductGrid: React.FC = () => {
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="py-16 text-center border border-[#2563EB]/25 p-8 bg-[#0D1B3A] space-y-3">
+        <div className="py-16 text-center border border-[#2563EB]/25 p-8 bg-white space-y-3">
           <p className="text-base text-white font-serif">No products found in this category.</p>
           <button
             onClick={() => {

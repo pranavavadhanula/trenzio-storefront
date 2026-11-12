@@ -11,7 +11,7 @@ export const ContactPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-10 sm:py-20 max-w-5xl mx-auto px-6 sm:px-10 bg-[#060C1A] text-[#FFFFFF]">
+    <div className="min-h-screen py-10 sm:py-20 max-w-5xl mx-auto px-6 sm:px-10 bg-[#EBF3FA] text-[#FFFFFF]">
       <div className="text-center max-w-xl mx-auto mb-16">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/15 border border-[#2563EB]/40 text-[#2563EB] text-[10px] uppercase tracking-[0.3em] font-mono font-bold shadow-[0_0_15px_rgba(255,122,0,0.25)] mb-3">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] animate-pulse" />
@@ -28,7 +28,7 @@ export const ContactPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
         {/* Direct Channels (5 Cols) */}
         <div className="md:col-span-5 space-y-6">
-          <div className="p-6 bg-[#0D1B3A] border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF]">
+          <div className="p-6 bg-white border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF]">
             <h3 className="font-serif text-xl text-[#FFFFFF]">Direct Contact</h3>
 
             <div className="space-y-4 text-xs font-mono">
@@ -69,7 +69,7 @@ export const ContactPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-6 bg-[#0D1B3A] border border-[#3B82F6]/20 space-y-3 text-xs text-[#3B82F6] font-light shadow-xl">
+          <div className="p-6 bg-white border border-[#3B82F6]/20 space-y-3 text-xs text-[#3B82F6] font-light shadow-xl">
             <div className="flex items-center gap-2 text-[#2563EB] font-mono uppercase text-[10px] font-bold">
               <Truck className="w-3.5 h-3.5" />
               <span>Doorstep Delivery SLA</span>
@@ -79,7 +79,7 @@ export const ContactPage: React.FC = () => {
         </div>
 
         {/* Message Form (7 Cols) */}
-        <div className="md:col-span-7 p-8 bg-[#0D1B3A] border border-[#3B82F6]/20 shadow-xl text-[#FFFFFF]">
+        <div className="md:col-span-7 p-8 bg-white border border-[#3B82F6]/20 shadow-xl text-[#FFFFFF]">
           <h2 className="font-serif text-2xl text-white font-light mb-6">
             Send an Inquiry
           </h2>
@@ -155,7 +155,7 @@ export const ContactPage: React.FC = () => {
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="w-full py-4 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs font-black uppercase tracking-widest shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer font-mono"
+                className="w-full py-4 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-black uppercase tracking-widest shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer font-mono"
               >
                 <span>Dispatch Inquiry</span>
                 <ArrowRight className="w-4 h-4" />

@@ -353,7 +353,7 @@ export const VirtualTryOnPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-4 sm:px-8 bg-[#060C1A] text-[#FFFFFF]">
+    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-4 sm:px-8 bg-[#EBF3FA] text-[#FFFFFF]">
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#3B82F6] font-mono mb-6">
         <Link to="/" className="hover:text-[#2563EB] transition-colors">Home</Link>
@@ -414,7 +414,7 @@ export const VirtualTryOnPage: React.FC = () => {
         {/* Left Column: Interactive 3D Fitting Mirror (7 Cols) */}
         <div className="lg:col-span-7 space-y-4">
           {/* Fitting Canvas Viewport */}
-          <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full bg-[#0D1B3A] border-2 border-[#3B82F6]/25 overflow-hidden shadow-2xl flex items-center justify-center select-none backdrop-blur-xl">
+          <div className="relative aspect-[3/4] sm:aspect-[4/5] w-full bg-white border-2 border-[#3B82F6]/25 overflow-hidden shadow-2xl flex items-center justify-center select-none backdrop-blur-xl">
             {/* Live Camera View Mode */}
             {isCameraActive ? (
               <div className="absolute inset-0 z-20 bg-black flex flex-col items-center justify-center">
@@ -433,7 +433,7 @@ export const VirtualTryOnPage: React.FC = () => {
                   ) : (
                     <button
                       onClick={captureCameraPhoto}
-                      className="px-8 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(37,99,235,0.5)] cursor-pointer font-mono"
+                      className="px-8 py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(37,99,235,0.5)] cursor-pointer font-mono"
                     >
                       Snap Photo
                     </button>
@@ -513,7 +513,7 @@ export const VirtualTryOnPage: React.FC = () => {
                 className={`w-9 h-9 rounded-full backdrop-blur-md border flex items-center justify-center text-xs transition-colors cursor-pointer shadow-md ${
                   showBodyGuide
                     ? 'bg-[#2563EB] text-black border-[#2563EB] font-bold shadow-[0_0_12px_rgba(37,99,235,0.5)]'
-                    : 'bg-[#0D1B3A]/80 border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB]'
+                    : 'bg-white/80 border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB]'
                 }`}
                 title="Toggle Body Fit Grid Lines"
               >
@@ -525,7 +525,7 @@ export const VirtualTryOnPage: React.FC = () => {
                 className={`w-9 h-9 rounded-full backdrop-blur-md border flex items-center justify-center text-xs transition-colors cursor-pointer shadow-md ${
                   compareMode
                     ? 'bg-[#2563EB] text-black border-[#2563EB] font-bold shadow-[0_0_12px_rgba(37,99,235,0.5)]'
-                    : 'bg-[#0D1B3A]/80 border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB]'
+                    : 'bg-white/80 border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB]'
                 }`}
                 title="Toggle Before/After Split Comparison"
               >
@@ -534,7 +534,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
               <button
                 onClick={handleResetControls}
-                className="w-9 h-9 rounded-full backdrop-blur-md bg-[#0D1B3A]/80 border border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB] flex items-center justify-center transition-colors cursor-pointer shadow-md"
+                className="w-9 h-9 rounded-full backdrop-blur-md bg-white/80 border border-[#3B82F6]/25 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB] flex items-center justify-center transition-colors cursor-pointer shadow-md"
                 title="Reset Fit Alignment"
               >
                 <RefreshCw className="w-4 h-4" />
@@ -543,7 +543,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
             {/* Bottom Watermark Tag */}
             <div className="absolute bottom-4 left-4 z-20 pointer-events-none">
-              <span className="bg-[#0D1B3A]/90 border border-[#3B82F6]/30 text-[#FFFFFF] text-[9px] uppercase tracking-widest px-2.5 py-1 font-mono font-bold shadow">
+              <span className="bg-white/90 border border-[#3B82F6]/30 text-[#FFFFFF] text-[9px] uppercase tracking-widest px-2.5 py-1 font-mono font-bold shadow">
                 TRENZIO 3D VIRTUAL FIT &bull; {selectedSize}
               </span>
             </div>
@@ -685,7 +685,7 @@ export const VirtualTryOnPage: React.FC = () => {
             {/* Garment Header Card */}
             <div className="p-6 bg-white/[0.03] backdrop-blur-md border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF]">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-wider font-mono">
-                <span className="bg-[#0D1B3A] border border-[#3B82F6]/30 text-[#2563EB] px-2 py-0.5 font-bold">
+                <span className="bg-white border border-[#3B82F6]/30 text-[#2563EB] px-2 py-0.5 font-bold">
                   {selectedProduct.gsm} GSM Bio-Washed Cotton
                 </span>
                 <span className="text-emerald-400 font-medium">
@@ -865,7 +865,7 @@ export const VirtualTryOnPage: React.FC = () => {
               className={`w-full py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xl font-mono ${
                 isAdded
                   ? 'bg-emerald-500 text-black'
-                  : 'bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] shadow-[0_0_25px_rgba(37,99,235,0.5)]'
+                  : 'bg-[#F88379] hover:bg-[#FA958D] text-white shadow-[0_0_25px_rgba(37,99,235,0.5)]'
               }`}
             >
               {isAdded ? (

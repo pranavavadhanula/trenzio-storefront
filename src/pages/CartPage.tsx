@@ -56,7 +56,7 @@ export const CartPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#060C1A] text-[#FFFFFF]">
+    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#EBF3FA] text-[#FFFFFF]">
       <div className="mb-10 pb-6 border-b border-[#3B82F6]/20 flex items-center justify-between">
         <div>
           <span className="text-[10px] uppercase tracking-widest text-[#2563EB] font-mono font-bold">Shopping Bag</span>
@@ -73,7 +73,7 @@ export const CartPage: React.FC = () => {
       </div>
 
       {cart.length === 0 ? (
-        <div className="py-24 text-center border border-[#3B82F6]/25 p-8 sm:p-14 bg-[#0D1B3A] text-[#FFFFFF] space-y-4 max-w-xl mx-auto shadow-2xl backdrop-blur-xl">
+        <div className="py-24 text-center border border-[#3B82F6]/25 p-8 sm:p-14 bg-white text-[#FFFFFF] space-y-4 max-w-xl mx-auto shadow-2xl backdrop-blur-xl">
           <div className="w-14 h-14 mx-auto rounded-full bg-white/[0.04] border border-[#2563EB]/40 flex items-center justify-center text-[#2563EB]">
             <ShoppingBag className="w-6 h-6" />
           </div>
@@ -86,7 +86,7 @@ export const CartPage: React.FC = () => {
           <div className="pt-4">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all cursor-pointer font-mono"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-widest font-black shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all cursor-pointer font-mono"
             >
               <span>Explore Heavyweight Catalog</span>
               <ArrowRight className="w-4 h-4" />
@@ -98,7 +98,7 @@ export const CartPage: React.FC = () => {
           {/* Cart Items (8 Cols) */}
           <div className="lg:col-span-8 space-y-6">
             {/* Free shipping progress */}
-            <div className="bg-[#0D1B3A] p-4 border border-[#3B82F6]/20 shadow-xl text-[#FFFFFF]">
+            <div className="bg-white p-4 border border-[#3B82F6]/20 shadow-xl text-[#FFFFFF]">
               <div className="flex justify-between text-xs text-[#3B82F6] mb-2 font-mono">
                 <span className="flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-[#2563EB]" />
@@ -119,7 +119,7 @@ export const CartPage: React.FC = () => {
             </div>
 
             {/* List */}
-            <div className="border border-[#3B82F6]/20 divide-y divide-[#3B82F6]/15 bg-[#0D1B3A] text-[#FFFFFF] shadow-xl">
+            <div className="border border-[#3B82F6]/20 divide-y divide-[#3B82F6]/15 bg-white text-[#FFFFFF] shadow-xl">
               {cart.map((item) => (
                 <div key={item.cartItemId} className="p-6 flex flex-col sm:flex-row gap-6 items-start sm:items-center justify-between">
                   <div className="flex gap-4 items-center">
@@ -189,7 +189,7 @@ export const CartPage: React.FC = () => {
 
           {/* Summary (4 Cols) */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="p-6 bg-[#0D1B3A] border border-[#3B82F6]/20 shadow-xl space-y-6 text-[#FFFFFF]">
+            <div className="p-6 bg-white border border-[#3B82F6]/20 shadow-xl space-y-6 text-[#FFFFFF]">
               <h2 className="font-serif text-2xl text-white font-light border-b border-[#3B82F6]/20 pb-4">
                 Order Summary
               </h2>
@@ -256,7 +256,7 @@ export const CartPage: React.FC = () => {
               <button
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
-                className="w-full py-4 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs font-black uppercase tracking-widest shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 font-mono"
+                className="w-full py-4 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-black uppercase tracking-widest shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 font-mono"
               >
                 {isCheckingOut ? (
                   <span>Opening Shopify Checkout...</span>

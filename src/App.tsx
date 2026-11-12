@@ -32,17 +32,17 @@ function ScrollToTop() {
 
 function MainStorefront() {
   return (
-    <div className="min-h-screen bg-[#060C1A] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#2563EB] selection:text-white">
+    <div className="min-h-screen bg-[#07111E] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#F88379] selection:text-white">
       <ScrollToTop />
 
-      {/* Top Banner (Very Light Coral Glossy) */}
+      {/* Top Banner (Navy Blue Glossy) */}
       <AnnouncementBar />
 
-      {/* Navigation Bar (Very Light Coral Fully Glossy Luxe Finish) */}
+      {/* Navigation Bar (Navy Blue Glossy with Coral Pink Accents) */}
       <Navbar />
 
-      {/* Main Multi-Page Routed Content (The Other Thing: Blue Only) */}
-      <main className="flex-1 bg-[#060C1A]">
+      {/* Main Multi-Page Routed Content (Dark Blue Theme) */}
+      <main className="flex-1 bg-[#07111E]">
         <Routes>
           {/* Home Page: Hero, Heavyweight Drops, Fabric Promise */}
           <Route path="/" element={<HomePage />} />

@@ -249,11 +249,11 @@ export const CartDrawer: React.FC = () => {
                 </div>
               )}
 
-              {/* Checkout Button - Electric Lime & Ink Black */}
+              {/* Checkout Button - Coral Pink */}
               <button
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
-                className="w-full py-4 bg-[#2563EB] hover:bg-[#3B82F6] text-black text-xs font-black uppercase tracking-widest shadow-[0_0_25px_rgba(212,255,0,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 font-mono"
+                className="w-full py-4 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-bold uppercase tracking-wider shadow-[0_4px_20px_rgba(248,131,121,0.45)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 font-sans"
               >
                 {isCheckingOut ? (
                   <span>Opening Secure Checkout...</span>

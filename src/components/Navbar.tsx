@@ -73,24 +73,24 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-300 relative bg-gradient-to-b from-[#FFFDFD] via-[#FFF3F0] to-[#FFEBE5] text-[#1C0A06] font-sans ${
+      className={`sticky top-0 z-40 transition-all duration-300 relative bg-gradient-to-b from-[#0F2444] via-[#0C1D38] to-[#0A172D] text-white font-sans ${
         isScrolled
-          ? 'shadow-[0_12px_35px_rgba(255,200,190,0.35),inset_0_1px_0_0_rgba(255,255,255,1)] border-b border-[#FFDCD4]'
-          : 'shadow-[0_8px_25px_rgba(255,200,190,0.25),inset_0_1px_0_0_rgba(255,255,255,1)] border-b border-[#FFDCD4]/80'
+          ? 'shadow-[0_12px_35px_rgba(7,19,36,0.6),inset_0_1px_0_0_rgba(255,255,255,0.18)] border-b border-[#1A3050]'
+          : 'shadow-[0_8px_25px_rgba(7,19,36,0.4),inset_0_1px_0_0_rgba(255,255,255,0.14)] border-b border-[#1A3050]/80'
       }`}
     >
-      {/* High-Gloss Specular Reflections (Luminous Porcelain Glass Finish) */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-3/5 bg-gradient-to-b from-white/90 via-white/35 to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_65%_at_50%_0%,rgba(255,255,255,0.95),transparent_75%)]" />
-      <div className="pointer-events-none absolute top-0 inset-x-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent" />
+      {/* High-Gloss Specular Reflections (Navy Obsidian Finish) */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[0.12] via-white/[0.02] to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_65%_at_50%_0%,rgba(248,131,121,0.12),transparent_75%)]" />
+      <div className="pointer-events-none absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#F88379]/40 to-transparent" />
 
-      {/* Top Main Brand Header (Ultra Light Coral Glossy) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-[#FFDCD4]/60">
+      {/* Top Main Brand Header (Navy Blue Glossy) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-[#1E3A66]/50">
         {/* Left: Mobile Menu & Search */}
         <div className="flex items-center space-x-3 sm:space-x-5">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-[#1C0A06] hover:text-black p-1 cursor-pointer transition-colors"
+            className="md:hidden text-white hover:text-[#F88379] p-1 cursor-pointer transition-colors"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -98,33 +98,33 @@ export const Navbar: React.FC = () => {
 
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#2D120B] hover:text-black transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/60 cursor-pointer font-sans font-semibold"
+            className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans font-semibold"
             title="Search Catalog"
           >
-            <Search className="w-4 h-4 text-[#1C0A06]" />
+            <Search className="w-4 h-4 text-[#F88379]" />
             <span className="hidden sm:inline text-xs font-bold">SEARCH</span>
           </button>
         </div>
 
-        {/* Center: Brand Name (Luxe Glossy Typography) */}
+        {/* Center: Brand Name (Luxe Haute Navy Typography) */}
         <Link
           to="/"
           className="text-center group block cursor-pointer"
           title="Trenzio Home"
         >
-          <h1 className="font-serif text-2xl sm:text-4xl tracking-[0.4em] text-[#1C0A06] font-bold group-hover:text-black transition-all pl-[0.4em] drop-shadow-[0_1px_8px_rgba(255,255,255,0.9)]">
+          <h1 className="font-serif text-2xl sm:text-4xl tracking-[0.4em] text-white font-bold group-hover:text-[#F88379] transition-all pl-[0.4em] drop-shadow-[0_2px_14px_rgba(248,131,121,0.2)]">
             TRENZIO
           </h1>
-          <p className="text-[9px] uppercase tracking-[0.28em] text-[#6A372B] mt-0.5 font-sans font-bold group-hover:text-[#1C0A06] transition-colors">
+          <p className="text-[9px] uppercase tracking-[0.28em] text-[#94A3B8] mt-0.5 font-sans font-medium group-hover:text-white transition-colors">
             Luxury Heavyweight Apparel &bull; India
           </p>
         </Link>
 
         {/* Right: Actions (Fixed INR Badge, Wishlist, Bag) */}
         <div className="flex items-center space-x-3 sm:space-x-5">
-          {/* Fixed INR Only Indicator - Glossy Porcelain Pill */}
+          {/* Fixed INR Only Indicator - Navy Pill with Coral Pink Key Accent */}
           <div
-            className="flex items-center space-x-1 py-1 px-3 rounded-none border border-[#FFDCD4] bg-white/90 text-[#1C0A06] font-sans text-xs font-bold tracking-wider select-none shadow-[inset_0_1px_0_0_rgba(255,255,255,1),0_2px_8px_rgba(0,0,0,0.04)] backdrop-blur-md"
+            className="flex items-center space-x-1 py-1 px-3 rounded-none border border-[#F88379]/40 bg-[#0B1A30] text-[#F88379] font-sans text-xs font-bold tracking-wider select-none shadow-[inset_0_1px_0_0_rgba(248,131,121,0.25),0_2px_8px_rgba(0,0,0,0.3)] backdrop-blur-md"
             title="Exclusively Launching in India — Billed strictly in INR (₹)"
           >
             <span>INR (₹)</span>
@@ -139,19 +139,19 @@ export const Navbar: React.FC = () => {
                 setIsWishlistOpen(true);
               }
             }}
-            className="relative flex items-center gap-1.5 text-[#2D120B] hover:text-black transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/60 cursor-pointer font-sans text-xs font-bold tracking-wider"
+            className="relative flex items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
             title="Wishlist (Right click to open in new tab)"
           >
-            <Heart className="w-4 h-4 text-[#1C0A06]" />
+            <Heart className="w-4 h-4 text-[#F88379]" />
             <span className="hidden sm:inline">WISHLIST</span>
             {wishlist.length > 0 && (
-              <span className="text-white font-bold text-xs bg-[#1C0A06] px-1.5 py-0.2 rounded-full shadow-sm">
+              <span className="text-white font-bold text-xs bg-[#F88379] px-1.5 py-0.2 rounded-full shadow-[0_0_10px_rgba(248,131,121,0.5)]">
                 ({wishlist.length})
               </span>
             )}
           </Link>
 
-          {/* Cart Bag */}
+          {/* Cart Bag with Coral Pink Pill */}
           <Link
             to="/cart"
             onClick={(e) => {
@@ -160,20 +160,20 @@ export const Navbar: React.FC = () => {
                 setIsCartOpen(true);
               }
             }}
-            className="relative flex items-center gap-1.5 text-[#1C0A06] hover:text-black transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/60 cursor-pointer font-sans text-xs font-bold tracking-wider"
+            className="relative flex items-center gap-1.5 text-white hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
             title="Shopping Bag (Right click to open in new tab)"
           >
-            <ShoppingBag className="w-4 h-4 text-[#1C0A06]" />
+            <ShoppingBag className="w-4 h-4 text-[#F88379]" />
             <span className="hidden sm:inline">BAG</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-[#1C0A06] text-white font-black text-[11px] font-sans shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
+            <span className="px-1.5 py-0.2 rounded-full bg-[#F88379] text-white font-black text-[11px] font-sans shadow-[0_0_12px_rgba(248,131,121,0.5)]">
               {cartCount}
             </span>
           </Link>
         </div>
       </div>
 
-      {/* Secondary Nav Bar: Ultra-Light Coral with Sharp Obsidian Links */}
-      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center space-x-6 sm:space-x-12 text-[13px] uppercase tracking-[0.14em] font-sans font-bold py-3.5 border-t border-[#FFDCD4]/50">
+      {/* Secondary Nav Bar: Navy Blue with Coral Pink Active Accents */}
+      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center space-x-6 sm:space-x-12 text-[13px] uppercase tracking-[0.14em] font-sans font-bold py-3.5 border-t border-[#1E3A66]/30">
         {/* Item 1: MEN'S WEAR with Dropdown */}
         <div
           className="relative"
@@ -184,29 +184,29 @@ export const Navbar: React.FC = () => {
             onClick={() => setOpenDropdown(openDropdown === 'men' ? null : 'men')}
             className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer ${
               currentPath.startsWith('/collections/men') || openDropdown === 'men'
-                ? 'border-[#1C0A06] text-[#1C0A06] font-black drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]'
-                : 'border-transparent text-[#2D120B] hover:text-black hover:border-[#1C0A06]/50'
+                ? 'border-[#F88379] text-[#F88379] font-black drop-shadow-[0_0_10px_rgba(248,131,121,0.6)]'
+                : 'border-transparent text-[#CBD5E1] hover:text-white hover:border-[#F88379]/50'
             }`}
           >
-            <Link to="/collections/men" className="hover:text-black">
+            <Link to="/collections/men" className="hover:text-white">
               MEN'S WEAR
             </Link>
             <ChevronDown
-              className={`w-3.5 h-3.5 text-[#2D120B] transition-transform duration-300 ${
-                openDropdown === 'men' ? 'rotate-180 text-black' : ''
+              className={`w-3.5 h-3.5 text-[#94A3B8] transition-transform duration-300 ${
+                openDropdown === 'men' ? 'rotate-180 text-[#F88379]' : ''
               }`}
             />
           </button>
 
           {openDropdown === 'men' && (
             <div
-              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#FFFDFD]/98 backdrop-blur-2xl border border-[#FFDCD4] shadow-[inset_0_1px_0_0_rgba(255,255,255,1),0_25px_60px_rgba(28,10,6,0.18)] py-2.5 z-50 text-[#1C0A06] animate-fadeIn"
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#09172B]/98 backdrop-blur-2xl border border-[#1E3A66] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_60px_rgba(0,0,0,0.8)] py-2.5 z-50 text-white animate-fadeIn"
               onMouseEnter={() => handleMouseEnter('men')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#1C0A06] font-bold border-b border-[#FFDCD4]/60 bg-[#FFF3F0] flex items-center justify-between">
+              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#F88379] font-bold border-b border-[#1E3A66] bg-[#071324] flex items-center justify-between">
                 <span>Men's Heavyweight Fits</span>
-                <span className="text-[10px] text-[#7A3F33] font-bold">240–400 GSM</span>
+                <span className="text-[10px] text-[#94A3B8] font-bold">240–400 GSM</span>
               </div>
               <div className="py-1">
                 {MEN_SUB_ITEMS.map((item) => (
@@ -214,22 +214,22 @@ export const Navbar: React.FC = () => {
                     key={item.label}
                     to={item.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="block px-4 py-2.5 hover:bg-[#FFF3F0] transition-colors group cursor-pointer"
+                    className="block px-4 py-2.5 hover:bg-[#122846] transition-colors group cursor-pointer"
                   >
-                    <div className="text-[13px] font-bold text-[#1C0A06] group-hover:text-black tracking-wide">
+                    <div className="text-[13px] font-bold text-white group-hover:text-[#F88379] tracking-wide">
                       {item.label}
                     </div>
-                    <div className="text-[11px] text-[#7A3F33] font-medium leading-normal mt-0.5">
+                    <div className="text-[11px] text-[#94A3B8] font-medium leading-normal mt-0.5">
                       {item.sub}
                     </div>
                   </Link>
                 ))}
               </div>
-              <div className="px-4 pt-2.5 pb-1.5 border-t border-[#FFDCD4]/60 bg-[#FFF3F0]">
+              <div className="px-4 pt-2.5 pb-1.5 border-t border-[#1E3A66] bg-[#071324]">
                 <Link
                   to="/collections/men"
                   onClick={() => setOpenDropdown(null)}
-                  className="text-xs uppercase tracking-wider text-[#1C0A06] hover:underline font-bold flex items-center justify-between"
+                  className="text-xs uppercase tracking-wider text-[#F88379] hover:underline font-bold flex items-center justify-between"
                 >
                   <span>Explore Complete Men's Line &rarr;</span>
                 </Link>
@@ -248,29 +248,29 @@ export const Navbar: React.FC = () => {
             onClick={() => setOpenDropdown(openDropdown === 'women' ? null : 'women')}
             className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer ${
               currentPath.startsWith('/collections/women') || openDropdown === 'women'
-                ? 'border-[#1C0A06] text-[#1C0A06] font-black drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]'
-                : 'border-transparent text-[#2D120B] hover:text-black hover:border-[#1C0A06]/50'
+                ? 'border-[#F88379] text-[#F88379] font-black drop-shadow-[0_0_10px_rgba(248,131,121,0.6)]'
+                : 'border-transparent text-[#CBD5E1] hover:text-white hover:border-[#F88379]/50'
             }`}
           >
-            <Link to="/collections/women" className="hover:text-black">
+            <Link to="/collections/women" className="hover:text-white">
               WOMEN'S WEAR
             </Link>
             <ChevronDown
-              className={`w-3.5 h-3.5 text-[#2D120B] transition-transform duration-300 ${
-                openDropdown === 'women' ? 'rotate-180 text-black' : ''
+              className={`w-3.5 h-3.5 text-[#94A3B8] transition-transform duration-300 ${
+                openDropdown === 'women' ? 'rotate-180 text-[#F88379]' : ''
               }`}
             />
           </button>
 
           {openDropdown === 'women' && (
             <div
-              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#FFFDFD]/98 backdrop-blur-2xl border border-[#FFDCD4] shadow-[inset_0_1px_0_0_rgba(255,255,255,1),0_25px_60px_rgba(28,10,6,0.18)] py-2.5 z-50 text-[#1C0A06] animate-fadeIn"
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#09172B]/98 backdrop-blur-2xl border border-[#1E3A66] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_60px_rgba(0,0,0,0.8)] py-2.5 z-50 text-white animate-fadeIn"
               onMouseEnter={() => handleMouseEnter('women')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#1C0A06] font-bold border-b border-[#FFDCD4]/60 bg-[#FFF3F0] flex items-center justify-between">
+              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#F88379] font-bold border-b border-[#1E3A66] bg-[#071324] flex items-center justify-between">
                 <span>Women's Oversized Cuts</span>
-                <span className="text-[10px] text-[#7A3F33] font-bold">French Terry</span>
+                <span className="text-[10px] text-[#94A3B8] font-bold">French Terry</span>
               </div>
               <div className="py-1">
                 {WOMEN_SUB_ITEMS.map((item) => (
@@ -278,22 +278,22 @@ export const Navbar: React.FC = () => {
                     key={item.label}
                     to={item.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="block px-4 py-2.5 hover:bg-[#FFF3F0] transition-colors group cursor-pointer"
+                    className="block px-4 py-2.5 hover:bg-[#122846] transition-colors group cursor-pointer"
                   >
-                    <div className="text-[13px] font-bold text-[#1C0A06] group-hover:text-black tracking-wide">
+                    <div className="text-[13px] font-bold text-white group-hover:text-[#F88379] tracking-wide">
                       {item.label}
                     </div>
-                    <div className="text-[11px] text-[#7A3F33] font-medium leading-normal mt-0.5">
+                    <div className="text-[11px] text-[#94A3B8] font-medium leading-normal mt-0.5">
                       {item.sub}
                     </div>
                   </Link>
                 ))}
               </div>
-              <div className="px-4 pt-2.5 pb-1.5 border-t border-[#FFDCD4]/60 bg-[#FFF3F0]">
+              <div className="px-4 pt-2.5 pb-1.5 border-t border-[#1E3A66] bg-[#071324]">
                 <Link
                   to="/collections/women"
                   onClick={() => setOpenDropdown(null)}
-                  className="text-xs uppercase tracking-wider text-[#1C0A06] hover:underline font-bold flex items-center justify-between"
+                  className="text-xs uppercase tracking-wider text-[#F88379] hover:underline font-bold flex items-center justify-between"
                 >
                   <span>Explore Complete Women's Line &rarr;</span>
                 </Link>
@@ -307,8 +307,8 @@ export const Navbar: React.FC = () => {
           to="/collections/accessories"
           className={`pb-1 border-b-2 transition-all duration-300 ${
             currentPath.startsWith('/collections/accessories')
-              ? 'border-[#1C0A06] text-[#1C0A06] font-black drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]'
-              : 'border-transparent text-[#2D120B] hover:text-black hover:border-[#1C0A06]/50'
+              ? 'border-[#F88379] text-[#F88379] font-black drop-shadow-[0_0_10px_rgba(248,131,121,0.6)]'
+              : 'border-transparent text-[#CBD5E1] hover:text-white hover:border-[#F88379]/50'
           }`}
         >
           ACCESSORIES
@@ -324,27 +324,27 @@ export const Navbar: React.FC = () => {
             onClick={() => setOpenDropdown(openDropdown === 'traditional' ? null : 'traditional')}
             className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer ${
               currentPath.startsWith('/collections/traditional') || openDropdown === 'traditional'
-                ? 'border-[#1C0A06] text-[#1C0A06] font-black drop-shadow-[0_0_8px_rgba(255,255,255,0.9)]'
-                : 'border-transparent text-[#2D120B] hover:text-black hover:border-[#1C0A06]/50'
+                ? 'border-[#F88379] text-[#F88379] font-black drop-shadow-[0_0_10px_rgba(248,131,121,0.6)]'
+                : 'border-transparent text-[#CBD5E1] hover:text-white hover:border-[#F88379]/50'
             }`}
           >
             <span>TRADITIONAL WEAR</span>
             <ChevronDown
-              className={`w-3.5 h-3.5 text-[#2D120B] transition-transform duration-300 ${
-                openDropdown === 'traditional' ? 'rotate-180 text-black' : ''
+              className={`w-3.5 h-3.5 text-[#94A3B8] transition-transform duration-300 ${
+                openDropdown === 'traditional' ? 'rotate-180 text-[#F88379]' : ''
               }`}
             />
           </button>
 
           {openDropdown === 'traditional' && (
             <div
-              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#FFFDFD]/98 backdrop-blur-2xl border border-[#FFDCD4] shadow-[inset_0_1px_0_0_rgba(255,255,255,1),0_25px_60px_rgba(28,10,6,0.18)] py-2.5 z-50 text-[#1C0A06] animate-fadeIn"
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#09172B]/98 backdrop-blur-2xl border border-[#1E3A66] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1),0_25px_60px_rgba(0,0,0,0.8)] py-2.5 z-50 text-white animate-fadeIn"
               onMouseEnter={() => handleMouseEnter('traditional')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#1C0A06] font-bold border-b border-[#FFDCD4]/60 bg-[#FFF3F0] flex items-center justify-between">
+              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#F88379] font-bold border-b border-[#1E3A66] bg-[#071324] flex items-center justify-between">
                 <span>Traditional & Ethnic Wear</span>
-                <span className="text-[10px] text-[#7A3F33] font-bold">Premium</span>
+                <span className="text-[10px] text-[#94A3B8] font-bold">Premium</span>
               </div>
               <div className="py-1">
                 {TRADITIONAL_SUB_ITEMS.map((item) => (
@@ -352,12 +352,12 @@ export const Navbar: React.FC = () => {
                     key={item.label}
                     to={item.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="block px-4 py-2.5 hover:bg-[#FFF3F0] transition-colors group cursor-pointer"
+                    className="block px-4 py-2.5 hover:bg-[#122846] transition-colors group cursor-pointer"
                   >
-                    <div className="text-[13px] font-bold text-[#1C0A06] group-hover:text-black tracking-wide">
+                    <div className="text-[13px] font-bold text-white group-hover:text-[#F88379] tracking-wide">
                       {item.label}
                     </div>
-                    <div className="text-[11px] text-[#7A3F33] font-medium leading-normal mt-0.5">
+                    <div className="text-[11px] text-[#94A3B8] font-medium leading-normal mt-0.5">
                       {item.sub}
                     </div>
                   </Link>
@@ -368,13 +368,13 @@ export const Navbar: React.FC = () => {
         </div>
       </nav>
 
-      {/* Mobile Drawer - Ultra Light Coral Theme */}
+      {/* Mobile Drawer - Navy Theme with Coral Pink */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#FFF6F3] border-b border-[#FFDCD4] px-6 py-6 space-y-5 animate-fadeIn text-[#1C0A06] shadow-2xl relative z-20 font-sans">
-          <div className="space-y-2 border-b border-[#FFDCD4]/60 pb-4">
+        <div className="md:hidden bg-[#0A172D] border-b border-[#1E3A66] px-6 py-6 space-y-5 animate-fadeIn text-white shadow-2xl relative z-20 font-sans">
+          <div className="space-y-2 border-b border-[#1E3A66] pb-4">
             <Link
               to="/collections/men"
-              className="text-xs uppercase tracking-wider text-[#1C0A06] font-bold block"
+              className="text-xs uppercase tracking-wider text-[#F88379] font-bold block"
             >
               MEN'S WEAR
             </Link>
@@ -383,7 +383,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={item.label}
                   to={item.path}
-                  className="block text-xs uppercase tracking-wider text-[#2D120B] hover:text-black font-semibold"
+                  className="block text-xs uppercase tracking-wider text-[#CBD5E1] hover:text-white font-semibold"
                 >
                   &bull; {item.label}
                 </Link>
@@ -391,10 +391,10 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-2 border-b border-[#FFDCD4]/60 pb-4">
+          <div className="space-y-2 border-b border-[#1E3A66] pb-4">
             <Link
               to="/collections/women"
-              className="text-xs uppercase tracking-wider text-[#1C0A06] font-bold block"
+              className="text-xs uppercase tracking-wider text-[#F88379] font-bold block"
             >
               WOMEN'S WEAR
             </Link>
@@ -403,7 +403,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={item.label}
                   to={item.path}
-                  className="block text-xs uppercase tracking-wider text-[#2D120B] hover:text-black font-semibold"
+                  className="block text-xs uppercase tracking-wider text-[#CBD5E1] hover:text-white font-semibold"
                 >
                   &bull; {item.label}
                 </Link>
@@ -411,17 +411,17 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-2 border-b border-[#FFDCD4]/60 pb-4">
+          <div className="space-y-2 border-b border-[#1E3A66] pb-4">
             <Link
               to="/collections/accessories"
-              className="text-xs uppercase tracking-wider text-[#1C0A06] font-bold block"
+              className="text-xs uppercase tracking-wider text-[#F88379] font-bold block"
             >
               ACCESSORIES
             </Link>
           </div>
 
-          <div className="space-y-2 border-b border-[#FFDCD4]/60 pb-4">
-            <span className="text-xs uppercase tracking-wider text-[#1C0A06] font-bold block">
+          <div className="space-y-2 border-b border-[#1E3A66] pb-4">
+            <span className="text-xs uppercase tracking-wider text-[#F88379] font-bold block">
               TRADITIONAL WEAR
             </span>
             <div className="pl-3 space-y-2">
@@ -429,7 +429,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={item.label}
                   to={item.path}
-                  className="block text-xs uppercase tracking-wider text-[#2D120B] hover:text-black font-semibold"
+                  className="block text-xs uppercase tracking-wider text-[#CBD5E1] hover:text-white font-semibold"
                 >
                   &bull; {item.label}
                 </Link>
@@ -437,9 +437,9 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-2 flex items-center justify-between text-xs font-bold text-[#6A372B]">
+          <div className="pt-2 flex items-center justify-between text-xs font-bold text-[#94A3B8]">
             <span>Exclusively Launching in India</span>
-            <span className="font-extrabold text-[#1C0A06]">Billed in INR (₹)</span>
+            <span className="font-extrabold text-[#F88379]">Billed in INR (₹)</span>
           </div>
         </div>
       )}

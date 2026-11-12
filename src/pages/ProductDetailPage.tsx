@@ -41,11 +41,11 @@ export const ProductDetailPage: React.FC = () => {
 
   if (!product) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center p-8 text-center bg-[#060C1A] text-white">
+      <div className="min-h-[70vh] flex flex-col items-center justify-center p-8 text-center bg-[#EBF3FA] text-white">
         <h2 className="font-serif text-3xl mb-4">Product Not Found</h2>
         <Link
           to="/collections/all"
-          className="px-6 py-3 bg-[#2563EB] text-white font-black uppercase tracking-wider text-xs font-mono shadow-[0_0_15px_rgba(237,224,204,0.25)]"
+          className="px-6 py-3 bg-[#2563EB] text-white font-black uppercase tracking-wider text-xs font-mono shadow-[0_4px_16px_rgba(248,131,121,0.4)]"
         >
           Return to Collections
         </Link>
@@ -80,7 +80,7 @@ export const ProductDetailPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-6 sm:px-10 bg-[#060C1A] text-white">
+    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-6 sm:px-10 bg-[#EBF3FA] text-white">
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#94A3B8] font-mono mb-8">
         <Link to="/" className="hover:text-[#3B82F6] transition-colors">Home</Link>
@@ -113,7 +113,7 @@ export const ProductDetailPage: React.FC = () => {
               className={`absolute top-4 right-4 w-10 h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer shadow-md ${
                 isSaved
                   ? 'bg-[#2563EB] border-[#2563EB] text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]'
-                  : 'bg-[#0D1B3A]/80 border-[#2563EB]/25 text-white hover:text-[#3B82F6] hover:border-[#3B82F6]'
+                  : 'bg-white/80 border-[#2563EB]/25 text-white hover:text-[#3B82F6] hover:border-[#3B82F6]'
               }`}
               title="Save to Wishlist"
             >
@@ -156,7 +156,7 @@ export const ProductDetailPage: React.FC = () => {
           <div className="space-y-6">
             {/* Badges */}
             <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider font-mono">
-              <span className="bg-[#0D1B3A] border border-[#2563EB]/30 text-white px-2.5 py-0.5 font-bold shadow-sm">
+              <span className="bg-white border border-[#2563EB]/30 text-white px-2.5 py-0.5 font-bold shadow-sm">
                 {product.gsm} GSM Combed Cotton
               </span>
               <span className="bg-[#2563EB] text-white px-2 py-0.5 font-extrabold shadow-[0_0_12px_rgba(37,99,235,0.4)]">
@@ -260,7 +260,7 @@ export const ProductDetailPage: React.FC = () => {
                 className={`flex-1 py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg ${
                   isAdded
                     ? 'bg-emerald-500 text-black'
-                    : 'bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] shadow-[0_0_25px_rgba(37,99,235,0.5)]'
+                    : 'bg-[#F88379] hover:bg-[#FA958D] text-white shadow-[0_4px_20px_rgba(248,131,121,0.45)]'
                 }`}
               >
                 {isAdded ? (
@@ -277,7 +277,7 @@ export const ProductDetailPage: React.FC = () => {
               <button
                 onClick={handleBuyNow}
                 disabled={isCheckingOut}
-                className="px-6 py-4 bg-white/[0.05] border border-[#2563EB]/25 text-white hover:border-[#3B82F6] hover:text-[#3B82F6] text-xs uppercase tracking-widest font-mono flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-md"
+                className="px-6 py-4 bg-white border border-[#CCE3F5] text-[#0A192F] hover:border-[#F88379] hover:text-[#F88379] text-xs uppercase tracking-wider font-sans flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-sm"
                 title="Instant Checkout via Shopify"
               >
                 {isCheckingOut ? (

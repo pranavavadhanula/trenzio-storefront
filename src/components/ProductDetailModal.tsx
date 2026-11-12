@@ -191,7 +191,7 @@ export const ProductDetailModal: React.FC = () => {
                   className={`flex-1 py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 shadow-xl cursor-pointer font-mono ${
                     isAdded
                       ? 'bg-emerald-500 text-black'
-                      : 'bg-[#2563EB] hover:bg-[#3B82F6] text-black shadow-[0_0_20px_rgba(212,255,0,0.4)]'
+                      : 'bg-[#F88379] hover:bg-[#FA958D] text-white shadow-[0_4px_20px_rgba(248,131,121,0.45)]'
                   }`}
                 >
                   {isAdded ? (

@@ -4,7 +4,7 @@ import { ShieldCheck, Feather, Sparkles, ArrowRight, Check } from 'lucide-react'
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen py-10 sm:py-20 max-w-5xl mx-auto px-6 sm:px-10 bg-[#060C1A] text-[#FFFFFF]">
+    <div className="min-h-screen py-10 sm:py-20 max-w-5xl mx-auto px-6 sm:px-10 bg-[#EBF3FA] text-[#FFFFFF]">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto mb-16">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#2563EB]/15 border border-[#2563EB]/40 text-[#2563EB] text-[10px] uppercase tracking-[0.3em] font-mono font-bold shadow-[0_0_15px_rgba(255,122,0,0.25)] mb-3">
@@ -22,7 +22,7 @@ export const AboutPage: React.FC = () => {
 
       {/* The 3 Core Pillars */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-        <div className="p-8 bg-[#0D1B3A] border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF] backdrop-blur-md">
+        <div className="p-8 bg-white border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF] backdrop-blur-md">
           <Feather className="w-6 h-6 text-[#2563EB]" />
           <h3 className="font-serif text-2xl text-[#FFFFFF]">350 GSM Density</h3>
           <p className="text-xs text-[#3B82F6]/80 font-light leading-relaxed">
@@ -30,7 +30,7 @@ export const AboutPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="p-8 bg-[#0D1B3A] border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF] backdrop-blur-md">
+        <div className="p-8 bg-white border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF] backdrop-blur-md">
           <ShieldCheck className="w-6 h-6 text-[#2563EB]" />
           <h3 className="font-serif text-2xl text-[#FFFFFF]">Zero Shrinkage</h3>
           <p className="text-xs text-[#3B82F6]/80 font-light leading-relaxed">
@@ -38,7 +38,7 @@ export const AboutPage: React.FC = () => {
           </p>
         </div>
 
-        <div className="p-8 bg-[#0D1B3A] border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF] backdrop-blur-md">
+        <div className="p-8 bg-white border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF] backdrop-blur-md">
           <Sparkles className="w-6 h-6 text-[#2563EB]" />
           <h3 className="font-serif text-2xl text-[#FFFFFF]">Unisex Geometry</h3>
           <p className="text-xs text-[#3B82F6]/80 font-light leading-relaxed">
@@ -48,7 +48,7 @@ export const AboutPage: React.FC = () => {
       </div>
 
       {/* Narrative Section */}
-      <div className="p-8 sm:p-14 bg-[#0D1B3A] border border-[#3B82F6]/20 space-y-6 mb-20 text-[#3B82F6] font-light leading-relaxed text-xs sm:text-sm shadow-2xl backdrop-blur-md">
+      <div className="p-8 sm:p-14 bg-white border border-[#3B82F6]/20 space-y-6 mb-20 text-[#3B82F6] font-light leading-relaxed text-xs sm:text-sm shadow-2xl backdrop-blur-md">
         <h2 className="font-serif text-2xl sm:text-3xl text-white font-light">
           Crafted With Printrove Fulfillment Across India
         </h2>
@@ -79,7 +79,7 @@ export const AboutPage: React.FC = () => {
       <div className="text-center space-y-4">
         <Link
           to="/collections/all"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all cursor-pointer font-mono"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-widest font-black shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all cursor-pointer font-mono"
         >
           <span>Shop The Heavyweight Collection</span>
           <ArrowRight className="w-4 h-4" />
