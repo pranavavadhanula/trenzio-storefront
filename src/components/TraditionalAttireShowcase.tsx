@@ -5,26 +5,31 @@ import { ArrowRight } from 'lucide-react';
 export const TraditionalAttireShowcase: React.FC = () => {
   return (
     <section className="relative w-full select-none font-sans overflow-hidden bg-black">
-      {/* 100% Full-Bleed Edge-to-Edge Container (Covers Left & Right Corners With Zero Gaps) */}
-      <div className="relative w-full h-[600px] sm:h-[740px] lg:h-[860px] overflow-hidden">
-        {/* Clean Ultra-High-Resolution Royal Traditional Photo Without Any Logo Overlays */}
+      {/* 100% Full-Bleed Edge-to-Edge Enlarged Container (Covers Left & Right Corners With Zero Gaps) */}
+      <div className="relative w-full h-[680px] sm:h-[840px] lg:h-[960px] min-h-[85vh] overflow-hidden">
+        {/* High-Resolution Royal Traditional Photo Anchored to Top so Heads and Full Figures are Fully Visible */}
         <img
           src="/images/traditional_couture_banner.jpg"
           alt="Trevori Royal Traditional Couture - Men's and Women's Indian Heritage Wear"
-          className="absolute inset-0 w-full h-full object-cover object-[50%_20%] sm:object-center filter brightness-95 contrast-105"
+          className="absolute inset-0 w-full h-full object-cover object-[50%_0%] filter brightness-95 contrast-105"
         />
 
         {/* Cinematic Midnight Shading & Ambient Vignette Matching Dark Blue Website Theme */}
-        <div className="pointer-events-none absolute inset-0 bg-[#07111E]/25 mix-blend-multiply z-10" />
+        <div className="pointer-events-none absolute inset-0 bg-[#07111E]/20 mix-blend-multiply z-10" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111E] via-[#07111E]/40 to-[#07111E]/15 z-10" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111E]/75 via-transparent to-transparent z-10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111E]/80 via-transparent to-transparent z-10" />
 
         {/* Clean Minimal Foreground Content: Headline, Description & Action CTAs */}
         <div className="relative z-20 h-full max-w-[1480px] mx-auto px-4 sm:px-10 lg:px-14 flex flex-col justify-end pb-12 sm:pb-16">
           <div className="max-w-2xl">
-            {/* Bold Headline */}
-            <h2 className="font-sans text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-[0.05em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.95)] leading-[1.05]">
-              ROYAL TRADITIONAL <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#F88379] via-[#FA958D] to-white">COUTURE</span>
+            {/* Category Tag */}
+            <p className="text-xs sm:text-sm font-extrabold tracking-[0.25em] text-[#F88379] uppercase mb-2 sm:mb-3 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)]">
+              ROYAL TRADITIONAL COUTURE
+            </p>
+
+            {/* Bold Headline matching Hero Banner */}
+            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-[0.06em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.95)] leading-[1.05]">
+              WEAR YOUR PERSPECTIVE
             </h2>
 
             {/* Clean Subtitle */}
