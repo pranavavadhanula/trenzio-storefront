@@ -6,15 +6,17 @@ export const HeroEditorialBanner: React.FC = () => {
   return (
     <section className="relative w-full select-none font-sans overflow-hidden bg-black">
       <div className="relative w-full h-[680px] sm:h-[840px] lg:h-[960px] min-h-[85vh] overflow-hidden">
-        {/* Pure, Natural High-Resolution Photo - Zero Distortions or Tilt */}
+        {/* High-Resolution Photo Graded to Match Website Theme */}
         <img
           src="/images/hero_banner.jpg"
           alt="Trevori Haute Editorial - Models in Clean Contemporary Streetwear"
-          className="w-full h-full object-cover object-top sm:object-[50%_10%]"
+          className="w-full h-full object-cover object-top sm:object-[50%_10%] filter brightness-90 contrast-105"
         />
 
-        {/* Minimal Soft Gradient Strictly at Bottom for Legibility */}
-        <div className="pointer-events-none absolute bottom-0 inset-x-0 h-56 bg-gradient-to-t from-black/85 via-black/40 to-transparent z-10" />
+        {/* Website Matching Midnight Tint: Harmonizes with the Dark Blue Palette */}
+        <div className="pointer-events-none absolute inset-0 bg-[#07111E]/30 mix-blend-multiply z-10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111E] via-[#07111E]/40 to-[#07111E]/20 z-10" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-[#07111E]/50 via-transparent to-[#07111E]/30 z-10" />
 
         {/* Clean Foreground Content: Title, Subtitle, CTA */}
         <div className="relative z-20 h-full max-w-[1480px] mx-auto px-4 sm:px-10 lg:px-14 flex flex-col justify-end pb-12 sm:pb-16">
