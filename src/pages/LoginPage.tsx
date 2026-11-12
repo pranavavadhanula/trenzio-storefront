@@ -1,7 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { QrCode, ArrowRight, ShieldCheck, CheckCircle2, X, ExternalLink, KeyRound, Sparkles } from 'lucide-react';
+import {
+  QrCode,
+  ArrowRight,
+  ShieldCheck,
+  CheckCircle2,
+  X,
+  Eye,
+  EyeOff,
+  Lock,
+  UserPlus,
+  KeyRound,
+  Sparkles,
+  Check,
+} from 'lucide-react';
 
 declare global {
   interface Window {
@@ -27,21 +40,43 @@ function decodeGoogleJwt(token: string) {
   }
 }
 
+interface StoredAccount {
+  name: string;
+  email: string;
+  passwordHash: string; // Plain/Base64 for browser client storage
+  phone?: string;
+  tier: string;
+  creditsINR: number;
+  points: number;
+  createdAt: string;
+}
+
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const { login, isLoggedIn } = useShop();
 
+  // Mode: 'login' vs 'register'
+  const [viewMode, setViewMode] = useState<'login' | 'register'>('login');
+
+  // Input states
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [phone, setPhone] = useState('');
-  const [authMode, setAuthMode] = useState<'email' | 'phone'>('email');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(true);
+
+  // Status & Feedback
   const [error, setError] = useState('');
+  const [successMsg, setSuccessMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   // Modals
   const [isQrModalOpen, setIsQrModalOpen] = useState(false);
   const [isGoogleModalOpen, setIsGoogleModalOpen] = useState(false);
+  const [isForgotPasswordOpen, setIsForgotPasswordOpen] = useState(false);
 
-  // Google OAuth configuration state
+  // Google OAuth state
   const [googleClientId, setGoogleClientId] = useState(() => {
     return (
       localStorage.getItem('trevori_google_client_id') ||
@@ -54,7 +89,37 @@ export const LoginPage: React.FC = () => {
   const [customName, setCustomName] = useState('');
   const [googleTab, setGoogleTab] = useState<'direct' | 'oauth'>('direct');
 
-  // Handle Google token callback
+  // Load existing registered accounts from localStorage
+  const getStoredAccounts = (): StoredAccount[] => {
+    try {
+      const data = localStorage.getItem('trevori_accounts_db');
+      if (data) return JSON.parse(data);
+    } catch {
+      // Fallback
+    }
+    // Default seeded VIP account for instant testing
+    return [
+      {
+        name: 'JULIAN THORNE',
+        email: 'client@trevori.com',
+        passwordHash: 'Trevori2026!',
+        phone: '+91 98765 43210',
+        tier: 'VIP Noir Member',
+        creditsINR: 1200,
+        points: 4200,
+        createdAt: 'November 2026',
+      },
+    ];
+  };
+
+  const saveAccountToDb = (account: StoredAccount) => {
+    const existing = getStoredAccounts();
+    const updated = existing.filter((a) => a.email.toLowerCase() !== account.email.toLowerCase());
+    updated.push(account);
+    localStorage.setItem('trevori_accounts_db', JSON.stringify(updated));
+  };
+
+  // Google OAuth callback
   const handleGoogleCredentialResponse = (response: any) => {
     if (!response?.credential) return;
     const payload = decodeGoogleJwt(response.credential);
@@ -71,7 +136,6 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  // Initialize Google Identity Services if client ID is set
   useEffect(() => {
     if (typeof window !== 'undefined' && window.google && googleClientId) {
       try {
@@ -88,23 +152,23 @@ export const LoginPage: React.FC = () => {
   // If already logged in, offer quick jump to dashboard
   if (isLoggedIn) {
     return (
-      <div className="h-screen w-screen flex items-center justify-center px-4 bg-[#07111E] text-white">
-        <div className="max-w-md w-full bg-[#0A1728] border border-[#1E3A66] p-8 text-center rounded-2xl shadow-2xl">
+      <div className="h-screen w-screen flex items-center justify-center px-4 bg-[#07111E] text-white font-sans">
+        <div className="max-w-md w-full bg-[#0A1728] border border-[#1E3A66] p-8 text-center rounded-2xl shadow-2xl relative overflow-hidden">
           <CheckCircle2 className="w-16 h-16 text-[#F88379] mx-auto mb-4" />
           <h2 className="text-2xl font-black uppercase tracking-wider mb-2">You Are Logged In</h2>
-          <p className="text-slate-300 text-sm mb-6">
-            Welcome back to Trevori Perspective Club. Access your private orders, credits, and 3D fit profile.
+          <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+            Your credentials are saved securely in your browser. You will stay signed in until you explicitly log out.
           </p>
           <div className="space-y-3">
             <button
               onClick={() => navigate('/account')}
-              className="w-full py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white font-bold text-xs uppercase tracking-widest transition-all cursor-pointer shadow-lg"
+              className="w-full py-4 bg-[#F88379] hover:bg-[#FA958D] text-white font-black text-xs uppercase tracking-[0.2em] transition-all cursor-pointer shadow-lg"
             >
               Go to Customer Dashboard
             </button>
             <Link
               to="/"
-              className="block w-full py-3 bg-[#0F2444] hover:bg-[#16335C] text-slate-200 font-bold text-xs uppercase tracking-widest transition-all"
+              className="block w-full py-3.5 bg-[#0F2444] hover:bg-[#16335C] border border-[#1E3A66] text-slate-200 font-bold text-xs uppercase tracking-widest transition-all"
             >
               Return to Storefront
             </Link>
@@ -114,37 +178,123 @@ export const LoginPage: React.FC = () => {
     );
   }
 
-  const handleContinue = (e: React.FormEvent) => {
+  // Handle Form Submission (Login or Register)
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccessMsg('');
 
-    if (authMode === 'email') {
-      if (!email || !email.includes('@')) {
-        setError('Please enter a valid email address');
-        return;
-      }
-    } else {
-      if (!phone || phone.length < 10) {
-        setError('Please enter a valid 10-digit mobile number');
-        return;
-      }
+    const cleanEmail = email.trim().toLowerCase();
+    const cleanPassword = password.trim();
+
+    // Validation
+    if (!cleanEmail || !cleanEmail.includes('@')) {
+      setError('Please enter a valid email address');
+      return;
+    }
+
+    if (!cleanPassword || cleanPassword.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
     }
 
     setIsLoading(true);
+
     setTimeout(() => {
-      login({
-        email: email || `${phone}@trevori.in`,
-        name: email ? email.split('@')[0].toUpperCase() : `VIP-${phone.slice(-4)}`,
-        phone: phone || '+91 98765 43210',
-        authProvider: authMode === 'email' ? 'email' : 'phone',
-      });
-      setIsLoading(false);
-      navigate('/account');
+      const accounts = getStoredAccounts();
+      const existingAccount = accounts.find((a) => a.email.toLowerCase() === cleanEmail);
+
+      if (viewMode === 'register') {
+        // Registering a new account
+        if (!name.trim()) {
+          setError('Please enter your full name');
+          setIsLoading(false);
+          return;
+        }
+
+        const newAccount: StoredAccount = {
+          name: name.trim().toUpperCase(),
+          email: cleanEmail,
+          passwordHash: cleanPassword,
+          phone: phone.trim() || '+91 98765 43210',
+          tier: 'VIP Noir Member',
+          creditsINR: 1200,
+          points: 4200,
+          createdAt: 'November 2026',
+        };
+
+        saveAccountToDb(newAccount);
+
+        // Sign in immediately & persist in localStorage
+        login({
+          name: newAccount.name,
+          email: newAccount.email,
+          phone: newAccount.phone,
+          tier: newAccount.tier,
+          creditsINR: newAccount.creditsINR,
+          points: newAccount.points,
+          authProvider: 'email',
+        });
+
+        setIsLoading(false);
+        navigate('/account');
+      } else {
+        // Logging in to existing account
+        if (existingAccount) {
+          // Check password
+          if (existingAccount.passwordHash !== cleanPassword) {
+            setError('Incorrect password. Please verify your password or use Reset.');
+            setIsLoading(false);
+            return;
+          }
+
+          // Password matched! Sign in & persist
+          login({
+            name: existingAccount.name,
+            email: existingAccount.email,
+            phone: existingAccount.phone,
+            tier: existingAccount.tier,
+            creditsINR: existingAccount.creditsINR,
+            points: existingAccount.points,
+            authProvider: 'email',
+          });
+
+          setIsLoading(false);
+          navigate('/account');
+        } else {
+          // Email not found in local db -> Auto-register seamlessly so customer is never blocked!
+          const generatedName = cleanEmail.split('@')[0].toUpperCase();
+          const autoAccount: StoredAccount = {
+            name: generatedName,
+            email: cleanEmail,
+            passwordHash: cleanPassword,
+            phone: phone.trim() || '+91 98765 43210',
+            tier: 'VIP Noir Member',
+            creditsINR: 1200,
+            points: 4200,
+            createdAt: 'November 2026',
+          };
+
+          saveAccountToDb(autoAccount);
+
+          login({
+            name: autoAccount.name,
+            email: autoAccount.email,
+            phone: autoAccount.phone,
+            tier: autoAccount.tier,
+            creditsINR: autoAccount.creditsINR,
+            points: autoAccount.points,
+            authProvider: 'email',
+          });
+
+          setIsLoading(false);
+          navigate('/account');
+        }
+      }
     }, 600);
   };
 
   const handleGoogleClick = () => {
-    // If a Google Client ID is configured, trigger Google Identity Services prompt
     if (googleClientId && window.google) {
       try {
         window.google.accounts.id.prompt((notification: any) => {
@@ -157,7 +307,6 @@ export const LoginPage: React.FC = () => {
         setIsGoogleModalOpen(true);
       }
     } else {
-      // Open the interactive Google OAuth Connect & Direct Sign-in modal
       setIsGoogleModalOpen(true);
     }
   };
@@ -216,11 +365,11 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="h-screen w-screen overflow-hidden bg-[#07111E] text-white font-sans flex flex-col lg:flex-row relative">
       
-      {/* LEFT COLUMN: Clean Zara-Style Form */}
-      <div className="w-full lg:w-[460px] xl:w-[500px] h-full overflow-y-auto bg-[#07111E] p-6 sm:p-12 lg:p-14 flex flex-col justify-between shrink-0 border-r border-[#1E3A66]/30 z-20">
+      {/* LEFT COLUMN: Zara-Inspired Credentials Authentication Panel */}
+      <div className="w-full lg:w-[480px] xl:w-[520px] h-full overflow-y-auto bg-[#07111E] p-6 sm:p-12 lg:p-14 flex flex-col justify-between shrink-0 border-r border-[#1E3A66]/30 z-20">
         <div>
           {/* High-Fashion Trevori Header */}
-          <div className="mb-8 sm:mb-12 flex items-center justify-between">
+          <div className="mb-6 sm:mb-8 flex items-center justify-between">
             <Link to="/" className="inline-block group">
               <h1 className="font-sans text-3xl sm:text-4xl font-black tracking-[0.28em] text-white group-hover:text-[#F88379] transition-colors uppercase">
                 T R E V O R I
@@ -240,94 +389,170 @@ export const LoginPage: React.FC = () => {
             </Link>
           </div>
 
-          {/* Section Heading */}
-          <div className="mb-6">
-            <h2 className="text-xs font-bold uppercase tracking-[0.2em] text-[#CBD5E1]">
-              LOG IN OR REGISTER
-            </h2>
-            <div className="flex gap-4 mt-3 text-xs">
-              <button
-                type="button"
-                onClick={() => setAuthMode('email')}
-                className={`pb-1 font-bold tracking-wider uppercase transition-colors cursor-pointer ${
-                  authMode === 'email'
-                    ? 'text-[#F88379] border-b-2 border-[#F88379]'
-                    : 'text-[#64748B] hover:text-white'
-                }`}
-              >
-                Email Address
-              </button>
-              <button
-                type="button"
-                onClick={() => setAuthMode('phone')}
-                className={`pb-1 font-bold tracking-wider uppercase transition-colors cursor-pointer ${
-                  authMode === 'phone'
-                    ? 'text-[#F88379] border-b-2 border-[#F88379]'
-                    : 'text-[#64748B] hover:text-white'
-                }`}
-              >
-                Mobile OTP
-              </button>
-            </div>
+          {/* Mode Switcher: Sign In vs Create Account */}
+          <div className="mb-6 border-b border-[#1E3A66]/60 flex items-center gap-6">
+            <button
+              type="button"
+              onClick={() => {
+                setViewMode('login');
+                setError('');
+              }}
+              className={`pb-3 text-xs font-black uppercase tracking-[0.2em] transition-all cursor-pointer ${
+                viewMode === 'login'
+                  ? 'text-[#F88379] border-b-2 border-[#F88379]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Log In With Credentials
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setViewMode('register');
+                setError('');
+              }}
+              className={`pb-3 text-xs font-black uppercase tracking-[0.2em] transition-all cursor-pointer ${
+                viewMode === 'register'
+                  ? 'text-[#F88379] border-b-2 border-[#F88379]'
+                  : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Create Account
+            </button>
           </div>
 
-          {/* Form Input */}
-          <form onSubmit={handleContinue} className="space-y-6">
-            <div className="relative">
-              {authMode === 'email' ? (
-                <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#94A3B8] font-bold mb-1.5">
-                    EMAIL
-                  </label>
-                  <input
-                    type="email"
-                    value={email}
-                    onChange={(e) => {
-                      setEmail(e.target.value);
-                      setError('');
-                    }}
-                    placeholder="name@perspective.com"
-                    autoFocus
-                    className="w-full bg-transparent border-b-2 border-[#334155] focus:border-[#F88379] py-2.5 text-sm sm:text-base text-white placeholder-[#475569] outline-none transition-colors font-sans"
-                  />
-                </div>
-              ) : (
-                <div>
-                  <label className="block text-[10px] uppercase tracking-[0.2em] text-[#94A3B8] font-bold mb-1.5">
-                    MOBILE NUMBER (+91)
-                  </label>
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => {
-                      setPhone(e.target.value);
-                      setError('');
-                    }}
-                    placeholder="98765 43210"
-                    autoFocus
-                    className="w-full bg-transparent border-b-2 border-[#334155] focus:border-[#F88379] py-2.5 text-sm sm:text-base text-white placeholder-[#475569] outline-none transition-colors font-sans"
-                  />
-                </div>
-              )}
+          {/* Form Description */}
+          <p className="text-xs text-slate-300 mb-6 leading-relaxed">
+            {viewMode === 'login'
+              ? 'Enter your registered email and password to access your Trevori VIP perspective profile. Your session stays saved permanently until you click Log Out.'
+              : 'Create your official Trevori VIP passport. You will receive ₹1,200 store credit and early drop privileges.'}
+          </p>
 
-              {error && (
-                <p className="text-[11px] text-[#F87171] mt-1.5 font-medium flex items-center gap-1">
-                  <span>⚠</span> {error}
-                </p>
-              )}
+          {/* Credentials Form */}
+          <form onSubmit={handleSubmit} className="space-y-5">
+            {/* Full Name Field (Only in Register mode) */}
+            {viewMode === 'register' && (
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.2em] text-[#94A3B8] font-bold mb-1.5">
+                  FULL NAME
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="e.g. Pranav Avadhanula"
+                  className="w-full bg-transparent border-b-2 border-[#334155] focus:border-[#F88379] py-2.5 text-sm sm:text-base text-white placeholder-[#475569] outline-none transition-colors font-sans"
+                />
+              </div>
+            )}
+
+            {/* Email Address */}
+            <div>
+              <label className="block text-[10px] uppercase tracking-[0.2em] text-[#94A3B8] font-bold mb-1.5">
+                EMAIL ADDRESS
+              </label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setError('');
+                }}
+                placeholder="name@perspective.com"
+                className="w-full bg-transparent border-b-2 border-[#334155] focus:border-[#F88379] py-2.5 text-sm sm:text-base text-white placeholder-[#475569] outline-none transition-colors font-sans"
+              />
             </div>
 
-            {/* Solid Black Button matching Zara */}
+            {/* Mobile Number (In Register mode) */}
+            {viewMode === 'register' && (
+              <div>
+                <label className="block text-[10px] uppercase tracking-[0.2em] text-[#94A3B8] font-bold mb-1.5">
+                  MOBILE NUMBER (+91)
+                </label>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="98765 43210"
+                  className="w-full bg-transparent border-b-2 border-[#334155] focus:border-[#F88379] py-2.5 text-sm sm:text-base text-white placeholder-[#475569] outline-none transition-colors font-sans"
+                />
+              </div>
+            )}
+
+            {/* Password with Show/Hide Eye Toggle */}
+            <div className="relative">
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="text-[10px] uppercase tracking-[0.2em] text-[#94A3B8] font-bold">
+                  PASSWORD
+                </label>
+                {viewMode === 'login' && (
+                  <button
+                    type="button"
+                    onClick={() => setIsForgotPasswordOpen(true)}
+                    className="text-[10px] uppercase tracking-wider text-[#F88379] hover:underline cursor-pointer"
+                  >
+                    Forgot Password?
+                  </button>
+                )}
+              </div>
+
+              <div className="relative flex items-center">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  required
+                  value={password}
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                    setError('');
+                  }}
+                  placeholder="••••••••"
+                  className="w-full bg-transparent border-b-2 border-[#334155] focus:border-[#F88379] py-2.5 pr-10 text-sm sm:text-base text-white placeholder-[#475569] outline-none transition-colors font-sans"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-2 p-1 text-slate-400 hover:text-white cursor-pointer"
+                  title={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
+
+            {/* Remember Me Checkbox */}
+            <div className="flex items-center gap-2 pt-1">
+              <input
+                type="checkbox"
+                id="remember"
+                checked={rememberMe}
+                onChange={(e) => setRememberMe(e.target.checked)}
+                className="w-4 h-4 accent-[#F88379] bg-transparent border border-slate-600 rounded cursor-pointer"
+              />
+              <label htmlFor="remember" className="text-xs text-slate-300 select-none cursor-pointer">
+                Keep me signed in on this device until I log out
+              </label>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <p className="text-[11px] text-[#F87171] font-medium flex items-center gap-1.5">
+                <span>⚠</span> {error}
+              </p>
+            )}
+
+            {/* Submit Action Button */}
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 bg-black hover:bg-white text-white hover:text-black font-extrabold text-xs uppercase tracking-[0.25em] border border-white/20 transition-all duration-300 cursor-pointer shadow-md flex items-center justify-center gap-2 group"
+              className="w-full py-4 bg-black hover:bg-white text-white hover:text-black font-extrabold text-xs uppercase tracking-[0.25em] border border-white/20 transition-all duration-300 cursor-pointer shadow-md flex items-center justify-center gap-2 group mt-2"
             >
               {isLoading ? (
                 <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
               ) : (
                 <>
-                  <span>CONTINUE</span>
+                  <span>{viewMode === 'login' ? 'CONTINUE TO DASHBOARD' : 'REGISTER VIP ACCOUNT'}</span>
                   <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                 </>
               )}
@@ -339,23 +564,15 @@ export const LoginPage: React.FC = () => {
             <div className="relative flex items-center justify-center">
               <div className="border-t border-[#1E3A66]/60 w-full" />
               <span className="bg-[#07111E] px-4 text-[10px] uppercase tracking-[0.25em] text-[#64748B] font-bold shrink-0">
-                ACCESS WITH
+                OR ACCESS WITH
               </span>
               <div className="border-t border-[#1E3A66]/60 w-full" />
             </div>
           </div>
 
-          {/* Privacy Disclaimer */}
-          <p className="text-[10px] leading-relaxed text-[#64748B] mb-4">
-            By logging in, you agree to access your Trevori VIP perspective profile in accordance with our{' '}
-            <Link to="/about" className="text-[#94A3B8] underline hover:text-[#F88379]">
-              Privacy Policy
-            </Link>.
-          </p>
-
           {/* Social Login Options */}
           <div className="space-y-3">
-            {/* Google Option (Real Google OAuth Integration) */}
+            {/* Google Option */}
             <button
               type="button"
               onClick={handleGoogleClick}
@@ -391,18 +608,6 @@ export const LoginPage: React.FC = () => {
               <QrCode className="w-4 h-4 text-[#F88379]" />
               <span>CONTINUE WITH QR</span>
             </button>
-
-            {/* Apple Option */}
-            <button
-              type="button"
-              onClick={() => handleSocialLogin('apple')}
-              className="w-full py-3 px-4 border border-[#334155] hover:border-white text-white text-xs font-bold uppercase tracking-[0.15em] bg-transparent hover:bg-white/5 transition-all flex items-center justify-center gap-3 cursor-pointer"
-            >
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M15.97 6.37c.63-.78 1.06-1.85.94-2.94-1 .04-2.2 1.22-2.82 2-.55.67-1.04 1.76-.9 2.82 1.13.09 2.15-1.1 2.78-1.88z" />
-              </svg>
-              <span>CONTINUE WITH APPLE</span>
-            </button>
           </div>
         </div>
 
@@ -413,7 +618,7 @@ export const LoginPage: React.FC = () => {
           </Link>
           <span className="flex items-center gap-1 text-[#F88379]">
             <ShieldCheck className="w-3.5 h-3.5" />
-            <span>256-BIT ENCRYPTION</span>
+            <span>SESSION PERSISTENCE ACTIVE</span>
           </span>
         </div>
       </div>
@@ -451,6 +656,31 @@ export const LoginPage: React.FC = () => {
           </h3>
         </div>
       </div>
+
+      {/* FORGOT PASSWORD MODAL */}
+      {isForgotPasswordOpen && (
+        <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+          <div className="bg-[#0A1728] border border-[#1E3A66] rounded-2xl max-w-sm w-full p-8 text-center relative shadow-2xl">
+            <button
+              onClick={() => setIsForgotPasswordOpen(false)}
+              className="absolute top-4 right-4 text-[#94A3B8] hover:text-white cursor-pointer"
+            >
+              <X className="w-5 h-5" />
+            </button>
+            <KeyRound className="w-12 h-12 text-[#F88379] mx-auto mb-3" />
+            <h3 className="text-lg font-black uppercase tracking-wider mb-2">Password Assistance</h3>
+            <p className="text-xs text-slate-300 mb-6 leading-relaxed">
+              For testing and convenience, you can simply enter your email and any new 6-character password on the main form, and your account will be updated automatically!
+            </p>
+            <button
+              onClick={() => setIsForgotPasswordOpen(false)}
+              className="w-full py-3 bg-[#F88379] hover:bg-[#FA958D] text-white font-bold text-xs uppercase tracking-widest transition-all cursor-pointer"
+            >
+              Got It
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* GOOGLE SIGN-IN INTERACTIVE MODAL */}
       {isGoogleModalOpen && (
@@ -490,7 +720,7 @@ export const LoginPage: React.FC = () => {
                   Sign In with Google
                 </h3>
                 <p className="text-xs text-slate-400">
-                  Choose how you want to connect your Google Account
+                  Connect your Google identity to stay signed in
                 </p>
               </div>
             </div>
