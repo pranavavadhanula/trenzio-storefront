@@ -20,6 +20,8 @@ import { WishlistPage } from './pages/WishlistPage';
 import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { VirtualTryOnPage } from './pages/VirtualTryOnPage';
+import { LoginPage } from './pages/LoginPage';
+import { DashboardPage } from './pages/DashboardPage';
 
 // Automatically scrolls to top whenever a new link/page is navigated to
 function ScrollToTop() {
@@ -68,6 +70,13 @@ function MainStorefront() {
 
           {/* 3D Virtual Try-On Studio */}
           <Route path="/try-on" element={<VirtualTryOnPage />} />
+
+          {/* Customer Login & Registration (Zara Luxury Style) */}
+          <Route path="/login" element={<LoginPage />} />
+
+          {/* Customer VIP Account Dashboard with Animated Lookbook Muse */}
+          <Route path="/account" element={<DashboardPage />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
 
           {/* Fallback Catch-All */}
           <Route path="*" element={<HomePage />} />

@@ -45,6 +45,22 @@ interface ShopContextType {
   setSelectedCategory: (cat: string) => void;
   selectedGender: string;
   setSelectedGender: (gender: string) => void;
+
+  // Customer Account & Authentication
+  user: UserProfile | null;
+  isLoggedIn: boolean;
+  login: (data?: Partial<UserProfile>) => void;
+  logout: () => void;
+}
+
+export interface UserProfile {
+  name: string;
+  email: string;
+  phone?: string;
+  tier: string;
+  points: number;
+  creditsINR: number;
+  joinedDate: string;
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
@@ -72,6 +88,31 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [selectedGender, setSelectedGender] = useState<string>('All');
+
+  // Customer authentication state
+  const [user, setUser] = useState<UserProfile | null>(() => {
+    const saved = localStorage.getItem('trevori_user');
+    return saved ? JSON.parse(saved) : null;
+  });
+
+  const login = (data?: Partial<UserProfile>) => {
+    const newUser: UserProfile = {
+      name: data?.name || (data?.email ? data.email.split('@')[0].toUpperCase() : 'VIP Member'),
+      email: data?.email || 'member@trevori.com',
+      phone: data?.phone || '+91 98765 43210',
+      tier: data?.tier || 'VIP Noir Member',
+      points: data?.points ?? 4200,
+      creditsINR: data?.creditsINR ?? 1200,
+      joinedDate: data?.joinedDate || 'November 2026',
+    };
+    setUser(newUser);
+    localStorage.setItem('trevori_user', JSON.stringify(newUser));
+  };
+
+  const logout = () => {
+    setUser(null);
+    localStorage.removeItem('trevori_user');
+  };
 
   const refreshProducts = async () => {
     setIsLoadingProducts(false);
@@ -203,6 +244,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setSelectedCategory,
         selectedGender,
         setSelectedGender,
+        user,
+        isLoggedIn: !!user,
+        login,
+        logout,
       }}
     >
       {children}

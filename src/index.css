@@ -65,4 +65,35 @@ html, body, #root {
   animation: shimmer-sweep 5s ease-in-out infinite;
 }
 
+/* Smooth 3D Floating Animation for Dashboard Avatar */
+@keyframes float-subtle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(0.4deg);
+  }
+}
+
+.animate-float-subtle {
+  animation: float-subtle 5s ease-in-out infinite;
+}
+
+/* Pulsing Neon Ambient Aura */
+@keyframes pulse-aura {
+  0%, 100% {
+    opacity: 0.45;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scale(1.06);
+  }
+}
+
+.animate-pulse-aura {
+  animation: pulse-aura 3.5s ease-in-out infinite;
+}
+
+
 

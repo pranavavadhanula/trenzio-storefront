@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, ChevronDown, Menu, X, Search, Heart } from 'lucide-react';
+import { ShoppingBag, ChevronDown, Menu, X, Search, Heart, User } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 
@@ -16,6 +16,8 @@ export const Navbar: React.FC = () => {
     wishlist,
     setIsWishlistOpen,
     setIsSearchOpen,
+    isLoggedIn,
+    user,
   } = useShop();
 
   const [isScrolled, setIsScrolled] = useState(false);
@@ -129,6 +131,18 @@ export const Navbar: React.FC = () => {
           >
             <span>INR (₹)</span>
           </div>
+
+          {/* Account / Log In */}
+          <Link
+            to={isLoggedIn ? "/account" : "/login"}
+            className="relative flex items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
+            title={isLoggedIn ? `Account (${user?.name})` : "Customer Log In or Register"}
+          >
+            <User className="w-4 h-4 text-[#F88379]" />
+            <span className="hidden sm:inline">
+              {isLoggedIn ? 'ACCOUNT' : 'LOG IN'}
+            </span>
+          </Link>
 
           {/* Wishlist */}
           <Link
@@ -435,6 +449,17 @@ export const Navbar: React.FC = () => {
                 </Link>
               ))}
             </div>
+          </div>
+
+          <div className="space-y-2 border-b border-[#1E3A66] pb-4">
+            <Link
+              to={isLoggedIn ? "/account" : "/login"}
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-xs uppercase tracking-wider text-[#F88379] font-bold flex items-center justify-between"
+            >
+              <span>{isLoggedIn ? `MY ACCOUNT (${user?.name})` : 'LOG IN / REGISTER'}</span>
+              <span className="text-[10px] text-white bg-[#F88379]/30 px-2 py-0.5 rounded">VIP</span>
+            </Link>
           </div>
 
           <div className="pt-2 flex items-center justify-between text-xs font-bold text-[#94A3B8]">
