@@ -73,24 +73,24 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className={`sticky top-0 z-40 transition-all duration-300 relative bg-black/95 backdrop-blur-2xl border-b border-white/15 text-white font-sans ${
+      className={`sticky top-0 z-40 transition-all duration-300 relative bg-gradient-to-b from-[#E76F51] via-[#DF6548] to-[#D5573C] text-white font-sans ${
         isScrolled
-          ? 'shadow-[0_12px_40px_rgba(0,0,0,0.98),inset_0_1px_0_0_rgba(255,255,255,0.22)]'
-          : 'shadow-[0_8px_30px_rgba(0,0,0,0.9),inset_0_1px_0_0_rgba(255,255,255,0.18)]'
+          ? 'shadow-[0_12px_35px_rgba(213,87,60,0.45),inset_0_1px_0_0_rgba(255,255,255,0.4)] border-b border-[#B8442E]'
+          : 'shadow-[0_8px_25px_rgba(213,87,60,0.3),inset_0_1px_0_0_rgba(255,255,255,0.35)] border-b border-[#C8523B]'
       }`}
     >
-      {/* Glossy Glass Highlights & Reflections (Obsidian Glass Finish) */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[0.10] via-white/[0.02] to-transparent" />
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_60%_at_50%_0%,rgba(255,255,255,0.13),transparent_70%)]" />
-      <div className="pointer-events-none absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent" />
+      {/* Glossy Coral Peach Specular Reflections */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/[0.22] via-white/[0.06] to-transparent" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_60%_at_50%_0%,rgba(255,255,255,0.22),transparent_70%)]" />
+      <div className="pointer-events-none absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/60 to-transparent" />
 
-      {/* Top Main Brand Header (Pure Black Glossy) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-white/10">
+      {/* Top Main Brand Header (Coral Peach Luxe) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-white/20">
         {/* Left: Mobile Menu & Search */}
         <div className="flex items-center space-x-3 sm:space-x-5">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-white hover:text-[#EDE0CC] p-1 cursor-pointer transition-colors"
+            className="md:hidden text-white hover:text-[#FFEBE4] p-1 cursor-pointer transition-colors"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -98,33 +98,33 @@ export const Navbar: React.FC = () => {
 
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#e2e8f0] hover:text-white transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.08] cursor-pointer font-sans font-semibold"
+            className="flex items-center gap-2 text-xs uppercase tracking-wider text-white/95 hover:text-white transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/15 cursor-pointer font-sans font-semibold"
             title="Search Catalog"
           >
-            <Search className="w-4 h-4 text-[#f1f5f9]" />
+            <Search className="w-4 h-4 text-white" />
             <span className="hidden sm:inline text-xs font-semibold">SEARCH</span>
           </button>
         </div>
 
-        {/* Center: Brand Name (Bold Haute Typography) */}
+        {/* Center: Brand Name (Coral Peach Luxe Typography) */}
         <Link
           to="/"
           className="text-center group block cursor-pointer"
           title="Trenzio Home"
         >
-          <h1 className="font-serif text-2xl sm:text-4xl tracking-[0.4em] text-white font-bold group-hover:text-[#EDE0CC] transition-all pl-[0.4em] drop-shadow-[0_2px_16px_rgba(255,255,255,0.25)]">
+          <h1 className="font-serif text-2xl sm:text-4xl tracking-[0.4em] text-white font-bold group-hover:text-[#FFF0EB] transition-all pl-[0.4em] drop-shadow-[0_2px_14px_rgba(0,0,0,0.25)]">
             TRENZIO
           </h1>
-          <p className="text-[9px] uppercase tracking-[0.28em] text-[#cbd5e1] mt-0.5 font-sans font-medium group-hover:text-white transition-colors">
+          <p className="text-[9px] uppercase tracking-[0.28em] text-[#FFE8DF] mt-0.5 font-sans font-medium group-hover:text-white transition-colors">
             Luxury Heavyweight Apparel &bull; India
           </p>
         </Link>
 
         {/* Right: Actions (Fixed INR Badge, Wishlist, Bag) */}
         <div className="flex items-center space-x-3 sm:space-x-5">
-          {/* Fixed INR Only Indicator - Glossy Pure Black Pill */}
+          {/* Fixed INR Only Indicator - Glossy White Pill on Coral Peach */}
           <div
-            className="flex items-center space-x-1 py-1 px-3 rounded-none border border-white/25 bg-black/90 text-[#EDE0CC] font-sans text-xs font-bold tracking-wider select-none shadow-[inset_0_1px_0_0_rgba(255,255,255,0.28),0_2px_8px_rgba(0,0,0,0.8)]"
+            className="flex items-center space-x-1 py-1 px-3 rounded-none border border-white/40 bg-white/15 text-white font-sans text-xs font-bold tracking-wider select-none shadow-[inset_0_1px_0_0_rgba(255,255,255,0.4),0_2px_6px_rgba(0,0,0,0.15)] backdrop-blur-sm"
             title="Exclusively Launching in India — Billed strictly in INR (₹)"
           >
             <span>INR (₹)</span>
@@ -139,13 +139,13 @@ export const Navbar: React.FC = () => {
                 setIsWishlistOpen(true);
               }
             }}
-            className="relative flex items-center gap-1.5 text-[#e2e8f0] hover:text-white transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.08] cursor-pointer font-sans text-xs font-semibold tracking-wider"
+            className="relative flex items-center gap-1.5 text-white/95 hover:text-white transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/15 cursor-pointer font-sans text-xs font-semibold tracking-wider"
             title="Wishlist (Right click to open in new tab)"
           >
-            <Heart className="w-4 h-4 text-[#f1f5f9]" />
+            <Heart className="w-4 h-4 text-white" />
             <span className="hidden sm:inline">WISHLIST</span>
             {wishlist.length > 0 && (
-              <span className="text-[#EDE0CC] font-bold text-xs">
+              <span className="text-white font-bold text-xs bg-white/25 px-1 rounded-full">
                 ({wishlist.length})
               </span>
             )}
@@ -160,20 +160,20 @@ export const Navbar: React.FC = () => {
                 setIsCartOpen(true);
               }
             }}
-            className="relative flex items-center gap-1.5 text-white hover:text-[#EDE0CC] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.08] cursor-pointer font-sans text-xs font-semibold tracking-wider"
+            className="relative flex items-center gap-1.5 text-white hover:text-[#FFF0EB] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/15 cursor-pointer font-sans text-xs font-semibold tracking-wider"
             title="Shopping Bag (Right click to open in new tab)"
           >
-            <ShoppingBag className="w-4 h-4 text-[#f1f5f9]" />
+            <ShoppingBag className="w-4 h-4 text-white" />
             <span className="hidden sm:inline">BAG</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-[#EDE0CC] text-black font-black text-[11px] font-sans shadow-[0_0_12px_rgba(237,224,204,0.5)]">
+            <span className="px-1.5 py-0.2 rounded-full bg-white text-[#D5573C] font-black text-[11px] font-sans shadow-[0_2px_8px_rgba(0,0,0,0.2)]">
               {cartCount}
             </span>
           </Link>
         </div>
       </div>
 
-      {/* Secondary Nav Bar: Bold, Highly Visible Font */}
-      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center space-x-6 sm:space-x-12 text-[13px] uppercase tracking-[0.14em] font-sans font-semibold py-3.5 border-t border-white/[0.08]">
+      {/* Secondary Nav Bar: Coral Peach with Crisp White Navigation */}
+      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center space-x-6 sm:space-x-12 text-[13px] uppercase tracking-[0.14em] font-sans font-semibold py-3.5 border-t border-white/15">
         {/* Item 1: MEN'S WEAR with Dropdown */}
         <div
           className="relative"
@@ -184,29 +184,29 @@ export const Navbar: React.FC = () => {
             onClick={() => setOpenDropdown(openDropdown === 'men' ? null : 'men')}
             className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer ${
               currentPath.startsWith('/collections/men') || openDropdown === 'men'
-                ? 'border-[#EDE0CC] text-[#EDE0CC] font-bold drop-shadow-[0_0_10px_rgba(237,224,204,0.4)]'
-                : 'border-transparent text-[#d4d4d4] hover:text-white hover:border-white/40'
+                ? 'border-white text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]'
+                : 'border-transparent text-white/90 hover:text-white hover:border-white/50'
             }`}
           >
             <Link to="/collections/men" className="hover:text-white">
               MEN'S WEAR
             </Link>
             <ChevronDown
-              className={`w-3.5 h-3.5 text-[#a3a3a3] transition-transform duration-300 ${
-                openDropdown === 'men' ? 'rotate-180 text-[#EDE0CC]' : ''
+              className={`w-3.5 h-3.5 text-white/80 transition-transform duration-300 ${
+                openDropdown === 'men' ? 'rotate-180 text-white' : ''
               }`}
             />
           </button>
 
           {openDropdown === 'men' && (
             <div
-              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-black/98 backdrop-blur-2xl border border-white/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_25px_60px_rgba(0,0,0,0.98)] py-2.5 z-50 text-white animate-fadeIn"
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#B9432D]/98 backdrop-blur-2xl border border-white/25 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_25px_60px_rgba(0,0,0,0.6)] py-2.5 z-50 text-white animate-fadeIn"
               onMouseEnter={() => handleMouseEnter('men')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#EDE0CC] font-bold border-b border-white/10 bg-black/95 flex items-center justify-between">
+              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#FFE8DF] font-bold border-b border-white/15 bg-[#A33925] flex items-center justify-between">
                 <span>Men's Heavyweight Fits</span>
-                <span className="text-[10px] text-[#94a3b8] font-medium">240–400 GSM</span>
+                <span className="text-[10px] text-white/80 font-medium">240–400 GSM</span>
               </div>
               <div className="py-1">
                 {MEN_SUB_ITEMS.map((item) => (
@@ -214,22 +214,22 @@ export const Navbar: React.FC = () => {
                     key={item.label}
                     to={item.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="block px-4 py-2.5 hover:bg-white/[0.08] transition-colors group cursor-pointer"
+                    className="block px-4 py-2.5 hover:bg-white/15 transition-colors group cursor-pointer"
                   >
-                    <div className="text-[13px] font-bold text-white group-hover:text-[#EDE0CC] tracking-wide">
+                    <div className="text-[13px] font-bold text-white group-hover:text-[#FFEBE4] tracking-wide">
                       {item.label}
                     </div>
-                    <div className="text-[11px] text-[#94a3b8] font-normal leading-normal mt-0.5">
+                    <div className="text-[11px] text-[#FFE0D4] font-normal leading-normal mt-0.5">
                       {item.sub}
                     </div>
                   </Link>
                 ))}
               </div>
-              <div className="px-4 pt-2.5 pb-1.5 border-t border-white/10 bg-black/95">
+              <div className="px-4 pt-2.5 pb-1.5 border-t border-white/15 bg-[#A33925]">
                 <Link
                   to="/collections/men"
                   onClick={() => setOpenDropdown(null)}
-                  className="text-xs uppercase tracking-wider text-[#EDE0CC] hover:underline font-bold flex items-center justify-between"
+                  className="text-xs uppercase tracking-wider text-white hover:underline font-bold flex items-center justify-between"
                 >
                   <span>Explore Complete Men's Line &rarr;</span>
                 </Link>
@@ -248,29 +248,29 @@ export const Navbar: React.FC = () => {
             onClick={() => setOpenDropdown(openDropdown === 'women' ? null : 'women')}
             className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer ${
               currentPath.startsWith('/collections/women') || openDropdown === 'women'
-                ? 'border-[#EDE0CC] text-[#EDE0CC] font-bold drop-shadow-[0_0_10px_rgba(237,224,204,0.4)]'
-                : 'border-transparent text-[#d4d4d4] hover:text-white hover:border-white/40'
+                ? 'border-white text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]'
+                : 'border-transparent text-white/90 hover:text-white hover:border-white/50'
             }`}
           >
             <Link to="/collections/women" className="hover:text-white">
               WOMEN'S WEAR
             </Link>
             <ChevronDown
-              className={`w-3.5 h-3.5 text-[#a3a3a3] transition-transform duration-300 ${
-                openDropdown === 'women' ? 'rotate-180 text-[#EDE0CC]' : ''
+              className={`w-3.5 h-3.5 text-white/80 transition-transform duration-300 ${
+                openDropdown === 'women' ? 'rotate-180 text-white' : ''
               }`}
             />
           </button>
 
           {openDropdown === 'women' && (
             <div
-              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-black/98 backdrop-blur-2xl border border-white/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_25px_60px_rgba(0,0,0,0.98)] py-2.5 z-50 text-white animate-fadeIn"
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#B9432D]/98 backdrop-blur-2xl border border-white/25 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_25px_60px_rgba(0,0,0,0.6)] py-2.5 z-50 text-white animate-fadeIn"
               onMouseEnter={() => handleMouseEnter('women')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#EDE0CC] font-bold border-b border-white/10 bg-black/95 flex items-center justify-between">
+              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#FFE8DF] font-bold border-b border-white/15 bg-[#A33925] flex items-center justify-between">
                 <span>Women's Oversized Cuts</span>
-                <span className="text-[10px] text-[#94a3b8] font-medium">French Terry</span>
+                <span className="text-[10px] text-white/80 font-medium">French Terry</span>
               </div>
               <div className="py-1">
                 {WOMEN_SUB_ITEMS.map((item) => (
@@ -278,22 +278,22 @@ export const Navbar: React.FC = () => {
                     key={item.label}
                     to={item.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="block px-4 py-2.5 hover:bg-white/[0.08] transition-colors group cursor-pointer"
+                    className="block px-4 py-2.5 hover:bg-white/15 transition-colors group cursor-pointer"
                   >
-                    <div className="text-[13px] font-bold text-white group-hover:text-[#EDE0CC] tracking-wide">
+                    <div className="text-[13px] font-bold text-white group-hover:text-[#FFEBE4] tracking-wide">
                       {item.label}
                     </div>
-                    <div className="text-[11px] text-[#94a3b8] font-normal leading-normal mt-0.5">
+                    <div className="text-[11px] text-[#FFE0D4] font-normal leading-normal mt-0.5">
                       {item.sub}
                     </div>
                   </Link>
                 ))}
               </div>
-              <div className="px-4 pt-2.5 pb-1.5 border-t border-white/10 bg-black/95">
+              <div className="px-4 pt-2.5 pb-1.5 border-t border-white/15 bg-[#A33925]">
                 <Link
                   to="/collections/women"
                   onClick={() => setOpenDropdown(null)}
-                  className="text-xs uppercase tracking-wider text-[#EDE0CC] hover:underline font-bold flex items-center justify-between"
+                  className="text-xs uppercase tracking-wider text-white hover:underline font-bold flex items-center justify-between"
                 >
                   <span>Explore Complete Women's Line &rarr;</span>
                 </Link>
@@ -307,8 +307,8 @@ export const Navbar: React.FC = () => {
           to="/collections/accessories"
           className={`pb-1 border-b-2 transition-all duration-300 ${
             currentPath.startsWith('/collections/accessories')
-              ? 'border-[#EDE0CC] text-[#EDE0CC] font-bold drop-shadow-[0_0_10px_rgba(237,224,204,0.4)]'
-              : 'border-transparent text-[#d4d4d4] hover:text-white hover:border-white/40'
+              ? 'border-white text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]'
+              : 'border-transparent text-white/90 hover:text-white hover:border-white/50'
           }`}
         >
           ACCESSORIES
@@ -324,27 +324,27 @@ export const Navbar: React.FC = () => {
             onClick={() => setOpenDropdown(openDropdown === 'traditional' ? null : 'traditional')}
             className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer ${
               currentPath.startsWith('/collections/traditional') || openDropdown === 'traditional'
-                ? 'border-[#EDE0CC] text-[#EDE0CC] font-bold drop-shadow-[0_0_10px_rgba(237,224,204,0.4)]'
-                : 'border-transparent text-[#d4d4d4] hover:text-white hover:border-white/40'
+                ? 'border-white text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.7)]'
+                : 'border-transparent text-white/90 hover:text-white hover:border-white/50'
             }`}
           >
             <span>TRADITIONAL WEAR</span>
             <ChevronDown
-              className={`w-3.5 h-3.5 text-[#a3a3a3] transition-transform duration-300 ${
-                openDropdown === 'traditional' ? 'rotate-180 text-[#EDE0CC]' : ''
+              className={`w-3.5 h-3.5 text-white/80 transition-transform duration-300 ${
+                openDropdown === 'traditional' ? 'rotate-180 text-white' : ''
               }`}
             />
           </button>
 
           {openDropdown === 'traditional' && (
             <div
-              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-black/98 backdrop-blur-2xl border border-white/20 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.25),0_25px_60px_rgba(0,0,0,0.98)] py-2.5 z-50 text-white animate-fadeIn"
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-80 bg-[#B9432D]/98 backdrop-blur-2xl border border-white/25 shadow-[inset_0_1px_0_0_rgba(255,255,255,0.35),0_25px_60px_rgba(0,0,0,0.6)] py-2.5 z-50 text-white animate-fadeIn"
               onMouseEnter={() => handleMouseEnter('traditional')}
               onMouseLeave={handleMouseLeave}
             >
-              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#EDE0CC] font-bold border-b border-white/10 bg-black/95 flex items-center justify-between">
+              <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#FFE8DF] font-bold border-b border-white/15 bg-[#A33925] flex items-center justify-between">
                 <span>Traditional & Ethnic Wear</span>
-                <span className="text-[10px] text-[#94a3b8] font-medium">Premium</span>
+                <span className="text-[10px] text-white/80 font-medium">Premium</span>
               </div>
               <div className="py-1">
                 {TRADITIONAL_SUB_ITEMS.map((item) => (
@@ -352,12 +352,12 @@ export const Navbar: React.FC = () => {
                     key={item.label}
                     to={item.path}
                     onClick={() => setOpenDropdown(null)}
-                    className="block px-4 py-2.5 hover:bg-white/[0.08] transition-colors group cursor-pointer"
+                    className="block px-4 py-2.5 hover:bg-white/15 transition-colors group cursor-pointer"
                   >
-                    <div className="text-[13px] font-bold text-white group-hover:text-[#EDE0CC] tracking-wide">
+                    <div className="text-[13px] font-bold text-white group-hover:text-[#FFEBE4] tracking-wide">
                       {item.label}
                     </div>
-                    <div className="text-[11px] text-[#94a3b8] font-normal leading-normal mt-0.5">
+                    <div className="text-[11px] text-[#FFE0D4] font-normal leading-normal mt-0.5">
                       {item.sub}
                     </div>
                   </Link>
@@ -368,13 +368,13 @@ export const Navbar: React.FC = () => {
         </div>
       </nav>
 
-      {/* Mobile Drawer - Glossy Pure Black Theme */}
+      {/* Mobile Drawer - Coral Peach Theme */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-black border-b border-white/15 px-6 py-6 space-y-5 animate-fadeIn text-white shadow-2xl relative z-20 font-sans">
-          <div className="space-y-2 border-b border-white/10 pb-4">
+        <div className="md:hidden bg-[#C8523B] border-b border-[#B0432E] px-6 py-6 space-y-5 animate-fadeIn text-white shadow-2xl relative z-20 font-sans">
+          <div className="space-y-2 border-b border-white/20 pb-4">
             <Link
               to="/collections/men"
-              className="text-xs uppercase tracking-wider text-[#EDE0CC] font-bold block"
+              className="text-xs uppercase tracking-wider text-white font-bold block"
             >
               MEN'S WEAR
             </Link>
@@ -383,7 +383,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={item.label}
                   to={item.path}
-                  className="block text-xs uppercase tracking-wider text-[#cbd5e1] hover:text-white font-medium"
+                  className="block text-xs uppercase tracking-wider text-[#FFEBE4] hover:text-white font-medium"
                 >
                   &bull; {item.label}
                 </Link>
@@ -391,10 +391,10 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-2 border-b border-white/10 pb-4">
+          <div className="space-y-2 border-b border-white/20 pb-4">
             <Link
               to="/collections/women"
-              className="text-xs uppercase tracking-wider text-[#EDE0CC] font-bold block"
+              className="text-xs uppercase tracking-wider text-white font-bold block"
             >
               WOMEN'S WEAR
             </Link>
@@ -403,7 +403,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={item.label}
                   to={item.path}
-                  className="block text-xs uppercase tracking-wider text-[#cbd5e1] hover:text-white font-medium"
+                  className="block text-xs uppercase tracking-wider text-[#FFEBE4] hover:text-white font-medium"
                 >
                   &bull; {item.label}
                 </Link>
@@ -411,17 +411,17 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <div className="space-y-2 border-b border-white/10 pb-4">
+          <div className="space-y-2 border-b border-white/20 pb-4">
             <Link
               to="/collections/accessories"
-              className="text-xs uppercase tracking-wider text-[#EDE0CC] font-bold block"
+              className="text-xs uppercase tracking-wider text-white font-bold block"
             >
               ACCESSORIES
             </Link>
           </div>
 
-          <div className="space-y-2 border-b border-white/10 pb-4">
-            <span className="text-xs uppercase tracking-wider text-[#EDE0CC] font-bold block">
+          <div className="space-y-2 border-b border-white/20 pb-4">
+            <span className="text-xs uppercase tracking-wider text-white font-bold block">
               TRADITIONAL WEAR
             </span>
             <div className="pl-3 space-y-2">
@@ -429,7 +429,7 @@ export const Navbar: React.FC = () => {
                 <Link
                   key={item.label}
                   to={item.path}
-                  className="block text-xs uppercase tracking-wider text-[#cbd5e1] hover:text-white font-medium"
+                  className="block text-xs uppercase tracking-wider text-[#FFEBE4] hover:text-white font-medium"
                 >
                   &bull; {item.label}
                 </Link>
@@ -437,9 +437,9 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
 
-          <div className="pt-2 flex items-center justify-between text-xs font-medium text-[#94a3b8]">
+          <div className="pt-2 flex items-center justify-between text-xs font-medium text-[#FFE0D4]">
             <span>Exclusively Launching in India</span>
-            <span className="font-bold text-[#EDE0CC]">Billed in INR (₹)</span>
+            <span className="font-bold text-white">Billed in INR (₹)</span>
           </div>
         </div>
       )}
