@@ -45,7 +45,7 @@ export const ProductDetailPage: React.FC = () => {
         <h2 className="font-serif text-3xl mb-4">Product Not Found</h2>
         <Link
           to="/collections/all"
-          className="px-6 py-3 bg-[#2563EB] text-white font-black uppercase tracking-wider text-xs font-mono shadow-[0_0_15px_rgba(37,99,235,0.4)]"
+          className="px-6 py-3 bg-[#2563EB] text-white font-black uppercase tracking-wider text-xs font-mono shadow-[0_0_15px_rgba(237,224,204,0.25)]"
         >
           Return to Collections
         </Link>
@@ -260,7 +260,7 @@ export const ProductDetailPage: React.FC = () => {
                 className={`flex-1 py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg ${
                   isAdded
                     ? 'bg-emerald-500 text-black'
-                    : 'bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white shadow-[0_0_25px_rgba(37,99,235,0.5)]'
+                    : 'bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] shadow-[0_0_25px_rgba(37,99,235,0.5)]'
                 }`}
               >
                 {isAdded ? (

@@ -147,7 +147,7 @@ export const Footer: React.FC = () => {
                 />
                 <button
                   type="submit"
-                  className="px-4 py-2.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white text-xs uppercase tracking-wider font-black shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all flex items-center gap-1 cursor-pointer font-mono"
+                  className="px-4 py-2.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-wider font-black shadow-[0_0_15px_rgba(237,224,204,0.25)] transition-all flex items-center gap-1 cursor-pointer font-mono"
                 >
                   <span>Claim</span>
                   <ArrowRight className="w-3.5 h-3.5" />

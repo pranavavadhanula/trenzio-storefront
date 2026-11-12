@@ -164,7 +164,7 @@ export const CollectionsPage: React.FC = () => {
           <div className="pt-2">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(37,99,235,0.45)] transition-all cursor-pointer font-mono"
+              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all cursor-pointer font-mono"
             >
               <span>Explore All Available Drops</span>
             </Link>

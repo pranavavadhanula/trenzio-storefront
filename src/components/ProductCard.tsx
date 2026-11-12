@@ -130,7 +130,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 e.stopPropagation();
                 setShowQuickSizes(true);
               }}
-              className="w-full py-2.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white font-black text-[11px] uppercase tracking-wider shadow-[0_0_20px_rgba(37,99,235,0.45)] flex items-center justify-center gap-1.5 cursor-pointer font-mono transition-all"
+              className="w-full py-2.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] font-black text-[11px] uppercase tracking-wider shadow-[0_0_20px_rgba(237,224,204,0.3)] flex items-center justify-center gap-1.5 cursor-pointer font-mono transition-all"
             >
               <Plus className="w-3.5 h-3.5" />
               <span>Select Size & Add &bull; {formatPrice(product.priceINR)}</span>

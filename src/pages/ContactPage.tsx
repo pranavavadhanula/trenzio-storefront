@@ -155,7 +155,7 @@ export const ContactPage: React.FC = () => {
               {/* Submit CTA */}
               <button
                 type="submit"
-                className="w-full py-4 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black text-xs font-black uppercase tracking-widest shadow-[0_0_20px_rgba(37,99,235,0.4)] transition-all flex items-center justify-center gap-2 cursor-pointer font-mono"
+                className="w-full py-4 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs font-black uppercase tracking-widest shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer font-mono"
               >
                 <span>Dispatch Inquiry</span>
                 <ArrowRight className="w-4 h-4" />

@@ -433,7 +433,7 @@ export const VirtualTryOnPage: React.FC = () => {
                   ) : (
                     <button
                       onClick={captureCameraPhoto}
-                      className="px-8 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(37,99,235,0.5)] cursor-pointer font-mono"
+                      className="px-8 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] font-black text-xs uppercase tracking-widest shadow-[0_0_25px_rgba(37,99,235,0.5)] cursor-pointer font-mono"
                     >
                       Snap Photo
                     </button>
@@ -865,7 +865,7 @@ export const VirtualTryOnPage: React.FC = () => {
               className={`w-full py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-xl font-mono ${
                 isAdded
                   ? 'bg-emerald-500 text-black'
-                  : 'bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black shadow-[0_0_25px_rgba(37,99,235,0.5)]'
+                  : 'bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] shadow-[0_0_25px_rgba(37,99,235,0.5)]'
               }`}
             >
               {isAdded ? (

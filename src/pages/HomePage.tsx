@@ -46,7 +46,7 @@ export const HomePage: React.FC = () => {
             </p>
 
             <div className="pt-3">
-              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#060C1A] font-black text-xs uppercase tracking-widest font-mono shadow-[0_0_20px_rgba(237,224,204,0.25)] group-hover:translate-x-1 transition-all">
+              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#060C1A] font-bold text-xs uppercase tracking-wider font-sans shadow-[0_0_20px_rgba(237,224,204,0.25)] group-hover:translate-x-1 transition-all">
                 <span>Explore Men's Wear</span>
                 <ArrowRight className="w-4 h-4" />
               </span>
@@ -80,7 +80,7 @@ export const HomePage: React.FC = () => {
             </p>
 
             <div className="pt-3">
-              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#060C1A] font-black text-xs uppercase tracking-widest font-mono shadow-[0_0_20px_rgba(237,224,204,0.25)] group-hover:translate-x-1 transition-all">
+              <span className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#060C1A] font-bold text-xs uppercase tracking-wider font-sans shadow-[0_0_20px_rgba(237,224,204,0.25)] group-hover:translate-x-1 transition-all">
                 <span>Explore Women's Wear</span>
                 <ArrowRight className="w-4 h-4" />
               </span>

@@ -37,7 +37,7 @@ export const Hero: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           <Link
             to="/collections/oversized-tees"
-            className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] hover:from-[#3B82F6] hover:to-[#2563EB] text-white text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_25px_rgba(37,99,235,0.45)] transition-all duration-300 flex items-center justify-center cursor-pointer font-mono"
+            className="w-full sm:w-auto px-8 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs font-black uppercase tracking-[0.2em] shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all duration-300 flex items-center justify-center cursor-pointer font-mono"
           >
             Shop Oversized Tees (₹285)
           </Link>

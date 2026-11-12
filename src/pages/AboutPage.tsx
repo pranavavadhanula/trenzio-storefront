@@ -79,7 +79,7 @@ export const AboutPage: React.FC = () => {
       <div className="text-center space-y-4">
         <Link
           to="/collections/all"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(37,99,235,0.45)] transition-all cursor-pointer font-mono"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all cursor-pointer font-mono"
         >
           <span>Shop The Heavyweight Collection</span>
           <ArrowRight className="w-4 h-4" />

@@ -48,7 +48,7 @@ export const WishlistPage: React.FC = () => {
           <div className="pt-4">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(37,99,235,0.45)] transition-all cursor-pointer font-mono"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all cursor-pointer font-mono"
             >
               <span>Explore Collection</span>
               <ArrowRight className="w-4 h-4" />
@@ -93,7 +93,7 @@ export const WishlistPage: React.FC = () => {
               {/* Move to bag CTA */}
               <button
                 onClick={() => handleMoveToBag(product)}
-                className="w-full py-3 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black text-xs font-black uppercase tracking-wider shadow-[0_0_15px_rgba(37,99,235,0.4)] transition-all flex items-center justify-center gap-1.5 cursor-pointer font-mono"
+                className="w-full py-3 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs font-black uppercase tracking-wider shadow-[0_0_15px_rgba(237,224,204,0.25)] transition-all flex items-center justify-center gap-1.5 cursor-pointer font-mono"
               >
                 <ShoppingBag className="w-3.5 h-3.5" />
                 <span>Move to Bag</span>

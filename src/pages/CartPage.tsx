@@ -86,7 +86,7 @@ export const CartPage: React.FC = () => {
           <div className="pt-4">
             <Link
               to="/collections/all"
-              className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(37,99,235,0.45)] transition-all cursor-pointer font-mono"
+              className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs uppercase tracking-widest font-black shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all cursor-pointer font-mono"
             >
               <span>Explore Heavyweight Catalog</span>
               <ArrowRight className="w-4 h-4" />
@@ -256,7 +256,7 @@ export const CartPage: React.FC = () => {
               <button
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
-                className="w-full py-4 bg-gradient-to-r from-[#2563EB] to-[#3B82F6] hover:from-[#FFFFFF] hover:to-[#2563EB] text-black text-xs font-black uppercase tracking-widest shadow-[0_0_25px_rgba(37,99,235,0.45)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 font-mono"
+                className="w-full py-4 bg-[#EDE0CC] hover:bg-[#F5E6D0] text-[#1a1a1a] text-xs font-black uppercase tracking-widest shadow-[0_0_20px_rgba(237,224,204,0.3)] transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 font-mono"
               >
                 {isCheckingOut ? (
                   <span>Opening Shopify Checkout...</span>
