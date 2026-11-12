@@ -30,22 +30,22 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#08080A]/85 backdrop-blur-md"
+        className="fixed inset-0 bg-[#0A160F]/85 backdrop-blur-md"
         onClick={handleClose}
       />
 
       {/* Modal Box */}
-      <div className="relative w-full max-w-xl bg-[#0E0F14] border border-white/15 p-6 sm:p-8 shadow-2xl z-10 space-y-6 text-[#F3F4F8]">
+      <div className="relative w-full max-w-xl bg-[#112319] border border-white/15 p-6 sm:p-8 shadow-2xl z-10 space-y-6 text-[#F4ECE1]">
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-2">
-            <Ruler className="w-5 h-5 text-[#D4FF00]" />
-            <h3 className="font-serif text-2xl text-[#F3F4F8] font-light">
+            <Ruler className="w-5 h-5 text-[#E6D7C3]" />
+            <h3 className="font-serif text-2xl text-[#F4ECE1] font-light">
               Oversized T-Shirt Size Guide
             </h3>
           </div>
           <button
             onClick={handleClose}
-            className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-[#F3F4F8] hover:text-[#D4FF00] hover:border-[#D4FF00] cursor-pointer"
+            className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-[#F4ECE1] hover:text-[#E6D7C3] hover:border-[#E6D7C3] cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -53,14 +53,14 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
 
         {/* Unit switcher */}
         <div className="flex items-center justify-between gap-4">
-          <p className="text-xs text-[#A0AAB8] font-light">
+          <p className="text-xs text-[#D4C3A3] font-light">
             Exact dimensions from Printrove fulfillment specifications.
           </p>
           <div className="flex border border-white/15 bg-white/[0.03]">
             <button
               onClick={() => setUnit('in')}
               className={`px-3 py-1 text-xs uppercase font-mono cursor-pointer ${
-                unit === 'in' ? 'bg-[#D4FF00] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]' : 'text-[#A0AAB8] hover:bg-white/5'
+                unit === 'in' ? 'bg-[#E6D7C3] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]' : 'text-[#D4C3A3] hover:bg-white/5'
               }`}
             >
               In (Inches)
@@ -68,7 +68,7 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
             <button
               onClick={() => setUnit('cm')}
               className={`px-3 py-1 text-xs uppercase font-mono cursor-pointer ${
-                unit === 'cm' ? 'bg-[#D4FF00] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]' : 'text-[#A0AAB8] hover:bg-white/5'
+                unit === 'cm' ? 'bg-[#E6D7C3] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]' : 'text-[#D4C3A3] hover:bg-white/5'
               }`}
             >
               Cm (Centimeters)
@@ -80,13 +80,13 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-white/10 text-[10px] uppercase tracking-widest text-[#D4FF00] font-mono font-bold">
+              <tr className="border-b border-white/10 text-[10px] uppercase tracking-widest text-[#E6D7C3] font-mono font-bold">
                 <th className="py-2.5">Size</th>
                 <th className="py-2.5">Chest (Around)</th>
                 <th className="py-2.5">Length (Neck to Hem)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10 font-mono text-[#F3F4F8]">
+            <tbody className="divide-y divide-white/10 font-mono text-[#F4ECE1]">
               {tShirtSizes.map((row) => (
                 <tr key={row.size} className="hover:bg-white/[0.03]">
                   <td className="py-3 font-bold text-white">{row.size}</td>
@@ -99,8 +99,8 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
         </div>
 
         {/* Help Note */}
-        <div className="flex items-start gap-2.5 p-3 bg-white/[0.03] border border-white/12 text-xs text-[#A0AAB8]">
-          <HelpCircle className="w-4 h-4 text-[#D4FF00] flex-shrink-0 mt-0.5" />
+        <div className="flex items-start gap-2.5 p-3 bg-white/[0.03] border border-white/12 text-xs text-[#D4C3A3]">
+          <HelpCircle className="w-4 h-4 text-[#E6D7C3] flex-shrink-0 mt-0.5" />
           <span>
             The final size may vary by &plusmn;0.5 inches due to manual cutting and bio-wash finishing.
           </span>

@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { ShoppingBag, ChevronDown, Menu, X, Search, Heart } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { CURRENCIES } from '../data/products';
-import { CurrencyCode } from '../types';
+
+interface SubCategoryItem {
+  label: string;
+  path: string;
+  sub: string;
+}
 
 export const Navbar: React.FC = () => {
   const {
     cartCount,
     setIsCartOpen,
-    currency,
-    setCurrency,
     wishlist,
     setIsWishlistOpen,
     setIsSearchOpen,
   } = useShop();
 
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isCurrencyDropdownOpen, setIsCurrencyDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<'men' | 'women' | null>(null);
+  const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -29,47 +32,56 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile drawer on route change
+  // Close mobile drawer and dropdowns on route change
   useEffect(() => {
     setMobileMenuOpen(false);
+    setOpenDropdown(null);
   }, [location.pathname]);
+
+  const handleMouseEnter = (menu: 'men' | 'women') => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    setOpenDropdown(menu);
+  };
+
+  const handleMouseLeave = () => {
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setOpenDropdown(null);
+    }, 180);
+  };
 
   const currentPath = location.pathname;
 
-  // Zara-style Main Navigation Tabs
-  const NAV_TABS = [
-    { label: "MEN'S WEAR", path: '/collections/men' },
-    { label: "WOMEN'S WEAR", path: '/collections/women' },
-    { label: 'OVERSIZED TEES', path: '/collections/oversized-tees' },
-    { label: 'SWEATSHIRTS', path: '/collections/sweatshirts' },
-    { label: 'ALL DROPS', path: '/collections/all' },
-    { label: '⚡ 3D TRY-ON', path: '/try-on' },
-    { label: 'THE CRAFT', path: '/about' },
-    { label: 'CONCIERGE', path: '/contact' },
+  const MEN_SUB_ITEMS: SubCategoryItem[] = [
+    { label: "All Men's Wear", path: '/collections/men', sub: 'Complete 240–400 GSM catalog' },
+    { label: 'Oversized T-Shirts', path: '/collections/oversized-tees', sub: 'Structured boxy dropped shoulders' },
+    { label: 'Sweatshirts & Hoodies', path: '/collections/sweatshirts', sub: '400 GSM diagonal loop Terry' },
+    { label: 'Classic Tees', path: '/collections/classic-tees', sub: 'Tailored everyday luxury' },
   ];
 
-  const isTabActive = (tabPath: string) => {
-    if (tabPath === '/collections/all') {
-      return currentPath === '/collections/all' || currentPath === '/collections';
-    }
-    return currentPath === tabPath;
-  };
+  const WOMEN_SUB_ITEMS: SubCategoryItem[] = [
+    { label: "All Women's Wear", path: '/collections/women', sub: 'Complete oversized silhouettes' },
+    { label: 'Oversized T-Shirts', path: '/collections/oversized-tees', sub: 'Draped dropped-shoulder tees' },
+    { label: 'Sweatshirts & Hoodies', path: '/collections/sweatshirts', sub: '400 GSM luxury French Terry' },
+    { label: 'Classic Tees', path: '/collections/classic-tees', sub: 'Minimalist heavyweight basics' },
+  ];
 
   return (
     <header
       className={`sticky top-0 z-40 transition-all duration-300 ${
         isScrolled
-          ? 'bg-[#0B0512]/92 backdrop-blur-2xl border-b border-[#BA55D3]/25 shadow-[0_4px_30px_rgba(0,0,0,0.8)]'
-          : 'bg-[#0B0512]/85 backdrop-blur-xl border-b border-[#BA55D3]/20'
-      } text-[#FAF5FF]`}
+          ? 'bg-[#0A160F]/95 backdrop-blur-2xl border-b border-[#D4C3A3]/25 shadow-[0_4px_30px_rgba(0,0,0,0.85)]'
+          : 'bg-[#0A160F]/90 backdrop-blur-xl border-b border-[#D4C3A3]/20'
+      } text-[#F4ECE1]`}
     >
       {/* Top Main Brand Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-[#BA55D3]/15">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-[#D4C3A3]/15">
         {/* Left: Mobile Menu & Search */}
         <div className="flex items-center space-x-3 sm:space-x-5">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden text-[#FAF5FF] hover:text-[#DA70D6] p-1 cursor-pointer transition-colors"
+            className="md:hidden text-[#F4ECE1] hover:text-[#E6D7C3] p-1 cursor-pointer transition-colors"
             aria-label="Toggle Menu"
           >
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -77,64 +89,36 @@ export const Navbar: React.FC = () => {
 
           <button
             onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#D8B4FE] hover:text-[#DA70D6] transition-colors p-1 cursor-pointer font-mono"
+            className="flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-[#D4C3A3] hover:text-[#F4ECE1] transition-colors p-1 cursor-pointer font-mono"
             title="Search Catalog"
           >
-            <Search className="w-4 h-4 text-[#DA70D6]" />
+            <Search className="w-4 h-4 text-[#D4C3A3]" />
             <span className="hidden sm:inline text-[11px] font-bold">SEARCH</span>
           </button>
         </div>
 
-        {/* Center: Brand Name (Zara Grand Spacing) */}
+        {/* Center: Brand Name (Luxury Haute Typography) */}
         <Link
           to="/"
           className="text-center group block cursor-pointer"
           title="Trenzio Home"
         >
-          <h1 className="font-serif text-2xl sm:text-4xl tracking-[0.45em] text-[#FAF5FF] font-light group-hover:text-[#DA70D6] transition-colors pl-[0.45em]">
+          <h1 className="font-serif text-2xl sm:text-4xl tracking-[0.45em] text-[#F4ECE1] font-light group-hover:text-[#E6D7C3] transition-colors pl-[0.45em]">
             TRENZIO
           </h1>
-          <p className="text-[8px] uppercase tracking-[0.35em] text-[#D8B4FE] -mt-1 font-mono font-medium">
+          <p className="text-[8px] uppercase tracking-[0.35em] text-[#D4C3A3] -mt-1 font-mono font-medium">
             Luxury Heavyweight Apparel &bull; India
           </p>
         </Link>
 
-        {/* Right: Actions (Currency, Wishlist, Bag) */}
+        {/* Right: Actions (Fixed INR Badge, Wishlist, Bag) */}
         <div className="flex items-center space-x-3 sm:space-x-5">
-          {/* Currency Switcher */}
-          <div className="relative">
-            <button
-              onClick={() => setIsCurrencyDropdownOpen(!isCurrencyDropdownOpen)}
-              className="flex items-center space-x-1 text-xs tracking-wider text-[#FAF5FF] hover:text-[#DA70D6] py-1 px-2.5 rounded-none border border-[#BA55D3]/25 bg-white/[0.04] backdrop-blur-md transition-all cursor-pointer font-mono text-[11px]"
-            >
-              <span>{currency} ({CURRENCIES[currency].symbol.trim()})</span>
-              <ChevronDown className="w-3 h-3 opacity-70" />
-            </button>
-
-            {isCurrencyDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-48 bg-[#140A21]/95 backdrop-blur-2xl border border-[#BA55D3]/30 shadow-2xl py-2 z-50 text-[#FAF5FF]">
-                <div className="px-3 py-1 text-[9px] uppercase tracking-widest text-[#D8B4FE]/80 border-b border-[#BA55D3]/20 font-mono">
-                  Select Currency
-                </div>
-                {(Object.keys(CURRENCIES) as CurrencyCode[]).map((code) => (
-                  <button
-                    key={code}
-                    onClick={() => {
-                      setCurrency(code);
-                      setIsCurrencyDropdownOpen(false);
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs flex items-center justify-between transition-colors cursor-pointer font-mono ${
-                      currency === code
-                        ? 'bg-[#DA70D6]/20 text-[#DA70D6] font-bold'
-                        : 'text-[#FAF5FF] hover:bg-white/[0.08]'
-                    }`}
-                  >
-                    <span>{CURRENCIES[code].countryName}</span>
-                    <span className="font-mono text-[#DA70D6] font-bold">{CURRENCIES[code].symbol}</span>
-                  </button>
-                ))}
-              </div>
-            )}
+          {/* Fixed INR Only Indicator - Strict India Launch (No Currency Dropdown) */}
+          <div
+            className="flex items-center space-x-1 py-1 px-2.5 rounded-none border border-[#D4C3A3]/25 bg-white/[0.04] text-[#E6D7C3] font-mono text-[11px] font-bold tracking-wider select-none"
+            title="Exclusively Launching in India — Billed strictly in INR (₹)"
+          >
+            <span>INR (₹)</span>
           </div>
 
           {/* Wishlist */}
@@ -146,13 +130,13 @@ export const Navbar: React.FC = () => {
                 setIsWishlistOpen(true);
               }
             }}
-            className="relative flex items-center gap-1.5 text-[#D8B4FE] hover:text-[#DA70D6] transition-colors p-1 cursor-pointer font-mono text-[11px]"
+            className="relative flex items-center gap-1.5 text-[#D4C3A3] hover:text-[#F4ECE1] transition-colors p-1 cursor-pointer font-mono text-[11px]"
             title="Wishlist (Right click to open in new tab)"
           >
-            <Heart className="w-4 h-4 text-[#DA70D6]" />
+            <Heart className="w-4 h-4 text-[#D4C3A3]" />
             <span className="hidden sm:inline font-bold">WISHLIST</span>
             {wishlist.length > 0 && (
-              <span className="text-[#DA70D6] font-bold text-[10px]">
+              <span className="text-[#E6D7C3] font-bold text-[10px]">
                 ({wishlist.length})
               </span>
             )}
@@ -167,55 +151,199 @@ export const Navbar: React.FC = () => {
                 setIsCartOpen(true);
               }
             }}
-            className="relative flex items-center gap-1.5 text-[#FAF5FF] hover:text-[#DA70D6] transition-colors cursor-pointer font-mono text-[11px]"
+            className="relative flex items-center gap-1.5 text-[#F4ECE1] hover:text-[#E6D7C3] transition-colors cursor-pointer font-mono text-[11px]"
             title="Shopping Bag (Right click to open in new tab)"
           >
-            <ShoppingBag className="w-4 h-4 text-[#DA70D6]" />
+            <ShoppingBag className="w-4 h-4 text-[#D4C3A3]" />
             <span className="hidden sm:inline font-bold">BAG</span>
-            <span className="px-1.5 py-0.2 rounded-full bg-[#DA70D6] text-black font-black text-[10px] font-mono shadow-[0_0_12px_rgba(218,112,214,0.6)]">
+            <span className="px-1.5 py-0.2 rounded-full bg-[#E6D7C3] text-[#0A160F] font-black text-[10px] font-mono shadow-[0_0_12px_rgba(212,195,163,0.4)]">
               {cartCount}
             </span>
           </Link>
         </div>
       </div>
 
-      {/* Zara-Style Sticky Horizontal Tab Bar */}
-      <nav className="max-w-7xl mx-auto px-4 sm:px-8 overflow-x-auto scrollbar-none flex items-center justify-start sm:justify-center space-x-6 sm:space-x-8 text-[11px] uppercase tracking-[0.22em] font-mono py-2.5 sm:py-3 border-t border-[#BA55D3]/15">
-        {NAV_TABS.map((tab) => {
-          const active = isTabActive(tab.path);
-          return (
-            <Link
-              key={tab.path}
-              to={tab.path}
-              className={`whitespace-nowrap pb-1 border-b-2 transition-all duration-300 cursor-pointer ${
-                active
-                  ? 'border-[#DA70D6] text-[#DA70D6] font-bold shadow-[0_2px_14px_rgba(218,112,214,0.4)]'
-                  : 'border-transparent text-[#D8B4FE] hover:text-[#DA70D6] hover:border-[#DA70D6]/40'
-              }`}
-              title={`Open ${tab.label} (Right click to open in new tab)`}
-            >
-              {tab.label}
+      {/* Secondary Bar Below Search: Strictly Men's Wear & Women's Wear With Interactive Dropdown Lists */}
+      <nav className="relative max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center space-x-10 sm:space-x-16 text-[12px] uppercase tracking-[0.25em] font-mono py-3 border-t border-[#D4C3A3]/15">
+        {/* Item 1: MEN'S WEAR with Dropdown */}
+        <div
+          className="relative"
+          onMouseEnter={() => handleMouseEnter('men')}
+          onMouseLeave={handleMouseLeave}
+        >
+          <button
+            onClick={() => setOpenDropdown(openDropdown === 'men' ? null : 'men')}
+            className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer font-mono ${
+              currentPath.startsWith('/collections/men') || openDropdown === 'men'
+                ? 'border-[#E6D7C3] text-[#E6D7C3] font-bold shadow-[0_2px_14px_rgba(212,195,163,0.35)]'
+                : 'border-transparent text-[#D4C3A3] hover:text-[#F4ECE1] hover:border-[#D4C3A3]/40'
+            }`}
+          >
+            <Link to="/collections/men" className="hover:text-[#F4ECE1]">
+              MEN'S WEAR
             </Link>
-          );
-        })}
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-[#D4C3A3] transition-transform duration-300 ${
+                openDropdown === 'men' ? 'rotate-180 text-[#E6D7C3]' : ''
+              }`}
+            />
+          </button>
+
+          {/* Men's Wear Dropdown List */}
+          {openDropdown === 'men' && (
+            <div
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 bg-[#112319]/98 backdrop-blur-2xl border border-[#D4C3A3]/30 shadow-[0_15px_45px_rgba(0,0,0,0.85)] py-2 z-50 text-[#F4ECE1] animate-fadeIn"
+              onMouseEnter={() => handleMouseEnter('men')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="px-4 py-2 text-[9px] uppercase tracking-[0.3em] text-[#D4C3A3] font-bold border-b border-[#D4C3A3]/20 flex items-center justify-between">
+                <span>Men's Heavyweight Fits</span>
+                <span className="text-[8px] text-[#A39277]">240–400 GSM</span>
+              </div>
+              <div className="py-1">
+                {MEN_SUB_ITEMS.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    onClick={() => setOpenDropdown(null)}
+                    className="block px-4 py-2.5 hover:bg-[#162E21] transition-colors group cursor-pointer"
+                  >
+                    <div className="text-[11px] font-bold text-[#F4ECE1] group-hover:text-[#E6D7C3] tracking-wider">
+                      {item.label}
+                    </div>
+                    <div className="text-[9px] text-[#A39277] font-sans normal-case tracking-normal">
+                      {item.sub}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="px-4 pt-2 pb-1 border-t border-[#D4C3A3]/20 bg-[#0A160F]/60">
+                <Link
+                  to="/collections/men"
+                  onClick={() => setOpenDropdown(null)}
+                  className="text-[9px] uppercase tracking-widest text-[#E6D7C3] hover:underline font-bold flex items-center justify-between"
+                >
+                  <span>Explore Complete Men's Line &rarr;</span>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Item 2: WOMEN'S WEAR with Dropdown */}
+        <div
+          className="relative"
+          onMouseEnter={() => handleMouseEnter('women')}
+          onMouseLeave={handleMouseLeave}
+        >
+          <button
+            onClick={() => setOpenDropdown(openDropdown === 'women' ? null : 'women')}
+            className={`flex items-center gap-1.5 pb-1 border-b-2 transition-all duration-300 cursor-pointer font-mono ${
+              currentPath.startsWith('/collections/women') || openDropdown === 'women'
+                ? 'border-[#E6D7C3] text-[#E6D7C3] font-bold shadow-[0_2px_14px_rgba(212,195,163,0.35)]'
+                : 'border-transparent text-[#D4C3A3] hover:text-[#F4ECE1] hover:border-[#D4C3A3]/40'
+            }`}
+          >
+            <Link to="/collections/women" className="hover:text-[#F4ECE1]">
+              WOMEN'S WEAR
+            </Link>
+            <ChevronDown
+              className={`w-3.5 h-3.5 text-[#D4C3A3] transition-transform duration-300 ${
+                openDropdown === 'women' ? 'rotate-180 text-[#E6D7C3]' : ''
+              }`}
+            />
+          </button>
+
+          {/* Women's Wear Dropdown List */}
+          {openDropdown === 'women' && (
+            <div
+              className="absolute left-1/2 -translate-x-1/2 mt-2 w-72 bg-[#112319]/98 backdrop-blur-2xl border border-[#D4C3A3]/30 shadow-[0_15px_45px_rgba(0,0,0,0.85)] py-2 z-50 text-[#F4ECE1] animate-fadeIn"
+              onMouseEnter={() => handleMouseEnter('women')}
+              onMouseLeave={handleMouseLeave}
+            >
+              <div className="px-4 py-2 text-[9px] uppercase tracking-[0.3em] text-[#D4C3A3] font-bold border-b border-[#D4C3A3]/20 flex items-center justify-between">
+                <span>Women's Oversized Cuts</span>
+                <span className="text-[8px] text-[#A39277]">French Terry</span>
+              </div>
+              <div className="py-1">
+                {WOMEN_SUB_ITEMS.map((item) => (
+                  <Link
+                    key={item.label}
+                    to={item.path}
+                    onClick={() => setOpenDropdown(null)}
+                    className="block px-4 py-2.5 hover:bg-[#162E21] transition-colors group cursor-pointer"
+                  >
+                    <div className="text-[11px] font-bold text-[#F4ECE1] group-hover:text-[#E6D7C3] tracking-wider">
+                      {item.label}
+                    </div>
+                    <div className="text-[9px] text-[#A39277] font-sans normal-case tracking-normal">
+                      {item.sub}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <div className="px-4 pt-2 pb-1 border-t border-[#D4C3A3]/20 bg-[#0A160F]/60">
+                <Link
+                  to="/collections/women"
+                  onClick={() => setOpenDropdown(null)}
+                  className="text-[9px] uppercase tracking-widest text-[#E6D7C3] hover:underline font-bold flex items-center justify-between"
+                >
+                  <span>Explore Complete Women's Line &rarr;</span>
+                </Link>
+              </div>
+            </div>
+          )}
+        </div>
       </nav>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#140A21]/95 backdrop-blur-2xl border-b border-[#BA55D3]/30 px-6 py-6 space-y-4 animate-fadeIn text-[#FAF5FF]">
-          <div className="text-[10px] uppercase tracking-widest text-[#DA70D6] font-mono font-bold">
-            Navigation Tabs
+        <div className="md:hidden bg-[#112319]/98 backdrop-blur-2xl border-b border-[#D4C3A3]/30 px-6 py-6 space-y-5 animate-fadeIn text-[#F4ECE1]">
+          {/* Men's Wear Accordion */}
+          <div className="space-y-2 border-b border-[#D4C3A3]/20 pb-4">
+            <Link
+              to="/collections/men"
+              className="text-xs uppercase tracking-widest text-[#E6D7C3] font-bold font-mono block"
+            >
+              MEN'S WEAR
+            </Link>
+            <div className="pl-3 space-y-2 font-mono">
+              {MEN_SUB_ITEMS.map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  className="block text-[11px] uppercase tracking-wider text-[#D4C3A3] hover:text-[#F4ECE1]"
+                >
+                  &bull; {item.label}
+                </Link>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-col space-y-3 font-mono">
-            {NAV_TABS.map((tab) => (
-              <Link
-                key={tab.path}
-                to={tab.path}
-                className="text-sm uppercase tracking-wider text-[#D8B4FE] hover:text-[#DA70D6] py-1 font-medium"
-              >
-                {tab.label}
-              </Link>
-            ))}
+
+          {/* Women's Wear Accordion */}
+          <div className="space-y-2 border-b border-[#D4C3A3]/20 pb-4">
+            <Link
+              to="/collections/women"
+              className="text-xs uppercase tracking-widest text-[#E6D7C3] font-bold font-mono block"
+            >
+              WOMEN'S WEAR
+            </Link>
+            <div className="pl-3 space-y-2 font-mono">
+              {WOMEN_SUB_ITEMS.map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.path}
+                  className="block text-[11px] uppercase tracking-wider text-[#D4C3A3] hover:text-[#F4ECE1]"
+                >
+                  &bull; {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-[#D4C3A3]">
+            <span>Exclusively Launching in India</span>
+            <span className="font-bold text-[#E6D7C3]">Billed in INR (₹)</span>
           </div>
         </div>
       )}

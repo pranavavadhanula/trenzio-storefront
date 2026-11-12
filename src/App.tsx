@@ -32,17 +32,17 @@ function ScrollToTop() {
 
 function MainStorefront() {
   return (
-    <div className="min-h-screen bg-[#0B0512] text-[#FAF5FF] flex flex-col font-sans selection:bg-[#DA70D6] selection:text-black">
+    <div className="min-h-screen bg-[#0A160F] text-[#F4ECE1] flex flex-col font-sans selection:bg-[#D4C3A3] selection:text-[#0A160F]">
       <ScrollToTop />
 
       {/* Top Banner (Free Pan-India Delivery over ₹1,999) */}
       <AnnouncementBar />
 
-      {/* Navigation Bar with Category Links (Right click supported for new tabs) */}
+      {/* Navigation Bar with Dropdown lists under Men's Wear & Women's Wear */}
       <Navbar />
 
       {/* Main Multi-Page Routed Content */}
-      <main className="flex-1 bg-[#0B0512]">
+      <main className="flex-1 bg-[#0A160F]">
         <Routes>
           {/* Home Page: Hero, Heavyweight Drops, Fabric Promise */}
           <Route path="/" element={<HomePage />} />
@@ -60,33 +60,33 @@ function MainStorefront() {
           {/* Dedicated Saved Wishlist Page */}
           <Route path="/wishlist" element={<WishlistPage />} />
 
-          {/* Dedicated 3D Virtual Try-On Studio */}
-          <Route path="/try-on" element={<VirtualTryOnPage />} />
-
-          {/* About / Craftsmanship Philosophy */}
+          {/* Brand Philosophy & 350 GSM Craftsmanship */}
           <Route path="/about" element={<AboutPage />} />
 
-          {/* Concierge & Support */}
+          {/* WhatsApp Direct Concierge & Support */}
           <Route path="/contact" element={<ContactPage />} />
 
-          {/* Catch-all fallback */}
+          {/* 3D Virtual Try-On Studio */}
+          <Route path="/try-on" element={<VirtualTryOnPage />} />
+
+          {/* Fallback Catch-All */}
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
 
-      {/* Global Interactive Drawers & Modals */}
+      {/* Footer with India D2C Guarantees & Shopify Integration Details */}
+      <Footer />
+
+      {/* Global Slide-Over Drawers & Modals */}
       <CartDrawer />
       <WishlistDrawer />
       <SearchModal />
       <SizingModal />
-
-      {/* Luxury Footer with Indian D2C Trust Badges */}
-      <Footer />
     </div>
   );
 }
 
-export default function App() {
+export function App() {
   return (
     <BrowserRouter>
       <ShopProvider>
@@ -95,3 +95,5 @@ export default function App() {
     </BrowserRouter>
   );
 }
+
+export default App;

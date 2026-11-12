@@ -12,61 +12,54 @@ export default {
       },
       colors: {
         atelier: {
-          // Pure Orchid Palette
-          orchid: '#DA70D6',           // Radiant Orchid
-          'orchid-vivid': '#E056FD',   // Vivid Electric Orchid
-          'orchid-light': '#F39CFF',   // Luminous Light Orchid
-          'orchid-medium': '#BA55D3',  // Medium Orchid
-          'orchid-deep': '#9932CC',    // Dark Rich Orchid
-          'orchid-night': '#0B0512',   // Midnight Orchid Canvas
-          'orchid-dark': '#06030A',    // Void Dark Orchid
-          'orchid-surface': '#140A21', // Velvet Orchid Surface
-          'orchid-card': '#1B0E2C',    // Card Elevation
-          'orchid-border': 'rgba(218, 112, 214, 0.22)', // Orchid Glass Edge
-          'orchid-soft': 'rgba(218, 112, 214, 0.14)',  // Soft Orchid Tint
-          'orchid-silk': '#FAF5FF',    // Frost Orchid Silky White
-          'orchid-mist': '#D8B4FE',    // Muted Lavender Orchid
+          // Forest Green & Sand Beige Palette
+          forest: '#112319',           // Rich Forest Green
+          'forest-deep': '#0A160F',    // Midnight Forest Canvas
+          'forest-surface': '#162E21', // Forest Container Surface
+          'forest-card': '#112319',    // Card Elevation
+          'forest-accent': '#2D6E49',  // Vibrant Pine Green Accent
+          'forest-border': 'rgba(212, 195, 163, 0.22)',
+
+          sand: '#E6D7C3',             // Warm Sand Beige
+          'sand-light': '#F4ECE1',     // Soft Sand Beige Light
+          'sand-medium': '#D4C3A3',    // Classic Sand Beige Accent
+          'sand-muted': '#A39277',     // Muted Sand Beige Subtext
+          'sand-dark': '#0A160F',      // Contrast Forest Green Text
+          'sand-border': 'rgba(212, 195, 163, 0.25)',
 
           // Semantic backwards-compatible mappings
-          ink: '#0B0512',
-          'ink-dark': '#06030A',
-          'ink-surface': '#140A21',
-          'ink-card': '#1B0E2C',
-          silver: '#FAF5FF',
-          'silver-muted': '#D8B4FE',
-          'silver-glass': 'rgba(218, 112, 214, 0.06)',
-          'silver-border': 'rgba(218, 112, 214, 0.22)',
-          lime: '#DA70D6',
-          'lime-hover': '#F39CFF',
-          'lime-soft': 'rgba(218, 112, 214, 0.14)',
-          navy: '#140A21',
-          'navy-dark': '#0B0512',
-          'navy-surface': '#1B0E2C',
-          'navy-border': 'rgba(218, 112, 214, 0.22)',
-          'navy-muted': '#D8B4FE',
-          cream: '#0B0512',
-          coral: '#DA70D6',
-          'coral-hover': '#F39CFF',
-          'coral-soft': 'rgba(218, 112, 214, 0.14)',
+          ink: '#0A160F',
+          'ink-dark': '#07100B',
+          'ink-surface': '#112319',
+          'ink-card': '#162E21',
+          silver: '#F4ECE1',
+          'silver-muted': '#D4C3A3',
+          'silver-glass': 'rgba(212, 195, 163, 0.06)',
+          'silver-border': 'rgba(212, 195, 163, 0.22)',
+          lime: '#D4C3A3',
+          'lime-hover': '#F4ECE1',
+          'lime-soft': 'rgba(212, 195, 163, 0.14)',
+          navy: '#112319',
+          'navy-dark': '#0A160F',
+          'navy-surface': '#162E21',
+          'navy-border': 'rgba(212, 195, 163, 0.22)',
+          'navy-muted': '#D4C3A3',
+          cream: '#0A160F',
+          coral: '#D4C3A3',
+          'coral-hover': '#F4ECE1',
+          'coral-soft': 'rgba(212, 195, 163, 0.14)',
 
           // Standard semantic numbers for unified theme
-          950: '#0B0512', // Canvas
-          900: '#140A21', // Cards
-          850: '#1B0E2C', // Surface
-          800: 'rgba(218, 112, 214, 0.22)', // Borders
-          700: '#D8B4FE', // Secondary
-          300: '#8E7A9F', // Muted
-          200: '#D8B4FE', // Body
-          100: '#FAF5FF', // Primary Heading
-          50: '#FFFFFF',
-          gold: '#DA70D6',
-          sand: '#1B0E2C',
-        }
+          950: '#0A160F', // Canvas
+          900: '#112319', // Cards
+          850: '#162E21', // Surface
+          800: 'rgba(212, 195, 163, 0.22)', // Borders
+          700: '#D4C3A3', // Secondary
+          300: '#A39277', // Muted
+          200: '#D4C3A3', // Body
+          100: '#F4ECE1', // Primary Heading
+        },
       },
-      letterSpacing: {
-        'widest-luxury': '0.25em',
-        'ultra': '0.35em',
-      }
     },
   },
   plugins: [],
