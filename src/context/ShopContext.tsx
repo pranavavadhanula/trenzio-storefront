@@ -50,7 +50,7 @@ interface ShopContextType {
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -74,21 +74,12 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [selectedGender, setSelectedGender] = useState<string>('All');
 
   const refreshProducts = async () => {
-    setIsLoadingProducts(true);
-    try {
-      const liveProducts = await fetchShopifyProducts();
-      if (liveProducts && liveProducts.length) {
-        setProducts(liveProducts);
-      }
-    } catch (err) {
-      console.warn('[Trenzio] Product sync notice:', err);
-    } finally {
-      setIsLoadingProducts(false);
-    }
+    setIsLoadingProducts(false);
+    setProducts([]);
   };
 
   useEffect(() => {
-    refreshProducts();
+    setProducts([]);
   }, []);
 
   useEffect(() => {

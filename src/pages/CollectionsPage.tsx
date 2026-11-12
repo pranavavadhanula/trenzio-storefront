@@ -156,10 +156,10 @@ export const CollectionsPage: React.FC = () => {
             <Sparkles className="w-6 h-6" />
           </div>
           <h3 className="font-sans text-2xl sm:text-3xl text-white font-bold">
-            New Drop Dropping Soon
+            Next Drop Coming Soon
           </h3>
           <p className="text-xs sm:text-sm text-[#94A3B8] max-w-md mx-auto font-normal leading-relaxed">
-            Our next heavyweight pieces for <strong className="text-[#F88379]">{config.label}</strong> are currently in production with Printrove.
+            All previous drop pieces for <strong className="text-[#F88379]">{config.label}</strong> are sold out. We are preparing our next exclusive heavyweight launch.
           </p>
           <div className="pt-2">
             <Link
