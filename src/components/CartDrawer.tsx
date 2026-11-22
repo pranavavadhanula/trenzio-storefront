@@ -118,14 +118,14 @@ export const CartDrawer: React.FC = () => {
                   <Sparkles className="w-5 h-5 text-[#2563EB]" />
                 </div>
                 <h3 className="font-serif text-xl text-[#FFFFFF]">Your bag is empty</h3>
-                <p className="text-xs text-[#3B82F6] max-w-xs font-light">
-                  Explore our 240–350 GSM oversized tees and luxury heavyweight streetwear.
+                <p className="text-xs text-[#94A3B8] max-w-xs font-light">
+                  Explore our collection of shirts, oversized tees, and luxury streetwear.
                 </p>
                 <button
                   onClick={() => setIsCartOpen(false)}
-                  className="px-6 py-2.5 border border-[#2563EB] text-xs uppercase tracking-wider text-[#2563EB] hover:bg-[#2563EB] hover:text-black transition-colors cursor-pointer mt-2 font-mono font-bold"
+                  className="px-6 py-2.5 border border-[#F88379] text-xs uppercase tracking-wider text-[#F88379] hover:bg-[#F88379] hover:text-[#07111E] transition-colors cursor-pointer mt-2 font-mono font-bold rounded-sm"
                 >
-                  Shop Heavyweights
+                  Shop Collection
                 </button>
               </div>
             ) : (
@@ -158,7 +158,7 @@ export const CartDrawer: React.FC = () => {
                         <span>&bull;</span>
                         <span>{item.selectedColor}</span>
                         <span>&bull;</span>
-                        <span className="text-[#2563EB] font-bold">{item.product.gsm} GSM</span>
+                        <span className="text-[#F88379] font-bold">{item.product.category || '100% Cotton'}</span>
                       </div>
                     </div>
 

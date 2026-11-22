@@ -65,10 +65,10 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           loading="lazy"
         />
 
-        {/* Top-Left Badges: GSM & Stock */}
+        {/* Top-Left Badges: Category & Stock */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5 z-10 pointer-events-none">
           <span className="bg-[#07111E]/90 text-white text-[9px] uppercase tracking-wider px-2 py-0.5 font-bold shadow-sm border border-[#1E3A66]">
-            {product.gsm} GSM
+            {product.category || '100% Cotton'}
           </span>
           <span className="bg-[#F88379] text-white text-[9px] uppercase tracking-wider px-2 py-0.5 font-bold shadow-sm">
             In Stock &bull; Ready to Ship

@@ -26,7 +26,7 @@ export const HeroEditorialBanner: React.FC = () => {
             </h1>
 
             <p className="text-xs sm:text-base md:text-lg text-slate-100 font-normal mt-4 max-w-xl leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">
-              Contemporary luxury streetwear crafted with 400 GSM heavyweight French Terry, relaxed silhouettes, and modern neutral tones for effortless everyday elegance.
+              Contemporary luxury streetwear crafted with premium French Terry, relaxed silhouettes, and modern neutral tones for effortless everyday elegance.
             </p>
 
             <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-6 sm:mt-8">

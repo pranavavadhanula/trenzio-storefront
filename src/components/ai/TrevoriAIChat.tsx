@@ -19,7 +19,7 @@ const DEFAULT_WELCOME_MESSAGE: AIMessage = {
 
 Ask me anything naturally like ChatGPT:
 • Style complete streetwear or royal traditional outfits under any budget
-• Calculate your exact size across our 240–450 GSM heavyweight drops
+• Calculate your exact size across our shirts, tees, and hoodies
 • Ask about fabric science, garment care, or lifestyle & sleep advice
 • Track orders or search real inventory in seconds
 
@@ -29,7 +29,7 @@ What can I help you with today?`,
     'Suggest an outfit for a college party under ₹2,500',
     'Find oversized black T-shirts',
     'What size should I wear for a 40" chest?',
-    'What is 400 GSM French Terry?',
+    'What is French Terry?',
     'Track Order #TRV-89421',
   ],
 };

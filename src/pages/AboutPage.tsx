@@ -16,7 +16,7 @@ export const AboutPage: React.FC = () => {
           <span className="italic text-[#F88379]">Engineering Substance.</span>
         </h1>
         <p className="text-xs sm:text-sm text-[#94A3B8] font-normal leading-relaxed">
-          Trevori was founded with a single obsession: to dismantle the disposable 160 GSM mall t-shirt culture and create authentic heavyweight luxury streetwear designed, milled, and crafted in India.
+          Trevori was founded with a single obsession: to create authentic luxury streetwear and classic everyday shirts & tees designed, milled, and crafted in India.
         </p>
       </div>
 
@@ -24,9 +24,9 @@ export const AboutPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
         <div className="p-8 bg-[#0B1A30] border border-[#1E3A66]/60 space-y-4 shadow-xl text-white backdrop-blur-md">
           <Feather className="w-6 h-6 text-[#F88379]" />
-          <h3 className="font-sans text-2xl font-bold text-white">350 GSM Density</h3>
+          <h3 className="font-sans text-2xl font-bold text-white">100% Combed Cotton</h3>
           <p className="text-xs text-[#94A3B8] font-normal leading-relaxed">
-            Twice the weight of fast-fashion blanks. Creates a sharp, boxy drape that does not cling or wrinkle throughout the day.
+            Constructed with high-grade combed cotton jersey for exceptional durability, clean silhouette structure, and effortless everyday comfort.
           </p>
         </div>
 
@@ -81,7 +81,7 @@ export const AboutPage: React.FC = () => {
           to="/collections/all"
           className="inline-flex items-center gap-2 px-8 py-4 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-wider font-bold shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all cursor-pointer font-sans"
         >
-          <span>Shop The Heavyweight Collection</span>
+          <span>Shop The Collection</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

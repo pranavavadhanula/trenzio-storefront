@@ -145,7 +145,7 @@ export const LoginPage: React.FC = () => {
                 Architectural Streetwear
               </h3>
               <p className="text-[11px] sm:text-xs text-slate-200 font-medium mt-0.5">
-                350–450 GSM Heavyweight Bio-Wash Cotton
+                100% Bio-Wash Combed Cotton
               </p>
             </div>
           </div>

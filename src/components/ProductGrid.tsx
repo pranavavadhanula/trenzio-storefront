@@ -27,7 +27,7 @@ export const ProductGrid: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] text-[10px] uppercase tracking-wider font-sans font-bold shadow-sm mb-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[#F88379] animate-pulse" />
-            <span>Heavyweight Streetwear &bull; India</span>
+            <span>Luxury Streetwear &bull; India</span>
           </div>
           <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-white tracking-tight mt-1">
             {selectedCategory === 'All' ? 'Catalog' : selectedCategory}
@@ -98,7 +98,7 @@ export const ProductGrid: React.FC = () => {
         <div className="py-24 text-center flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-8 h-8 text-[#3B82F6] animate-spin" />
           <p className="text-xs uppercase tracking-widest text-[#94A3B8] font-mono font-medium">
-            Fetching Heavyweight Apparel...
+            Fetching Apparel Collection...
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (

@@ -50,7 +50,7 @@ const MEN_PANORAMIC_ITEMS: PanoramicItem[] = [
     categorySlug: 'men-oversized-tees',
     link: '/collections/men-oversized-tees',
     image: '/images/models/street_tee.jpg',
-    alt: 'Trevori Men Heavyweight Oversized Graphic Tee',
+    alt: 'Trevori Men Oversized Graphic Tee',
   },
 ];
 
@@ -61,7 +61,7 @@ const WOMEN_PANORAMIC_ITEMS: PanoramicItem[] = [
     categorySlug: 'women-sweatshirts',
     link: '/collections/women-sweatshirts',
     image: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=800&q=85',
-    alt: 'Trevori Women Cropped Heavy French Terry Hoodie',
+    alt: 'Trevori Women Cropped French Terry Hoodie',
   },
   {
     title: 'pants',

@@ -23,12 +23,12 @@ export const TrevoriImageUploader: React.FC<TrevoriImageUploaderProps> = ({
     {
       title: 'Minimalist Black Streetwear',
       url: '/images/models/man_streetwear_hoodie.jpg',
-      vibe: 'Heavy drop-shoulder hoodie look',
+      vibe: 'Classic drop-shoulder hoodie look',
     },
     {
       title: 'Monochrome Relaxed Tee',
       url: '/images/models/street_tee.jpg',
-      vibe: 'Boxy 350 GSM streetwear drape',
+      vibe: 'Boxy relaxed streetwear drape',
     },
     {
       title: 'Traditional Royal Velvet',

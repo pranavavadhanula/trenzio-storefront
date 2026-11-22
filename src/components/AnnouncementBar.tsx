@@ -14,8 +14,8 @@ const ANNOUNCEMENTS = [
     link: '/collections',
   },
   {
-    text: '100% COMBED COTTON • 240–400 GSM DROPS',
-    highlight: '240–400 GSM',
+    text: '100% COMBED COTTON • PREMIUM EVERYDAY SHIRTS & TEES',
+    highlight: 'PREMIUM EVERYDAY',
     link: '/about',
   },
   {

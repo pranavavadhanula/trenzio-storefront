@@ -80,15 +80,15 @@ export const CartPage: React.FC = () => {
           <h2 className="font-serif text-2xl sm:text-3xl text-white font-light">
             Your shopping bag is empty
           </h2>
-          <p className="text-xs text-[#3B82F6] max-w-md mx-auto font-light leading-relaxed">
-            Explore our 240–350 GSM heavyweight oversized streetwear tees and 400 GSM French Terry sweatshirts.
+          <p className="text-xs text-[#94A3B8] max-w-md mx-auto font-light leading-relaxed">
+            Explore our collection of classic shirts, oversized tees, and luxury sweatshirts.
           </p>
           <div className="pt-4">
             <Link
               to="/collections/all"
               className="inline-flex items-center gap-2 px-8 py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-widest font-black shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all cursor-pointer font-mono"
             >
-              <span>Explore Heavyweight Catalog</span>
+              <span>Explore Collection</span>
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

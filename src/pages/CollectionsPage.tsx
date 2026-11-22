@@ -12,21 +12,21 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     label: "Men's Wear",
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Heavyweight street fits engineered for men with masculine boxy drape and reinforced ribbed collars.',
+    desc: 'Classic and relaxed street fits engineered for men with clean boxy drape and reinforced ribbed collars.',
   },
   'men-sweatshirts': {
     label: "Men's Sweatshirts & Hoodies",
     catFilter: 'Sweatshirts',
     genderFilter: 'Men',
     dept: 'men',
-    desc: '400 GSM diagonal loop French Terry hoodies and relaxed luxury sweatshirts engineered for men.',
+    desc: 'Premium loopback French Terry hoodies and relaxed luxury sweatshirts engineered for men.',
   },
   'men-oversized-tees': {
     label: "Men's Oversized T-Shirts",
     catFilter: 'Oversized Tees',
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Super-combed 240–350 GSM cotton with structured dropped shoulders and boxy silhouette for men.',
+    desc: 'Super-combed pure cotton with relaxed dropped shoulders and clean silhouette for men.',
   },
   'men-classic-tees': {
     label: "Men's Classic Tees",
@@ -54,21 +54,21 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     catFilter: 'Sweatshirts',
     genderFilter: 'Women',
     dept: 'women',
-    desc: '400 GSM French Terry hoodies and relaxed luxury sweatshirts tailored for women.',
+    desc: 'French Terry hoodies and relaxed luxury sweatshirts tailored for women.',
   },
   'women-oversized-tees': {
     label: "Women's Oversized T-Shirts",
     catFilter: 'Oversized Tees',
     genderFilter: 'Women',
     dept: 'women',
-    desc: 'Draped dropped-shoulder tees in 240–350 GSM bio-washed combed cotton tailored for women.',
+    desc: 'Draped dropped-shoulder tees in bio-washed combed cotton tailored for women.',
   },
   'women-classic-tees': {
     label: "Women's Classic Tees",
     catFilter: 'T-Shirts',
     genderFilter: 'Women',
     dept: 'women',
-    desc: 'Tailored everyday luxury cuts and minimalist heavyweight basics for women.',
+    desc: 'Tailored everyday luxury cuts and minimalist cotton basics for women.',
   },
   'traditional-women': {
     label: "Women's Traditional Wear",
@@ -83,14 +83,14 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     catFilter: 'Sweatshirts',
     genderFilter: 'Men',
     dept: 'men',
-    desc: '400 GSM diagonal loop French Terry engineered for cold evenings and relaxed luxury.',
+    desc: 'Diagonal loop French Terry engineered for cold evenings and relaxed luxury.',
   },
   'oversized-tees': {
     label: "Men's Oversized T-Shirts",
     catFilter: 'Oversized Tees',
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Super-combed 240–350 GSM cotton with structured dropped shoulders and boxy silhouette.',
+    desc: 'Super-combed pure cotton with relaxed dropped shoulders and boxy silhouette.',
   },
   'classic-tees': {
     label: "Men's Classic Tees",
@@ -103,7 +103,7 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     label: "Men's Wear",
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Browse our complete catalog of 240–400 GSM heavyweight tees and luxury sweatshirts.',
+    desc: 'Browse our complete catalog of shirts, tees, hoodies, and luxury sweatshirts.',
   },
 };
 
@@ -291,7 +291,7 @@ export const CollectionsPage: React.FC = () => {
             Next Drop Coming Soon
           </h3>
           <p className="text-xs sm:text-sm text-[#94A3B8] max-w-md mx-auto font-normal leading-relaxed">
-            All previous drop pieces for <strong className="text-[#F88379]">{config.label}</strong> are sold out. We are preparing our next exclusive heavyweight launch.
+            All previous drop pieces for <strong className="text-[#F88379]">{config.label}</strong> are sold out. We are preparing our next exclusive launch.
           </p>
           <div className="pt-2">
             <Link

@@ -16,7 +16,7 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
 
   if (!visible) return null;
 
-  // Exact Trevori heavyweight sizing chart
+  // Exact Trevori relaxed sizing chart
   const tShirtSizes = [
     { size: 'XS', chestIn: 40, chestCm: 101.6, lengthIn: 27, lengthCm: 68.6 },
     { size: 'S', chestIn: 42, chestCm: 106.7, lengthIn: 28, lengthCm: 71.1 },

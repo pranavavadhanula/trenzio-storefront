@@ -77,7 +77,7 @@ export const WishlistDrawer: React.FC = () => {
                 </div>
                 <h3 className="font-serif text-xl text-[#FFFFFF]">Your Vault is empty</h3>
                 <p className="text-xs text-[#94A3B8] max-w-xs font-light">
-                  Save coveted heavyweight drops and architectural silhouettes to your personal vault for quick access.
+                  Save your favorite shirts, hoodies, and styles to your personal vault for quick access.
                 </p>
                 <button
                   onClick={() => setIsWishlistOpen(false)}
@@ -105,7 +105,7 @@ export const WishlistDrawer: React.FC = () => {
                     <div>
                       <div className="flex items-start justify-between">
                         <span className="text-[9px] uppercase tracking-widest text-[#F88379] font-mono font-bold">
-                          {product.gsm} GSM &bull; {product.gender}
+                          {product.category || 'T-Shirt'} &bull; {product.gender}
                         </span>
                         <button
                           onClick={() => toggleWishlist(product.id)}

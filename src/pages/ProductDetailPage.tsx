@@ -161,7 +161,7 @@ export const ProductDetailPage: React.FC = () => {
             {/* Badges */}
             <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider font-sans">
               <span className="bg-[#0B1A30] border border-[#1E3A66] text-white px-2.5 py-0.5 font-bold shadow-sm">
-                {product.gsm} GSM Combed Cotton
+                100% Combed Bio-Wash Cotton
               </span>
               <span className="bg-[#F88379] text-white px-2 py-0.5 font-bold shadow-sm">
                 Trevori Edition &bull; In Stock

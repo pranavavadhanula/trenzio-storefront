@@ -17,7 +17,7 @@ export const MOCK_ORDERS: AIOrderStatus[] = [
     items: [
       {
         productId: 'TRV-HD-01',
-        productName: 'Heavy French Terry 450 GSM Boxy Hoodie',
+        productName: 'Classic French Terry Boxy Hoodie',
         size: 'L',
         color: 'Obsidian Black',
         quantity: 1,
@@ -51,7 +51,7 @@ export const MOCK_ORDERS: AIOrderStatus[] = [
     items: [
       {
         productId: 'TRV-TSH-01',
-        productName: 'Heavyweight Boxy Oversized T-Shirt',
+        productName: 'Boxy Oversized T-Shirt',
         size: 'XL',
         color: 'Ash Grey',
         quantity: 1,

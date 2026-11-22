@@ -45,7 +45,7 @@ export const WishlistPage: React.FC = () => {
             Your Vault is empty
           </h2>
           <p className="text-xs text-[#64748B] max-w-md mx-auto font-light leading-relaxed">
-            Save coveted heavyweight drops and architectural silhouettes to your personal vault for quick access.
+            Save your favorite shirts, hoodies, and styles to your personal vault for quick access.
           </p>
           <div className="pt-4">
             <Link

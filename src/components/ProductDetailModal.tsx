@@ -109,7 +109,7 @@ export const ProductDetailModal: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider mb-2 font-mono">
                 <span className="bg-[#10224A] border border-white/15 text-[#FFFFFF] px-2 py-0.5 font-bold">
-                  {selectedProduct.gsm} GSM
+                  100% Combed Cotton
                 </span>
                 <span className="text-[#F88379] font-medium">
                   Trevori Edition &bull; In Stock

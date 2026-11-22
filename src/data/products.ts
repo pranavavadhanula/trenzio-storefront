@@ -16,7 +16,7 @@ export const PRODUCTS: Product[] = [
   // 1. OVERSIZED TEES
   {
     id: 'TRV-TSH-01',
-    name: 'Heavyweight Boxy Oversized T-Shirt',
+    name: 'Boxy Oversized T-Shirt',
     category: 'Oversized Tees',
     gender: 'Unisex',
     priceINR: 1499,
@@ -34,7 +34,7 @@ export const PRODUCTS: Product[] = [
       { name: 'Crimson Red', hex: '#C53B3B' },
     ],
     sizes: ['XS', 'S', 'M', 'L', 'XL', '2XL'],
-    fabric: '100% Combed Cotton (350 GSM Heavyweight Dense Jersey) • Bio-Washed',
+    fabric: '100% Combed Cotton • Bio-Washed Premium Jersey',
     fitDescription: 'Drop-shoulder architectural relaxed boxy streetwear drape with 1.25" reinforced ribbed collar.',
     modelMeasurements: 'Model is 6\'1" (185 cm) wearing size L. Chest 42".',
     isBestSeller: true,
@@ -42,7 +42,7 @@ export const PRODUCTS: Product[] = [
     inStock: true,
     stockCount: 42,
     occasion: ['college', 'party', 'casual', 'streetwear', 'summer'],
-    styleTags: ['streetwear', 'oversized', 'minimalist', 'heavyweight', 'black t-shirt'],
+    styleTags: ['streetwear', 'oversized', 'minimalist', 't-shirt', 'shirts', 'black t-shirt'],
     variants: [
       { id: 'TRV-TSH-01-BLK-M', color: 'Black', size: 'M', priceINR: 1499, available: true },
       { id: 'TRV-TSH-01-BLK-L', color: 'Black', size: 'L', priceINR: 1499, available: true },
@@ -109,7 +109,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'TRV-TSH-04',
-    name: 'Minimalist Draped Heavy Cotton Tank Top',
+    name: 'Minimalist Draped Cotton Tank Top',
     category: 'T-Shirts',
     gender: 'Unisex',
     priceINR: 899,
@@ -139,7 +139,7 @@ export const PRODUCTS: Product[] = [
   // 2. HOODIES & SWEATSHIRTS
   {
     id: 'TRV-HD-01',
-    name: 'Heavy French Terry 450 GSM Boxy Hoodie',
+    name: 'Classic French Terry Boxy Hoodie',
     category: 'Hoodies',
     gender: 'Unisex',
     priceINR: 2499,
@@ -156,15 +156,15 @@ export const PRODUCTS: Product[] = [
       { name: 'Burgundy Maroon', hex: '#582029' },
     ],
     sizes: ['S', 'M', 'L', 'XL', '2XL'],
-    fabric: '450 GSM Diagonal French Terry • 100% Brushed Cotton • Double-layered hood without drawstrings',
-    fitDescription: 'Structured oversized streetwear fit with kangaroo pocket and heavy-gauge elastic ribbing.',
+    fabric: '100% Brushed Cotton French Terry • Double-layered hood without drawstrings',
+    fitDescription: 'Structured oversized streetwear fit with kangaroo pocket and premium elastic ribbing.',
     modelMeasurements: 'Model is 6\'2" (188 cm) wearing size XL.',
     isBestSeller: true,
     isNewArrival: true,
     inStock: true,
     stockCount: 29,
     occasion: ['college', 'party', 'winter', 'streetwear', 'casual'],
-    styleTags: ['hoodie', 'streetwear', 'heavyweight', 'winter', 'boxy'],
+    styleTags: ['hoodie', 'streetwear', 'hoodies', 'winter', 'boxy'],
   },
   {
     id: 'TRV-SW-02',
@@ -184,7 +184,7 @@ export const PRODUCTS: Product[] = [
       { name: 'Black', hex: '#18181B' },
     ],
     sizes: ['S', 'M', 'L', 'XL'],
-    fabric: '400 GSM 100% Pre-Shrunk Bio-Washed Cotton • Soft Loopback Interior',
+    fabric: '100% Pre-Shrunk Bio-Washed Cotton • Soft Loopback Interior',
     fitDescription: 'Relaxed drop-shoulder cut with thick 2x2 elastane ribbed collar and cuffs.',
     modelMeasurements: 'Model is 5\'11" wearing size L.',
     isBestSeller: false,
@@ -471,7 +471,7 @@ export const PRODUCTS: Product[] = [
   },
   {
     id: 'TRV-ACC-02',
-    name: 'Trevori 16oz Heavyweight Canvas City Tote',
+    name: 'Trevori Canvas City Tote',
     category: 'Accessories',
     gender: 'Unisex',
     priceINR: 799,

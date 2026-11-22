@@ -49,7 +49,7 @@ function MainStorefront() {
       {/* Main Multi-Page Routed Content (Dark Blue Theme) */}
       <main className="flex-1 w-full max-w-full overflow-x-hidden bg-[#07111E]">
         <Routes>
-          {/* Home Page: Hero, Heavyweight Drops, Fabric Promise */}
+          {/* Home Page: Hero, Collections, Fabric Promise */}
           <Route path="/" element={<HomePage />} />
 
           {/* Dedicated Collections Catalog Pages */}
@@ -65,7 +65,7 @@ function MainStorefront() {
           {/* Dedicated Saved Wishlist Page */}
           <Route path="/wishlist" element={<WishlistPage />} />
 
-          {/* Brand Philosophy & 350 GSM Craftsmanship */}
+          {/* Brand Philosophy & Craftsmanship */}
           <Route path="/about" element={<AboutPage />} />
 
           {/* WhatsApp Direct Concierge & Support */}

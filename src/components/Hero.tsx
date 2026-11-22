@@ -9,7 +9,7 @@ export const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0">
         <img
           src="https://images.unsplash.com/photo-1523381294911-8d3cead13475?auto=format&fit=crop&w=2200&q=90"
-          alt="Heavyweight streetwear oversized apparel"
+          alt="Oversized streetwear apparel"
           className="w-full h-full object-cover object-center scale-100 opacity-25 filter contrast-125 brightness-90"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#07111E] via-[#07111E]/80 to-[#07111E]/40" />
@@ -20,17 +20,17 @@ export const Hero: React.FC = () => {
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-[#F88379]/40 bg-[#F88379]/15 backdrop-blur-md mb-6 shadow-sm">
           <Sparkles className="w-3 h-3 text-[#F88379]" />
           <span className="text-[10px] uppercase tracking-[0.3em] text-[#F88379] font-medium font-sans font-bold">
-            New Drop &bull; 240–400 GSM Pure Cotton
+            New Drop &bull; 100% Pure Combed Cotton
           </span>
         </div>
 
         <h1 className="font-sans text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold text-white tracking-tight leading-[1.1] mb-6">
-          Heavyweight Oversized Tees <br />
+          Oversized Shirts & Tees <br />
           <span className="italic font-normal text-[#F88379]">& Luxury Sweatshirts</span>
         </h1>
 
         <p className="max-w-xl mx-auto text-xs sm:text-sm text-[#94A3B8] font-normal leading-relaxed mb-10 tracking-wide font-sans">
-          Engineered for <strong>Men & Women</strong>. Super-combed bio-washed cotton, structured boxy dropped-shoulders, and zero post-wash shrinkage.
+          Engineered for <strong>Men & Women</strong>. Super-combed bio-washed cotton, relaxed boxy dropped-shoulders, and zero post-wash shrinkage.
         </p>
 
         {/* Action Buttons */}
@@ -45,19 +45,19 @@ export const Hero: React.FC = () => {
             to="/collections/sweatshirts"
             className="w-full sm:w-auto px-8 py-3.5 border border-[#1E3A66] bg-white/[0.04] text-white text-xs uppercase tracking-[0.14em] hover:border-[#F88379] hover:text-[#F88379] transition-all duration-300 backdrop-blur-sm flex items-center justify-center cursor-pointer font-sans font-bold"
           >
-            Shop Sweatshirts (400 GSM)
+            Shop Sweatshirts & Hoodies
           </Link>
         </div>
 
         {/* Feature stats */}
         <div className="mt-14 pt-8 border-t border-[#1E293B] grid grid-cols-3 gap-4 max-w-md mx-auto text-center">
           <div>
-            <div className="font-mono text-lg sm:text-xl text-[#3B82F6] font-bold">280–350 GSM</div>
-            <div className="text-[9px] uppercase tracking-wider text-[#94A3B8] mt-0.5 font-mono">Heavyweight Drop</div>
+            <div className="font-mono text-lg sm:text-xl text-[#3B82F6] font-bold">100% Cotton</div>
+            <div className="text-[9px] uppercase tracking-wider text-[#94A3B8] mt-0.5 font-mono">Bio-Washed</div>
           </div>
           <div>
-            <div className="font-mono text-lg sm:text-xl text-[#3B82F6] font-bold">400 GSM</div>
-            <div className="text-[9px] uppercase tracking-wider text-[#94A3B8] mt-0.5 font-mono">French Terry</div>
+            <div className="font-mono text-lg sm:text-xl text-[#3B82F6] font-bold">French Terry</div>
+            <div className="text-[9px] uppercase tracking-wider text-[#94A3B8] mt-0.5 font-mono">Loopback Knit</div>
           </div>
           <div>
             <div className="font-mono text-lg sm:text-xl text-[#3B82F6] font-bold">Zero Shrink</div>

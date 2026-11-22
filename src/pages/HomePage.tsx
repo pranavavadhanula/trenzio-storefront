@@ -191,10 +191,10 @@ export const HomePage: React.FC = () => {
             to="/collections/men"
             title="Explore Men's Wear"
             heading="Men's Wear"
-            desc="Boxy dropped-shoulders, reinforced ribbed collars, and structured 240–400 GSM bio-washed cotton."
+            desc="Boxy dropped-shoulders, reinforced ribbed collars, and 100% bio-washed combed cotton."
             buttonText="Explore Men's Wear"
             imageSrc="/images/models/man_streetwear_hoodie.jpg"
-            imageAlt="Men's Wear Heavyweight Streetwear Hoodie"
+            imageAlt="Men's Wear Streetwear Hoodie"
             imagePosition="object-[50%_0%]"
           />
 
@@ -203,7 +203,7 @@ export const HomePage: React.FC = () => {
             to="/collections/women"
             title="Explore Women's Wear"
             heading="Women's Wear"
-            desc="Relaxed dropped-shoulder drape with proportioned armholes and 400 GSM diagonal loop French Terry."
+            desc="Relaxed dropped-shoulder drape with proportioned armholes and soft loopback French Terry."
             buttonText="Explore Women's Wear"
             imageSrc="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85"
             imageAlt="Women's Wear Oversized Cuts"
@@ -221,7 +221,7 @@ export const HomePage: React.FC = () => {
             </Link>
             <span>&bull;</span>
             <Link to="/about" className="text-white hover:text-[#F88379] transition-colors font-semibold">
-              Our 350 GSM Craft
+              Our Fabric Craft
             </Link>
           </div>
           <div>Hassle-Free 7-Day Size Exchanges</div>

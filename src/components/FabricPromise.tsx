@@ -13,16 +13,16 @@ export const FabricPromise: React.FC = () => {
           Engineered to Outlast Standard Tees
         </h2>
         <p className="text-xs sm:text-sm text-[#94A3B8] font-normal mt-3">
-          We reject thin, see-through 160 GSM mall t-shirts. Every piece is constructed in India with heavy cotton that maintains its boxy drape.
+          We reject thin, see-through mall t-shirts. Every piece is constructed in India with premium combed cotton that maintains its clean boxy drape.
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="p-7 bg-[#0B1A30] border border-[#1E3A66]/60 space-y-3 shadow-xl text-white backdrop-blur-md">
           <Feather className="w-5 h-5 text-[#F88379]" />
-          <h3 className="font-sans text-xl text-white font-bold">240–400 GSM Heavyweights</h3>
+          <h3 className="font-sans text-xl text-white font-bold">100% Combed Cotton</h3>
           <p className="text-xs text-[#94A3B8] font-normal leading-relaxed">
-            Our oversized tees start at 240 GSM and our sweatshirts are crafted in 400 GSM diagonal loop French Terry. Noticeably weighty with zero transparency.
+            Our oversized tees and shirts are crafted from premium bio-washed cotton, while our sweatshirts are made with luxury French Terry for durable, comfortable daily wear.
           </p>
         </div>
 

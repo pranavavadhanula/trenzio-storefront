@@ -285,7 +285,7 @@ export function calculateClothingSize(params: {
       notes = `For a cleaner, less relaxed drape, we adjusted from the standard streetwear drop-shoulder cut.`;
     } else {
       fitType = 'Oversized Fit';
-      notes = `Engineered with Trevori 350 GSM boxy drop-shoulders. Stick with your recommended size for the signature relaxed runway drape.`;
+      notes = `Tailored with Trevori relaxed boxy drop-shoulders. Stick with your recommended size for the signature easy runway drape.`;
     }
   }
 
@@ -420,18 +420,18 @@ export async function processStylistQuery(
       const oversizedSize = chestInches <= 37 ? 'M' : chestInches <= 40 ? 'L' : chestInches <= 43 ? 'XL' : '2XL';
       
       conversationalMessage =
-        `For a **${chestInches}" chest**, here is how our heavyweight silhouettes are engineered to drape:\n\n` +
-        `• **Size ${standardSize} (Clean Relaxed Fit):** Tailored with ~4" of chest ease. It provides an architectural boxy drape that defines your shoulders without excess bulk.\n` +
-        `• **Size ${oversizedSize} (Signature Streetwear Drop-Shoulder):** Tailored with ~6" of ease for an exaggerated dropped-shoulder runway silhouette.\n\n` +
-        `💡 *All Trevori drops are woven from 100% bio-washed combed cotton (240–400 GSM) and pre-shrunk, ensuring zero shrinkage after washing.*`;
+        `For a **${chestInches}" chest**, here is how our silhouettes are tailored to drape:\n\n` +
+        `• **Size ${standardSize} (Clean Relaxed Fit):** Tailored with ~4" of chest ease. It provides a boxy drape that defines your shoulders without excess bulk.\n` +
+        `• **Size ${oversizedSize} (Signature Streetwear Drop-Shoulder):** Tailored with ~6" of ease for an easy dropped-shoulder runway silhouette.\n\n` +
+        `💡 *All Trevori drops are woven from 100% bio-washed combed cotton and pre-shrunk, ensuring zero shrinkage after washing.*`;
     } else if (waistInches) {
       conversationalMessage =
         `For a **${waistInches}" waist**, your optimal fit is **Size ${sizeResult.recommendedSize}** in our Indigo Denim and Pleated Cargo Pants.\n\n` +
-        `Our bottoms feature architectural knife pleats, heavy-gauge stitching, and an internal drawstring waistband for a bespoke tailored feel.`;
+        `Our bottoms feature architectural knife pleats and an internal drawstring waistband for a bespoke tailored feel.`;
     } else {
       conversationalMessage =
         `Based on your measurements, I recommend **Size ${sizeResult.recommendedSize}** for our ${sizeResult.category}.\n\n` +
-        `Our cuts are engineered with 350 GSM boxy drop-shoulders. If you prefer a closer, tailored fit, size down; for the signature relaxed runway drape, stay true to size.`;
+        `Our cuts are tailored with relaxed boxy drop-shoulders. If you prefer a closer, tailored fit, size down; for the signature relaxed runway drape, stay true to size.`;
     }
 
     return {
@@ -439,7 +439,7 @@ export async function processStylistQuery(
       sizeResult,
       suggestedActions: [
         `Show Oversized Tees in size ${sizeResult.recommendedSize}`,
-        'Show Heavyweight Hoodies',
+        'Show Hoodies & Sweatshirts',
         'Recommend an Outfit',
       ],
     };
@@ -455,13 +455,13 @@ export async function processStylistQuery(
     return {
       message: `### Trevori Styling Masterclass: Color Harmony & Aesthetics\n\n` +
         `Yes, absolutely! Pairing **Midnight Navy** with **Obsidian Black** is one of contemporary luxury fashion's most elevated, understated moves:\n\n` +
-        `1. **Contrast Through Textile Density:** Pair a heavy 400 GSM midnight navy loopback French Terry hoodie with washed obsidian black denim or pleated cargo trousers. The contrasting cotton weaves prevent the colors from blending into a muddle.\n` +
-        `2. **Anchor with a Raw-Edge White Layer:** Allow a subtle peek of a 280 GSM crisp white combed cotton tee at the collar or hemline to create a crisp visual barrier between the two deep tones.\n` +
+        `1. **Contrast Through Textile Texture:** Pair a midnight navy loopback French Terry hoodie with washed obsidian black denim or pleated cargo trousers. The contrasting cotton weaves prevent the colors from blending into a muddle.\n` +
+        `2. **Anchor with a Raw-Edge White Layer:** Allow a subtle peek of a crisp white combed cotton tee at the collar or hemline to create a crisp visual barrier between the two deep tones.\n` +
         `3. **Minimalist Hardware & Accessories:** Accentuate with brushed silver or stainless steel chain jewellery to reflect light against the dark palette.\n\n` +
         `*Would you like me to curate a complete Navy & Black outfit within your budget, or suggest pieces in this palette?*`,
       suggestedActions: [
         'Curate Navy & Black Look',
-        'Show Heavyweight Hoodies',
+        'Show Hoodies & Sweatshirts',
         'Show Pleated Cargo Pants',
       ],
     };
@@ -546,7 +546,7 @@ export async function processStylistQuery(
       message: `Hello & Welcome! I am **TREVORI AI**, your 24/7 personal fashion stylist and concierge.\n\n` +
         `I can help you with:\n` +
         `• **Occasion Styling:** Curate complete streetwear & traditional outfits under any budget\n` +
-        `• **Precision Sizing:** Compute your exact fit across our 240–450 GSM drops\n` +
+        `• **Precision Sizing:** Compute your exact fit across our shirts, tees, and hoodies\n` +
         `• **Catalogue Discovery:** Find specific pieces, colors, fabrics, and silhouettes\n` +
         `• **Order Tracking:** Check real-time shipping milestones for orders like #TRV-89421\n` +
         `• **General Style & Lifestyle Advice:** From color coordination to fabric science\n\n` +
@@ -575,7 +575,7 @@ export async function processStylistQuery(
         `What would you like to explore?`,
       suggestedActions: [
         'Style an outfit under ₹2,500',
-        'What is 400 GSM French Terry?',
+        'What is French Terry?',
         'Find cargo pants under ₹1,500',
       ],
     };
@@ -584,18 +584,18 @@ export async function processStylistQuery(
   // 5D. Jokes & Humor ("tell me a joke", "make me laugh")
   if (q.includes('joke') || q.includes('funny') || q.includes('make me laugh')) {
     return {
-      message: `Why did the 450 GSM oversized hoodie break up with the skinny jeans?\n\n` +
+      message: `Why did the oversized hoodie break up with the skinny jeans?\n\n` +
         `*Because it needed more space to express its perspective!* 😄\n\n` +
         `On a serious note, what can I help you style or find in our drops today?`,
       suggestedActions: [
-        'Show Oversized Heavyweight Hoodies',
+        'Show Oversized Hoodies',
         'Recommend an outfit for a date',
         'Explore Bestsellers',
       ],
     };
   }
 
-  // 5E. Fabric Science & Technical Knowledge ("what is gsm?", "why heavyweight?")
+  // 5E. Fabric Science & Technical Knowledge ("what is french terry?", "bio-wash")
   if (
     q.includes('what is gsm') ||
     q.includes('gsm meaning') ||
@@ -606,15 +606,14 @@ export async function processStylistQuery(
     q.includes('supima')
   ) {
     return {
-      message: `### The Science of Heavyweight Fabrics\n\n` +
-        `**GSM** stands for *Grams per Square Meter* — the universal standard for measuring fabric density and weight.\n\n` +
-        `• **Standard Fast-Fashion Tees (140–180 GSM):** Flimsy, clingy, and lose shape after 3 washes.\n` +
-        `• **Trevori Heavyweight Tees (240–350 GSM):** 100% bio-washed combed cotton with an architectural, structured drape that holds its boxy silhouette without clinging to your body.\n` +
-        `• **Trevori Loopback French Terry (400–450 GSM):** Ultra-plush, dense cotton with diagonal loopback weaving for substantial winter warmth, breathable all-day wear, and decades of durability.\n\n` +
+      message: `### The Craft of Trevori Fabrics\n\n` +
+        `At Trevori, fabric quality and feel come first:\n\n` +
+        `• **Trevori Cotton Tees & Shirts:** 100% bio-washed combed cotton with an easy, relaxed drape that holds its silhouette without clinging.\n` +
+        `• **Trevori Loopback French Terry Hoodies:** Ultra-soft, breathable cotton with diagonal loopback weaving for natural warmth and all-day comfort.\n\n` +
         `*Every Trevori piece is pre-shrunk and bio-washed for zero shrinkage and silky hand-feel.*`,
       suggestedActions: [
-        'Show 450 GSM Hoodies',
-        'Show 350 GSM Heavyweight Tees',
+        'Show Hoodies',
+        'Show Shirts & T-Shirts',
         'Check Size Guide',
       ],
     };
@@ -631,14 +630,14 @@ export async function processStylistQuery(
   ) {
     return {
       message: `### Trevori Garment Care Masterclass\n\n` +
-        `To ensure your heavyweight cotton garments last for years and maintain their architectural drape:\n\n` +
+        `To ensure your cotton garments last for years and maintain their clean drape:\n\n` +
         `1. **Wash Inside Out in Cold Water (30°C / 85°F):** Protects high-density embroidery, screenprints, and surface luster.\n` +
         `2. **Use Mild, Liquid Detergent:** Harsh bleach or powder detergents can weaken natural cotton fibers.\n` +
-        `3. **Flat Air Dry in Shade:** Never tumble dry heavyweight French Terry — high machine heat causes unwanted shrinkage. Lay flat on a drying rack away from harsh direct sunlight.\n` +
+        `3. **Flat Air Dry in Shade:** Never tumble dry French Terry on high heat — high machine heat causes unwanted shrinkage. Lay flat on a drying rack away from harsh direct sunlight.\n` +
         `4. **Iron Inside Out on Low-to-Medium Heat:** Avoid direct iron contact with rubberized logos or metallic zips.\n\n` +
         `*For Royal Velvet Bandhgalas and Zardozi lehengas, professional dry cleaning is recommended.*`,
       suggestedActions: [
-        'Explore Heavyweight Drops',
+        'Explore All Collections',
         'Return & Exchange Policy',
         'Ask another question',
       ],
@@ -656,8 +655,8 @@ export async function processStylistQuery(
   ) {
     return {
       message: `### Trevori: Wear Your Perspective\n\n` +
-        `Trevori is an Indian luxury fashion house born at the intersection of **brutalist architectural streetwear** and **royal heritage couture**.\n\n` +
-        `Our motto — *“Wear Your Perspective”* — represents self-definition through structure, heavyweight textiles (240–450 GSM), and unapologetic craftsmanship. From bespoke midnight navy velvet Bandhgalas to boxy drop-shoulder French Terry hoodies, every silhouette is engineered in India with global luxury standards.\n\n` +
+        `Trevori is an Indian luxury fashion house born at the intersection of **clean modern streetwear** and **royal heritage couture**.\n\n` +
+        `Our motto — *“Wear Your Perspective”* — represents self-definition through structure, premium combed cotton textiles, and unapologetic craftsmanship. From bespoke midnight navy velvet Bandhgalas to boxy drop-shoulder French Terry hoodies, every silhouette is tailored in India with global luxury standards.\n\n` +
         `*Pan-India express shipping, door-step size exchanges, and 24/7 personal styling are standard for every client.*`,
       suggestedActions: [
         'Explore Men\'s Streetwear',
@@ -709,7 +708,7 @@ export async function processStylistQuery(
         `*Have a tracking number or Order ID? Enter it anytime to see live milestones.*`,
       suggestedActions: [
         'Track Order #TRV-89421',
-        'Explore Heavyweight Drops',
+        'Explore All Drops',
         'Ask about Sizing',
       ],
     };
@@ -728,6 +727,7 @@ export async function processStylistQuery(
     q.includes('hoodie') ||
     q.includes('sweatshirt') ||
     q.includes('t-shirt') ||
+    q.includes('shirt') ||
     q.includes('tee') ||
     q.includes('traditional') ||
     q.includes('bandhgala') ||
@@ -739,8 +739,8 @@ export async function processStylistQuery(
 
   if (!isExplicitShoppingQuery) {
     return {
-      message: `That's an interesting question! As your **Trevori AI Stylist**, I'm tuned to assist you with garment engineering, luxury streetwear silhouettes, bespoke sizing calculations, and outfit curation.\n\n` +
-        `Whether you need outfit ideas for an event, sizing recommendations for your measurements, or guidance on our 240–450 GSM drops, feel free to ask!\n\n` +
+      message: `That's an interesting question! As your **Trevori AI Stylist**, I'm tuned to assist you with garment design, luxury streetwear silhouettes, bespoke sizing calculations, and outfit curation.\n\n` +
+        `Whether you need outfit ideas for an event, sizing recommendations for your measurements, or guidance on our shirts, tees, and hoodies, feel free to ask!\n\n` +
         `*How can I help you style your perspective today?*`,
       suggestedActions: [
         'Suggest an outfit for college under ₹2,500',
@@ -807,7 +807,7 @@ export async function processStylistQuery(
     // Helpful recommendation without pretending false matches
     const fallbackProducts = searchCatalogue({ limit: 3 });
     return {
-      message: `We don't currently have ${categoryLabel} ${filterDesc} in this specific drop. However, here are our closest trending pieces tailored from our signature heavyweight cotton:`,
+      message: `We don't currently have ${categoryLabel} ${filterDesc} in this specific drop. However, here are our closest trending pieces tailored from our signature premium cotton:`,
       products: fallbackProducts,
       suggestedActions: [
         'Explore All Drops',
@@ -818,12 +818,12 @@ export async function processStylistQuery(
   }
 
   return {
-    message: `Here are the matching **Trevori ${categoryLabel}** ${filterDesc} from our current runway collection. Every piece is woven from premium heavy-gauge cotton and tailored for an architectural silhouette:`,
+    message: `Here are the matching **Trevori ${categoryLabel}** ${filterDesc} from our current runway collection. Every piece is woven from premium combed cotton and tailored for an architectural silhouette:`,
     products: matchedProducts,
     suggestedActions: [
       'Style this into an Outfit',
       'What size should I get?',
-      'Check Fabric & GSM Details',
+      'Check Fabric Details',
     ],
   };
 }
@@ -837,7 +837,7 @@ async function callOpenAIWithTools(
   apiKey: string
 ): Promise<AIResponsePayload | null> {
   const systemPrompt = `You are TREVORI AI, the signature personal fashion stylist for the luxury Indian e-commerce brand TREVORI.
-Brand Philosophy: High-fashion minimal aesthetics, 350-450 GSM heavyweight combed cotton, architectural drop-shoulder streetwear and bespoke royal Indian traditional couture.
+Brand Philosophy: High-fashion minimal aesthetics, premium combed cotton, architectural drop-shoulder streetwear and bespoke royal Indian traditional couture.
 Tone: Sophisticated, knowledgeable, personal, concise, and helpful. Never sound robotic or generic.
 Strict Rules:
 1. Always recommend ACTUAL products from the Trevori catalogue. Never invent fake prices, garments or stock counts.
@@ -1099,8 +1099,8 @@ export async function analyzeFashionImage(
     analysis: {
       category: 'Drop-Shoulder Boxy Silhouette',
       dominantColors: ['Obsidian Black', 'Mineral Charcoal', 'Ash Grey'],
-      vibe: 'Architectural Heavyweight Streetwear',
-      stylingTips: 'The inspiration features clean dropped shoulders and structured drape. Our 350 GSM Combed Cotton oversized tee provides this exact structural form.',
+      vibe: 'Modern Streetwear & Relaxed Cuts',
+      stylingTips: 'The inspiration features clean dropped shoulders and comfortable drape. Our 100% Combed Cotton oversized tee provides this exact relaxed form.',
     },
     matchedProducts: matched.length > 0 ? matched : PRODUCTS.slice(0, 3),
   };

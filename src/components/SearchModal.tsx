@@ -7,7 +7,7 @@ export const SearchModal: React.FC = () => {
 
   if (!isSearchOpen) return null;
 
-  const trendingQueries = ['Oversized', 'Sweatshirts', '350 GSM', 'Hoodies', 'Men', 'Women'];
+  const trendingQueries = ['Oversized', 'Shirts', 'T-Shirts', 'Hoodies', 'Sweatshirts', 'Men', 'Women'];
 
   const results = searchQuery.trim() === ''
     ? []
@@ -36,7 +36,7 @@ export const SearchModal: React.FC = () => {
           <input
             type="text"
             autoFocus
-            placeholder="Search oversized tees, sweatshirts, GSM, fits..."
+            placeholder="Search shirts, t-shirts, sweatshirts, hoodies, fits..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="w-full bg-transparent font-serif text-2xl sm:text-4xl text-[#FFFFFF] placeholder:text-[#94A3B8]/60 focus:outline-none"
@@ -93,7 +93,7 @@ export const SearchModal: React.FC = () => {
                   </div>
                   <div>
                     <span className="text-[9px] uppercase tracking-widest text-[#F88379] font-mono font-bold">
-                      {product.gsm} GSM &bull; {product.gender}
+                      {product.category || 'T-Shirt'} &bull; {product.gender}
                     </span>
                     <h4 className="font-serif text-sm text-[#FFFFFF] group-hover:text-[#F88379] line-clamp-1 mt-0.5">
                       {product.name}
@@ -111,7 +111,7 @@ export const SearchModal: React.FC = () => {
           ) : searchQuery.trim() !== '' ? (
             <div className="text-center py-16 text-[#94A3B8] font-light">
               <p className="text-sm">No products found matching "{searchQuery}".</p>
-              <p className="text-xs mt-1 text-[#64748B]">Try searching for "Oversized", "Sweatshirt", or "350 GSM".</p>
+              <p className="text-xs mt-1 text-[#64748B]">Try searching for "Shirts", "T-Shirts", "Hoodies", or "Oversized".</p>
             </div>
           ) : null}
         </div>

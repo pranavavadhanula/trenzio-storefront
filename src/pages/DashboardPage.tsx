@@ -131,8 +131,8 @@ export const DashboardPage: React.FC = () => {
     },
     hoodie: {
       image: '/images/models/man_streetwear_hoodie.jpg',
-      title: 'Heavyweight French Terry Hoodie',
-      subtitle: '400 GSM 100% Combed Organic Cotton',
+      title: 'Classic French Terry Hoodie',
+      subtitle: '100% Combed Organic Cotton',
       specs: 'Chest: 42" • Relaxed Streetwear Drape • In-Stock',
     },
     traditional: {
@@ -357,7 +357,7 @@ export const DashboardPage: React.FC = () => {
                     : 'bg-[#0A1728] text-slate-300 border-[#1E3A66] hover:border-white'
                 }`}
               >
-                400 GSM
+                Hoodie
               </button>
               <button
                 onClick={() => setActiveLook('traditional')}
@@ -511,7 +511,7 @@ export const DashboardPage: React.FC = () => {
                       </span>
                     </div>
                     <h3 className="text-base sm:text-lg font-black uppercase text-white mt-1">
-                      Trevori 400 GSM Heavyweight French Terry Hoodie
+                      Trevori Classic French Terry Hoodie
                     </h3>
                     <p className="text-xs text-slate-400">
                       Color: Jet Black • Size: Large (L) • Qty: 1 • ₹2,499
@@ -705,7 +705,7 @@ export const DashboardPage: React.FC = () => {
                       Guaranteed First-Time Fit Algorithm
                     </h5>
                     <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                      Based on your stored biometric proportions, your optimal size is <strong>Large (L)</strong> for Streetwear Drops (providing a boxy 400 GSM drape) and <strong>42 Regular</strong> for Royal Heritage Bandhgalas. If an exchange is ever needed, Trevori provides free doorstep size swaps within 7 days.
+                      Based on your stored biometric proportions, your optimal size is <strong>Large (L)</strong> for Streetwear Drops (providing a relaxed boxy drape) and <strong>42 Regular</strong> for Royal Heritage Bandhgalas. If an exchange is ever needed, Trevori provides free doorstep size swaps within 7 days.
                     </p>
                   </div>
                 </div>
@@ -770,7 +770,7 @@ export const DashboardPage: React.FC = () => {
                       24-Hour Advance Drop Window
                     </h4>
                     <p className="text-xs text-slate-300 mt-1">
-                      Access limited-batch 400 GSM collections 24 hours before public release.
+                      Access limited-batch collections 24 hours before public release.
                     </p>
                   </div>
                   <span className="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-black uppercase rounded-full">

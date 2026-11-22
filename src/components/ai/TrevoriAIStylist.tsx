@@ -31,9 +31,9 @@ export const TrevoriAIStylist: React.FC = () => {
       icon: '🎉',
     },
     {
-      title: 'Heavyweight Black Tees',
-      desc: '350 GSM boxy drop-shoulder cuts',
-      prompt: 'Find oversized black T-shirts with heavyweight fabric.',
+      title: 'Classic Black Tees',
+      desc: 'Boxy drop-shoulder shirts & tees',
+      prompt: 'Find oversized black T-shirts with relaxed fabric.',
       icon: '👕',
     },
     {
@@ -80,7 +80,7 @@ export const TrevoriAIStylist: React.FC = () => {
           </h1>
 
           <p className="max-w-2xl mx-auto text-slate-200 text-sm sm:text-base leading-relaxed font-sans font-normal">
-            Your 24/7 intelligent haute fashion advisor. Discover structured 350 GSM silhouettes, receive algorithmic outfit recommendations, calculate precision sizing, and search by photo.
+            Your 24/7 intelligent haute fashion advisor. Discover relaxed silhouettes, receive algorithmic outfit recommendations, calculate precision sizing, and search by photo.
           </p>
 
           {/* Quick Feature Badges */}
@@ -202,7 +202,7 @@ export const TrevoriAIStylist: React.FC = () => {
                     to="/collections/men-sweatshirts"
                     className="p-2.5 rounded-xl bg-slate-50 hover:bg-blue-50 text-slate-700 hover:text-[#2563EB] border border-slate-200 transition-colors block text-center"
                   >
-                    400 GSM Hoodies
+                    Classic Hoodies
                   </Link>
                   <Link
                     to="/collections/accessories"
@@ -245,7 +245,7 @@ export const TrevoriAIStylist: React.FC = () => {
                 From Our Runway
               </span>
               <h2 className="text-2xl font-serif font-bold text-[#0A172D]">
-                Featured Heavyweight Drops
+                Featured Runway Drops
               </h2>
             </div>
             <Link

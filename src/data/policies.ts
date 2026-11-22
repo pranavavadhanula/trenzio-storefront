@@ -52,8 +52,8 @@ export const BRAND_POLICIES: Record<string, BrandPolicy> = {
   },
   fabric: {
     topic: 'fabric',
-    title: '350–450 GSM Heavyweight Fabric Care',
-    summary: 'Our garments are woven with ultra-dense combed cotton and French Terry, engineered to outlast standard retail wear.',
+    title: 'Premium Cotton & French Terry Fabric Care',
+    summary: 'Our garments are woven with pure combed cotton and French Terry, engineered to outlast standard retail wear.',
     details: [
       'Wash cold inside-out (30°C or below) with mild liquid detergent.',
       'Do not bleach or dry clean unless specified on traditional silk couture garments.',

@@ -57,17 +57,17 @@ export const Navbar: React.FC = () => {
   const currentPath = location.pathname;
 
   const MEN_SUB_ITEMS: SubCategoryItem[] = [
-    { label: "All Men's Wear", path: '/collections/men', sub: 'Complete 240–400 GSM catalog' },
-    { label: 'Oversized T-Shirts', path: '/collections/men-oversized-tees', sub: 'Structured boxy dropped shoulders' },
-    { label: 'Sweatshirts & Hoodies', path: '/collections/men-sweatshirts', sub: '400 GSM diagonal loop French Terry' },
+    { label: "All Men's Wear", path: '/collections/men', sub: 'Complete menswear collection' },
+    { label: 'Oversized T-Shirts', path: '/collections/men-oversized-tees', sub: 'Relaxed boxy dropped shoulders' },
+    { label: 'Sweatshirts & Hoodies', path: '/collections/men-sweatshirts', sub: 'Premium loopback French Terry' },
     { label: 'Classic Tees', path: '/collections/men-classic-tees', sub: 'Tailored everyday luxury' },
   ];
 
   const WOMEN_SUB_ITEMS: SubCategoryItem[] = [
     { label: "All Women's Wear", path: '/collections/women', sub: 'Complete oversized silhouettes' },
     { label: 'Oversized T-Shirts', path: '/collections/women-oversized-tees', sub: 'Draped dropped-shoulder tees' },
-    { label: 'Sweatshirts & Hoodies', path: '/collections/women-sweatshirts', sub: '400 GSM luxury French Terry' },
-    { label: 'Classic Tees', path: '/collections/women-classic-tees', sub: 'Minimalist heavyweight basics' },
+    { label: 'Sweatshirts & Hoodies', path: '/collections/women-sweatshirts', sub: 'Luxury loopback French Terry' },
+    { label: 'Classic Tees', path: '/collections/women-classic-tees', sub: 'Minimalist cotton basics' },
   ];
 
   const TRADITIONAL_SUB_ITEMS: SubCategoryItem[] = [
@@ -149,7 +149,7 @@ export const Navbar: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search heavyweight hoodies, 350 GSM tees, cargo pants..."
+              placeholder="Search shirts, hoodies, t-shirts, cargo pants..."
               className="w-full bg-transparent text-xs text-white placeholder:text-[#64748B] focus:outline-none font-sans"
             />
             {searchQuery && (
@@ -245,7 +245,7 @@ export const Navbar: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search heavyweight tees, 350 GSM..."
+              placeholder="Search shirts, hoodies, t-shirts..."
               className="w-full bg-transparent text-xs text-white placeholder:text-[#64748B] focus:outline-none font-sans"
             />
             {searchQuery && (
@@ -301,8 +301,8 @@ export const Navbar: React.FC = () => {
               onMouseLeave={handleMouseLeave}
             >
               <div className="px-4 py-2.5 text-[11px] uppercase tracking-wider text-[#F88379] font-bold border-b border-[#1E3A66] bg-[#071324] flex items-center justify-between">
-                <span>Men's Heavyweight Fits</span>
-                <span className="text-[10px] text-[#94A3B8] font-bold">240–400 GSM</span>
+                <span>Men's Classic Fits</span>
+                <span className="text-[10px] text-[#94A3B8] font-bold">100% Cotton</span>
               </div>
               <div className="py-1">
                 {MEN_SUB_ITEMS.map((item) => (

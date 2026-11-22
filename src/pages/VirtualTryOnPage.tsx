@@ -315,7 +315,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
         ctx.fillStyle = '#c5a880';
         ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
-        ctx.fillText('350 GSM HEAVYWEIGHT DROP &bull; INDIA', canvas.width - 420, canvas.height - 40);
+        ctx.fillText('TREVORI RUNWAY COLLECTION • INDIA', canvas.width - 420, canvas.height - 40);
 
         // Download trigger
         const link = document.createElement('a');
@@ -378,7 +378,7 @@ export const VirtualTryOnPage: React.FC = () => {
             Virtual Dressing Studio
           </h1>
           <p className="text-xs sm:text-sm text-[#3B82F6] font-light mt-1">
-            Upload your photo or choose a model to see how Trevori's 350 GSM boxy streetwear cuts drape on your body before buying.
+            Upload your photo or choose a model to see how Trevori's boxy streetwear cuts drape on your body before buying.
           </p>
         </div>
 
@@ -501,7 +501,7 @@ export const VirtualTryOnPage: React.FC = () => {
               <div className="absolute inset-0 pointer-events-none border border-[#2563EB]/30 flex flex-col justify-between p-6">
                 <div className="border-t border-dashed border-[#2563EB]/40 text-[9px] font-mono text-[#2563EB] font-bold pt-1 flex justify-between">
                   <span>SHOULDER LINE &bull; DROP FIT</span>
-                  <span>TREVORI 350 GSM</span>
+                  <span>TREVORI SIGNATURE FIT</span>
                 </div>
                 <div className="border-t border-dashed border-[#2563EB]/30 text-[9px] font-mono text-[#2563EB] font-bold pt-1 flex justify-between">
                   <span>CHEST MEASUREMENT ({selectedProduct.sizes.includes(selectedSize) ? selectedSize : 'L'})</span>

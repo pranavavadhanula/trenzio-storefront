@@ -46,12 +46,12 @@ export const TrevoriSizeAssistant: React.FC<TrevoriSizeAssistantProps> = ({
               Trevori AI Size Advisor
             </h3>
             <p className="text-[11px] text-slate-500 font-sans">
-              Precision fit recommendations for heavy-gauge garments
+              Precision fit recommendations for relaxed garments
             </p>
           </div>
         </div>
         <span className="px-2 py-0.5 rounded-full bg-slate-100 text-[10px] font-mono text-slate-600 font-semibold">
-          350 GSM Specs
+          Signature Specs
         </span>
       </div>
 
