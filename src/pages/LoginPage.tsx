@@ -98,10 +98,10 @@ export const LoginPage: React.FC = () => {
             >
               Back
             </Link>
-            <Link to="/" className="font-serif text-lg tracking-[0.2em] font-normal text-black">
+            <Link to="/" className="font-serif text-2xl sm:text-[26px] tracking-[0.26em] font-medium text-black">
               TREVORI
             </Link>
-            <div className="w-8" /> {/* Spacing balance */}
+            <div className="w-10" /> {/* Spacing balance */}
           </div>
 
           {/* Form Content */}
