@@ -92,27 +92,42 @@ export const Navbar: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         <div className="h-16 sm:h-20 flex items-center justify-between gap-3 sm:gap-6">
           
-          {/* Left: Mobile Menu & Search Bar */}
+          {/* Left: Mobile Menu Trigger & Counterbalance to keep TREVORI Centered */}
           <div className="flex-1 flex items-center gap-3 shrink-0">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-1.5 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer"
+              className="lg:hidden p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer"
               aria-label="Open navigation menu"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              {mobileMenuOpen ? <X className="w-6 h-6" strokeWidth={1.75} /> : <Menu className="w-6 h-6" strokeWidth={1.75} />}
             </button>
+          </div>
 
-            {/* Search Bar on Left */}
-            <div className="w-full max-w-xs lg:max-w-sm hidden md:block">
+          {/* Center: TREVORI Brand Logo */}
+          <div className="shrink-0 flex flex-col items-center justify-center text-center">
+            <Link to="/" className="group cursor-pointer flex flex-col items-center justify-center text-center" title="TREVORI Contemporary Streetwear">
+              <span className="font-serif text-2xl sm:text-3xl lg:text-[32px] tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors">
+                TREVORI
+              </span>
+              <span className="hidden sm:block text-[8px] uppercase tracking-[0.25em] text-[#706B64] font-medium -mt-0.5">
+                Wear Your Perspective
+              </span>
+            </Link>
+          </div>
+
+          {/* Right: Search Bar & Larger Clean Icons (Vault, Bag, Account) */}
+          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 shrink-0">
+            {/* Search Bar on Right */}
+            <div className="w-40 md:w-52 lg:w-64 xl:w-72 hidden md:block">
               <form onSubmit={handleSearchSubmit} className="relative w-full">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search shirts, hoodies, cargos..."
-                  className="w-full bg-[#FFFFFF] text-[#171717] placeholder-[#706B64]/70 text-xs sm:text-sm pl-9 pr-20 py-2 border border-[#DDD8CE] focus:border-[#171717] focus:outline-none transition-all shadow-none"
+                  className="w-full bg-[#FFFFFF] text-[#171717] placeholder-[#706B64]/70 text-xs sm:text-sm pl-8 pr-16 py-1.5 sm:py-2 border border-[#DDD8CE] focus:border-[#171717] focus:outline-none transition-all shadow-none"
                 />
-                <Search className="w-3.5 h-3.5 text-[#706B64] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <Search className="w-3.5 h-3.5 text-[#706B64] absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 {searchQuery && (
                   <button
                     type="button"
@@ -130,64 +145,48 @@ export const Navbar: React.FC = () => {
                 </button>
               </form>
             </div>
-          </div>
 
-          {/* Center: TREVORI Brand Logo */}
-          <div className="shrink-0 flex flex-col items-center justify-center text-center">
-            <Link to="/" className="group cursor-pointer flex flex-col items-center justify-center text-center" title="TREVORI Contemporary Streetwear">
-              <span className="font-serif text-2xl sm:text-3xl lg:text-[32px] tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors">
-                TREVORI
-              </span>
-              <span className="hidden sm:block text-[8px] uppercase tracking-[0.25em] text-[#706B64] font-medium -mt-0.5">
-                Wear Your Perspective
-              </span>
-            </Link>
-          </div>
-
-          {/* Right: Vault, Bag, and Right-Most Login */}
-          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-4 shrink-0">
-            {/* Vault (Renamed Wishlist) */}
+            {/* Vault Icon (Wishlist) */}
             <button
               onClick={() => setIsWishlistOpen(true)}
-              className="relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors flex items-center gap-1.5 cursor-pointer"
-              aria-label="Open Personal Vault"
+              className="relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
+              aria-label="Personal Vault"
               title="Personal Vault"
             >
-              <Bookmark className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="hidden xl:inline text-xs uppercase tracking-wider font-medium">Vault</span>
+              <Bookmark className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.75} />
               {wishlist.length > 0 && (
-                <span className="w-4 h-4 rounded-full bg-[#171717] text-white text-[9px] font-medium flex items-center justify-center">
+                <span className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-[#171717] text-white text-[9px] font-medium flex items-center justify-center">
                   {wishlist.length}
                 </span>
               )}
             </button>
 
-            {/* Shopping Bag */}
+            {/* Shopping Bag Icon */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors flex items-center gap-1.5 cursor-pointer"
-              aria-label="Open Shopping Bag"
+              className="relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
+              aria-label="Shopping Bag"
               title="Shopping Bag"
             >
-              <ShoppingBag className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="hidden xl:inline text-xs uppercase tracking-wider font-medium">Bag</span>
+              <ShoppingBag className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.75} />
               {cartCount > 0 && (
-                <span className="w-4 h-4 rounded-full bg-[#171717] text-white text-[9px] font-medium flex items-center justify-center">
+                <span className="absolute top-0.5 right-0.5 w-4 h-4 rounded-full bg-[#171717] text-white text-[9px] font-medium flex items-center justify-center">
                   {cartCount}
                 </span>
               )}
             </button>
 
-            {/* Right-Most: User Login / Account */}
+            {/* User Account / Login Icon */}
             <Link
               to={isLoggedIn ? '/account' : '/login'}
-              className="p-1.5 sm:px-3 sm:py-2 border border-[#DDD8CE] hover:border-[#171717] bg-[#FFFFFF] text-[#171717] text-xs font-medium uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer shadow-none"
-              title={isLoggedIn ? 'Account Dashboard' : 'Member Log In'}
+              className="relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
+              aria-label={isLoggedIn ? 'Account Dashboard' : 'Member Log In'}
+              title={isLoggedIn ? `Account (${user?.name || 'Member'})` : 'Member Log In'}
             >
-              <User className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#171717]" />
-              <span className="hidden sm:inline">
-                {isLoggedIn ? (user?.name?.split(' ')[0] || 'Account') : 'Log In'}
-              </span>
+              <User className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.75} />
+              {isLoggedIn && (
+                <span className="absolute bottom-1 right-1 w-2 h-2 rounded-full bg-emerald-600 ring-2 ring-[#F4F1EA]" title="Logged In" />
+              )}
             </Link>
           </div>
         </div>
