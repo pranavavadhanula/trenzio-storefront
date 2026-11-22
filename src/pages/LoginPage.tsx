@@ -184,13 +184,13 @@ export const LoginPage: React.FC = () => {
               </form>
             )}
 
-            {/* Divider: or login with */}
-            <div className="my-5 relative flex items-center justify-center">
-              <div className="border-t border-neutral-200 w-full" />
-              <span className="bg-white px-3 text-[11px] text-neutral-400 uppercase tracking-wider relative">
+            {/* Divider: or login with in one line */}
+            <div className="my-5 flex items-center justify-center">
+              <div className="border-t border-neutral-200 flex-1" />
+              <span className="px-3 text-[11px] text-neutral-400 uppercase tracking-wider whitespace-nowrap shrink-0">
                 or login with
               </span>
-              <div className="border-t border-neutral-200 w-full" />
+              <div className="border-t border-neutral-200 flex-1" />
             </div>
 
             {/* Social Logins */}
