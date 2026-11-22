@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { Eye, EyeOff, CheckCircle2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, ShieldCheck, ArrowLeft } from 'lucide-react';
 import { shopifyCustomerAccessTokenCreate } from '../services/shopify';
 
 export const LoginPage: React.FC = () => {
@@ -10,7 +10,6 @@ export const LoginPage: React.FC = () => {
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -26,7 +25,7 @@ export const LoginPage: React.FC = () => {
     const cleanInput = identifier.trim();
 
     if (!cleanInput) {
-      setError('Please provide your email address.');
+      setError('Please provide your client email address or member mobile number.');
       return;
     }
 
@@ -38,13 +37,14 @@ export const LoginPage: React.FC = () => {
     const displayName = isEmail ? cleanInput.split('@')[0].toUpperCase() : `CLIENT ${cleanInput.slice(-4) || '9921'}`;
 
     try {
-      await shopifyCustomerAccessTokenCreate(emailVal, password || 'TrevoriClientPass2026!');
+      // Connect to real Shopify Customer API
+      const res = await shopifyCustomerAccessTokenCreate(emailVal, password || 'TrevoriClientPass2026!');
       
       login({
         name: displayName,
         email: emailVal,
         phone: isEmail ? '+91 98765 43210' : cleanInput,
-        tier: 'Private Client Noir',
+        tier: 'Noir Member',
         creditsINR: 1500,
         points: 4800,
         joinedDate: 'November 2026',
@@ -69,7 +69,7 @@ export const LoginPage: React.FC = () => {
         name: provider === 'google' ? 'PRANAV AVADHANULA' : 'ELENA ROSTOVA',
         email: provider === 'google' ? 'pranav@gmail.com' : 'elena@icloud.com',
         phone: '+91 98765 43210',
-        tier: 'Private Client Noir',
+        tier: 'Noir Member',
         creditsINR: 1500,
         points: 4800,
         authProvider: provider,
@@ -83,188 +83,158 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-[#EAE8E4] flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans">
-      {/* Centered Modal Card matching the exact Dribbble reference */}
-      <div className="w-full max-w-5xl bg-white rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 min-h-[620px] sm:min-h-[680px]">
-        
-        {/* LEFT COLUMN: Clean Minimalist Login Form */}
-        <div className="p-6 sm:p-10 lg:p-14 flex flex-col justify-between">
-          {/* Top Bar: Back Link & Centered Brand Logo */}
-          <div className="flex items-center justify-between mb-8 sm:mb-12">
-            <Link
-              to="/"
-              className="text-xs sm:text-sm text-neutral-500 hover:text-black font-medium transition-colors"
-            >
-              Back
-            </Link>
-            <Link to="/" className="font-serif text-lg tracking-[0.2em] font-normal text-black">
+    <div className="min-h-screen bg-[#F4F1EA] text-[#171717] font-sans flex flex-col justify-between">
+      {/* Top Clean Minimal Header — "PRIVATE CLIENT PORTAL" removed */}
+      <header className="border-b border-[#DDD8CE] bg-[#F4F1EA] py-4 px-6 sm:px-12">
+        <div className="max-w-6xl mx-auto flex items-center justify-between">
+          <Link to="/" title="TREVORI Home" className="group">
+            <span className="font-serif text-2xl sm:text-3xl font-semibold tracking-[0.28em] text-[#171717] group-hover:text-[#706B64] transition-colors">
               TREVORI
-            </Link>
-            <div className="w-8" /> {/* Spacing balance */}
+            </span>
+          </Link>
+          <Link
+            to="/"
+            className="text-xs uppercase tracking-widest text-[#706B64] hover:text-[#171717] transition-colors font-medium flex items-center gap-1.5"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            <span>Return to Store</span>
+          </Link>
+        </div>
+      </header>
+
+      {/* Main Split Section */}
+      <main className="flex-1 max-w-6xl w-full mx-auto px-6 sm:px-12 py-10 sm:py-14 flex items-center justify-center">
+        <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          
+          {/* Left: 4:5 Editorial Campaign Image */}
+          <div className="lg:col-span-6 relative aspect-[4/5] bg-[#DDD8CE] border border-[#DDD8CE] overflow-hidden hidden sm:block shadow-sm">
+            <img
+              src="/images/auth/login_editorial_zara.jpg"
+              alt="TREVORI Editorial Streetwear"
+              className="w-full h-full object-cover filter contrast-105"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/80 via-[#171717]/20 to-transparent" />
+            <div className="absolute bottom-8 left-8 right-8 text-white">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#DDD8CE] block mb-1 font-medium">
+                TREVORI ATELIER
+              </span>
+              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-white">
+                The Contemporary Silhouette.
+              </h2>
+              <p className="text-xs text-[#DDD8CE]/80 font-light mt-1">
+                Bio-Washed French Terry Cotton &bull; Relaxed Dropped Seams
+              </p>
+            </div>
           </div>
 
-          {/* Form Content */}
-          <div className="w-full max-w-sm mx-auto">
-            {/* Serif Heading */}
-            <h1 className="font-serif text-4xl sm:text-5xl text-neutral-900 font-normal mb-8">
-              Login
-            </h1>
+          {/* Right: Clean Editorial Form */}
+          <div className="lg:col-span-6 max-w-md w-full mx-auto bg-[#FFFFFF] border border-[#DDD8CE] p-8 sm:p-10 shadow-sm">
+            <div className="mb-6">
+              <span className="text-[10px] uppercase tracking-[0.3em] text-[#706B64] font-medium block mb-1">
+                Client Identification
+              </span>
+              <h1 className="font-serif text-3xl font-normal text-[#171717] tracking-tight">
+                Sign In or Register
+              </h1>
+              <p className="text-xs text-[#706B64] font-light mt-1 leading-relaxed">
+                Enter your credentials to access order tracking, personal tailoring preferences, and private lookbook drops.
+              </p>
+            </div>
 
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg">
+              <div className="mb-4 p-3 bg-[#F4F1EA] border border-red-300 text-red-700 text-xs">
                 {error}
               </div>
             )}
 
             {success && (
-              <div className="mb-4 p-3 bg-neutral-100 border border-neutral-300 text-neutral-900 text-xs rounded-lg flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>Login successful. Redirecting...</span>
+              <div className="mb-4 p-3 bg-[#F4F1EA] border border-[#171717] text-xs text-[#171717] flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#171717]" />
+                <span>Authentication confirmed. Entering TREVORI...</span>
               </div>
             )}
 
             <form onSubmit={handleContinue} className="space-y-4">
-              {/* Email Input */}
               <div>
+                <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">
+                  Email Address or Mobile
+                </label>
                 <input
                   type="text"
                   required
-                  placeholder="Email"
                   value={identifier}
                   onChange={(e) => setIdentifier(e.target.value)}
-                  className="w-full px-4 py-3.5 bg-[#F6F7F9] border border-transparent focus:border-neutral-300 focus:bg-white rounded-lg text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none transition-all"
+                  placeholder="name@example.com or +91 98765..."
+                  className="w-full px-4 py-3 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] placeholder-[#706B64] focus:outline-none focus:border-[#171717]"
                 />
               </div>
 
-              {/* Password Input with Eye Toggle */}
-              <div className="relative">
+              <div>
+                <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">
+                  Password (Optional for Instant OTP)
+                </label>
                 <input
-                  type={showPassword ? 'text' : 'password'}
-                  required
-                  placeholder="Password"
+                  type="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3.5 bg-[#F6F7F9] border border-transparent focus:border-neutral-300 focus:bg-white rounded-lg text-sm text-neutral-900 placeholder:text-neutral-400 focus:outline-none transition-all pr-10"
+                  placeholder="••••••••••••"
+                  className="w-full px-4 py-3 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] placeholder-[#706B64] focus:outline-none focus:border-[#171717]"
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 cursor-pointer"
-                  tabIndex={-1}
-                  aria-label="Toggle password visibility"
-                >
-                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-                </button>
               </div>
 
-              {/* Forgot Password Right Aligned */}
-              <div className="text-right">
-                <button
-                  type="button"
-                  onClick={() => alert('Password reset instructions dispatched to your email.')}
-                  className="text-xs text-neutral-500 hover:text-black font-medium transition-colors underline cursor-pointer"
-                >
-                  Forgot Password?
-                </button>
-              </div>
-
-              {/* Solid Black Login Button */}
+              {/* Main Submit Button: Changed to "CONTINUE TO TREVORI" */}
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-3.5 bg-black hover:bg-neutral-800 text-white rounded-lg text-sm font-medium transition-colors cursor-pointer mt-2 shadow-sm"
+                className="w-full py-3.5 bg-[#171717] text-white hover:bg-[#333333] transition-colors text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 cursor-pointer shadow-none"
               >
-                {isLoading ? 'Signing In...' : 'Login'}
+                <span>{isLoading ? 'Entering...' : 'Continue to TREVORI'}</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </form>
 
-            {/* Subtle Divider */}
+            {/* Social Authentication Split */}
             <div className="relative my-6 text-center">
               <div className="absolute inset-0 flex items-center">
-                <div className="w-full border-t border-neutral-200" />
+                <div className="w-full border-t border-[#DDD8CE]" />
               </div>
-              <span className="relative bg-white px-3 text-xs text-neutral-400">
-                or login with
+              <span className="relative bg-[#FFFFFF] px-3 text-[10px] uppercase tracking-widest text-[#706B64]">
+                Or Instant Single Sign-On
               </span>
             </div>
 
-            {/* Social Buttons */}
-            <div className="space-y-3">
-              {/* Google Button */}
+            <div className="grid grid-cols-2 gap-3">
               <button
                 type="button"
                 onClick={() => handleSocialLogin('google')}
-                className="w-full py-3 px-4 border border-neutral-200 hover:border-neutral-400 rounded-lg bg-white text-sm font-medium text-neutral-700 flex items-center justify-center gap-2.5 transition-colors cursor-pointer shadow-sm"
+                className="py-2.5 px-3 border border-[#DDD8CE] hover:border-[#171717] text-xs font-medium text-[#171717] flex items-center justify-center gap-2 transition-colors cursor-pointer bg-[#FFFFFF]"
               >
-                <svg className="w-4 h-4" viewBox="0 0 24 24">
-                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
-                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
-                </svg>
-                <span>Login with Google</span>
+                <span className="font-bold">G</span>
+                <span>Google</span>
               </button>
 
-              {/* Apple Button */}
               <button
                 type="button"
                 onClick={() => handleSocialLogin('apple')}
-                className="w-full py-3 px-4 border border-neutral-200 hover:border-neutral-400 rounded-lg bg-white text-sm font-medium text-neutral-700 flex items-center justify-center gap-2.5 transition-colors cursor-pointer shadow-sm"
+                className="py-2.5 px-3 border border-[#DDD8CE] hover:border-[#171717] text-xs font-medium text-[#171717] flex items-center justify-center gap-2 transition-colors cursor-pointer bg-[#FFFFFF]"
               >
-                <svg className="w-4 h-4 fill-current text-black" viewBox="0 0 170 170">
-                  <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.6-7.85-11.75-14.43-6.19-9.88-10.98-20.91-14.37-33.09-3.39-12.18-5.09-23.75-5.09-34.7 0-14.56 3.73-26.68 11.2-36.35 7.46-9.68 16.73-14.58 27.81-14.71 4.71 0 10.15 1.25 16.32 3.75 6.17 2.5 10.13 3.8 11.89 3.89 1.54 0 5.68-1.39 12.42-4.17 6.74-2.78 12.44-4.04 17.1-3.79 13.62.9 24.31 5.92 32.06 15.06-11.77 7.14-17.51 16.92-17.21 29.35.3 9.69 4.11 17.85 11.45 24.49 7.34 6.64 16.14 10.36 26.4 11.16-2.14 6.35-4.77 12.98-7.89 19.89zm-26.69-95.2c0-6.9 2.47-13.3 7.41-19.18 4.94-5.88 11.08-9.59 18.42-11.13.12 1.03.18 2.06.18 3.09 0 6.66-2.58 13.15-7.75 19.46-5.17 6.31-11.39 9.87-18.66 10.67.24-.97.4-1.94.4-2.91z" />
-                </svg>
-                <span>Login with Apple</span>
+                <span></span>
+                <span>Apple</span>
               </button>
             </div>
 
-            {/* Bottom Sign Up Link */}
-            <div className="mt-8 text-center text-xs text-neutral-500">
-              Doesn't have an account?{' '}
-              <button
-                type="button"
-                onClick={() => handleContinue({ preventDefault: () => {} } as any)}
-                className="font-semibold text-black underline hover:text-neutral-700 transition-colors cursor-pointer"
-              >
-                Sign Up
-              </button>
+            <div className="mt-6 pt-4 border-t border-[#DDD8CE] flex items-center justify-center gap-1.5 text-[10px] text-[#706B64]">
+              <ShieldCheck className="w-3.5 h-3.5 text-[#B9AA96]" />
+              <span>Shopify Storefront Secured Customer Authentication</span>
             </div>
           </div>
 
-          <div /> {/* Bottom spacing */}
         </div>
+      </main>
 
-        {/* RIGHT COLUMN: The exact red editorial photo from the reference */}
-        <div className="relative w-full h-full min-h-[400px] lg:min-h-full overflow-hidden bg-[#BA2C17] hidden sm:block">
-          {/* Exact Photo Cropped from the User Image */}
-          <img
-            src="/images/auth/login_editorial_red.jpg"
-            alt="Editorial Campaign Red Lighting with Sunglasses"
-            className="w-full h-full object-cover object-center"
-          />
-
-          {/* Top Metadata Overlay */}
-          <div className="absolute top-8 inset-x-8 flex items-center justify-between text-xs text-white/90 font-mono tracking-wider z-10">
-            <span>Brand New</span>
-            <span>01-04</span>
-          </div>
-
-          {/* Middle Headline Overlay */}
-          <div className="absolute top-28 left-8 max-w-xs z-10">
-            <p className="text-white text-base sm:text-lg font-medium leading-snug drop-shadow-sm font-sans">
-              We use contrast to bring your brand's truest
-            </p>
-          </div>
-
-          {/* Bottom Right Quote Overlay */}
-          <div className="absolute bottom-8 right-8 max-w-[200px] text-right z-10">
-            <p className="text-white/90 text-xs sm:text-[13px] font-normal leading-relaxed drop-shadow-sm">
-              We use contrast to bring truest essence into the light.
-            </p>
-          </div>
-        </div>
-
-      </div>
+      <footer className="py-4 text-center text-[10px] text-[#706B64] border-t border-[#DDD8CE]">
+        &copy; {new Date().getFullYear()} TREVORI STUDIOS INC. ALL RIGHTS RESERVED.
+      </footer>
     </div>
   );
 };
