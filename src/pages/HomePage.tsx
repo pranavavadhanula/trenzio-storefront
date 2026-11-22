@@ -591,50 +591,7 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* ------------------------------------------------------------- */}
-      {/* 9. MEET THE FOUNDER */}
-      {/* ------------------------------------------------------------- */}
-      <section id="founder" className="py-20 sm:py-32 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="bg-[#DDD8CE]/35 border border-[#DDD8CE] p-8 sm:p-14 lg:p-16">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-            {/* Founder Portrait (Editorial Warm/Monochrome Studio) */}
-            <div className="lg:col-span-5 relative aspect-[4/5] bg-[#DDD8CE] overflow-hidden border border-[#DDD8CE]">
-              <img
-                src="/images/models/man_portrait.jpg"
-                alt="Arjun Trevori, Founder & Creative Director"
-                className="w-full h-full object-cover filter contrast-110 brightness-95"
-                loading="lazy"
-              />
-              <div className="absolute top-4 left-4 bg-[#171717] text-white text-[9px] uppercase tracking-widest px-2.5 py-1">
-                Creative Direction
-              </div>
-            </div>
 
-            {/* Founder Quote & Ethos */}
-            <div className="lg:col-span-7 space-y-6">
-              <span className="text-[11px] uppercase tracking-[0.3em] text-[#706B64] font-medium block">
-                Meet the Founder
-              </span>
-
-              {/* Editorial Quote in Cormorant Garamond */}
-              <blockquote className="font-serif text-2xl sm:text-3xl lg:text-4xl text-[#171717] italic font-normal leading-snug">
-                &ldquo;Fashion is not ornamentation; it is the spatial geometry between the human form and the architecture of the modern city.&rdquo;
-              </blockquote>
-
-              <p className="text-xs sm:text-sm text-[#706B64] font-light leading-relaxed">
-                When I created TREVORI, the global fashion space was inundated with synthetic fast-fashion blends masquerading as luxury streetwear. I wanted to build a sanctuary for purists—garments defined by tactile heft, mathematical proportions, and timeless neutral tones that endure long after ephemeral trends dissipate.
-              </p>
-
-              <div className="pt-4 border-t border-[#DDD8CE]">
-                <div className="font-serif text-xl text-[#171717]">Arjun Trevori</div>
-                <div className="text-[10px] uppercase tracking-[0.2em] text-[#B9AA96] font-medium mt-0.5">
-                  Founder & Creative Director &bull; Trevori Studios
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ------------------------------------------------------------- */}
       {/* 10. CUSTOMER REVIEWS */}

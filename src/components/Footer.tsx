@@ -110,7 +110,7 @@ export const Footer: React.FC = () => {
                 <Link to="/about" className="hover:text-white transition-colors">Brand Story</Link>
               </li>
               <li>
-                <a href="/#founder" className="hover:text-white transition-colors">Creative Direction</a>
+                <Link to="/about" className="hover:text-white transition-colors">Creative Direction</Link>
               </li>
               <li>
                 <Link to="/about" className="hover:text-white transition-colors">Fabric Quality</Link>
