@@ -70,7 +70,7 @@ export const SearchModal: React.FC = () => {
         <div className="mt-10">
           {searchQuery.trim() !== '' && (
             <div className="text-[11px] uppercase tracking-widest text-[#706B64] mb-6 font-medium">
-              Found {results.length} {results.length === 1 ? 'silhouette' : 'silhouettes'} for "{searchQuery}"
+              Found {results.length} {results.length === 1 ? 'item' : 'items'} for "{searchQuery}"
             </div>
           )}
 
@@ -106,7 +106,7 @@ export const SearchModal: React.FC = () => {
             </div>
           ) : searchQuery.trim() !== '' ? (
             <div className="text-center py-16 text-[#706B64] text-xs">
-              No matching silhouettes located. Try searching for "hoodies", "cargos", or "tees".
+              No items found. Try searching for "hoodies", "cargos", or "tees".
             </div>
           ) : null}
         </div>

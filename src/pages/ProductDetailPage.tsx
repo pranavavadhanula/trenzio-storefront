@@ -42,7 +42,7 @@ export const ProductDetailPage: React.FC = () => {
   if (!product) {
     return (
       <div className="min-h-[70vh] flex flex-col items-center justify-center p-8 text-center bg-[#F4F1EA] text-[#171717]">
-        <h2 className="font-serif text-3xl mb-4">Silhouette Not Found</h2>
+        <h2 className="font-serif text-3xl mb-4">Product Not Found</h2>
         <Link
           to="/collections"
           className="px-6 py-3 bg-[#171717] text-white text-xs uppercase tracking-widest font-medium"
@@ -174,7 +174,7 @@ export const ProductDetailPage: React.FC = () => {
           <div>
             <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.25em] text-[#706B64] mb-2 font-medium">
               <span>{product.category}</span>
-              <span className="text-[#B9AA96]">{product.gender} Silhouette</span>
+              <span className="text-[#B9AA96]">{product.gender}'s Collection</span>
             </div>
             <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#171717] tracking-tight leading-tight">
               {product.name}
@@ -280,7 +280,7 @@ export const ProductDetailPage: React.FC = () => {
             </div>
             <div className="flex items-center gap-2.5">
               <RotateCcw className="w-4 h-4 text-[#B9AA96]" />
-              <span>Hassle-Free 7-Day Size Exchanges arranged via Client Passport</span>
+              <span>Hassle-Free 7-Day Size Exchanges via your account</span>
             </div>
             <div className="flex items-center gap-2.5">
               <ShieldCheck className="w-4 h-4 text-[#B9AA96]" />

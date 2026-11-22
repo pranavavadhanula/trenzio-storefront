@@ -55,7 +55,7 @@ export const ProductGrid: React.FC = () => {
       <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 text-xs">
         {/* Gender Pills */}
         <div className="flex items-center gap-2">
-          <span className="text-[10px] uppercase tracking-widest text-[#706B64] font-medium">Silhouette:</span>
+          <span className="text-[10px] uppercase tracking-widest text-[#706B64] font-medium">Department:</span>
           {GENDERS.map((g) => (
             <button
               key={g}
@@ -102,7 +102,7 @@ export const ProductGrid: React.FC = () => {
         </div>
       ) : filteredProducts.length === 0 ? (
         <div className="py-24 text-center bg-[#FFFFFF] border border-[#DDD8CE] p-12">
-          <p className="font-serif text-2xl text-[#171717] mb-2">No matching silhouettes found.</p>
+          <p className="font-serif text-2xl text-[#171717] mb-2">No matching items found.</p>
           <p className="text-xs text-[#706B64] max-w-sm mx-auto mb-6">
             Adjust your active category or gender filters to explore the available collection.
           </p>

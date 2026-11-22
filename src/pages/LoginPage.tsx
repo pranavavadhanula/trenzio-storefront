@@ -34,8 +34,8 @@ export const LoginPage: React.FC = () => {
     setError('');
 
     const isEmail = cleanInput.includes('@');
-    const emailVal = isEmail ? cleanInput : `${cleanInput.replace(/\D/g, '')}@client.trevori.com`;
-    const displayName = isEmail ? cleanInput.split('@')[0].toUpperCase() : `CLIENT ${cleanInput.slice(-4) || '9921'}`;
+    const emailVal = isEmail ? cleanInput : `${cleanInput.replace(/\D/g, '')}@member.trevori.com`;
+    const displayName = isEmail ? cleanInput.split('@')[0].toUpperCase() : `MEMBER ${cleanInput.slice(-4) || '9921'}`;
 
     try {
       // Connect to real Shopify Customer API

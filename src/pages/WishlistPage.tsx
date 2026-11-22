@@ -23,7 +23,7 @@ export const WishlistPage: React.FC = () => {
           to="/collections"
           className="text-xs uppercase tracking-widest text-[#706B64] hover:text-[#171717] transition-colors font-medium"
         >
-          &larr; Browse All Silhouettes
+          &larr; Browse All Products
         </Link>
       </div>
 
@@ -31,7 +31,7 @@ export const WishlistPage: React.FC = () => {
         <div className="py-24 text-center border border-[#DDD8CE] p-8 sm:p-14 bg-[#FFFFFF] max-w-xl mx-auto shadow-sm">
           <Bookmark className="w-10 h-10 mx-auto text-[#B9AA96] stroke-1 mb-4" />
           <h2 className="font-serif text-2xl sm:text-3xl text-[#171717]">
-            Your vault is currently empty
+            Your wishlist is currently empty
           </h2>
           <p className="text-xs text-[#706B64] max-w-md mx-auto font-light leading-relaxed mt-2 mb-6">
             Curate your architectural wardrobe by saving items directly from the catalog into your private vault.

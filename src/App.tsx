@@ -77,7 +77,7 @@ function MainStorefront() {
           {/* Customer Login & Registration */}
           <Route path="/login" element={<LoginPage />} />
 
-          {/* Customer VIP Account Dashboard (Passport) */}
+          {/* Customer Account Dashboard */}
           <Route path="/account" element={<DashboardPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
 

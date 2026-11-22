@@ -657,7 +657,7 @@ export async function processStylistQuery(
       message: `### Trevori: Wear Your Perspective\n\n` +
         `Trevori is an Indian luxury fashion house born at the intersection of **clean modern streetwear** and **royal heritage couture**.\n\n` +
         `Our motto — *“Wear Your Perspective”* — represents self-definition through structure, premium combed cotton textiles, and unapologetic craftsmanship. From bespoke midnight navy velvet Bandhgalas to boxy drop-shoulder French Terry hoodies, every silhouette is tailored in India with global luxury standards.\n\n` +
-        `*Pan-India express shipping, door-step size exchanges, and 24/7 personal styling are standard for every client.*`,
+        `*Pan-India express shipping, door-step size exchanges, and 24/7 personal styling are standard for every member.*`,
       suggestedActions: [
         'Explore Men\'s Streetwear',
         'Explore Royal Traditional Wear',

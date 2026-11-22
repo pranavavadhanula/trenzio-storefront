@@ -74,7 +74,7 @@ export const CartDrawer: React.FC = () => {
             <div>
               <h2 className="font-serif text-2xl text-[#171717] font-normal">Shopping Bag</h2>
               <p className="text-[10px] uppercase tracking-widest text-[#706B64] mt-0.5">
-                {cart.length} {cart.length === 1 ? 'Silhouette' : 'Silhouettes'} Selected
+                {cart.length} {cart.length === 1 ? 'Item' : 'Items'} In Bag
               </p>
             </div>
             <button
@@ -113,7 +113,7 @@ export const CartDrawer: React.FC = () => {
               <div className="py-20 text-center space-y-4">
                 <p className="font-serif text-2xl text-[#171717]">Your shopping bag is empty.</p>
                 <p className="text-xs text-[#706B64] max-w-xs mx-auto leading-relaxed">
-                  Discover our signature hoodies and shirts, dropped-shoulder tees, and tailored streetwear silhouettes.
+                  Discover our signature hoodies, shirts, drop-shoulder tees, and streetwear essentials.
                 </p>
                 <button
                   onClick={() => setIsCartOpen(false)}

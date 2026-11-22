@@ -42,7 +42,7 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
 
   // Women's Section
   'women': {
-    label: "Women's Silhouettes",
+    label: "Women's Collection",
     genderFilter: 'Women',
     dept: 'women',
     desc: 'Relaxed fluid drapes, wide-leg knife-pleated trousers, and structured oversized cotton foundations.',
@@ -160,7 +160,7 @@ export const CollectionsPage: React.FC = () => {
           to={selectedDept === 'women' ? '/collections/men' : '/collections/women'}
           className="text-xs uppercase tracking-[0.2em] px-4 py-2 border border-[#DDD8CE] bg-[#FFFFFF] text-[#706B64] hover:text-[#171717] hover:border-[#171717] transition-colors font-medium"
         >
-          {selectedDept === 'women' ? "Switch to Men's Silhouettes →" : "Switch to Women's Silhouettes →"}
+          {selectedDept === 'women' ? "Switch to Men's Collection →" : "Switch to Women's Collection →"}
         </Link>
       </div>
 
@@ -200,7 +200,7 @@ export const CollectionsPage: React.FC = () => {
       {/* Sorting & Filter Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#DDD8CE] text-xs">
         <div className="text-[#706B64]">
-          Showing <strong className="text-[#171717]">{filteredProducts.length}</strong> architectural silhouettes
+          Showing <strong className="text-[#171717]">{filteredProducts.length}</strong> styles
         </div>
 
         <div className="flex items-center gap-2">
@@ -221,11 +221,11 @@ export const CollectionsPage: React.FC = () => {
       {isLoadingProducts ? (
         <div className="py-24 text-center flex flex-col items-center justify-center space-y-4">
           <Loader2 className="w-6 h-6 text-[#171717] animate-spin" />
-          <p className="text-xs uppercase tracking-widest text-[#706B64]">Loading Atelier Silhouettes...</p>
+          <p className="text-xs uppercase tracking-widest text-[#706B64]">Loading Collection...</p>
         </div>
       ) : filteredProducts.length === 0 ? (
         <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-12 text-center">
-          <p className="font-serif text-2xl text-[#171717] mb-2">No silhouettes currently active.</p>
+          <p className="font-serif text-2xl text-[#171717] mb-2">No items currently available.</p>
           <p className="text-xs text-[#706B64] mb-6">Explore our foundational drops or reset your filter.</p>
           <Link
             to="/collections/men"

@@ -39,10 +39,10 @@ export const WishlistDrawer: React.FC = () => {
             <div>
               <h2 className="font-serif text-2xl text-[#171717] font-normal flex items-center gap-2">
                 <Bookmark className="w-5 h-5 text-[#B9AA96]" />
-                <span>Personal Vault</span>
+                <span>Wishlist</span>
               </h2>
               <p className="text-[10px] uppercase tracking-widest text-[#706B64] mt-0.5">
-                {wishlistedProducts.length} {wishlistedProducts.length === 1 ? 'Silhouette' : 'Silhouettes'} Curated
+                {wishlistedProducts.length} {wishlistedProducts.length === 1 ? 'Item' : 'Items'} Saved
               </p>
             </div>
             <button

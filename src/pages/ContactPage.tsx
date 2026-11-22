@@ -14,13 +14,13 @@ export const ContactPage: React.FC = () => {
     <div className="min-h-screen py-12 sm:py-20 max-w-5xl mx-auto px-6 sm:px-10 lg:px-12 bg-[#F4F1EA] text-[#171717] font-sans">
       <div className="text-center max-w-xl mx-auto mb-16">
         <span className="text-[10px] uppercase tracking-[0.3em] text-[#B9AA96] font-semibold block mb-2">
-          Private Client Concierge
+          Customer Support
         </span>
         <h1 className="font-serif text-4xl sm:text-5xl font-normal text-[#171717] tracking-tight mb-4">
-          Client Assistance Desk
+          How Can We Help?
         </h1>
         <p className="text-xs sm:text-sm text-[#706B64] font-light leading-relaxed">
-          Questions regarding tailoring measurements, shipment dispatch, or effortless 7-day doorstep size exchanges? Our atelier concierge is at your service.
+          Questions regarding sizing, orders, shipping, or 7-day doorstep size exchanges? Our team is here to assist you.
         </p>
       </div>
 
@@ -28,7 +28,7 @@ export const ContactPage: React.FC = () => {
         {/* Direct Channels (5 Cols) */}
         <div className="md:col-span-5 space-y-6">
           <div className="p-6 bg-[#FFFFFF] border border-[#DDD8CE] space-y-4">
-            <h3 className="font-serif text-xl font-normal text-[#171717]">Direct Concierge</h3>
+            <h3 className="font-serif text-xl font-normal text-[#171717]">Contact Us Directly</h3>
 
             <div className="space-y-3 text-xs">
               <a
@@ -80,7 +80,7 @@ export const ContactPage: React.FC = () => {
         {/* Message Form (7 Cols) */}
         <div className="md:col-span-7 p-8 bg-[#FFFFFF] border border-[#DDD8CE]">
           <h2 className="font-serif text-2xl text-[#171717] font-normal mb-6">
-            Dispatch an Inquiry
+            Send Us a Message
           </h2>
 
           {submitted ? (
@@ -88,9 +88,9 @@ export const ContactPage: React.FC = () => {
               <div className="w-12 h-12 mx-auto rounded-full bg-[#F4F1EA] border border-[#DDD8CE] flex items-center justify-center text-[#171717]">
                 <Check className="w-6 h-6" />
               </div>
-              <h3 className="font-serif text-xl text-[#171717]">Inquiry Dispatched</h3>
+              <h3 className="font-serif text-xl text-[#171717]">Message Sent</h3>
               <p className="text-xs text-[#706B64] max-w-sm mx-auto font-light leading-relaxed">
-                Thank you for contacting TREVORI. A private client concierge will respond within 4 business hours.
+                Thank you for contacting TREVORI. Our customer care team will respond within 4 business hours.
               </p>
             </div>
           ) : (

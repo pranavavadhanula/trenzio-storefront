@@ -688,7 +688,7 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-[11px] uppercase tracking-[0.3em] text-[#706B64] font-medium block mb-3">
-              Verified Client Impressions
+              Verified Customer Reviews
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-[#171717]">
               Customer Reviews
@@ -742,18 +742,18 @@ export const HomePage: React.FC = () => {
       <section className="py-20 sm:py-28 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
         <div className="bg-[#DDD8CE]/40 border border-[#DDD8CE] p-8 sm:p-14 text-center max-w-3xl mx-auto">
           <span className="text-[10px] uppercase tracking-[0.35em] text-[#706B64] font-medium block mb-3">
-            Private Client Access
+            Member Access
           </span>
           <h2 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-[#171717] mb-3">
-            The Trevori Dispatch
+            The Trevori Newsletter
           </h2>
           <p className="text-xs sm:text-sm text-[#706B64] font-light max-w-md mx-auto mb-8 leading-relaxed">
-            Receive private invitations to confidential capsule releases, seasonal lookbook previews, and atelier essays. We respect your privacy with zero frivolous messaging.
+            Be the first to know about new collection drops, exclusive member sales, and seasonal lookbooks. No spam, ever.
           </p>
 
           {newsletterSuccess ? (
             <div className="p-4 bg-[#FFFFFF] border border-[#DDD8CE] text-xs text-[#171717] font-medium max-w-md mx-auto">
-              ✓ Welcome to the Trevori Private Client registry. A formal greeting has been dispatched to your inbox.
+              ✓ Welcome to TREVORI! Check your inbox for your 15% welcome code.
             </div>
           ) : (
             <form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-2 max-w-md mx-auto">

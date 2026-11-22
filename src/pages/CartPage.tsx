@@ -79,7 +79,7 @@ export const CartPage: React.FC = () => {
             Your shopping bag is empty
           </h2>
           <p className="text-xs text-[#706B64] max-w-md mx-auto font-light leading-relaxed mt-2 mb-6">
-            Explore our signature hoodies and shirts, dropped-shoulder tees, and tailored streetwear silhouettes.
+            Explore our signature hoodies, shirts, drop-shoulder tees, and streetwear essentials.
           </p>
           <Link
             to="/collections"

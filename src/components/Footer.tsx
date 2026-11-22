@@ -41,11 +41,11 @@ export const Footer: React.FC = () => {
 
           <div className="space-y-1.5">
             <span className="text-[10px] tracking-[0.25em] uppercase text-[#B9AA96] font-medium block">
-              CLIENT ASSURANCE
+              OUR PROMISE
             </span>
             <div className="font-serif text-lg text-white">7-Day Exchanges</div>
             <p className="text-[#DDD8CE]/70 text-[11px] leading-relaxed">
-              Seamless size exchanges and returns arranged directly through your Trevori Passport dashboard.
+              Seamless size exchanges and returns arranged directly through your account dashboard.
             </p>
           </div>
 
@@ -73,8 +73,8 @@ export const Footer: React.FC = () => {
               Contemporary streetwear and luxury lifestyle fashion. Rooted in architectural brutalism, generous minimalist drape, and tactile garment engineering.
             </p>
             <div className="pt-2 text-xs text-[#B9AA96] space-y-1">
-              <div>Private Client Desk: <a href="mailto:concierge@trevori.com" className="text-white hover:underline">concierge@trevori.com</a></div>
-              <div>Atelier HQ: Milan &bull; Mumbai &bull; Tokyo</div>
+              <div>Customer Support: <a href="mailto:support@trevori.com" className="text-white hover:underline">support@trevori.com</a></div>
+              <div>Headquarters: Milan &bull; Mumbai &bull; Tokyo</div>
             </div>
           </div>
 
@@ -95,7 +95,7 @@ export const Footer: React.FC = () => {
                 <Link to="/collections" className="hover:text-white transition-colors">Tailored Pants</Link>
               </li>
               <li>
-                <Link to="/collections/women" className="hover:text-white transition-colors">Women's Silhouettes</Link>
+                <Link to="/collections/women" className="hover:text-white transition-colors">Women's Collection</Link>
               </li>
               <li>
                 <a href="/#lookbook" className="hover:text-white transition-colors">Lookbook Volume IV</a>
@@ -104,7 +104,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="lg:col-span-2 space-y-3">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-medium">The Atelier</div>
+            <div className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-medium">About Trevori</div>
             <ul className="space-y-2 text-xs text-[#DDD8CE]/80 font-light">
               <li>
                 <Link to="/about" className="hover:text-white transition-colors">Brand Story</Link>
@@ -113,10 +113,10 @@ export const Footer: React.FC = () => {
                 <a href="/#founder" className="hover:text-white transition-colors">Creative Direction</a>
               </li>
               <li>
-                <Link to="/about" className="hover:text-white transition-colors">Fabric Engineering</Link>
+                <Link to="/about" className="hover:text-white transition-colors">Fabric Quality</Link>
               </li>
               <li>
-                <Link to="/account" className="hover:text-white transition-colors">Private Client Portal</Link>
+                <Link to="/account" className="hover:text-white transition-colors">My Account</Link>
               </li>
               <li>
                 <Link to="/contact" className="hover:text-white transition-colors">Press Inquiries</Link>
@@ -125,7 +125,7 @@ export const Footer: React.FC = () => {
           </div>
 
           <div className="lg:col-span-3 space-y-3">
-            <div className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-medium">Client Services</div>
+            <div className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-medium">Customer Care</div>
             <ul className="space-y-2 text-xs text-[#DDD8CE]/80 font-light">
               <li>
                 <Link to="/account" className="hover:text-white transition-colors">Order Tracking</Link>

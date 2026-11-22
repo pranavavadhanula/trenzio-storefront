@@ -69,15 +69,15 @@ export const Navbar: React.FC = () => {
   ];
 
   const WOMEN_SUB_ITEMS: SubCategoryItem[] = [
-    { label: "All Women's Apparel", path: '/collections/women', sub: 'Contemporary luxury silhouettes' },
-    { label: 'Draped Shirts & Tees', path: '/collections/women-oversized-tees', sub: 'Boxy drop-shoulder silhouettes' },
+    { label: "All Women's Apparel", path: '/collections/women', sub: 'Contemporary luxury apparel' },
+    { label: 'Draped Shirts & Tees', path: '/collections/women-oversized-tees', sub: 'Boxy drop-shoulder t-shirts' },
     { label: 'Hoodies & Sweaters', path: '/collections/women-sweatshirts', sub: 'Luxury French Terry & knits' },
     { label: 'Drape Wide-Leg Trousers', path: '/collections', sub: 'Architectural tailored trousers' },
   ];
 
   const TRADITIONAL_SUB_ITEMS: SubCategoryItem[] = [
     { label: "Men's Heritage Atelier", path: '/collections/traditional-men', sub: 'Kurtas, bandhgalas & ethnic couture' },
-    { label: "Women's Royal Silhouettes", path: '/collections/traditional-women', sub: 'Sarees, chanderi lehengas & drapes' },
+    { label: "Women's Royal Collection", path: '/collections/traditional-women', sub: 'Sarees, chanderi lehengas & drapes' },
   ];
 
   return (

@@ -45,7 +45,7 @@ export const DashboardPage: React.FC = () => {
   // Personal Info Form State
   const [personalInfo, setPersonalInfo] = useState({
     name: user?.name || 'VIP Member',
-    email: user?.email || 'client@trevori.com',
+    email: user?.email || 'member@trevori.com',
     phone: user?.phone || '+91 98765 43210',
     preferredSize: 'L',
     birthday: '1998-05-14',
@@ -56,7 +56,7 @@ export const DashboardPage: React.FC = () => {
   const [addresses, setAddresses] = useState([
     {
       id: 'addr-1',
-      name: user?.name || 'VIP Client',
+      name: user?.name || 'Member',
       type: 'Default Shipping',
       street: 'Flat 402, Skyline Residency, Bandra West',
       city: 'Mumbai',
@@ -68,7 +68,7 @@ export const DashboardPage: React.FC = () => {
     },
     {
       id: 'addr-2',
-      name: user?.name || 'VIP Client',
+      name: user?.name || 'Member',
       type: 'Atelier / Studio',
       street: '14/B, Nariman Point Commercial Hub',
       city: 'Mumbai',
@@ -191,13 +191,13 @@ export const DashboardPage: React.FC = () => {
       <div className="min-h-[80vh] flex items-center justify-center px-4 bg-[#F4F1EA] text-[#171717] font-sans py-16">
         <div className="max-w-md w-full bg-[#FFFFFF] border border-[#DDD8CE] p-8 sm:p-10 text-center shadow-sm">
           <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#706B64] block mb-2">
-            Private Client Portal
+            Member Account
           </span>
           <h2 className="font-serif text-3xl font-normal text-[#171717] mb-3">
-            Trevori Passport
+            My Account
           </h2>
           <p className="text-xs text-[#706B64] font-light mb-8 leading-relaxed">
-            Please authenticate to access your order tracking, personal preferences, address book, and private concierge privileges.
+            Please sign in to track orders, manage your profile, saved addresses, and member benefits.
           </p>
 
           <div className="space-y-3">
@@ -213,7 +213,7 @@ export const DashboardPage: React.FC = () => {
                 login({
                   name: 'PRANAV AVADHANULA',
                   email: 'pranav@trevori.com',
-                  tier: 'Private Client Noir',
+                  tier: 'Noir Member',
                   creditsINR: 1500,
                   points: 4800,
                 });
@@ -236,24 +236,24 @@ export const DashboardPage: React.FC = () => {
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-semibold">
-                TREVORI CLIENT PASSPORT
+                TREVORI MEMBERSHIP
               </span>
               <span className="text-xs text-[#DDD8CE]">&bull;</span>
               <span className="bg-[#F4F1EA] text-[#171717] text-[10px] tracking-widest uppercase px-2.5 py-0.5 border border-[#DDD8CE] font-medium">
-                {user.tier || 'Private Client Noir'}
+                {user.tier || 'Noir Member'}
               </span>
             </div>
             <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#171717] tracking-tight">
               Welcome, {user.name}
             </h1>
             <p className="text-xs text-[#706B64] font-light mt-1">
-              Member ID: TRV-8942-IN &bull; Client since {user.joinedDate || 'November 2026'}
+              Member ID: TRV-8942-IN &bull; Member since {user.joinedDate || 'November 2026'}
             </p>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="bg-[#F4F1EA] border border-[#DDD8CE] px-4 py-2.5 text-right">
-              <div className="text-[10px] uppercase tracking-wider text-[#706B64]">Atelier Credits</div>
+              <div className="text-[10px] uppercase tracking-wider text-[#706B64]">Store Credits</div>
               <div className="text-base font-semibold text-[#171717]">{formatPrice(user.creditsINR || 1500)}</div>
             </div>
             <button
@@ -374,13 +374,13 @@ export const DashboardPage: React.FC = () => {
                 <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8">
                   <h2 className="font-serif text-2xl text-[#171717] mb-2">Account Overview</h2>
                   <p className="text-xs text-[#706B64] font-light leading-relaxed mb-6">
-                    Manage your active shipments, client privileges, and tailoring measurements in one unified space.
+                    Track your orders, view member benefits, and update your sizing in one place.
                   </p>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
-                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Active Shipments</span>
-                      <div className="font-serif text-2xl text-[#171717] mt-1">{orders.length} In Transit</div>
+                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Active Orders</span>
+                      <div className="font-serif text-2xl text-[#171717] mt-1">{orders.length} In Progress</div>
                       <button
                         onClick={() => setActiveTab('orders')}
                         className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 underline"
@@ -390,18 +390,18 @@ export const DashboardPage: React.FC = () => {
                     </div>
 
                     <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
-                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Curated Wishlist</span>
-                      <div className="font-serif text-2xl text-[#171717] mt-1">{wishlist.length} Silhouettes</div>
+                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Saved Wishlist</span>
+                      <div className="font-serif text-2xl text-[#171717] mt-1">{wishlist.length} Items</div>
                       <button
                         onClick={() => setActiveTab('wishlist')}
                         className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 underline"
                       >
-                        Review Items &rarr;
+                        View Items &rarr;
                       </button>
                     </div>
 
                     <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
-                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Private Invitation Code</span>
+                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Member Discount Code</span>
                       <div className="font-mono text-sm font-bold text-[#171717] mt-1">TREVORI-VIP-NOIR</div>
                       <button
                         onClick={() => handleCopyCode('TREVORI-VIP-NOIR')}
@@ -417,9 +417,9 @@ export const DashboardPage: React.FC = () => {
                 {/* Latest Shipment Teaser */}
                 <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8">
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-serif text-xl text-[#171717]">Latest Shipment</h3>
+                    <h3 className="font-serif text-xl text-[#171717]">Recent Order</h3>
                     <span className="bg-[#DDD8CE] text-[#171717] text-[10px] uppercase tracking-widest px-2.5 py-1">
-                      {orders.length > 0 ? "In Transit" : "Standing By"}
+                      {orders.length > 0 ? "In Transit" : "No Active Orders"}
                     </span>
                   </div>
 
@@ -444,13 +444,13 @@ export const DashboardPage: React.FC = () => {
                   ) : (
                     <div className="p-5 bg-[#F4F1EA] border border-[#DDD8CE] text-center">
                       <p className="text-xs text-[#706B64] font-light mb-3">
-                        No active orders in the database. Orders will appear here once placed or when your Shopify store is connected.
+                        You have no active orders yet. When you place an order, it will appear here.
                       </p>
                       <Link
                         to="/collections"
                         className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest font-medium text-[#171717] hover:text-[#B9AA96] transition-colors"
                       >
-                        <span>Explore Current Drop</span>
+                        <span>Start Shopping</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
@@ -465,13 +465,13 @@ export const DashboardPage: React.FC = () => {
                 <div>
                   <h2 className="font-serif text-2xl text-[#171717] mb-1">Personal Information</h2>
                   <p className="text-xs text-[#706B64] font-light">
-                    Update your client details, communication channels, and fit preferences.
+                    Update your personal details, contact info, and size preferences.
                   </p>
                 </div>
 
                 {personalSaved && (
                   <div className="p-3 bg-[#F4F1EA] border border-[#171717] text-xs text-[#171717] font-medium">
-                    ✓ Your client profile preferences have been successfully updated.
+                    ✓ Your profile preferences have been successfully updated.
                   </div>
                 )}
 
@@ -677,9 +677,9 @@ export const DashboardPage: React.FC = () => {
               <div className="space-y-6 animate-fade-in-subtle">
                 <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 flex items-center justify-between">
                   <div>
-                    <h2 className="font-serif text-2xl text-[#171717] mb-1">Your Curated Wishlist</h2>
+                    <h2 className="font-serif text-2xl text-[#171717] mb-1">Your Wishlist</h2>
                     <p className="text-xs text-[#706B64] font-light">
-                      Silhouettes saved for private consideration.
+                      Items saved to your wishlist.
                     </p>
                   </div>
                   <span className="text-xs text-[#706B64] font-medium">{wishlist.length} Items</span>
@@ -689,7 +689,7 @@ export const DashboardPage: React.FC = () => {
                   <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-12 text-center">
                     <p className="font-serif text-2xl text-[#171717] mb-2">Your wishlist is empty.</p>
                     <p className="text-xs text-[#706B64] mb-6">
-                      Explore the contemporary catalog and tap the heart icon on any silhouette to curate your personal edit.
+                      Explore our collection and click the heart icon on any item to save it for later.
                     </p>
                     <Link
                       to="/collections"
@@ -715,7 +715,7 @@ export const DashboardPage: React.FC = () => {
                   <div>
                     <h2 className="font-serif text-2xl text-[#171717] mb-1">Saved Addresses</h2>
                     <p className="text-xs text-[#706B64] font-light">
-                      Manage verified delivery destinations for seamless 1-click private checkout.
+                      Manage your delivery addresses for quick and easy checkout.
                     </p>
                   </div>
                   <button
@@ -830,7 +830,7 @@ export const DashboardPage: React.FC = () => {
                       </div>
 
                       <div className="pt-4 mt-4 border-t border-[#DDD8CE] flex justify-between items-center text-xs">
-                        <span className="text-[#B9AA96] text-[10px] uppercase tracking-wider">Verified Location</span>
+                        <span className="text-[#B9AA96] text-[10px] uppercase tracking-wider">Saved Address</span>
                         <button
                           onClick={() => handleDeleteAddress(addr.id)}
                           className="text-[#706B64] hover:text-red-600 transition-colors cursor-pointer"
@@ -917,7 +917,7 @@ export const DashboardPage: React.FC = () => {
                         <option value="Need a size smaller">Need a size smaller (Swap for Medium)</option>
                         <option value="Need a size larger">Need a size larger (Swap for XL)</option>
                         <option value="Color swap">Prefer another colorway</option>
-                        <option value="Atelier credit return">Return for Full Atelier Credit</option>
+                        <option value="Store credit return">Return for Store Credit</option>
                       </select>
                     </div>
 
