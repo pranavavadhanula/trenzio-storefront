@@ -72,21 +72,19 @@ export const Glossy3DCard: React.FC<Glossy3DCardProps> = ({
         className="relative bg-white/90 backdrop-blur-2xl border border-white/70 overflow-hidden flex flex-col justify-between shadow-[0_16px_36px_rgba(23,23,23,0.08),0_2px_6px_rgba(0,0,0,0.04),inset_0_1px_2px_rgba(255,255,255,0.95)] hover:shadow-[0_32px_70px_rgba(23,23,23,0.18),0_6px_20px_rgba(0,0,0,0.08),inset_0_2px_4px_rgba(255,255,255,1)] transition-shadow duration-300"
       >
         {/* Top Edge Specular Reflection Beam */}
-        <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent z-40 opacity-90" />
+        <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/90 to-transparent z-40 opacity-90 pointer-events-none" />
         
         {/* Subtle Glass Inner Border */}
         <div className="absolute inset-0 z-35 pointer-events-none border border-white/40" />
-        {/* Dynamic Specular Gloss Glare Reflection */}
+        
+        {/* Dynamic Specular Gloss Glare Reflection (tracks cursor smoothly on hover) */}
         <div
           className="absolute inset-0 z-30 pointer-events-none transition-opacity duration-200"
           style={{
             opacity: glare.opacity,
-            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.3) 28%, rgba(255,255,255,0) 65%)`,
+            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 28%, rgba(255,255,255,0) 65%)`,
           }}
         />
-
-        {/* Diagonal High-Gloss Liquid Sheen Overlay */}
-        <div className="absolute inset-0 z-25 pointer-events-none bg-gradient-to-tr from-transparent via-white/10 to-white/45 opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
 
         {/* 3D Image Surface */}
         <div
@@ -96,13 +94,15 @@ export const Glossy3DCard: React.FC<Glossy3DCardProps> = ({
           <img
             src={image}
             alt={title}
-            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+            className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-106"
             style={{
-              imageRendering: 'auto',
+              imageRendering: '-webkit-optimize-contrast',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)',
             }}
           />
-          {/* Glossy lighting gradient over image */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-white/15 pointer-events-none" />
+          {/* Subtle bottom vignette for depth, keeping image crystal clear */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
 
           {/* 3D Elevated Badge */}
           <div

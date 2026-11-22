@@ -64,32 +64,34 @@ export const Lookbook3DCard: React.FC<Lookbook3DCardProps> = ({
         className="relative aspect-[4/5] bg-white/95 backdrop-blur-2xl border border-white/80 overflow-hidden shadow-[0_20px_45px_rgba(23,23,23,0.1),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_2px_rgba(255,255,255,0.95)] hover:shadow-[0_36px_85px_rgba(23,23,23,0.22),0_8px_24px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(255,255,255,1)] transition-shadow duration-300 group"
       >
         {/* Top Edge Specular Reflection Beam */}
-        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white to-transparent z-40 opacity-95" />
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white/90 to-transparent z-40 opacity-90 pointer-events-none" />
 
-        {/* Dynamic Specular Gloss Glare Reflection */}
+        {/* Dynamic Specular Gloss Glare Reflection (tracks cursor smoothly on hover) */}
         <div
           className="absolute inset-0 z-30 pointer-events-none transition-opacity duration-200"
           style={{
             opacity: glare.opacity,
-            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0) 65%)`,
+            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.18) 25%, rgba(255,255,255,0) 60%)`,
           }}
         />
 
-        {/* Diagonal High-Gloss Liquid Sheen Overlay */}
-        <div className="absolute inset-0 z-25 pointer-events-none bg-gradient-to-tr from-transparent via-white/10 to-white/45 opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
+        {/* Subtle Glass Inner Border */}
+        <div className="absolute inset-0 z-35 pointer-events-none border border-white/40" />
 
-        {/* Subtle Glass Border */}
-        <div className="absolute inset-0 z-35 pointer-events-none border border-white/50" />
-
-        {/* 3D Image Layer */}
-        <div className="w-full h-full" style={{ transform: 'translateZ(15px)' }}>
+        {/* 3D Image Layer - Crystal Clear 4K with Contrast Optimization */}
+        <div className="w-full h-full relative" style={{ transform: 'translateZ(15px)' }}>
           <img
             src={image}
             alt={title}
-            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-106"
+            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-105"
+            style={{
+              imageRendering: '-webkit-optimize-contrast',
+              backfaceVisibility: 'hidden',
+              transform: 'translateZ(0)',
+            }}
           />
-          {/* Subtle bottom gradient */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/10 pointer-events-none" />
+          {/* Very subtle bottom vignette for depth, keeping image crystal clear */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
         </div>
 
         {/* 3D Floating Inspect Button */}
