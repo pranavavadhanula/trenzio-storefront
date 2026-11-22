@@ -82,9 +82,9 @@ const Showcase3DCard: React.FC<Showcase3DCardProps> = ({
       <Link
         to={to}
         title={title}
-        className="group relative block min-h-[580px] sm:min-h-[700px] lg:min-h-[780px] rounded-2xl overflow-hidden bg-[#0A1728] border-2 transition-all duration-300 cursor-pointer will-change-transform"
+        className="group relative flex flex-col justify-end min-h-[660px] sm:min-h-[760px] lg:min-h-[860px] rounded-3xl overflow-hidden bg-[#0A1728] border-2 transition-all duration-300 cursor-pointer will-change-transform"
         style={{
-          transform: `rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale3d(${tilt.isHovered ? 1.025 : 1}, ${tilt.isHovered ? 1.025 : 1}, 1)`,
+          transform: `rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale3d(${tilt.isHovered ? 1.02 : 1}, ${tilt.isHovered ? 1.02 : 1}, 1)`,
           transformStyle: 'preserve-3d',
           transition: tilt.isHovered
             ? 'transform 0.12s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.3s ease, border-color 0.3s ease'
@@ -95,11 +95,11 @@ const Showcase3DCard: React.FC<Showcase3DCardProps> = ({
             : '0 20px 50px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.2)',
         }}
       >
-        {/* Parallax Photo Layer */}
+        {/* Parallax Photo Layer - Anchored to top so model heads and faces are 100% visible */}
         <div
           className="absolute inset-0 w-full h-full overflow-hidden"
           style={{
-            transform: `scale(${tilt.isHovered ? 1.08 : 1.02}) translate3d(${-tilt.rotateY * 1.6}px, ${tilt.rotateX * 1.6}px, 0)`,
+            transform: `scale(${tilt.isHovered ? 1.05 : 1}) translate3d(${-tilt.rotateY * 1.2}px, ${tilt.rotateX * 1.2}px, 0)`,
             transition: tilt.isHovered
               ? 'transform 0.15s cubic-bezier(0.2, 0, 0, 1)'
               : 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
@@ -108,12 +108,12 @@ const Showcase3DCard: React.FC<Showcase3DCardProps> = ({
           <img
             src={imageSrc}
             alt={imageAlt}
-            className={`w-full h-full object-cover ${imagePosition} filter contrast-115 brightness-95`}
+            className={`w-full h-full object-cover ${imagePosition} filter contrast-110 brightness-100`}
           />
         </div>
 
-        {/* Deep Atmosphere Base Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#07111E] via-[#07111E]/60 to-transparent group-hover:via-[#07111E]/40 transition-colors duration-500 z-10" />
+        {/* Ambient Bottom Scrim Only - Leaves Top 60% of model faces and upper bodies completely clear */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#07111E] via-[#07111E]/75 via-45% to-transparent z-10 pointer-events-none" />
 
         {/* Glossy Specular Glass Reflection (Fully Glossy Finish) */}
         {/* Layer A: Dynamic Mouse-Follow Glare Sheen */}
@@ -121,37 +121,37 @@ const Showcase3DCard: React.FC<Showcase3DCardProps> = ({
           className="pointer-events-none absolute inset-0 z-20 transition-opacity duration-300"
           style={{
             opacity: tilt.isHovered ? 1 : 0,
-            background: `radial-gradient(circle 520px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.08) 40%, transparent 75%)`,
+            background: `radial-gradient(circle 520px at ${tilt.glareX}% ${tilt.glareY}%, rgba(255, 255, 255, 0.25) 0%, rgba(255, 255, 255, 0.05) 40%, transparent 75%)`,
             mixBlendMode: 'overlay',
           }}
         />
 
         {/* Layer B: Static Haute Gloss Glass Reflection & Diagonal Specular Shine */}
-        <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-tr from-white/[0.14] via-transparent to-white/[0.18] opacity-80 group-hover:opacity-100 transition-opacity duration-500" />
-        <div className="pointer-events-none absolute inset-x-0 top-0 h-2/5 bg-gradient-to-b from-white/[0.22] via-white/[0.04] to-transparent z-20" />
-        <div className="pointer-events-none absolute inset-0 rounded-2xl z-20 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-2px_4px_rgba(0,0,0,0.8)]" />
+        <div className="pointer-events-none absolute inset-0 z-20 bg-gradient-to-tr from-white/[0.1] via-transparent to-white/[0.14] opacity-70 group-hover:opacity-90 transition-opacity duration-500" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/[0.15] to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-0 rounded-3xl z-20 shadow-[inset_0_2px_4px_rgba(255,255,255,0.4),inset_0_-2px_4px_rgba(0,0,0,0.8)]" />
 
-        {/* Floating 3D Foreground Content */}
+        {/* Floating 3D Foreground Content - Anchored strictly at bottom so it never covers model faces */}
         <div
-          className="relative z-30 flex flex-col justify-end h-full p-8 sm:p-14 lg:p-16 space-y-4"
+          className="relative z-30 flex flex-col justify-end w-full p-6 sm:p-10 lg:p-12 space-y-3 mt-auto"
           style={{
-            transform: `translate3d(${tilt.rotateY * 1.8}px, ${-tilt.rotateX * 1.8}px, 35px)`,
+            transform: `translate3d(${tilt.rotateY * 1.5}px, ${-tilt.rotateX * 1.5}px, 30px)`,
             transformStyle: 'preserve-3d',
             transition: tilt.isHovered
               ? 'transform 0.15s cubic-bezier(0.2, 0, 0, 1)'
               : 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
           }}
         >
-          <h2 className="font-sans text-4xl sm:text-6xl text-white font-extrabold group-hover:text-[#F88379] transition-colors tracking-tight drop-shadow-[0_4px_20px_rgba(0,0,0,0.95)]">
+          <h2 className="font-sans text-3xl sm:text-5xl text-white font-extrabold group-hover:text-[#F88379] transition-colors tracking-tight drop-shadow-[0_4px_24px_rgba(0,0,0,0.95)]">
             {heading}
           </h2>
 
-          <p className="text-sm sm:text-base text-[#E2E8F0] font-medium max-w-md leading-relaxed drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
+          <p className="text-xs sm:text-sm text-[#E2E8F0] font-medium max-w-md leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
             {desc}
           </p>
 
           <div className="pt-2">
-            <span className="inline-flex items-center gap-2.5 px-8 py-4 bg-[#F88379] hover:bg-[#FA958D] text-white font-bold text-sm uppercase tracking-wider font-sans shadow-[0_6px_28px_rgba(248,131,121,0.6)] group-hover:translate-x-2 transition-all">
+            <span className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white font-bold text-xs sm:text-sm uppercase tracking-wider font-sans shadow-[0_6px_28px_rgba(248,131,121,0.6)] group-hover:translate-x-2 transition-all">
               <span>{buttonText}</span>
               <ArrowRight className="w-4 h-4" />
             </span>
@@ -195,7 +195,7 @@ export const HomePage: React.FC = () => {
             buttonText="Explore Men's Wear"
             imageSrc="/images/models/man_streetwear_hoodie.jpg"
             imageAlt="Men's Wear Heavyweight Streetwear Hoodie"
-            imagePosition="object-top sm:object-center"
+            imagePosition="object-[50%_0%]"
           />
 
           {/* Card 2: WOMEN'S WEAR (3D Glossy Interactive Parallax Card) */}
@@ -207,7 +207,7 @@ export const HomePage: React.FC = () => {
             buttonText="Explore Women's Wear"
             imageSrc="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=85"
             imageAlt="Women's Wear Oversized Cuts"
-            imagePosition="object-center"
+            imagePosition="object-[50%_0%]"
           />
         </div>
 

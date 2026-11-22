@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, ChevronDown, Menu, X, Search, Heart, User } from 'lucide-react';
+import { ShoppingBag, ChevronDown, Menu, X, Search, Heart, User, Sparkles } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 
@@ -131,6 +131,16 @@ export const Navbar: React.FC = () => {
           >
             <span>INR (₹)</span>
           </div>
+
+          {/* AI Stylist Studio Link */}
+          <Link
+            to="/ai-stylist"
+            className="relative flex items-center gap-1.5 text-white hover:text-[#93C5FD] transition-all px-2.5 py-1.5 rounded-sm bg-[#2563EB]/25 border border-[#2563EB]/60 hover:bg-[#2563EB]/35 cursor-pointer font-sans text-xs font-bold tracking-wider shadow-[0_0_12px_rgba(37,99,235,0.35)]"
+            title="Trevori AI Fashion Stylist Studio"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#3B82F6] animate-pulse" />
+            <span className="hidden sm:inline">AI STYLIST</span>
+          </Link>
 
           {/* Account / Log In */}
           <Link
@@ -380,6 +390,22 @@ export const Navbar: React.FC = () => {
             </div>
           )}
         </div>
+
+        {/* Item 5: AI STYLIST (Signature Experience) */}
+        <Link
+          to="/ai-stylist"
+          className={`pb-1 border-b-2 transition-all duration-300 flex items-center gap-1.5 ${
+            currentPath.startsWith('/ai-stylist')
+              ? 'border-[#3B82F6] text-[#3B82F6] font-black drop-shadow-[0_0_12px_rgba(59,130,246,0.8)]'
+              : 'border-transparent text-[#93C5FD] hover:text-white hover:border-[#3B82F6]/60'
+          }`}
+        >
+          <Sparkles className="w-3.5 h-3.5 text-[#3B82F6] animate-pulse" />
+          <span>AI STYLIST</span>
+          <span className="text-[9px] bg-[#2563EB] text-white px-1.5 py-0.2 rounded-full font-mono font-bold tracking-normal">
+            NEW
+          </span>
+        </Link>
       </nav>
 
       {/* Mobile Drawer - Navy Theme with Coral Pink */}
@@ -449,6 +475,22 @@ export const Navbar: React.FC = () => {
                 </Link>
               ))}
             </div>
+          </div>
+
+          <div className="space-y-2 border-b border-[#1E3A66] pb-4">
+            <Link
+              to="/ai-stylist"
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-xs uppercase tracking-wider text-[#93C5FD] font-extrabold flex items-center justify-between bg-[#2563EB]/20 p-2.5 rounded-lg border border-[#2563EB]/40"
+            >
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-[#3B82F6]" />
+                <span>AI PERSONAL STYLIST</span>
+              </div>
+              <span className="text-[10px] text-white bg-[#2563EB] px-2 py-0.5 rounded-full font-mono font-bold">
+                24/7 PRO
+              </span>
+            </Link>
           </div>
 
           <div className="space-y-2 border-b border-[#1E3A66] pb-4">

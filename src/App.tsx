@@ -22,6 +22,10 @@ import { ContactPage } from './pages/ContactPage';
 import { VirtualTryOnPage } from './pages/VirtualTryOnPage';
 import { LoginPage } from './pages/LoginPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { AIStylistPage } from './pages/AIStylistPage';
+
+// Trevori AI Personal Stylist Floating Widget
+import { TrevoriAIWidget } from './components/ai/TrevoriAIWidget';
 
 // Automatically scrolls to top whenever a new link/page is navigated to
 function ScrollToTop() {
@@ -81,6 +85,9 @@ function MainStorefront() {
           <Route path="/account" element={<DashboardPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
 
+          {/* Trevori AI Personal Shopping Stylist Studio */}
+          <Route path="/ai-stylist" element={<AIStylistPage />} />
+
           {/* Fallback Catch-All */}
           <Route path="*" element={<HomePage />} />
         </Routes>
@@ -94,6 +101,9 @@ function MainStorefront() {
       <WishlistDrawer />
       <SearchModal />
       <SizingModal />
+
+      {/* Floating 24/7 AI Stylist Assistant (Across Website) */}
+      {!isLoginPage && <TrevoriAIWidget />}
     </div>
   );
 }
