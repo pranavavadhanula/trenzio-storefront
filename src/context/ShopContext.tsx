@@ -64,7 +64,7 @@ export interface UserProfile {
   creditsINR: number;
   joinedDate: string;
   picture?: string;
-  authProvider?: 'google' | 'apple' | 'email' | 'phone';
+  authProvider?: 'google' | 'apple' | 'facebook' | 'email' | 'phone';
 }
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
