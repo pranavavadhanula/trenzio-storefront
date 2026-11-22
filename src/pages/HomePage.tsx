@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Star, CheckCircle, Sparkles, Plus, Eye, ShoppingBag } from 'lucide-react';
 import { HeroEditorialBanner } from '../components/HeroEditorialBanner';
 import { ProductCard } from '../components/ProductCard';
+import { Glossy3DCard } from '../components/Glossy3DCard';
 import { useShop } from '../context/ShopContext';
 import { Product } from '../types';
 
@@ -352,98 +353,29 @@ export const HomePage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Capsule 01 */}
-            <div className="group bg-[#FFFFFF] border border-[#DDD8CE] flex flex-col justify-between overflow-hidden">
-              <div className="relative aspect-[4/5] overflow-hidden bg-[#DDD8CE]">
-                <img
-                  src="/images/models/man_streetwear_hoodie.jpg"
-                  alt="Capsule 01: The Architectural Core"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-4 left-4 bg-[#171717] text-white text-[9px] uppercase tracking-widest px-2.5 py-1">
-                  Capsule 01
-                </div>
-              </div>
-              <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
-                <div>
-                  <h3 className="font-serif text-2xl sm:text-3xl font-normal text-[#171717] mb-2">
-                    The Architectural Core
-                  </h3>
-                  <p className="text-xs text-[#706B64] leading-relaxed mb-6 font-light">
-                    Brutalist minimalism in contemporary French Terry Cotton. Obsidian black, ecru ivory, and reinforced dropped seams.
-                  </p>
-                </div>
-                <Link
-                  to="/collections/men"
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#171717] hover:text-[#B9AA96] transition-colors"
-                >
-                  <span>Explore Capsule</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
+            <Glossy3DCard
+              badge="Capsule 01"
+              image="/images/models/man_streetwear_hoodie.jpg"
+              title="The Architectural Core"
+              description="Brutalist minimalism in contemporary French Terry Cotton. Obsidian black, ecru ivory, and reinforced dropped seams."
+              linkTo="/collections/men"
+            />
 
-            {/* Capsule 02 */}
-            <div className="group bg-[#FFFFFF] border border-[#DDD8CE] flex flex-col justify-between overflow-hidden">
-              <div className="relative aspect-[4/5] overflow-hidden bg-[#DDD8CE]">
-                <img
-                  src="/images/models/street_tee.jpg"
-                  alt="Capsule 02: Raw Concrete & Earth"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-4 left-4 bg-[#171717] text-white text-[9px] uppercase tracking-widest px-2.5 py-1">
-                  Capsule 02
-                </div>
-              </div>
-              <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
-                <div>
-                  <h3 className="font-serif text-2xl sm:text-3xl font-normal text-[#171717] mb-2">
-                    Raw Concrete & Earth
-                  </h3>
-                  <p className="text-xs text-[#706B64] leading-relaxed mb-6 font-light">
-                    Mineral acid-washed combed jersey, stone-washed cotton twills, and muted earthen pigments.
-                  </p>
-                </div>
-                <Link
-                  to="/collections/men"
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#171717] hover:text-[#B9AA96] transition-colors"
-                >
-                  <span>Explore Capsule</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
+            <Glossy3DCard
+              badge="Capsule 02"
+              image="/images/models/trevori_editorial_sitting.jpg"
+              title="Raw Concrete & Earth"
+              description="Mineral acid-washed combed jersey, relaxed cargo drape, and architectural summer knitwear."
+              linkTo="/collections/men"
+            />
 
-            {/* Capsule 03 */}
-            <div className="group bg-[#FFFFFF] border border-[#DDD8CE] flex flex-col justify-between overflow-hidden">
-              <div className="relative aspect-[4/5] overflow-hidden bg-[#DDD8CE]">
-                <img
-                  src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85"
-                  alt="Capsule 03: Fluid Tailoring"
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute top-4 left-4 bg-[#171717] text-white text-[9px] uppercase tracking-widest px-2.5 py-1">
-                  Capsule 03
-                </div>
-              </div>
-              <div className="p-6 sm:p-8 flex flex-col justify-between flex-1">
-                <div>
-                  <h3 className="font-serif text-2xl sm:text-3xl font-normal text-[#171717] mb-2">
-                    Fluid Tailoring
-                  </h3>
-                  <p className="text-xs text-[#706B64] leading-relaxed mb-6 font-light">
-                    Floor-grazing double-pleated drape trousers and relaxed architectural knitwear with fluid motion.
-                  </p>
-                </div>
-                <Link
-                  to="/collections/women"
-                  className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] font-medium text-[#171717] hover:text-[#B9AA96] transition-colors"
-                >
-                  <span>Explore Capsule</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
+            <Glossy3DCard
+              badge="Capsule 03"
+              image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90"
+              title="Fluid Tailoring"
+              description="Floor-grazing double-pleated drape trousers and relaxed architectural knitwear with fluid motion."
+              linkTo="/collections/women"
+            />
           </div>
         </div>
       </section>
