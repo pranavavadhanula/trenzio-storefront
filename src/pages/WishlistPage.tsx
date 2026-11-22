@@ -18,32 +18,34 @@ export const WishlistPage: React.FC = () => {
     <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#EBF3FA] text-[#FFFFFF]">
       <div className="mb-10 pb-6 border-b border-[#3B82F6]/20 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <Heart className="w-6 h-6 text-[#2563EB] fill-[#2563EB]" />
+          <div className="w-10 h-10 rounded-full bg-[#F88379]/15 flex items-center justify-center border border-[#F88379]/40">
+            <Heart className="w-5 h-5 text-[#F88379] fill-[#F88379]" />
+          </div>
           <div>
-            <span className="text-[10px] uppercase tracking-widest text-[#2563EB] font-mono font-bold">Saved Items</span>
-            <h1 className="font-serif text-3xl sm:text-5xl font-light text-[#FFFFFF] tracking-tight mt-1">
-              Your Wishlist
+            <span className="text-[10px] uppercase tracking-widest text-[#F88379] font-mono font-bold">Curated Drops</span>
+            <h1 className="font-serif text-3xl sm:text-5xl font-bold text-[#071325] tracking-tight mt-1">
+              Your Personal Vault
             </h1>
           </div>
         </div>
         <Link
           to="/collections/all"
-          className="text-xs uppercase tracking-wider text-[#3B82F6] hover:text-[#2563EB] font-mono font-medium"
+          className="text-xs uppercase tracking-wider text-[#F88379] hover:text-[#FA958D] font-mono font-bold"
         >
           &larr; Browse Catalog
         </Link>
       </div>
 
       {wishlistedProducts.length === 0 ? (
-        <div className="py-24 text-center border border-[#3B82F6]/25 p-8 sm:p-14 bg-white text-[#FFFFFF] space-y-4 max-w-xl mx-auto shadow-2xl backdrop-blur-xl">
-          <div className="w-14 h-14 mx-auto rounded-full bg-white/[0.04] border border-[#2563EB]/40 flex items-center justify-center text-[#2563EB]">
-            <Heart className="w-6 h-6 text-[#2563EB]" />
+        <div className="py-24 text-center border border-[#1E3A66]/30 p-8 sm:p-14 bg-white text-[#071325] space-y-4 max-w-xl mx-auto shadow-2xl rounded-sm">
+          <div className="w-14 h-14 mx-auto rounded-full bg-[#F88379]/10 border border-[#F88379]/30 flex items-center justify-center text-[#F88379]">
+            <Heart className="w-6 h-6 text-[#F88379]" />
           </div>
-          <h2 className="font-serif text-2xl sm:text-3xl text-white font-light">
-            Your wishlist is empty
+          <h2 className="font-serif text-2xl sm:text-3xl text-[#071325] font-bold">
+            Your Vault is empty
           </h2>
-          <p className="text-xs text-[#3B82F6] max-w-md mx-auto font-light leading-relaxed">
-            Click the heart icon on any heavyweight oversized tee or luxury sweatshirt to bookmark it here.
+          <p className="text-xs text-[#64748B] max-w-md mx-auto font-light leading-relaxed">
+            Save coveted heavyweight drops and architectural silhouettes to your personal vault for quick access.
           </p>
           <div className="pt-4">
             <Link

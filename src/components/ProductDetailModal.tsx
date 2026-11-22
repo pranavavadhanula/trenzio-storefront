@@ -51,12 +51,12 @@ export const ProductDetailModal: React.FC = () => {
             onClick={() => toggleWishlist(selectedProduct.id)}
             className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
               isSaved
-                ? 'bg-[#2563EB] border-[#2563EB] text-black shadow-[0_0_12px_rgba(212,255,0,0.4)]'
-                : 'bg-white/[0.05] border-white/15 text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB]'
+                ? 'bg-[#F88379] border-[#F88379] text-white shadow-[0_0_12px_rgba(248,131,121,0.5)]'
+                : 'bg-white/[0.05] border-white/15 text-[#FFFFFF] hover:text-[#F88379] hover:border-[#F88379]'
             }`}
-            title="Wishlist"
+            title={isSaved ? "Saved in Vault" : "Save to Vault"}
           >
-            <Heart className={`w-4 h-4 ${isSaved ? 'fill-black' : ''}`} />
+            <Heart className={`w-4 h-4 ${isSaved ? 'fill-white' : ''}`} />
           </button>
 
           <button

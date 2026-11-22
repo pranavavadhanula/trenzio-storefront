@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ShoppingBag, ChevronDown, Menu, X, Search, Heart, User, Sparkles } from 'lucide-react';
+import { ShoppingBag, ChevronDown, Menu, X, Search, Heart, Bookmark, User, Sparkles } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 
@@ -174,21 +174,9 @@ export const Navbar: React.FC = () => {
           </button>
         </form>
 
-        {/* Right: Actions (Account, Wishlist, Bag) */}
+        {/* Right: Actions (Vault, Bag, Account/Log In - Log In situated at the right-most edge) */}
         <div className="flex items-center space-x-2 sm:space-x-5 flex-shrink-0">
-          {/* Account / Log In */}
-          <Link
-            to={isLoggedIn ? "/account" : "/login"}
-            className="hidden sm:flex relative items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
-            title={isLoggedIn ? `Account (${user?.name})` : "Customer Log In or Register"}
-          >
-            <User className="w-4 h-4 text-[#F88379]" />
-            <span>
-              {isLoggedIn ? 'ACCOUNT' : 'LOG IN'}
-            </span>
-          </Link>
-
-          {/* Wishlist */}
+          {/* Vault (Renamed from generic Wishlist to exclusive luxury Vault) */}
           <Link
             to="/wishlist"
             onClick={(e) => {
@@ -198,10 +186,10 @@ export const Navbar: React.FC = () => {
               }
             }}
             className="relative flex items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
-            title="Wishlist (Right click to open in new tab)"
+            title="Trevori Vault (Right click to open in new tab)"
           >
-            <Heart className="w-4 h-4 text-[#F88379]" />
-            <span className="hidden sm:inline">WISHLIST</span>
+            <Bookmark className="w-4 h-4 text-[#F88379]" />
+            <span className="hidden sm:inline">VAULT</span>
             {wishlist.length > 0 && (
               <span className="text-white font-bold text-xs bg-[#F88379] px-1.5 py-0.2 rounded-full shadow-[0_0_10px_rgba(248,131,121,0.5)]">
                 ({wishlist.length})
@@ -225,6 +213,18 @@ export const Navbar: React.FC = () => {
             <span className="hidden sm:inline">BAG</span>
             <span className="px-1.5 py-0.2 rounded-full bg-[#F88379] text-white font-black text-[11px] font-sans shadow-[0_0_12px_rgba(248,131,121,0.5)]">
               {cartCount}
+            </span>
+          </Link>
+
+          {/* Account / Log In - RIGHT-MOST OF THE ENTIRE PAGE */}
+          <Link
+            to={isLoggedIn ? "/account" : "/login"}
+            className="flex relative items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2 sm:px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
+            title={isLoggedIn ? `Account (${user?.name})` : "Customer Log In or Register"}
+          >
+            <User className="w-4 h-4 text-[#F88379]" />
+            <span className="hidden sm:inline">
+              {isLoggedIn ? 'ACCOUNT' : 'LOG IN'}
             </span>
           </Link>
         </div>
@@ -562,6 +562,27 @@ export const Navbar: React.FC = () => {
               <span className="text-[10px] text-white bg-[#2563EB] px-2 py-0.5 rounded-full font-mono font-bold">
                 24/7 PRO
               </span>
+            </Link>
+          </div>
+
+          <div className="space-y-2 border-b border-[#1E3A66] pb-4">
+            <Link
+              to="/wishlist"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setIsWishlistOpen(true);
+              }}
+              className="text-xs uppercase tracking-wider text-[#CBD5E1] hover:text-[#F88379] font-bold flex items-center justify-between"
+            >
+              <div className="flex items-center gap-2">
+                <Bookmark className="w-4 h-4 text-[#F88379]" />
+                <span>MY VAULT</span>
+              </div>
+              {wishlist.length > 0 && (
+                <span className="text-[10px] text-white bg-[#F88379] px-2 py-0.5 rounded-full font-bold">
+                  {wishlist.length}
+                </span>
+              )}
             </Link>
           </div>
 

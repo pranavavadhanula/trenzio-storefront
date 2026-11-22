@@ -84,7 +84,7 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
                 ? 'bg-[#F88379] border-[#F88379] text-white shadow-[0_2px_10px_rgba(248,131,121,0.5)]'
                 : 'bg-[#07111E]/80 border-[#1E3A66] text-white hover:text-[#F88379] hover:border-[#F88379]'
             }`}
-            title="Wishlist"
+            title={isSaved ? "Saved in Vault" : "Save to Vault"}
           >
             <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-white' : ''}`} />
           </button>

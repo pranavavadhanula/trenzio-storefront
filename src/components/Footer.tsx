@@ -106,7 +106,7 @@ export const Footer: React.FC = () => {
                 <Link to="/cart" className="hover:text-[#F88379] transition-colors">Shopping Bag</Link>
               </li>
               <li>
-                <Link to="/wishlist" className="hover:text-[#F88379] transition-colors">Saved Wishlist</Link>
+                <Link to="/wishlist" className="hover:text-[#F88379] transition-colors">Personal Vault</Link>
               </li>
               <li>
                 <Link to="/try-on" className="hover:text-[#F88379] transition-colors">Virtual 3D Studio</Link>

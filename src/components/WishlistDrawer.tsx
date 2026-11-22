@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Heart, Trash2, ArrowRight, ShoppingBag } from 'lucide-react';
+import { X, Heart, Bookmark, Trash2, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { Product } from '../types';
 
@@ -34,21 +34,23 @@ export const WishlistDrawer: React.FC = () => {
       />
 
       <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
-        <div className="w-screen max-w-md bg-[#0D1B3A] border-l border-white/15 shadow-2xl flex flex-col text-[#FFFFFF]">
+        <div className="w-screen max-w-md bg-[#0D1B3A] border-l border-[#1E3A66] shadow-2xl flex flex-col text-[#FFFFFF]">
           {/* Header */}
-          <div className="p-6 border-b border-white/10 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Heart className="w-5 h-5 text-[#2563EB] fill-[#2563EB]" />
+          <div className="p-6 border-b border-[#1E3A66]/60 flex items-center justify-between">
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-full bg-[#F88379]/15 flex items-center justify-center border border-[#F88379]/40">
+                <Bookmark className="w-4 h-4 text-[#F88379]" />
+              </div>
               <div>
-                <h2 className="font-serif text-2xl text-[#FFFFFF] font-light">Saved Wishlist</h2>
-                <p className="text-[10px] uppercase tracking-widest text-[#3B82F6] mt-0.5 font-mono">
-                  {wishlistedProducts.length} Saved {wishlistedProducts.length === 1 ? 'Piece' : 'Pieces'}
+                <h2 className="font-serif text-2xl text-[#FFFFFF] font-bold">Personal Vault</h2>
+                <p className="text-[10px] uppercase tracking-widest text-[#94A3B8] mt-0.5 font-mono">
+                  {wishlistedProducts.length} Vaulted {wishlistedProducts.length === 1 ? 'Piece' : 'Pieces'}
                 </p>
               </div>
             </div>
             <button
               onClick={() => setIsWishlistOpen(false)}
-              className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB] transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-[#CBD5E1] hover:text-[#F88379] hover:border-[#F88379] transition-colors cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -56,11 +58,11 @@ export const WishlistDrawer: React.FC = () => {
 
           {/* Value Summary */}
           {wishlistedProducts.length > 0 && (
-            <div className="bg-white/[0.02] p-4 border-b border-white/10 flex items-center justify-between text-xs">
-              <span className="text-[#3B82F6] uppercase tracking-wider text-[10px] font-mono">
-                Total Wishlist Value
+            <div className="bg-white/[0.02] p-4 border-b border-[#1E3A66]/50 flex items-center justify-between text-xs">
+              <span className="text-[#94A3B8] uppercase tracking-wider text-[10px] font-mono">
+                Total Vault Value
               </span>
-              <span className="font-mono text-[#2563EB] font-bold">
+              <span className="font-mono text-[#F88379] font-bold">
                 {formatPrice(totalWishlistValueINR)}
               </span>
             </div>
@@ -70,25 +72,25 @@ export const WishlistDrawer: React.FC = () => {
           <div className="flex-1 overflow-y-auto p-6 space-y-6">
             {wishlistedProducts.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-16 space-y-4">
-                <div className="w-12 h-12 rounded-full border border-white/15 flex items-center justify-center text-[#3B82F6]">
-                  <Heart className="w-5 h-5 text-[#2563EB]" />
+                <div className="w-12 h-12 rounded-full border border-[#1E3A66] flex items-center justify-center text-[#F88379] bg-[#071325]">
+                  <Bookmark className="w-5 h-5 text-[#F88379]" />
                 </div>
-                <h3 className="font-serif text-xl text-[#FFFFFF]">Your wishlist is empty</h3>
-                <p className="text-xs text-[#3B82F6] max-w-xs font-light">
-                  Tap the heart icon on any t-shirt or sweatshirt to save it for later.
+                <h3 className="font-serif text-xl text-[#FFFFFF]">Your Vault is empty</h3>
+                <p className="text-xs text-[#94A3B8] max-w-xs font-light">
+                  Save coveted heavyweight drops and architectural silhouettes to your personal vault for quick access.
                 </p>
                 <button
                   onClick={() => setIsWishlistOpen(false)}
-                  className="px-6 py-2.5 border border-[#2563EB] text-xs uppercase tracking-wider text-[#2563EB] hover:bg-[#2563EB] hover:text-black transition-colors cursor-pointer mt-2 font-mono font-bold"
+                  className="px-6 py-2.5 border border-[#F88379] text-xs uppercase tracking-wider text-[#F88379] hover:bg-[#F88379] hover:text-[#07111E] transition-colors cursor-pointer mt-2 font-mono font-bold rounded-sm"
                 >
-                  Explore Catalog
+                  Explore Drops
                 </button>
               </div>
             ) : (
               wishlistedProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="flex gap-4 pb-6 border-b border-white/10 last:border-b-0"
+                  className="flex gap-4 pb-6 border-b border-[#1E3A66]/50 last:border-b-0"
                 >
                   <img
                     src={product.images.primary}
@@ -97,18 +99,18 @@ export const WishlistDrawer: React.FC = () => {
                       setSelectedProduct(product);
                       setIsWishlistOpen(false);
                     }}
-                    className="w-20 h-24 object-contain bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/15 cursor-pointer hover:opacity-80 transition-opacity"
+                    className="w-20 h-24 object-contain bg-gradient-to-b from-[#0F2444] to-[#0A172D] border border-[#1E3A66]/60 cursor-pointer hover:opacity-80 transition-opacity rounded-sm"
                   />
                   <div className="flex-1 flex flex-col justify-between">
                     <div>
                       <div className="flex items-start justify-between">
-                        <span className="text-[9px] uppercase tracking-widest text-[#2563EB] font-mono font-bold">
+                        <span className="text-[9px] uppercase tracking-widest text-[#F88379] font-mono font-bold">
                           {product.gsm} GSM &bull; {product.gender}
                         </span>
                         <button
                           onClick={() => toggleWishlist(product.id)}
-                          className="text-[#3B82F6] hover:text-[#2563EB] p-0.5 cursor-pointer transition-colors"
-                          title="Remove"
+                          className="text-[#94A3B8] hover:text-[#F88379] p-0.5 cursor-pointer transition-colors"
+                          title="Remove from Vault"
                         >
                           <Trash2 className="w-3.5 h-3.5" />
                         </button>
@@ -119,11 +121,11 @@ export const WishlistDrawer: React.FC = () => {
                           setSelectedProduct(product);
                           setIsWishlistOpen(false);
                         }}
-                        className="font-serif text-sm text-[#FFFFFF] line-clamp-1 cursor-pointer hover:text-[#2563EB] mt-1"
+                        className="font-serif text-sm text-[#FFFFFF] line-clamp-1 cursor-pointer hover:text-[#F88379] mt-1"
                       >
                         {product.name}
                       </h4>
-                      <p className="text-xs font-mono font-bold text-[#2563EB] mt-1">
+                      <p className="text-xs font-mono font-bold text-[#F88379] mt-1">
                         {formatPrice(product.priceINR)}
                       </p>
                     </div>

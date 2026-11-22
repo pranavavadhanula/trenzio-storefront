@@ -116,10 +116,10 @@ export const ProductDetailPage: React.FC = () => {
               onClick={() => toggleWishlist(product.id)}
               className={`absolute top-4 right-4 w-10 h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer shadow-md ${
                 isSaved
-                  ? 'bg-[#2563EB] border-[#2563EB] text-white shadow-[0_0_15px_rgba(37,99,235,0.5)]'
-                  : 'bg-white/80 border-[#2563EB]/25 text-white hover:text-[#3B82F6] hover:border-[#3B82F6]'
+                  ? 'bg-[#F88379] border-[#F88379] text-white shadow-[0_0_15px_rgba(248,131,121,0.5)]'
+                  : 'bg-[#071325]/80 border-[#1E3A66] text-white hover:text-[#F88379] hover:border-[#F88379]'
               }`}
-              title="Save to Wishlist"
+              title={isSaved ? "Saved in Vault" : "Save to Vault"}
             >
               <Heart className={`w-4 h-4 ${isSaved ? 'fill-white' : ''}`} />
             </button>
