@@ -8,8 +8,8 @@ export interface ShopifyConfig {
 }
 
 export const SHOPIFY_CONFIG: ShopifyConfig = {
-  storeDomain: import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || 'trevori-atelier.myshopify.com',
-  storefrontAccessToken: import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN || '',
+  storeDomain: import.meta.env.VITE_SHOPIFY_STORE_DOMAIN || '1wjf10-4s.myshopify.com',
+  storefrontAccessToken: import.meta.env.VITE_SHOPIFY_STOREFRONT_TOKEN || '45127a4713c0f23b7b46156d3bf06d6a',
   apiVersion: '2024-07',
 };
 
@@ -141,17 +141,17 @@ export async function fetchShopifyProducts(): Promise<Product[]> {
       return FALLBACK_PRODUCTS;
     }
 
-    return res.products.edges.map(({ node }) => {
+    const liveProducts = res.products.edges.map(({ node }) => {
       const firstVariant = node.variants.edges[0]?.node;
-      const price = firstVariant ? parseFloat(firstVariant.price.amount) : 1999;
+      const price = firstVariant ? parseFloat(firstVariant.price.amount) : 1499;
       const images = node.images.edges.map(e => e.node.url);
 
       return {
         id: node.id,
         name: node.title,
         category: (node.productType as any) || 'Oversized Tees',
-        gender: node.tags.includes('Women') ? 'Women' : node.tags.includes('Men') ? 'Men' : 'Unisex',
-        priceINR: price,
+        gender: (node.tags.includes('Women') ? 'Women' : node.tags.includes('Men') ? 'Men' : 'Unisex') as 'Men' | 'Women' | 'Unisex',
+        priceINR: price > 0 ? price : 1499,
         images: {
           primary: images[0] || '/images/products/black.png',
           secondary: images[1] || images[0] || '/images/products/ash-grey.png',
@@ -172,11 +172,18 @@ export async function fetchShopifyProducts(): Promise<Product[]> {
           id: v.node.id,
           color: v.node.selectedOptions.find(o => o.name.toLowerCase() === 'color')?.value || 'Default',
           size: v.node.selectedOptions.find(o => o.name.toLowerCase() === 'size')?.value || 'M',
-          priceINR: parseFloat(v.node.price.amount),
+          priceINR: parseFloat(v.node.price.amount) > 0 ? parseFloat(v.node.price.amount) : 1499,
           available: v.node.availableForSale,
         })),
       };
     });
+
+    // Merge live products at the top with catalog items
+    const nonCollidingFallback = FALLBACK_PRODUCTS.filter(
+      fb => !liveProducts.some(lp => lp.name.toLowerCase() === fb.name.toLowerCase())
+    );
+
+    return [...liveProducts, ...nonCollidingFallback];
   } catch {
     return FALLBACK_PRODUCTS;
   }
