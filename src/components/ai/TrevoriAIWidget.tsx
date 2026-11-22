@@ -57,10 +57,10 @@ export const TrevoriAIWidget: React.FC = () => {
       {/* Interactive Chat Window Modal */}
       {isOpen && (
         <div
-          className={`fixed transition-all duration-300 z-50 flex flex-col bg-white rounded-3xl shadow-[0_20px_60px_rgba(10,23,45,0.25)] border border-slate-200 overflow-hidden ${
+          className={`fixed transition-all duration-300 z-50 flex flex-col bg-white rounded-2xl sm:rounded-3xl shadow-[0_20px_60px_rgba(10,23,45,0.35)] border border-slate-200 overflow-hidden ${
             isExpanded
-              ? 'inset-3 sm:inset-6 md:inset-12'
-              : 'bottom-4 right-4 sm:bottom-6 sm:right-6 w-[95vw] sm:w-[420px] md:w-[460px] h-[85vh] sm:h-[620px] max-h-[90vh]'
+              ? 'inset-2 sm:inset-6 md:inset-12'
+              : 'bottom-2 inset-x-2 sm:inset-x-auto sm:right-6 sm:bottom-6 sm:w-[420px] md:w-[460px] h-[82vh] sm:h-[620px] max-h-[92vh]'
           }`}
         >
           {/* Header Bar */}

@@ -28,7 +28,7 @@ export const TraditionalAttireShowcase: React.FC = () => {
             </p>
 
             {/* Bold Headline matching Hero Banner */}
-            <h2 className="font-sans text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase tracking-[0.06em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.95)] leading-[1.05]">
+            <h2 className="font-sans text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-black uppercase tracking-[0.06em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.95)] leading-[1.05]">
               WEAR YOUR PERSPECTIVE
             </h2>
 

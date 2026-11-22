@@ -21,7 +21,7 @@ export const HeroEditorialBanner: React.FC = () => {
         {/* Clean Foreground Content: Title, Subtitle, CTA */}
         <div className="relative z-20 h-full max-w-[1480px] mx-auto px-4 sm:px-10 lg:px-14 flex flex-col justify-end pb-12 sm:pb-16">
           <div className="max-w-2xl">
-            <h1 className="font-sans text-4xl sm:text-6xl md:text-7xl font-black uppercase tracking-[0.06em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.9)] leading-[1.05]">
+            <h1 className="font-sans text-3xl sm:text-5xl md:text-7xl font-black uppercase tracking-[0.06em] text-white drop-shadow-[0_4px_28px_rgba(0,0,0,0.9)] leading-[1.05]">
               WEAR YOUR PERSPECTIVE
             </h1>
 

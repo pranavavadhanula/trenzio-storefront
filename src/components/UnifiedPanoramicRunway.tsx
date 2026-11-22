@@ -125,8 +125,8 @@ export const UnifiedPanoramicRunway: React.FC<UnifiedPanoramicRunwayProps> = ({
         onMouseLeave={() => setHoveredIdx(null)}
         className="relative w-full overflow-hidden bg-black"
       >
-        {/* Continuous 5-Item Grid: Fills 100% width with 0 gap and 0 space between photos */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 w-full gap-0 p-0 m-0">
+        {/* Continuous 5-Item Runway: Horizontally swipeable snap carousel on mobile, 5-column grid on desktop */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-none lg:grid lg:grid-cols-5 w-full gap-0 p-0 m-0">
           {items.map((item, idx) => {
             const isHovered = hoveredIdx === idx;
             const hasHover = hoveredIdx !== null;
@@ -141,7 +141,7 @@ export const UnifiedPanoramicRunway: React.FC<UnifiedPanoramicRunwayProps> = ({
               <div
                 key={item.title}
                 onMouseEnter={() => setHoveredIdx(idx)}
-                className={`group relative w-full h-[380px] sm:h-[460px] md:h-[540px] overflow-hidden cursor-pointer transition-all duration-500 bg-black ${
+                className={`group relative w-[72vw] sm:w-[45vw] lg:w-full shrink-0 snap-start h-[420px] sm:h-[480px] md:h-[540px] overflow-hidden cursor-pointer transition-all duration-500 bg-black ${
                   isSibling ? 'opacity-50 filter brightness-70' : 'opacity-100'
                 }`}
                 onClick={() => {

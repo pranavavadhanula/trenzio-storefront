@@ -363,10 +363,10 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="h-screen w-screen overflow-hidden bg-[#07111E] text-white font-sans flex flex-col lg:flex-row relative">
+    <div className="min-h-screen lg:h-screen w-full overflow-x-hidden bg-[#07111E] text-white font-sans flex flex-col lg:flex-row relative">
       
       {/* LEFT COLUMN: Zara-Inspired Credentials Authentication Panel */}
-      <div className="w-full lg:w-[480px] xl:w-[520px] h-full overflow-y-auto bg-[#07111E] p-6 sm:p-12 lg:p-14 flex flex-col justify-between shrink-0 border-r border-[#1E3A66]/30 z-20">
+      <div className="w-full lg:w-[480px] xl:w-[520px] min-h-screen lg:h-full overflow-y-auto bg-[#07111E] p-6 sm:p-12 lg:p-14 flex flex-col justify-between shrink-0 border-r border-[#1E3A66]/30 z-20">
         <div>
           {/* High-Fashion Trevori Header */}
           <div className="mb-6 sm:mb-8 flex items-center justify-between">

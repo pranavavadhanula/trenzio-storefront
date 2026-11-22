@@ -124,9 +124,9 @@ export const Navbar: React.FC = () => {
 
         {/* Right: Actions (Fixed INR Badge, Wishlist, Bag) */}
         <div className="flex items-center space-x-3 sm:space-x-5">
-          {/* Fixed INR Only Indicator - Navy Pill with Coral Pink Key Accent */}
+          {/* Fixed INR Only Indicator - Hidden on extra-small mobile to prevent header squish */}
           <div
-            className="flex items-center space-x-1 py-1 px-3 rounded-none border border-[#F88379]/40 bg-[#0B1A30] text-[#F88379] font-sans text-xs font-bold tracking-wider select-none shadow-[inset_0_1px_0_0_rgba(248,131,121,0.25),0_2px_8px_rgba(0,0,0,0.3)] backdrop-blur-md"
+            className="hidden sm:flex items-center space-x-1 py-1 px-3 rounded-none border border-[#F88379]/40 bg-[#0B1A30] text-[#F88379] font-sans text-xs font-bold tracking-wider select-none shadow-[inset_0_1px_0_0_rgba(248,131,121,0.25),0_2px_8px_rgba(0,0,0,0.3)] backdrop-blur-md"
             title="Exclusively Launching in India — Billed strictly in INR (₹)"
           >
             <span>INR (₹)</span>
@@ -196,8 +196,8 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Secondary Nav Bar: Navy Blue with Coral Pink Active Accents */}
-      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 flex items-center justify-center space-x-6 sm:space-x-12 text-[13px] uppercase tracking-[0.14em] font-sans font-bold py-3.5 border-t border-[#1E3A66]/30">
+      {/* Secondary Nav Bar: Navy Blue with Coral Pink Active Accents - Hidden on mobile, shown on md+ */}
+      <nav className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 hidden md:flex items-center justify-center space-x-6 sm:space-x-12 text-[13px] uppercase tracking-[0.14em] font-sans font-bold py-3.5 border-t border-[#1E3A66]/30">
         {/* Item 1: MEN'S WEAR with Dropdown */}
         <div
           className="relative"
