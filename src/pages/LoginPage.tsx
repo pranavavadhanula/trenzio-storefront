@@ -86,12 +86,12 @@ export const LoginPage: React.FC = () => {
   return (
     <div className="min-h-screen w-full bg-[#EAE8E4] flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans">
       {/* Centered Modal Card matching the exact Dribbble reference */}
-      <div className="w-full max-w-5xl bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 lg:grid-cols-2 min-h-[620px] sm:min-h-[680px]">
+      <div className="w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         
         {/* LEFT COLUMN: Clean Minimalist Login Form */}
-        <div className="p-6 sm:p-10 lg:p-14 flex flex-col justify-between">
+        <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
           {/* Top Bar: Back Link & Centered Brand Logo */}
-          <div className="flex items-center justify-between mb-8 sm:mb-10">
+          <div className="flex items-center justify-between mb-6 sm:mb-8">
             <Link
               to="/"
               className="text-xs sm:text-sm text-neutral-500 hover:text-black font-medium transition-colors"
@@ -106,7 +106,7 @@ export const LoginPage: React.FC = () => {
 
           {/* Form Content */}
           <div className="w-full max-w-sm mx-auto">
-            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-black mb-6 sm:mb-8">
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-black mb-5 sm:mb-6">
               Login
             </h1>
 
@@ -117,7 +117,7 @@ export const LoginPage: React.FC = () => {
             )}
 
             {success ? (
-              <div className="py-12 text-center">
+              <div className="py-10 text-center">
                 <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-3 animate-bounce" />
                 <h3 className="font-serif text-xl font-normal text-black mb-1">
                   Access Confirmed
@@ -127,7 +127,7 @@ export const LoginPage: React.FC = () => {
                 </p>
               </div>
             ) : (
-              <form onSubmit={handleContinue} className="space-y-4">
+              <form onSubmit={handleContinue} className="space-y-3.5">
                 {/* Email Input */}
                 <div>
                   <input
@@ -136,7 +136,7 @@ export const LoginPage: React.FC = () => {
                     value={identifier}
                     onChange={(e) => setIdentifier(e.target.value)}
                     placeholder="Email"
-                    className="w-full px-4 py-3 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                    className="w-full px-4 py-2.5 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
                   />
                 </div>
 
@@ -147,7 +147,7 @@ export const LoginPage: React.FC = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
-                    className="w-full px-4 py-3 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors pr-10"
+                    className="w-full px-4 py-2.5 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors pr-10"
                   />
                   <button
                     type="button"
@@ -177,7 +177,7 @@ export const LoginPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3.5 bg-black hover:bg-neutral-800 text-white rounded-lg text-sm font-medium transition-colors duration-200 disabled:opacity-50 cursor-pointer shadow-sm"
+                  className="w-full py-3 bg-black hover:bg-neutral-800 text-white rounded-lg text-sm font-medium transition-colors duration-200 disabled:opacity-50 cursor-pointer shadow-sm"
                 >
                   {isLoading ? 'Signing in...' : 'Login'}
                 </button>
@@ -185,7 +185,7 @@ export const LoginPage: React.FC = () => {
             )}
 
             {/* Divider: or login with */}
-            <div className="my-6 relative flex items-center justify-center">
+            <div className="my-5 relative flex items-center justify-center">
               <div className="border-t border-neutral-200 w-full" />
               <span className="bg-white px-3 text-[11px] text-neutral-400 uppercase tracking-wider relative">
                 or login with
@@ -194,12 +194,12 @@ export const LoginPage: React.FC = () => {
             </div>
 
             {/* Social Logins */}
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {/* Google Button */}
               <button
                 type="button"
                 onClick={() => handleSocialLogin('google')}
-                className="w-full py-3 px-4 border border-neutral-200 hover:border-neutral-400 rounded-lg bg-white text-sm font-medium text-neutral-700 flex items-center justify-center gap-2.5 transition-colors cursor-pointer shadow-sm"
+                className="w-full py-2.5 px-4 border border-neutral-200 hover:border-neutral-400 rounded-lg bg-white text-sm font-medium text-neutral-700 flex items-center justify-center gap-2.5 transition-colors cursor-pointer shadow-sm"
               >
                 <svg className="w-4 h-4" viewBox="0 0 24 24">
                   <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
@@ -214,7 +214,7 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={() => handleSocialLogin('apple')}
-                className="w-full py-3 px-4 border border-neutral-200 hover:border-neutral-400 rounded-lg bg-white text-sm font-medium text-neutral-700 flex items-center justify-center gap-2.5 transition-colors cursor-pointer shadow-sm"
+                className="w-full py-2.5 px-4 border border-neutral-200 hover:border-neutral-400 rounded-lg bg-white text-sm font-medium text-neutral-700 flex items-center justify-center gap-2.5 transition-colors cursor-pointer shadow-sm"
               >
                 <svg className="w-4 h-4 fill-current text-black" viewBox="0 0 170 170">
                   <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.6-7.85-11.75-14.43-6.19-9.88-10.98-20.91-14.37-33.09-3.39-12.18-5.09-23.75-5.09-34.7 0-14.56 3.73-26.68 11.2-36.35 7.46-9.68 16.73-14.58 27.81-14.71 4.71 0 10.15 1.25 16.32 3.75 6.17 2.5 10.13 3.8 11.89 3.89 1.54 0 5.68-1.39 12.42-4.17 6.74-2.78 12.44-4.04 17.1-3.79 13.62.9 24.31 5.92 32.06 15.06-11.77 7.14-17.51 16.92-17.21 29.35.3 9.69 4.11 17.85 11.45 24.49 7.34 6.64 16.14 10.36 26.4 11.16-2.14 6.35-4.77 12.98-7.89 19.89zm-26.69-95.2c0-6.9 2.47-13.3 7.41-19.18 4.94-5.88 11.08-9.59 18.42-11.13.12 1.03.18 2.06.18 3.09 0 6.66-2.58 13.15-7.75 19.46-5.17 6.31-11.39 9.87-18.66 10.67.24-.97.4-1.94.4-2.91z" />
@@ -224,7 +224,7 @@ export const LoginPage: React.FC = () => {
             </div>
 
             {/* Bottom Sign Up Link */}
-            <div className="mt-8 text-center text-xs text-neutral-500">
+            <div className="mt-6 text-center text-xs text-neutral-500">
               Doesn't have an account?{' '}
               <button
                 type="button"
@@ -240,12 +240,12 @@ export const LoginPage: React.FC = () => {
         </div>
 
         {/* RIGHT COLUMN: The exact red editorial photo from the reference */}
-        <div className="relative w-full h-full min-h-[400px] lg:min-h-full overflow-hidden bg-[#BA2C17] hidden sm:block">
+        <div className="relative w-full h-full min-h-[460px] md:min-h-full overflow-hidden bg-[#BA2C17] hidden md:block">
           {/* Exact Photo Cropped from the User Image */}
           <img
             src="/images/auth/login_editorial_red.jpg"
             alt="Editorial Campaign Red Lighting with Sunglasses"
-            className="w-full h-full object-cover object-center"
+            className="w-full h-full object-cover object-left"
           />
         </div>
 
