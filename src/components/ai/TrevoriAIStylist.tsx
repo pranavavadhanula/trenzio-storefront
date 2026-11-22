@@ -62,40 +62,36 @@ export const TrevoriAIStylist: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-800 font-sans selection:bg-[#2563EB] selection:text-white pb-24">
+    <div className="min-h-screen bg-[#F4F1EA] text-[#171717] font-sans selection:bg-[#DDD8CE] selection:text-[#171717] pb-24">
       {/* 1. HERO INTRO BANNER */}
-      <section className="relative bg-gradient-to-b from-[#0A172D] via-[#0F2444] to-[#1E3A66] text-white py-14 sm:py-20 px-4 sm:px-8 border-b border-[#2563EB]/30 overflow-hidden">
-        {/* Glow Vignettes */}
-        <div className="absolute top-0 right-1/4 w-96 h-96 bg-[#2563EB]/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-80 h-80 bg-[#F88379]/10 rounded-full blur-3xl pointer-events-none" />
-
+      <section className="relative bg-[#171717] text-white py-14 sm:py-20 px-4 sm:px-8 border-b border-[#DDD8CE]/30 overflow-hidden">
         <div className="max-w-6xl mx-auto relative z-10 text-center">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[#3B82F6] text-xs font-mono font-bold uppercase tracking-wider mb-4 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5 text-[#3B82F6] animate-pulse" />
-            <span>The Signature Trevori AI Shopping Experience</span>
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/10 border border-white/20 text-[#B9AA96] text-xs font-medium uppercase tracking-[0.2em] mb-4">
+            <Sparkles className="w-3.5 h-3.5 text-[#B9AA96]" />
+            <span>Trevori Atelier AI Concierge</span>
           </div>
 
-          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4 leading-tight">
-            TREVORI AI &bull; Personal Fashion Stylist
+          <h1 className="font-serif text-3xl sm:text-5xl md:text-6xl font-normal tracking-tight text-white mb-4 leading-tight">
+            TREVORI &bull; Personal Fashion Stylist
           </h1>
 
-          <p className="max-w-2xl mx-auto text-slate-200 text-sm sm:text-base leading-relaxed font-sans font-normal">
+          <p className="max-w-2xl mx-auto text-[#DDD8CE] text-sm sm:text-base leading-relaxed font-light">
             Your 24/7 intelligent haute fashion advisor. Discover relaxed silhouettes, receive algorithmic outfit recommendations, calculate precision sizing, and search by photo.
           </p>
 
           {/* Quick Feature Badges */}
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mt-8 text-xs font-mono text-slate-300">
+          <div className="flex flex-wrap items-center justify-center gap-4 sm:gap-8 mt-8 text-xs text-[#DDD8CE]/80 font-light">
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <CheckCircle2 className="w-4 h-4 text-[#B9AA96]" />
               <span>Real Verified Inventory</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <CheckCircle2 className="w-4 h-4 text-[#B9AA96]" />
               <span>Budget-Aware Outfits</span>
             </div>
             <div className="flex items-center gap-1.5">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Free 7-Day Size Exchange</span>
+              <CheckCircle2 className="w-4 h-4 text-[#B9AA96]" />
+              <span>Complimentary 7-Day Exchange</span>
             </div>
           </div>
         </div>
@@ -104,7 +100,7 @@ export const TrevoriAIStylist: React.FC = () => {
       {/* 2. MAIN WORKSPACE CONTAINER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-8 -mt-6 relative z-20">
         {/* Navigation Tabs Bar */}
-        <div className="bg-white rounded-2xl p-2 shadow-lg border border-slate-200/90 flex flex-wrap items-center justify-between gap-2 mb-8">
+        <div className="bg-[#FFFFFF] p-2 border border-[#DDD8CE] flex flex-wrap items-center justify-between gap-2 mb-8 shadow-sm">
           <div className="flex flex-wrap items-center gap-1.5">
             {[
               { id: 'chat', label: 'AI Stylist Chat', icon: MessageSquare },
@@ -118,20 +114,20 @@ export const TrevoriAIStylist: React.FC = () => {
                   key={tab.id}
                   type="button"
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-sans font-bold flex items-center gap-2 transition-all cursor-pointer ${
+                  className={`px-3.5 py-2 text-xs uppercase tracking-wider font-medium flex items-center gap-2 transition-colors cursor-pointer ${
                     activeTab === tab.id
-                      ? 'bg-[#0A172D] text-white shadow-md'
-                      : 'text-slate-600 hover:text-[#0A172D] hover:bg-slate-100'
+                      ? 'bg-[#171717] text-white'
+                      : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
                   }`}
                 >
-                  <Icon className={`w-4 h-4 ${activeTab === tab.id ? 'text-[#3B82F6]' : 'text-slate-400'}`} />
+                  <Icon className="w-3.5 h-3.5" />
                   <span>{tab.label}</span>
                 </button>
               );
             })}
           </div>
 
-          <div className="hidden lg:flex items-center gap-2 px-3 text-[11px] font-mono text-slate-500">
+          <div className="hidden lg:flex items-center gap-2 px-3 text-[11px] font-mono text-[#706B64]">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>AI Online &bull; INR (₹)</span>
           </div>

@@ -1,119 +1,255 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import {
   Package,
-  Sparkles,
-  CreditCard,
   Heart,
   LogOut,
-  Shirt,
   CheckCircle2,
   Clock,
   Truck,
   ArrowRight,
   ShieldCheck,
-  ChevronRight,
-  Sliders,
   MapPin,
   Copy,
   Check,
   Download,
-  RefreshCw,
-  PhoneCall,
-  ExternalLink,
+  RotateCcw,
   User,
   Settings,
-  Bell,
-  Star,
-  Eye,
+  Lock,
+  Plus,
+  Trash2,
   ShoppingBag,
+  ExternalLink,
 } from 'lucide-react';
+import { ProductCard } from '../components/ProductCard';
+
+type DashboardTab =
+  | 'overview'
+  | 'personal'
+  | 'orders'
+  | 'wishlist'
+  | 'addresses'
+  | 'returns'
+  | 'security';
 
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user, isLoggedIn, login, logout, wishlist } = useShop();
+  const { user, isLoggedIn, login, logout, wishlist, products, formatPrice, addToCart } = useShop();
 
-  // Outfit selector for the animated avatar
-  const [activeLook, setActiveLook] = useState<'street' | 'hoodie' | 'traditional' | 'editorial'>('street');
-
-  // Interactive Tab: orders | measurements | perks | addresses
-  const [activeTab, setActiveTab] = useState<'orders' | 'measurements' | 'perks' | 'addresses'>('orders');
-
-  // Copy promo code feedback
+  const [activeTab, setActiveTab] = useState<DashboardTab>('overview');
   const [isCopied, setIsCopied] = useState(false);
-  const [invoiceDownloading, setInvoiceDownloading] = useState(false);
+  const [downloadingInvoice, setDownloadingInvoice] = useState<string | null>(null);
 
-  // 3D Tilt on the animated photo card
-  const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ rotateX: 0, rotateY: 0, isHovered: false });
+  // Personal Info Form State
+  const [personalInfo, setPersonalInfo] = useState({
+    name: user?.name || 'VIP Member',
+    email: user?.email || 'client@trevori.com',
+    phone: user?.phone || '+91 98765 43210',
+    preferredSize: 'L',
+    birthday: '1998-05-14',
+  });
+  const [personalSaved, setPersonalSaved] = useState(false);
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-    const rect = cardRef.current.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
-    setTilt({
-      rotateX: -y * 12,
-      rotateY: x * 12,
-      isHovered: true,
-    });
-  };
+  // Saved Addresses State
+  const [addresses, setAddresses] = useState([
+    {
+      id: 'addr-1',
+      name: user?.name || 'VIP Client',
+      type: 'Default Shipping',
+      street: 'Flat 402, Skyline Residency, Bandra West',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      pincode: '400050',
+      country: 'India',
+      phone: '+91 98765 43210',
+      isDefault: true,
+    },
+    {
+      id: 'addr-2',
+      name: user?.name || 'VIP Client',
+      type: 'Atelier / Studio',
+      street: '14/B, Nariman Point Commercial Hub',
+      city: 'Mumbai',
+      state: 'Maharashtra',
+      pincode: '400021',
+      country: 'India',
+      phone: '+91 98765 43210',
+      isDefault: false,
+    },
+  ]);
+  const [showAddressForm, setShowAddressForm] = useState(false);
+  const [newAddress, setNewAddress] = useState({
+    type: 'Home',
+    street: '',
+    city: '',
+    state: '',
+    pincode: '',
+    phone: '',
+  });
 
-  const handleMouseLeave = () => {
-    setTilt({ rotateX: 0, rotateY: 0, isHovered: false });
-  };
+  // Returns / Exchange Wizard State
+  const [returnSelectedOrder, setReturnSelectedOrder] = useState('TRV-2026-8942');
+  const [returnReason, setReturnReason] = useState('Need a size smaller');
+  const [returnItem, setReturnItem] = useState('Classic French Terry Boxy Hoodie');
+  const [returnSubmitted, setReturnSubmitted] = useState(false);
 
-  const copyPromoCode = (code: string) => {
+  // Security Form State
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: '',
+  });
+  const [twoFactorEnabled, setTwoFactorEnabled] = useState(true);
+  const [securitySaved, setSecuritySaved] = useState(false);
+
+  // Wishlisted product objects
+  const wishlistedProducts = products.filter((p) => wishlist.includes(p.id));
+
+  // Sample verified orders
+  const orders = [
+    {
+      id: 'TRV-2026-8942',
+      date: '20 November 2026',
+      totalINR: 3998,
+      status: 'In Transit',
+      carrier: 'Blue Dart Apex Express',
+      trackingNumber: 'BD-8839210-IN',
+      estimatedDelivery: '24 November 2026',
+      currentStep: 3, // 1: Confirmed, 2: Cut & Sewn, 3: In Transit, 4: Delivered
+      items: [
+        {
+          name: 'Classic French Terry Boxy Hoodie',
+          size: 'L',
+          color: 'Obsidian Black',
+          priceINR: 2499,
+          image: '/images/models/man_streetwear_hoodie.jpg',
+        },
+        {
+          name: 'Relaxed Pleated Wide-Leg Cargo Pants',
+          size: '32',
+          color: 'Washed Black',
+          priceINR: 1499,
+          image: '/images/runway/men_pants.jpg',
+        },
+      ],
+    },
+    {
+      id: 'TRV-2026-7731',
+      date: '04 October 2026',
+      totalINR: 1499,
+      status: 'Delivered',
+      carrier: 'Delhivery Surface',
+      trackingNumber: 'DEL-992144-IN',
+      estimatedDelivery: '08 October 2026',
+      currentStep: 4,
+      items: [
+        {
+          name: 'Boxy Oversized T-Shirt (350 GSM)',
+          size: 'L',
+          color: 'Ash Grey',
+          priceINR: 1499,
+          image: '/images/products/ash-grey.png',
+        },
+      ],
+    },
+  ];
+
+  const handleCopyCode = (code: string) => {
     navigator.clipboard.writeText(code);
     setIsCopied(true);
     setTimeout(() => setIsCopied(false), 2000);
   };
 
-  const simulateInvoiceDownload = () => {
-    setInvoiceDownloading(true);
+  const handleDownloadInvoice = (orderId: string) => {
+    setDownloadingInvoice(orderId);
     setTimeout(() => {
-      setInvoiceDownloading(false);
-      alert('Trevori Official Tax Invoice #TRV-894291-GST downloaded successfully.');
+      setDownloadingInvoice(null);
+      alert(`TREVORI Tax Invoice #${orderId}-GST downloaded.`);
     }, 1200);
   };
 
-  // If user isn't logged in, offer quick 1-click VIP login or redirect
+  const handleSavePersonalInfo = (e: React.FormEvent) => {
+    e.preventDefault();
+    login({
+      name: personalInfo.name,
+      email: personalInfo.email,
+      phone: personalInfo.phone,
+    });
+    setPersonalSaved(true);
+    setTimeout(() => setPersonalSaved(false), 2500);
+  };
+
+  const handleAddAddress = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newAddress.street || !newAddress.city) return;
+    setAddresses([
+      ...addresses,
+      {
+        id: `addr-${Date.now()}`,
+        name: personalInfo.name,
+        type: newAddress.type,
+        street: newAddress.street,
+        city: newAddress.city,
+        state: newAddress.state || 'Maharashtra',
+        pincode: newAddress.pincode || '400001',
+        country: 'India',
+        phone: newAddress.phone || personalInfo.phone,
+        isDefault: false,
+      },
+    ]);
+    setShowAddressForm(false);
+    setNewAddress({ type: 'Home', street: '', city: '', state: '', pincode: '', phone: '' });
+  };
+
+  const handleDeleteAddress = (id: string) => {
+    setAddresses(addresses.filter((a) => a.id !== id));
+  };
+
+  const handleSaveSecurity = (e: React.FormEvent) => {
+    e.preventDefault();
+    setSecuritySaved(true);
+    setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
+    setTimeout(() => setSecuritySaved(false), 2500);
+  };
+
+  // If not logged in, show elegant login prompt
   if (!isLoggedIn || !user) {
     return (
-      <div className="min-h-[85vh] flex items-center justify-center px-4 bg-[#07111E] text-white font-sans py-12">
-        <div className="max-w-md w-full bg-[#0A1728] border border-[#1E3A66] p-8 sm:p-10 text-center rounded-2xl shadow-2xl relative overflow-hidden">
-          {/* Subtle glow background */}
-          <div className="absolute -top-20 -right-20 w-44 h-44 bg-[#F88379]/15 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute -bottom-20 -left-20 w-44 h-44 bg-[#1E3A66]/40 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="w-16 h-16 rounded-full bg-[#162B4D] border border-[#F88379]/40 flex items-center justify-center mx-auto mb-5 shadow-lg">
-            <Sparkles className="w-8 h-8 text-[#F88379]" />
-          </div>
-
-          <span className="text-[10px] font-black uppercase tracking-[0.3em] text-[#F88379]">
-            PRIVATE CLIENT PORTAL
+      <div className="min-h-[80vh] flex items-center justify-center px-4 bg-[#F4F1EA] text-[#171717] font-sans py-16">
+        <div className="max-w-md w-full bg-[#FFFFFF] border border-[#DDD8CE] p-8 sm:p-10 text-center shadow-sm">
+          <span className="text-[10px] font-medium uppercase tracking-[0.3em] text-[#706B64] block mb-2">
+            Private Client Portal
           </span>
-          <h2 className="text-2xl sm:text-3xl font-black uppercase tracking-wider mt-1 mb-3 text-white">
-            TREVORI PASSPORT
+          <h2 className="font-serif text-3xl font-normal text-[#171717] mb-3">
+            Trevori Passport
           </h2>
-          <p className="text-slate-300 text-xs sm:text-sm mb-8 leading-relaxed">
-            Sign in to access your animated 3D fit passport, live BlueDart order tracking, store credits, and private VIP drop privileges.
+          <p className="text-xs text-[#706B64] font-light mb-8 leading-relaxed">
+            Please authenticate to access your order tracking, personal preferences, address book, and private concierge privileges.
           </p>
 
           <div className="space-y-3">
-            <button
-              onClick={() => login({ name: 'JULIAN THORNE', email: 'vip.client@trevori.com', tier: 'VIP Noir Member' })}
-              className="w-full py-4 bg-[#F88379] hover:bg-[#FA958D] text-white font-extrabold text-xs uppercase tracking-[0.2em] transition-all cursor-pointer shadow-lg flex items-center justify-center gap-2 group"
+            <Link
+              to="/login"
+              className="w-full block py-3.5 bg-[#171717] text-white hover:bg-[#333333] transition-colors text-xs uppercase tracking-[0.2em] font-medium"
             >
-              <span>Explore VIP Demo Dashboard</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </button>
+              Sign In to Your Account
+            </Link>
+
             <button
-              onClick={() => navigate('/login')}
-              className="w-full py-3.5 bg-[#0F2444] hover:bg-[#16335C] border border-[#1E3A66] text-slate-200 font-bold text-xs uppercase tracking-[0.2em] transition-all cursor-pointer"
+              onClick={() => {
+                login({
+                  name: 'PRANAV AVADHANULA',
+                  email: 'pranav@trevori.com',
+                  tier: 'Private Client Noir',
+                  creditsINR: 1500,
+                  points: 4800,
+                });
+              }}
+              className="w-full py-3 bg-[#F4F1EA] text-[#171717] border border-[#DDD8CE] hover:border-[#171717] text-xs uppercase tracking-[0.15em] font-medium transition-colors cursor-pointer"
             >
-              Customer Log In / Register
+              1-Click Instant Demo Access
             </button>
           </div>
         </div>
@@ -121,754 +257,807 @@ export const DashboardPage: React.FC = () => {
     );
   }
 
-  // Look images for animated switcher
-  const LOOK_CONFIG = {
-    street: {
-      image: '/images/auth/dashboard_animated_muse.jpg',
-      title: 'Monogram Street Bomber',
-      subtitle: 'Trevori Signature 420 GSM Satin Shell',
-      specs: 'Chest: 42" • Boxy Drop-Shoulder • In-Stock',
-    },
-    hoodie: {
-      image: '/images/models/man_streetwear_hoodie.jpg',
-      title: 'Classic French Terry Hoodie',
-      subtitle: '100% Combed Organic Cotton',
-      specs: 'Chest: 42" • Relaxed Streetwear Drape • In-Stock',
-    },
-    traditional: {
-      image: '/images/traditional_couture_banner.jpg',
-      title: 'Royal Navy Bandhgala',
-      subtitle: 'Bespoke Handcrafted Velvet & Antique Zardozi',
-      specs: 'Chest: 42" • Tailored Regal Silhouette • Made-to-Measure',
-    },
-    editorial: {
-      image: '/images/models/man_model_fashion.jpg',
-      title: 'Signature Monochrome Editorial',
-      subtitle: 'Perspective 2026 Haute Atelier Drop',
-      specs: 'Chest: 42" • Minimalist Tailored Cut • Reserved VIP',
-    },
-  };
-
   return (
-    <div className="min-h-screen bg-[#07111E] text-white font-sans py-8 sm:py-12 px-4 sm:px-8 lg:px-14 max-w-[1520px] mx-auto select-none">
-      
-      {/* Top Executive Header */}
-      <div className="bg-[#0A1728] border border-[#1E3A66] rounded-2xl p-6 sm:p-8 mb-8 shadow-xl relative overflow-hidden">
-        {/* Decorative corner ambient glow */}
-        <div className="absolute top-0 right-0 w-80 h-80 bg-[#F88379]/10 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-          <div className="flex items-start sm:items-center gap-4 sm:gap-5">
-            {/* VIP Monogram or Google Profile Avatar */}
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl bg-gradient-to-br from-[#1E3A66] via-[#0F2444] to-[#07111E] border-2 border-[#F88379] p-0.5 shadow-lg flex items-center justify-center shrink-0 overflow-hidden">
-              {user.picture ? (
-                <img
-                  src={user.picture}
-                  alt={user.name}
-                  className="w-full h-full object-cover rounded-[14px]"
-                />
-              ) : (
-                <span className="text-2xl sm:text-3xl font-black text-[#F88379] tracking-tighter">
-                  {user.name.slice(0, 2).toUpperCase()}
-                </span>
-              )}
+    <div className="min-h-screen bg-[#F4F1EA] text-[#171717] font-sans pb-24">
+      {/* Account Header Banner */}
+      <section className="bg-[#FFFFFF] border-b border-[#DDD8CE] py-10 sm:py-14">
+        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div>
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-semibold">
+                TREVORI CLIENT PASSPORT
+              </span>
+              <span className="text-xs text-[#DDD8CE]">&bull;</span>
+              <span className="bg-[#F4F1EA] text-[#171717] text-[10px] tracking-widest uppercase px-2.5 py-0.5 border border-[#DDD8CE] font-medium">
+                {user.tier || 'Private Client Noir'}
+              </span>
             </div>
-
-            <div>
-              <div className="flex flex-wrap items-center gap-2 mb-1.5">
-                <span className="px-3 py-0.5 bg-[#F88379]/20 border border-[#F88379]/50 text-[#F88379] text-[10px] font-black uppercase tracking-[0.2em] rounded-full shadow-sm flex items-center gap-1">
-                  <Star className="w-3 h-3 fill-current" />
-                  <span>{user.tier}</span>
-                </span>
-                {user.authProvider === 'google' && (
-                  <span className="px-2.5 py-0.5 bg-[#4285F4]/20 border border-[#4285F4]/40 text-[#4285F4] text-[10px] font-bold uppercase tracking-wider rounded-full flex items-center gap-1">
-                    <svg className="w-3 h-3" viewBox="0 0 24 24">
-                      <path fill="#EA4335" d="M12 5c1.6 0 3 .6 4.1 1.7l3.1-3.1C17.3 1.8 14.8 1 12 1 7.4 1 3.5 3.6 1.6 7.4l3.7 2.9C6.2 7.4 8.9 5 12 5z"/>
-                      <path fill="#4285F4" d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5c-.3 1.5-1.1 2.8-2.4 3.7l3.7 2.9c2.2-2 3.7-5 3.7-8.8z"/>
-                      <path fill="#FBBC05" d="M5.3 14.7c-.2-.7-.4-1.5-.4-2.3 0-.8.1-1.6.4-2.3L1.6 7.2C.6 9.2 0 10.5 0 12.4c0 1.9.6 3.2 1.6 5.2l3.7-2.9z"/>
-                      <path fill="#34A853" d="M12 23.8c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.1 0-5.8-2.4-6.7-5.3L1.6 16.7C3.5 20.4 7.4 23.8 12 23.8z"/>
-                    </svg>
-                    <span>Google Verified</span>
-                  </span>
-                )}
-                <span className="text-xs text-slate-400 font-mono">
-                  PASSPORT ID: <strong className="text-slate-200">#TRV-89420-VIP</strong>
-                </span>
-                <span className="text-xs text-slate-500">•</span>
-                <span className="text-xs text-slate-400">Member since {user.joinedDate}</span>
-              </div>
-
-              <h1 className="text-2xl sm:text-4xl font-black uppercase tracking-[0.05em] text-white">
-                WELCOME, {user.name}
-              </h1>
-
-              {/* Tier Progress Bar */}
-              <div className="mt-2.5 max-w-md">
-                <div className="flex items-center justify-between text-[11px] mb-1">
-                  <span className="text-slate-400 font-medium">Noir Progress</span>
-                  <span className="text-[#F88379] font-bold font-mono">4,200 / 5,000 Pts (Diamond Next)</span>
-                </div>
-                <div className="w-full h-1.5 bg-[#07111E] rounded-full overflow-hidden border border-[#1E3A66]">
-                  <div className="h-full bg-gradient-to-r from-[#F88379] to-[#FA958D] rounded-full w-[84%]" />
-                </div>
-              </div>
-            </div>
+            <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#171717] tracking-tight">
+              Welcome, {user.name}
+            </h1>
+            <p className="text-xs text-[#706B64] font-light mt-1">
+              Member ID: TRV-8942-IN &bull; Client since {user.joinedDate || 'November 2026'}
+            </p>
           </div>
 
-          {/* Quick Header Actions */}
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <Link
-              to="/collections"
-              className="px-5 py-3 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-black uppercase tracking-[0.18em] transition-all shadow-md flex items-center gap-2 group cursor-pointer"
-            >
-              <ShoppingBag className="w-3.5 h-3.5" />
-              <span>Shop Private Drop</span>
-            </Link>
-
-            <a
-              href="https://wa.me/919876543210?text=Hello%20Trevori%20VIP%20Concierge"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-3 bg-[#0F2444] hover:bg-[#16335C] border border-[#1E3A66] text-slate-200 text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-colors cursor-pointer"
-            >
-              <PhoneCall className="w-3.5 h-3.5 text-[#10B981]" />
-              <span className="hidden sm:inline">VIP Concierge</span>
-            </a>
-
+          <div className="flex items-center gap-4">
+            <div className="bg-[#F4F1EA] border border-[#DDD8CE] px-4 py-2.5 text-right">
+              <div className="text-[10px] uppercase tracking-wider text-[#706B64]">Atelier Credits</div>
+              <div className="text-base font-semibold text-[#171717]">{formatPrice(user.creditsINR || 1500)}</div>
+            </div>
             <button
               onClick={() => {
                 logout();
-                navigate('/login');
+                navigate('/');
               }}
-              className="px-4 py-3 bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-red-200 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer"
-              title="Sign Out"
+              className="px-4 py-2.5 border border-[#DDD8CE] hover:border-[#171717] text-xs uppercase tracking-wider text-[#706B64] hover:text-[#171717] transition-colors flex items-center gap-1.5 cursor-pointer bg-[#FFFFFF]"
+              title="Sign out"
             >
               <LogOut className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">Sign Out</span>
+              <span>Sign Out</span>
             </button>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Main Grid: Left Animated Photo Card, Right Dashboard Modules */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
-
-        {/* LEFT COLUMN: ANIMATED MODEL PHOTO SHOWCASE */}
-        <div className="lg:col-span-5 xl:col-span-4 flex flex-col items-center">
+      {/* Main Dashboard Layout with 7 Tabs */}
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 mt-10 sm:mt-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           
-          {/* Animated Card Container */}
-          <div className="relative w-full max-w-md" style={{ perspective: '1200px' }}>
-            
-            {/* Ambient Pulsing Glow Aura */}
-            <div className="pointer-events-none absolute -inset-3 bg-gradient-to-r from-[#F88379]/30 via-[#1D4ED8]/25 to-[#F88379]/30 rounded-3xl blur-2xl animate-pulse-aura z-0" />
+          {/* Navigation Sidebar */}
+          <aside className="lg:col-span-3">
+            <nav className="bg-[#FFFFFF] border border-[#DDD8CE] p-2 space-y-1">
+              <button
+                onClick={() => setActiveTab('overview')}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'overview'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span>1. Overview</span>
+                <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+              </button>
 
-            {/* 3D Floating Interactive Card */}
-            <div
-              ref={cardRef}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={handleMouseLeave}
-              className="relative z-10 w-full min-h-[560px] sm:min-h-[600px] rounded-2xl overflow-hidden border-2 border-[#1E3A66] hover:border-[#F88379] transition-all duration-300 animate-float-subtle will-change-transform shadow-[0_25px_60px_rgba(0,0,0,0.85)] bg-[#071324]"
-              style={{
-                transform: `rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale3d(${tilt.isHovered ? 1.02 : 1}, ${tilt.isHovered ? 1.02 : 1}, 1)`,
-                transformStyle: 'preserve-3d',
-              }}
-            >
-              {/* Animated Photo Image */}
-              <img
-                src={LOOK_CONFIG[activeLook].image}
-                alt={LOOK_CONFIG[activeLook].title}
-                className="absolute inset-0 w-full h-full object-cover object-top filter brightness-95 contrast-105 transition-all duration-700"
-              />
+              <button
+                onClick={() => setActiveTab('personal')}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'personal'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span>2. Personal Info</span>
+                <User className="w-3.5 h-3.5 opacity-60" />
+              </button>
 
-              {/* Holographic Shimmer Sweep Overlay */}
-              <div className="pointer-events-none absolute inset-0 overflow-hidden z-20">
-                <div className="w-1/2 h-full bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-[-25deg] animate-shimmer-sweep" />
-              </div>
+              <button
+                onClick={() => setActiveTab('orders')}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'orders'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span>3. Order Tracking</span>
+                <Package className="w-3.5 h-3.5 opacity-60" />
+              </button>
 
-              {/* Shading Vignette */}
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#07111E] via-transparent to-[#07111E]/40 z-10" />
+              <button
+                onClick={() => setActiveTab('wishlist')}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'wishlist'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span>4. Wishlist ({wishlist.length})</span>
+                <Heart className="w-3.5 h-3.5 opacity-60" />
+              </button>
 
-              {/* Top Passport Chip Overlay */}
-              <div className="absolute top-4 inset-x-4 z-30 flex items-center justify-between pointer-events-none">
-                <div className="px-3 py-1 bg-black/80 backdrop-blur-md border border-white/20 rounded-full flex items-center gap-1.5 shadow-lg">
-                  <div className="w-2 h-2 rounded-full bg-[#10B981] animate-ping" />
-                  <span className="text-[10px] font-black tracking-widest uppercase text-white">
-                    LIVE FIT AVATAR
-                  </span>
-                </div>
-                <div className="px-2.5 py-1 bg-[#F88379] rounded text-black text-[9px] font-black tracking-widest uppercase shadow-md">
-                  VERIFIED NOIR
-                </div>
-              </div>
+              <button
+                onClick={() => setActiveTab('addresses')}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'addresses'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span>5. Saved Addresses</span>
+                <MapPin className="w-3.5 h-3.5 opacity-60" />
+              </button>
 
-              {/* Bottom Card Identity & Spec */}
-              <div className="absolute bottom-5 inset-x-5 z-30">
-                <div className="bg-[#07111E]/90 backdrop-blur-md border border-[#1E3A66] p-4 rounded-xl shadow-2xl">
-                  <div className="flex items-center justify-between text-xs mb-1">
-                    <span className="text-[#94A3B8] font-bold uppercase tracking-wider text-[10px]">
-                      PERSPECTIVE LOOKBOOK
-                    </span>
-                    <span className="text-[#F88379] font-mono font-bold text-[11px]">
-                      ID: TRV-NOIR-LOOK
-                    </span>
-                  </div>
-                  <h4 className="text-base font-black uppercase text-white tracking-wide">
-                    {LOOK_CONFIG[activeLook].title}
-                  </h4>
-                  <p className="text-[11px] text-slate-300 mt-0.5">
-                    {LOOK_CONFIG[activeLook].subtitle}
+              <button
+                onClick={() => setActiveTab('returns')}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'returns'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span>6. Returns & Exchanges</span>
+                <RotateCcw className="w-3.5 h-3.5 opacity-60" />
+              </button>
+
+              <button
+                onClick={() => setActiveTab('security')}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'security'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span>7. Account Security</span>
+                <Lock className="w-3.5 h-3.5 opacity-60" />
+              </button>
+            </nav>
+          </aside>
+
+          {/* Tab Content Area */}
+          <main className="lg:col-span-9 space-y-6">
+
+            {/* TAB 1: OVERVIEW */}
+            {activeTab === 'overview' && (
+              <div className="space-y-6 animate-fade-in-subtle">
+                {/* Status Snapshot Banner */}
+                <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8">
+                  <h2 className="font-serif text-2xl text-[#171717] mb-2">Account Overview</h2>
+                  <p className="text-xs text-[#706B64] font-light leading-relaxed mb-6">
+                    Manage your active shipments, client privileges, and tailoring measurements in one unified space.
                   </p>
-                  <div className="flex items-center justify-between text-[11px] text-[#CBD5E1] mt-2.5 pt-2 border-t border-[#1E3A66]/60">
-                    <span className="text-slate-300">{LOOK_CONFIG[activeLook].specs}</span>
-                    <span className="text-[#10B981] font-bold">100% In-Stock</span>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
+                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Active Shipments</span>
+                      <div className="font-serif text-2xl text-[#171717] mt-1">1 In Transit</div>
+                      <button
+                        onClick={() => setActiveTab('orders')}
+                        className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 underline"
+                      >
+                        Track Status &rarr;
+                      </button>
+                    </div>
+
+                    <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
+                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Curated Wishlist</span>
+                      <div className="font-serif text-2xl text-[#171717] mt-1">{wishlist.length} Silhouettes</div>
+                      <button
+                        onClick={() => setActiveTab('wishlist')}
+                        className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 underline"
+                      >
+                        Review Items &rarr;
+                      </button>
+                    </div>
+
+                    <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
+                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Private Invitation Code</span>
+                      <div className="font-mono text-sm font-bold text-[#171717] mt-1">TREVORI-VIP-NOIR</div>
+                      <button
+                        onClick={() => handleCopyCode('TREVORI-VIP-NOIR')}
+                        className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 flex items-center gap-1"
+                      >
+                        {isCopied ? <Check className="w-3 h-3 text-[#171717]" /> : <Copy className="w-3 h-3" />}
+                        <span>{isCopied ? 'Copied' : 'Copy 15% VIP Code'}</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          {/* Lookbook Switcher Controls */}
-          <div className="mt-5 w-full max-w-md">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#94A3B8]">
-                Curated Avatar Looks
-              </span>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#F88379]">
-                Live 3D Drape
-              </span>
-            </div>
+                {/* Latest Shipment Teaser */}
+                <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8">
+                  <div className="flex items-center justify-between mb-4">
+                    <h3 className="font-serif text-xl text-[#171717]">Latest Shipment</h3>
+                    <span className="bg-[#171717] text-white text-[10px] uppercase tracking-widest px-2.5 py-1">
+                      In Transit &bull; Est. 24 Nov
+                    </span>
+                  </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-              <button
-                onClick={() => setActiveLook('street')}
-                className={`py-2 px-2 text-[10px] font-extrabold uppercase tracking-wider rounded border transition-all cursor-pointer ${
-                  activeLook === 'street'
-                    ? 'bg-[#F88379] text-white border-[#F88379] shadow-md'
-                    : 'bg-[#0A1728] text-slate-300 border-[#1E3A66] hover:border-white'
-                }`}
-              >
-                Streetwear
-              </button>
-              <button
-                onClick={() => setActiveLook('hoodie')}
-                className={`py-2 px-2 text-[10px] font-extrabold uppercase tracking-wider rounded border transition-all cursor-pointer ${
-                  activeLook === 'hoodie'
-                    ? 'bg-[#F88379] text-white border-[#F88379] shadow-md'
-                    : 'bg-[#0A1728] text-slate-300 border-[#1E3A66] hover:border-white'
-                }`}
-              >
-                Hoodie
-              </button>
-              <button
-                onClick={() => setActiveLook('traditional')}
-                className={`py-2 px-2 text-[10px] font-extrabold uppercase tracking-wider rounded border transition-all cursor-pointer ${
-                  activeLook === 'traditional'
-                    ? 'bg-[#F88379] text-white border-[#F88379] shadow-md'
-                    : 'bg-[#0A1728] text-slate-300 border-[#1E3A66] hover:border-white'
-                }`}
-              >
-                Royal Velvet
-              </button>
-              <button
-                onClick={() => setActiveLook('editorial')}
-                className={`py-2 px-2 text-[10px] font-extrabold uppercase tracking-wider rounded border transition-all cursor-pointer ${
-                  activeLook === 'editorial'
-                    ? 'bg-[#F88379] text-white border-[#F88379] shadow-md'
-                    : 'bg-[#0A1728] text-slate-300 border-[#1E3A66] hover:border-white'
-                }`}
-              >
-                Editorial
-              </button>
-            </div>
-
-            {/* Launch 3D Try-On Studio Button */}
-            <Link
-              to="/try-on"
-              className="mt-3 w-full py-3 bg-[#0F2444] hover:bg-[#16335C] border border-[#1E3A66] hover:border-[#F88379] text-white font-bold text-xs uppercase tracking-[0.18em] transition-all flex items-center justify-center gap-2 group shadow-lg"
-            >
-              <Sliders className="w-3.5 h-3.5 text-[#F88379] group-hover:rotate-45 transition-transform" />
-              <span>Launch 3D Virtual Try-On Studio</span>
-            </Link>
-          </div>
-        </div>
-
-        {/* RIGHT COLUMN: DASHBOARD STATS, ORDERS, SPECS & PERKS */}
-        <div className="lg:col-span-7 xl:col-span-8 space-y-6">
-
-          {/* Quick Metrics Bar (4 Key Tiles) */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-            {/* Metric 1: Store Credits */}
-            <div className="bg-[#0A1728] border border-[#1E3A66] p-4 rounded-xl shadow-md">
-              <div className="flex items-center justify-between text-[#F88379] mb-2">
-                <CreditCard className="w-4 h-4" />
-                <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400">CREDIT</span>
-              </div>
-              <div className="text-xl sm:text-2xl font-black text-white">₹{user.creditsINR}</div>
-              <div className="text-[10px] text-emerald-400 font-bold mt-1">● Ready at checkout</div>
-            </div>
-
-            {/* Metric 2: Loyalty Points */}
-            <div className="bg-[#0A1728] border border-[#1E3A66] p-4 rounded-xl shadow-md">
-              <div className="flex items-center justify-between text-[#F88379] mb-2">
-                <Sparkles className="w-4 h-4" />
-                <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400">POINTS</span>
-              </div>
-              <div className="text-xl sm:text-2xl font-black text-white">{user.points}</div>
-              <div className="text-[10px] text-slate-400 mt-1">Noir VIP Standing</div>
-            </div>
-
-            {/* Metric 3: Active Orders */}
-            <div className="bg-[#0A1728] border border-[#1E3A66] p-4 rounded-xl shadow-md">
-              <div className="flex items-center justify-between text-[#F88379] mb-2">
-                <Truck className="w-4 h-4 text-[#10B981]" />
-                <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400">ACTIVE</span>
-              </div>
-              <div className="text-xl sm:text-2xl font-black text-white">1 Order</div>
-              <div className="text-[10px] text-[#10B981] font-bold mt-1">● BlueDart Air Transit</div>
-            </div>
-
-            {/* Metric 4: Saved Wishlist */}
-            <Link
-              to="/wishlist"
-              className="bg-[#0A1728] border border-[#1E3A66] hover:border-[#F88379] p-4 rounded-xl transition-all block group cursor-pointer shadow-md"
-            >
-              <div className="flex items-center justify-between text-[#F88379] mb-2">
-                <Heart className="w-4 h-4 fill-current" />
-                <span className="text-[9px] uppercase font-bold tracking-wider text-slate-400">SAVED</span>
-              </div>
-              <div className="text-xl sm:text-2xl font-black text-white group-hover:text-[#F88379] transition-colors">
-                {wishlist.length} Items
-              </div>
-              <div className="text-[10px] text-slate-400 mt-1 flex items-center gap-1 group-hover:text-white transition-colors">
-                <span>View Vault</span>
-                <ChevronRight className="w-3 h-3" />
-              </div>
-            </Link>
-          </div>
-
-          {/* Interactive Tab Navigation */}
-          <div className="flex items-center border-b border-[#1E3A66] space-x-4 sm:space-x-8 overflow-x-auto pb-px">
-            <button
-              onClick={() => setActiveTab('orders')}
-              className={`pb-3 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                activeTab === 'orders'
-                  ? 'text-[#F88379] border-b-2 border-[#F88379]'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Package className="w-3.5 h-3.5" />
-              <span>Orders & Live Tracking</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('measurements')}
-              className={`pb-3 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                activeTab === 'measurements'
-                  ? 'text-[#F88379] border-b-2 border-[#F88379]'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Shirt className="w-3.5 h-3.5" />
-              <span>3D Bespoke Fit Specs</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('perks')}
-              className={`pb-3 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                activeTab === 'perks'
-                  ? 'text-[#F88379] border-b-2 border-[#F88379]'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>VIP Noir Perks</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('addresses')}
-              className={`pb-3 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer whitespace-nowrap flex items-center gap-2 ${
-                activeTab === 'addresses'
-                  ? 'text-[#F88379] border-b-2 border-[#F88379]'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <MapPin className="w-3.5 h-3.5" />
-              <span>Addresses & Concierge</span>
-            </button>
-          </div>
-
-          {/* TAB 1: ACTIVE ORDER TRACKING & ORDER HISTORY */}
-          {activeTab === 'orders' && (
-            <div className="space-y-6">
-              {/* Active In-Transit Shipment */}
-              <div className="bg-[#0A1728] border border-[#1E3A66] p-6 rounded-2xl shadow-xl">
-                <div className="flex flex-wrap items-center justify-between pb-4 border-b border-[#1E3A66] gap-3">
-                  <div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-slate-400 font-mono">ORDER #TRV-894291</span>
-                      <span className="px-2 py-0.5 bg-[#F88379]/15 text-[#F88379] text-[9px] font-bold uppercase rounded">
-                        EXPRESS AIR
-                      </span>
+                  <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE] text-xs space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-[#706B64]">Order Reference:</span>
+                      <span className="font-mono font-semibold">TRV-2026-8942</span>
                     </div>
-                    <h3 className="text-base sm:text-lg font-black uppercase text-white mt-1">
-                      Trevori Classic French Terry Hoodie
-                    </h3>
-                    <p className="text-xs text-slate-400">
-                      Color: Jet Black • Size: Large (L) • Qty: 1 • ₹2,499
+                    <div className="flex justify-between">
+                      <span className="text-[#706B64]">Courier Carrier:</span>
+                      <span>Blue Dart Apex Express (BD-8839210-IN)</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-[#706B64]">Contents:</span>
+                      <span>2 Items &bull; French Terry Hoodie + Wide-Leg Cargos</span>
+                    </div>
+                  </div>
+
+                  <button
+                    onClick={() => setActiveTab('orders')}
+                    className="mt-4 text-xs uppercase tracking-widest font-semibold text-[#171717] hover:text-[#B9AA96] transition-colors flex items-center gap-1"
+                  >
+                    <span>View Full Live Timeline</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 2: PERSONAL INFORMATION */}
+            {activeTab === 'personal' && (
+              <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 space-y-6 animate-fade-in-subtle">
+                <div>
+                  <h2 className="font-serif text-2xl text-[#171717] mb-1">Personal Information</h2>
+                  <p className="text-xs text-[#706B64] font-light">
+                    Update your client details, communication channels, and fit preferences.
+                  </p>
+                </div>
+
+                {personalSaved && (
+                  <div className="p-3 bg-[#F4F1EA] border border-[#171717] text-xs text-[#171717] font-medium">
+                    ✓ Your client profile preferences have been successfully updated.
+                  </div>
+                )}
+
+                <form onSubmit={handleSavePersonalInfo} className="space-y-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[11px] uppercase tracking-wider text-[#706B64] block mb-1.5 font-medium">
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        value={personalInfo.name}
+                        onChange={(e) => setPersonalInfo({ ...personalInfo, name: e.target.value })}
+                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] uppercase tracking-wider text-[#706B64] block mb-1.5 font-medium">
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        value={personalInfo.email}
+                        onChange={(e) => setPersonalInfo({ ...personalInfo, email: e.target.value })}
+                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[11px] uppercase tracking-wider text-[#706B64] block mb-1.5 font-medium">
+                        Phone Number
+                      </label>
+                      <input
+                        type="text"
+                        value={personalInfo.phone}
+                        onChange={(e) => setPersonalInfo({ ...personalInfo, phone: e.target.value })}
+                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-[11px] uppercase tracking-wider text-[#706B64] block mb-1.5 font-medium">
+                        Preferred Streetwear Size
+                      </label>
+                      <select
+                        value={personalInfo.preferredSize}
+                        onChange={(e) => setPersonalInfo({ ...personalInfo, preferredSize: e.target.value })}
+                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                      >
+                        <option value="XS">XS — Extra Small</option>
+                        <option value="S">S — Small (Boxy Drape)</option>
+                        <option value="M">M — Medium</option>
+                        <option value="L">L — Large (Standard Oversized)</option>
+                        <option value="XL">XL — Extra Large</option>
+                        <option value="2XL">2XL — Voluminous Cut</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="pt-4 border-t border-[#DDD8CE] flex justify-end">
+                    <button
+                      type="submit"
+                      className="px-6 py-2.5 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer"
+                    >
+                      Save Profile Changes
+                    </button>
+                  </div>
+                </form>
+              </div>
+            )}
+
+            {/* TAB 3: ORDER TRACKING */}
+            {activeTab === 'orders' && (
+              <div className="space-y-6 animate-fade-in-subtle">
+                <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8">
+                  <h2 className="font-serif text-2xl text-[#171717] mb-1">Order Tracking & History</h2>
+                  <p className="text-xs text-[#706B64] font-light">
+                    Real-time status updates powered directly by Shopify Storefront API and courier webhooks.
+                  </p>
+                </div>
+
+                {orders.length === 0 ? (
+                  <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-12 sm:p-16 text-center space-y-3">
+                    <Package className="w-10 h-10 text-[#706B64] mx-auto opacity-60" />
+                    <p className="font-serif text-2xl text-[#171717]">No active orders found.</p>
+                    <p className="text-xs text-[#706B64] max-w-md mx-auto font-light leading-relaxed">
+                      Orders have been cleared from the database pending Shopify storefront integration and catalog upload. When an order is completed, live Blue Dart tracking milestones and PDF invoices will appear here.
+                    </p>
+                    <div className="pt-3">
+                      <Link
+                        to="/collections"
+                        className="inline-block px-6 py-2.5 bg-[#171717] hover:bg-[#333333] text-white text-xs uppercase tracking-widest font-medium transition-colors"
+                      >
+                        Explore Current Drop
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  orders.map((order) => (
+                  <div key={order.id} className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 space-y-6">
+                    {/* Header */}
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#DDD8CE]">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <span className="font-mono text-sm font-bold text-[#171717]">{order.id}</span>
+                          <span className="text-xs text-[#DDD8CE]">&bull;</span>
+                          <span className="text-xs text-[#706B64]">{order.date}</span>
+                        </div>
+                        <div className="text-[11px] text-[#706B64] mt-0.5">
+                          Carrier: <strong className="text-[#171717]">{order.carrier}</strong> &bull; Tracking ID: {order.trackingNumber}
+                        </div>
+                      </div>
+
+                      <div className="flex items-center gap-3">
+                        <button
+                          onClick={() => handleDownloadInvoice(order.id)}
+                          className="px-3 py-1.5 border border-[#DDD8CE] hover:border-[#171717] text-[10px] uppercase tracking-wider text-[#706B64] hover:text-[#171717] flex items-center gap-1.5 transition-colors cursor-pointer"
+                        >
+                          <Download className="w-3 h-3" />
+                          <span>{downloadingInvoice === order.id ? 'Generating...' : 'Invoice (PDF)'}</span>
+                        </button>
+
+                        <span className={`px-2.5 py-1 text-[10px] uppercase tracking-widest font-medium ${
+                          order.status === 'Delivered'
+                            ? 'bg-[#DDD8CE] text-[#171717]'
+                            : 'bg-[#171717] text-white'
+                        }`}>
+                          {order.status}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Progress Stepper */}
+                    <div className="py-2">
+                      <div className="grid grid-cols-4 gap-2 text-center text-xs">
+                        {['Confirmed', 'Sourced & Cut', 'In Transit', 'Delivered'].map((step, idx) => {
+                          const isDone = idx + 1 <= order.currentStep;
+                          const isCurrent = idx + 1 === order.currentStep;
+                          return (
+                            <div key={step} className="flex flex-col items-center">
+                              <div
+                                className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] mb-1 font-semibold ${
+                                  isDone
+                                    ? 'bg-[#171717] text-white'
+                                    : 'bg-[#F4F1EA] text-[#706B64] border border-[#DDD8CE]'
+                                }`}
+                              >
+                                {isDone ? '✓' : idx + 1}
+                              </div>
+                              <span className={`text-[10px] uppercase tracking-wider ${isCurrent ? 'font-bold text-[#171717]' : 'text-[#706B64]'}`}>
+                                {step}
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div className="w-full bg-[#DDD8CE] h-1 mt-3 relative">
+                        <div
+                          className="bg-[#171717] h-1 transition-all duration-500"
+                          style={{ width: `${(order.currentStep / 4) * 100}%` }}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Items in this order */}
+                    <div className="space-y-3 pt-2">
+                      <span className="text-[10px] uppercase tracking-widest text-[#706B64] font-medium block">
+                        Order Contents ({order.items.length})
+                      </span>
+                      {order.items.map((item, idx) => (
+                        <div key={idx} className="flex items-center justify-between p-3 bg-[#F4F1EA] border border-[#DDD8CE]">
+                          <div className="flex items-center gap-3">
+                            <div className="w-12 h-15 bg-[#FFFFFF] border border-[#DDD8CE] overflow-hidden">
+                              <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                            </div>
+                            <div>
+                              <div className="text-xs font-semibold text-[#171717]">{item.name}</div>
+                              <div className="text-[10px] text-[#706B64]">Size: {item.size} &bull; Color: {item.color}</div>
+                            </div>
+                          </div>
+                          <div className="text-xs font-bold text-[#171717]">
+                            {formatPrice(item.priceINR)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+
+                    <div className="flex justify-between items-center pt-2 text-xs border-t border-[#DDD8CE]">
+                      <span className="text-[#706B64]">Total Paid (Incl. Express Dispatch & Tax):</span>
+                      <span className="font-serif text-lg font-bold text-[#171717]">{formatPrice(order.totalINR)}</span>
+                    </div>
+                  </div>
+                  ))
+                )}
+              </div>
+            )}
+
+            {/* TAB 4: WISHLIST */}
+            {activeTab === 'wishlist' && (
+              <div className="space-y-6 animate-fade-in-subtle">
+                <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 flex items-center justify-between">
+                  <div>
+                    <h2 className="font-serif text-2xl text-[#171717] mb-1">Your Curated Wishlist</h2>
+                    <p className="text-xs text-[#706B64] font-light">
+                      Silhouettes saved for private consideration.
                     </p>
                   </div>
-                  <div className="px-3.5 py-1.5 bg-[#10B981]/15 border border-[#10B981]/40 text-[#10B981] text-xs font-black uppercase tracking-wider rounded-full flex items-center gap-1.5 shadow-sm">
-                    <Truck className="w-4 h-4 animate-bounce" />
-                    <span>In Transit • BlueDart Express</span>
-                  </div>
+                  <span className="text-xs text-[#706B64] font-medium">{wishlist.length} Items</span>
                 </div>
 
-                {/* Tracking Progress Timeline */}
-                <div className="py-8">
-                  <div className="relative flex items-center justify-between max-w-xl mx-auto">
-                    {/* Background Bar */}
-                    <div className="absolute top-1/2 inset-x-0 h-1 bg-[#1E3A66] -translate-y-1/2 z-0" />
-                    {/* Active Progress Bar (75%) */}
-                    <div className="absolute top-1/2 left-0 w-3/4 h-1 bg-gradient-to-r from-[#10B981] to-[#F88379] -translate-y-1/2 z-0" />
-
-                    {/* Step 1: Confirmed */}
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-[#10B981] text-black flex items-center justify-center text-xs font-black shadow-md">
-                        ✓
-                      </div>
-                      <span className="text-[10px] font-bold text-white uppercase mt-2">Placed</span>
-                      <span className="text-[9px] text-slate-400">2:45 PM</span>
-                    </div>
-
-                    {/* Step 2: Tailored & QC */}
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-[#10B981] text-black flex items-center justify-center text-xs font-black shadow-md">
-                        ✓
-                      </div>
-                      <span className="text-[10px] font-bold text-white uppercase mt-2">QC Passed</span>
-                      <span className="text-[9px] text-slate-400">4:10 PM</span>
-                    </div>
-
-                    {/* Step 3: Out for Delivery */}
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-[#F88379] text-white flex items-center justify-center text-xs font-black shadow-[0_0_15px_#F88379]">
-                        <Truck className="w-4 h-4" />
-                      </div>
-                      <span className="text-[10px] font-black text-[#F88379] uppercase mt-2">Air Transit</span>
-                      <span className="text-[9px] text-[#F88379] font-bold">Bangalore Hub</span>
-                    </div>
-
-                    {/* Step 4: Delivered */}
-                    <div className="relative z-10 flex flex-col items-center">
-                      <div className="w-8 h-8 rounded-full bg-[#162B4D] border border-slate-600 text-slate-400 flex items-center justify-center text-xs">
-                        ○
-                      </div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase mt-2">Delivered</span>
-                      <span className="text-[9px] text-slate-400">Tomorrow 4 PM</span>
-                    </div>
+                {wishlistedProducts.length === 0 ? (
+                  <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-12 text-center">
+                    <p className="font-serif text-2xl text-[#171717] mb-2">Your wishlist is empty.</p>
+                    <p className="text-xs text-[#706B64] mb-6">
+                      Explore the contemporary catalog and tap the heart icon on any silhouette to curate your personal edit.
+                    </p>
+                    <Link
+                      to="/collections"
+                      className="inline-block px-6 py-2.5 bg-[#171717] text-white text-xs uppercase tracking-widest font-medium"
+                    >
+                      Browse Catalog
+                    </Link>
                   </div>
-                </div>
+                ) : (
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 sm:gap-6">
+                    {wishlistedProducts.map((p) => (
+                      <ProductCard key={p.id} product={p} />
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
 
-                {/* Shipment Details & Actions */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 pt-4 border-t border-[#1E3A66]/60 text-xs text-slate-300">
+            {/* TAB 5: SAVED ADDRESSES */}
+            {activeTab === 'addresses' && (
+              <div className="space-y-6 animate-fade-in-subtle">
+                <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 flex items-center justify-between">
                   <div>
-                    <span className="text-slate-400 block text-[10px] uppercase font-bold">Estimated Delivery:</span>
-                    <strong className="text-white text-sm">Tomorrow by 4:00 PM</strong>
+                    <h2 className="font-serif text-2xl text-[#171717] mb-1">Saved Addresses</h2>
+                    <p className="text-xs text-[#706B64] font-light">
+                      Manage verified delivery destinations for seamless 1-click private checkout.
+                    </p>
                   </div>
-                  <div>
-                    <span className="text-slate-400 block text-[10px] uppercase font-bold">Tracking AWB:</span>
-                    <span className="font-mono text-slate-200">BLR-8942-EXP99</span>
-                  </div>
-                  <div>
-                    <span className="text-slate-400 block text-[10px] uppercase font-bold">Destination:</span>
-                    <span className="text-white truncate block">Indiranagar 100ft Rd, Bangalore</span>
-                  </div>
-                </div>
-
-                {/* Action Buttons */}
-                <div className="flex flex-wrap items-center gap-3 mt-5 pt-4 border-t border-[#1E3A66]/40">
                   <button
-                    onClick={simulateInvoiceDownload}
-                    disabled={invoiceDownloading}
-                    className="py-2.5 px-4 bg-[#0F2444] hover:bg-[#16335C] border border-[#1E3A66] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer"
+                    onClick={() => setShowAddressForm(!showAddressForm)}
+                    className="px-4 py-2 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-widest font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
                   >
-                    <Download className="w-3.5 h-3.5 text-[#F88379]" />
-                    <span>{invoiceDownloading ? 'Generating PDF...' : 'Download Tax Invoice'}</span>
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>{showAddressForm ? 'Cancel' : 'Add New'}</span>
                   </button>
+                </div>
 
-                  <a
-                    href="https://www.bluedart.com"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="py-2.5 px-4 bg-[#071324] hover:bg-[#0F2444] border border-[#1E3A66] text-slate-300 hover:text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" />
-                    <span>Track on BlueDart Portal</span>
-                  </a>
+                {showAddressForm && (
+                  <form onSubmit={handleAddAddress} className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 space-y-4">
+                    <h3 className="font-serif text-lg text-[#171717]">New Delivery Destination</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                      <div>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">Address Label</label>
+                        <input
+                          type="text"
+                          placeholder="e.g. Home, Studio, Office"
+                          value={newAddress.type}
+                          onChange={(e) => setNewAddress({ ...newAddress, type: e.target.value })}
+                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">Contact Phone</label>
+                        <input
+                          type="text"
+                          placeholder="+91..."
+                          value={newAddress.phone}
+                          onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
+                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">Street Address</label>
+                      <input
+                        type="text"
+                        placeholder="Apartment, building, street..."
+                        value={newAddress.street}
+                        onChange={(e) => setNewAddress({ ...newAddress, street: e.target.value })}
+                        className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                        required
+                      />
+                    </div>
+                    <div className="grid grid-cols-3 gap-3">
+                      <div>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">City</label>
+                        <input
+                          type="text"
+                          placeholder="City"
+                          value={newAddress.city}
+                          onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
+                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                          required
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">State</label>
+                        <input
+                          type="text"
+                          placeholder="State"
+                          value={newAddress.state}
+                          onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
+                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                        />
+                      </div>
+                      <div>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">Postal PIN Code</label>
+                        <input
+                          type="text"
+                          placeholder="Pincode"
+                          value={newAddress.pincode}
+                          onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
+                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-end pt-2">
+                      <button
+                        type="submit"
+                        className="px-5 py-2 bg-[#171717] text-white text-xs uppercase tracking-widest font-medium"
+                      >
+                        Save Address
+                      </button>
+                    </div>
+                  </form>
+                )}
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {addresses.map((addr) => (
+                    <div key={addr.id} className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 relative flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="font-semibold text-xs text-[#171717] uppercase tracking-wider">{addr.type}</span>
+                          {addr.isDefault && (
+                            <span className="text-[9px] bg-[#DDD8CE] text-[#171717] px-2 py-0.5 uppercase tracking-widest font-medium">
+                              Default
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-xs text-[#171717] font-medium">{addr.name}</p>
+                        <p className="text-xs text-[#706B64] font-light mt-1 leading-relaxed">
+                          {addr.street}<br />
+                          {addr.city}, {addr.state} {addr.pincode}<br />
+                          {addr.country}
+                        </p>
+                        <p className="text-xs text-[#706B64] mt-2 font-light">Tel: {addr.phone}</p>
+                      </div>
+
+                      <div className="pt-4 mt-4 border-t border-[#DDD8CE] flex justify-between items-center text-xs">
+                        <span className="text-[#B9AA96] text-[10px] uppercase tracking-wider">Verified Location</span>
+                        <button
+                          onClick={() => handleDeleteAddress(addr.id)}
+                          className="text-[#706B64] hover:text-red-600 transition-colors cursor-pointer"
+                          title="Remove address"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
+            )}
 
-              {/* Past Order History */}
-              <div className="bg-[#0A1728] border border-[#1E3A66] p-6 rounded-2xl shadow-md">
-                <h4 className="text-xs font-black uppercase tracking-[0.2em] text-[#94A3B8] mb-4">
-                  Delivered Order History
-                </h4>
+            {/* TAB 6: RETURNS AND EXCHANGES */}
+            {activeTab === 'returns' && (
+              <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 space-y-6 animate-fade-in-subtle">
+                <div>
+                  <h2 className="font-serif text-2xl text-[#171717] mb-1">Returns & Exchanges</h2>
+                  <p className="text-xs text-[#706B64] font-light">
+                    Complimentary 7-day doorstep size exchange and returns for all Trevori garments.
+                  </p>
+                </div>
 
-                <div className="p-4 bg-[#071324] border border-[#1E3A66] rounded-xl flex flex-wrap items-center justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-14 bg-[#0A1728] border border-[#1E3A66] rounded overflow-hidden shrink-0">
-                      <img
-                        src="/images/traditional_couture_banner.jpg"
-                        alt="Royal Velvet Bandhgala"
-                        className="w-full h-full object-cover"
+                {returnSubmitted ? (
+                  <div className="p-6 bg-[#F4F1EA] border border-[#DDD8CE] text-center space-y-3">
+                    <CheckCircle2 className="w-8 h-8 text-[#171717] mx-auto" />
+                    <h3 className="font-serif text-xl text-[#171717]">Exchange Request #EX-9921 Initiated</h3>
+                    <p className="text-xs text-[#706B64] max-w-md mx-auto leading-relaxed">
+                      Our courier partner will arrive at your default address within 48 hours to collect the piece in original tags. Your replacement item is pre-reserved in our atelier.
+                    </p>
+                    <button
+                      onClick={() => setReturnSubmitted(false)}
+                      className="px-6 py-2 bg-[#171717] text-white text-xs uppercase tracking-widest font-medium"
+                    >
+                      File Another Request
+                    </button>
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      setReturnSubmitted(true);
+                    }}
+                    className="space-y-4"
+                  >
+                    <div>
+                      <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">
+                        Select Order for Exchange / Return
+                      </label>
+                      <select
+                        value={returnSelectedOrder}
+                        onChange={(e) => setReturnSelectedOrder(e.target.value)}
+                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                      >
+                        <option value="TRV-2026-8942">Order #TRV-2026-8942 (20 Nov 2026) — 2 items</option>
+                        <option value="TRV-2026-7731">Order #TRV-2026-7731 (04 Oct 2026) — 1 item</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">
+                        Select Garment
+                      </label>
+                      <select
+                        value={returnItem}
+                        onChange={(e) => setReturnItem(e.target.value)}
+                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                      >
+                        <option value="Classic French Terry Boxy Hoodie">Classic French Terry Boxy Hoodie (Size L)</option>
+                        <option value="Relaxed Pleated Wide-Leg Cargo Pants">Relaxed Pleated Wide-Leg Cargo Pants (Size 32)</option>
+                      </select>
+                    </div>
+
+                    <div>
+                      <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">
+                        Reason for Exchange
+                      </label>
+                      <select
+                        value={returnReason}
+                        onChange={(e) => setReturnReason(e.target.value)}
+                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                      >
+                        <option value="Need a size smaller">Need a size smaller (Swap for Medium)</option>
+                        <option value="Need a size larger">Need a size larger (Swap for XL)</option>
+                        <option value="Color swap">Prefer another colorway</option>
+                        <option value="Atelier credit return">Return for Full Atelier Credit</option>
+                      </select>
+                    </div>
+
+                    <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#706B64] space-y-1">
+                      <div className="font-semibold text-[#171717]">Trevori Guarantee:</div>
+                      <div>&bull; Doorstep pickup with zero courier fees.</div>
+                      <div>&bull; Replacement dispatched immediately upon pickup scan.</div>
+                    </div>
+
+                    <div className="pt-2 flex justify-end">
+                      <button
+                        type="submit"
+                        className="px-6 py-2.5 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer"
+                      >
+                        Submit Exchange Request
+                      </button>
+                    </div>
+                  </form>
+                )}
+              </div>
+            )}
+
+            {/* TAB 7: ACCOUNT SECURITY */}
+            {activeTab === 'security' && (
+              <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 space-y-6 animate-fade-in-subtle">
+                <div>
+                  <h2 className="font-serif text-2xl text-[#171717] mb-1">Account Security</h2>
+                  <p className="text-xs text-[#706B64] font-light">
+                    Manage authentication credentials, two-factor authentication, and Shopify token security.
+                  </p>
+                </div>
+
+                {securitySaved && (
+                  <div className="p-3 bg-[#F4F1EA] border border-[#171717] text-xs text-[#171717] font-medium">
+                    ✓ Security settings updated successfully.
+                  </div>
+                )}
+
+                <form onSubmit={handleSaveSecurity} className="space-y-4">
+                  <div>
+                    <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">
+                      Current Password
+                    </label>
+                    <input
+                      type="password"
+                      value={passwordForm.currentPassword}
+                      onChange={(e) => setPasswordForm({ ...passwordForm, currentPassword: e.target.value })}
+                      placeholder="••••••••••••"
+                      className="w-full px-4 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                    />
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">
+                        New Password
+                      </label>
+                      <input
+                        type="password"
+                        value={passwordForm.newPassword}
+                        onChange={(e) => setPasswordForm({ ...passwordForm, newPassword: e.target.value })}
+                        placeholder="••••••••••••"
+                        className="w-full px-4 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
                       />
                     </div>
                     <div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono text-slate-400">#TRV-781102</span>
-                        <span className="text-[10px] text-emerald-400 font-bold flex items-center gap-1">
-                          <CheckCircle2 className="w-3 h-3" />
-                          <span>Delivered Nov 5, 2026</span>
-                        </span>
-                      </div>
-                      <h5 className="text-sm font-black uppercase text-white mt-0.5">
-                        Royal Heritage Velvet Bandhgala
-                      </h5>
-                      <p className="text-xs text-slate-400">Size: 42 Regular • ₹8,999</p>
+                      <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">
+                        Confirm New Password
+                      </label>
+                      <input
+                        type="password"
+                        value={passwordForm.confirmPassword}
+                        onChange={(e) => setPasswordForm({ ...passwordForm, confirmPassword: e.target.value })}
+                        placeholder="••••••••••••"
+                        className="w-full px-4 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                      />
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-3">
-                    <Link
-                      to="/product/traditional-bandhgala"
-                      className="px-4 py-2 bg-[#0F2444] hover:bg-[#16335C] border border-[#1E3A66] text-xs font-bold uppercase tracking-wider text-slate-200 transition-colors"
+                  <div className="pt-4 border-t border-[#DDD8CE] flex items-center justify-between">
+                    <div>
+                      <div className="text-xs font-semibold text-[#171717]">Two-Factor Authentication (2FA)</div>
+                      <div className="text-[11px] text-[#706B64]">Authenticate via SMS or Authenticator App on new devices.</div>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setTwoFactorEnabled(!twoFactorEnabled)}
+                      className={`px-3 py-1 text-xs uppercase tracking-wider font-semibold border ${
+                        twoFactorEnabled
+                          ? 'bg-[#171717] text-white border-[#171717]'
+                          : 'bg-[#FFFFFF] text-[#706B64] border-[#DDD8CE]'
+                      }`}
                     >
-                      Order Again
-                    </Link>
+                      {twoFactorEnabled ? 'Enabled' : 'Disabled'}
+                    </button>
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
 
-          {/* TAB 2: 3D BESPOKE FIT SPECIFICATIONS */}
-          {activeTab === 'measurements' && (
-            <div className="bg-[#0A1728] border border-[#1E3A66] p-6 sm:p-8 rounded-2xl space-y-6 shadow-xl">
-              <div className="flex flex-wrap items-center justify-between pb-4 border-b border-[#1E3A66] gap-3">
-                <div>
-                  <h3 className="text-base sm:text-lg font-black uppercase text-white">
-                    Saved Bespoke Tailor Profile
-                  </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    Real-time biometric data synced directly with our virtual 3D fitting mannequin.
-                  </p>
-                </div>
-                <Link
-                  to="/try-on"
-                  className="px-5 py-2.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 transition-all shadow-md cursor-pointer"
-                >
-                  <Sliders className="w-3.5 h-3.5" />
-                  <span>Recalibrate in 3D Fitting Room</span>
-                </Link>
-              </div>
-
-              {/* Metric Spec Tiles */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
-                <div className="p-4 bg-[#071324] border border-[#1E3A66] rounded-xl">
-                  <span className="text-[10px] font-bold text-[#F88379] uppercase tracking-wider">CHEST</span>
-                  <div className="text-2xl font-black text-white mt-1">42 IN</div>
-                  <span className="text-[10px] text-slate-400">106 CM • Size L</span>
-                </div>
-                <div className="p-4 bg-[#071324] border border-[#1E3A66] rounded-xl">
-                  <span className="text-[10px] font-bold text-[#F88379] uppercase tracking-wider">SHOULDERS</span>
-                  <div className="text-2xl font-black text-white mt-1">19.5 IN</div>
-                  <span className="text-[10px] text-slate-400">Drop-Shoulder Fit</span>
-                </div>
-                <div className="p-4 bg-[#071324] border border-[#1E3A66] rounded-xl">
-                  <span className="text-[10px] font-bold text-[#F88379] uppercase tracking-wider">WAIST</span>
-                  <div className="text-2xl font-black text-white mt-1">32 IN</div>
-                  <span className="text-[10px] text-slate-400">Baggy Denim Match</span>
-                </div>
-                <div className="p-4 bg-[#071324] border border-[#1E3A66] rounded-xl">
-                  <span className="text-[10px] font-bold text-[#F88379] uppercase tracking-wider">HEIGHT</span>
-                  <div className="text-2xl font-black text-white mt-1">6' 1"</div>
-                  <span className="text-[10px] text-slate-400">185 CM • Ideal Drape</span>
-                </div>
-              </div>
-
-              {/* Sizing Recommendations Banner */}
-              <div className="p-5 bg-[#0F2444]/60 border border-[#1E3A66] rounded-xl">
-                <div className="flex items-start gap-3">
-                  <ShieldCheck className="w-5 h-5 text-[#F88379] shrink-0 mt-0.5" />
-                  <div>
-                    <h5 className="text-sm font-black uppercase text-white">
-                      Guaranteed First-Time Fit Algorithm
-                    </h5>
-                    <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                      Based on your stored biometric proportions, your optimal size is <strong>Large (L)</strong> for Streetwear Drops (providing a relaxed boxy drape) and <strong>42 Regular</strong> for Royal Heritage Bandhgalas. If an exchange is ever needed, Trevori provides free doorstep size swaps within 7 days.
-                    </p>
+                  <div className="pt-2 flex justify-end">
+                    <button
+                      type="submit"
+                      className="px-6 py-2.5 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer"
+                    >
+                      Update Security
+                    </button>
                   </div>
-                </div>
-              </div>
-            </div>
-          )}
+                </form>
 
-          {/* TAB 3: VIP NOIR PERKS & PROMOS */}
-          {activeTab === 'perks' && (
-            <div className="bg-[#0A1728] border border-[#1E3A66] p-6 sm:p-8 rounded-2xl space-y-6 shadow-xl">
-              <div className="flex items-center justify-between pb-4 border-b border-[#1E3A66]">
-                <div>
-                  <h3 className="text-base sm:text-lg font-black uppercase text-white">
-                    Trevori Perspective Noir Privileges
-                  </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    Active VIP benefits tied to your customer ID #TRV-8942.
+                {/* Shopify API Authentication Status */}
+                <div className="pt-4 border-t border-[#DDD8CE] text-xs space-y-1">
+                  <div className="font-semibold text-[#171717] flex items-center gap-1.5">
+                    <ShieldCheck className="w-4 h-4 text-[#B9AA96]" />
+                    <span>Shopify Customer Account Architecture Active</span>
+                  </div>
+                  <p className="text-[#706B64] text-[11px] leading-relaxed">
+                    Customer records, cart checkouts, and address records are cryptographically secured and synchronized with Shopify Storefront API Customer protocols.
                   </p>
                 </div>
               </div>
+            )}
 
-              <div className="space-y-4">
-                {/* Perk 1: First Order ₹200 Promo */}
-                <div className="p-5 bg-[#071324] border border-[#1E3A66] hover:border-[#F88379] rounded-xl flex flex-wrap items-center justify-between gap-4 transition-colors">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#F88379]">
-                      EXCLUSIVE PROMO CODE
-                    </span>
-                    <h4 className="text-base font-black uppercase text-white mt-0.5">
-                      ₹200 Instant Discount On Any Order
-                    </h4>
-                    <p className="text-xs text-slate-300 mt-1">
-                      Code: <strong className="font-mono text-white text-sm">TREVORI200</strong> • No minimum spend required
-                    </p>
-                  </div>
-
-                  <button
-                    onClick={() => copyPromoCode('TREVORI200')}
-                    className="px-4 py-2.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-black uppercase tracking-wider flex items-center gap-2 rounded transition-all cursor-pointer"
-                  >
-                    {isCopied ? (
-                      <>
-                        <Check className="w-3.5 h-3.5" />
-                        <span>Code Copied!</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5" />
-                        <span>Copy Code</span>
-                      </>
-                    )}
-                  </button>
-                </div>
-
-                {/* Perk 2: Early Drop Access */}
-                <div className="p-5 bg-[#071324] border border-[#1E3A66] rounded-xl flex flex-wrap items-center justify-between gap-4">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400">
-                      VIP DROP ACCESS
-                    </span>
-                    <h4 className="text-base font-black uppercase text-white mt-0.5">
-                      24-Hour Advance Drop Window
-                    </h4>
-                    <p className="text-xs text-slate-300 mt-1">
-                      Access limited-batch collections 24 hours before public release.
-                    </p>
-                  </div>
-                  <span className="px-3 py-1 bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-xs font-black uppercase rounded-full">
-                    Active
-                  </span>
-                </div>
-
-                {/* Perk 3: Pan-India Express Delivery */}
-                <div className="p-5 bg-[#071324] border border-[#1E3A66] rounded-xl flex flex-wrap items-center justify-between gap-4">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#F88379]">
-                      LOGISTICS UPGRADE
-                    </span>
-                    <h4 className="text-base font-black uppercase text-white mt-0.5">
-                      Complimentary BlueDart Air Delivery & Doorstep Exchanges
-                    </h4>
-                    <p className="text-xs text-slate-300 mt-1">
-                      All orders automatically routed via high-priority air express with tamper-evident seal.
-                    </p>
-                  </div>
-                  <span className="text-xs text-slate-400 font-bold uppercase">Always Included</span>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {/* TAB 4: ADDRESSES & CONCIERGE */}
-          {activeTab === 'addresses' && (
-            <div className="bg-[#0A1728] border border-[#1E3A66] p-6 sm:p-8 rounded-2xl space-y-6 shadow-xl">
-              <div className="flex items-center justify-between pb-4 border-b border-[#1E3A66]">
-                <div>
-                  <h3 className="text-base sm:text-lg font-black uppercase text-white">
-                    Delivery Addresses & VIP Concierge
-                  </h3>
-                  <p className="text-xs text-slate-400 mt-0.5">
-                    Manage your delivery locations and direct atelier contact options.
-                  </p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Address 1: Primary Home */}
-                <div className="p-5 bg-[#071324] border-2 border-[#F88379] rounded-xl relative">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="px-2 py-0.5 bg-[#F88379] text-black text-[9px] font-black uppercase tracking-wider rounded">
-                      DEFAULT RESIDENCE
-                    </span>
-                    <span className="text-xs text-slate-400">Home</span>
-                  </div>
-                  <h5 className="text-sm font-black uppercase text-white">{user.name}</h5>
-                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                    #402, Perspective Heights, 100ft Road, Indiranagar, Bangalore, Karnataka — 560038
-                  </p>
-                  <p className="text-xs text-slate-400 mt-2 font-mono">{user.phone || '+91 98765 43210'}</p>
-                </div>
-
-                {/* Address 2: Atelier Office */}
-                <div className="p-5 bg-[#071324] border border-[#1E3A66] rounded-xl">
-                  <div className="flex items-center justify-between mb-2">
-                    <span className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
-                      SECONDARY
-                    </span>
-                    <span className="text-xs text-slate-400">Office</span>
-                  </div>
-                  <h5 className="text-sm font-black uppercase text-white">{user.name}</h5>
-                  <p className="text-xs text-slate-300 mt-1 leading-relaxed">
-                    Level 14, UB City Tower, Vittal Mallya Road, Bangalore, Karnataka — 560001
-                  </p>
-                  <p className="text-xs text-slate-400 mt-2 font-mono">+91 98765 43211</p>
-                </div>
-              </div>
-
-              {/* Direct Concierge Contact Card */}
-              <div className="p-5 bg-[#0F2444]/60 border border-[#1E3A66] rounded-xl flex flex-wrap items-center justify-between gap-4">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#10B981]/20 border border-[#10B981]/40 flex items-center justify-center text-[#10B981]">
-                    <PhoneCall className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h5 className="text-sm font-black uppercase text-white">Need Personal Tailoring Assistance?</h5>
-                    <p className="text-xs text-slate-300 mt-0.5">
-                      Our personal styling concierge is available 10 AM – 8 PM IST for measurements and custom sizing.
-                    </p>
-                  </div>
-                </div>
-
-                <a
-                  href="https://wa.me/919876543210?text=Hello%20Trevori%20Concierge"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2.5 bg-[#10B981] hover:bg-[#059669] text-black font-extrabold text-xs uppercase tracking-wider rounded transition-all cursor-pointer shadow-md"
-                >
-                  WhatsApp Concierge
-                </a>
-              </div>
-            </div>
-          )}
-
+          </main>
         </div>
       </div>
     </div>

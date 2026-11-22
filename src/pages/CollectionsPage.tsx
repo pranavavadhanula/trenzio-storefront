@@ -1,140 +1,117 @@
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { ProductCard } from '../components/ProductCard';
-import { SlidersHorizontal, Sparkles, Loader2, ChevronRight, ArrowRight } from 'lucide-react';
+import { SlidersHorizontal, Loader2, ChevronRight } from 'lucide-react';
 
-
-
-const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFilter?: string; desc: string; dept: 'men' | 'women' }> = {
+const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFilter?: string; desc: string; dept: 'men' | 'women' | 'all' }> = {
   // Men's Section
   'men': {
-    label: "Men's Wear",
+    label: "Men's Contemporary Wear",
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Classic and relaxed street fits engineered for men with clean boxy drape and reinforced ribbed collars.',
+    desc: 'Heavyweight architectural box cuts, bio-washed combed cotton tees, dropped-shoulder hoodies, and tailored utilitarian trousers.',
   },
   'men-sweatshirts': {
     label: "Men's Sweatshirts & Hoodies",
-    catFilter: 'Sweatshirts',
+    catFilter: 'Hoodies',
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Premium loopback French Terry hoodies and relaxed luxury sweatshirts engineered for men.',
+    desc: '450 GSM luxury brushed loopback French Terry hoodies engineered with double-layered hood structure and reinforced cuffs.',
   },
   'men-oversized-tees': {
     label: "Men's Oversized T-Shirts",
     catFilter: 'Oversized Tees',
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Super-combed pure cotton with relaxed dropped shoulders and clean silhouette for men.',
+    desc: '350 GSM bio-washed combed cotton jersey with architectural dropped shoulders and reinforced 1.25" ribbed collars.',
   },
   'men-classic-tees': {
-    label: "Men's Classic Tees",
+    label: "Men's Classic & Tailored Shirts",
     catFilter: 'T-Shirts',
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Everyday refined luxury cut with tailored sleeves and reinforced ribbed collar for men.',
+    desc: 'Everyday refined luxury cuts in long-staple Supima cotton for effortless minimalist layering.',
   },
   'traditional-men': {
-    label: "Men's Traditional Wear",
+    label: "Men's Heritage Couture",
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Premium kurtas, sherwanis and ethnic wear crafted with the finest fabrics for men.',
+    desc: 'Bespoke velvet bandhgalas and handwoven silk zardozi kurta sets honoring traditional Indian tailoring.',
   },
 
   // Women's Section
   'women': {
-    label: "Women's Wear",
+    label: "Women's Silhouettes",
     genderFilter: 'Women',
     dept: 'women',
-    desc: 'Relaxed oversized streetwear silhouettes and tailored drape for effortless everyday styling.',
+    desc: 'Relaxed fluid drapes, wide-leg knife-pleated trousers, and structured oversized cotton foundations.',
   },
   'women-sweatshirts': {
     label: "Women's Sweatshirts & Hoodies",
     catFilter: 'Sweatshirts',
     genderFilter: 'Women',
     dept: 'women',
-    desc: 'French Terry hoodies and relaxed luxury sweatshirts tailored for women.',
+    desc: '400 GSM soft French Terry crewnecks and boxy cropped fleece layers.',
   },
   'women-oversized-tees': {
     label: "Women's Oversized T-Shirts",
     catFilter: 'Oversized Tees',
     genderFilter: 'Women',
     dept: 'women',
-    desc: 'Draped dropped-shoulder tees in bio-washed combed cotton tailored for women.',
+    desc: 'Generously proportioned dropped-shoulder cuts in breathable ring-spun organic cotton.',
   },
   'women-classic-tees': {
-    label: "Women's Classic Tees",
+    label: "Women's Classic Basics",
     catFilter: 'T-Shirts',
     genderFilter: 'Women',
     dept: 'women',
-    desc: 'Tailored everyday luxury cuts and minimalist cotton basics for women.',
+    desc: 'Clean essential cotton tanks and structured tailored basics.',
   },
   'traditional-women': {
-    label: "Women's Traditional Wear",
+    label: "Women's Heritage Couture",
     genderFilter: 'Women',
     dept: 'women',
-    desc: 'Elegant sarees, lehengas and ethnic drapes designed for the modern Indian woman.',
+    desc: 'Pure handloom Chanderi silk lehengas and royal heritage drapes with 24k gold zari artistry.',
   },
 
-  // Fallbacks & legacy routes
-  'sweatshirts': {
-    label: "Men's Sweatshirts & Hoodies",
-    catFilter: 'Sweatshirts',
-    genderFilter: 'Men',
-    dept: 'men',
-    desc: 'Diagonal loop French Terry engineered for cold evenings and relaxed luxury.',
-  },
-  'oversized-tees': {
-    label: "Men's Oversized T-Shirts",
-    catFilter: 'Oversized Tees',
-    genderFilter: 'Men',
-    dept: 'men',
-    desc: 'Super-combed pure cotton with relaxed dropped shoulders and boxy silhouette.',
-  },
-  'classic-tees': {
-    label: "Men's Classic Tees",
-    catFilter: 'T-Shirts',
-    genderFilter: 'Men',
-    dept: 'men',
-    desc: 'Everyday refined luxury cut with tailored sleeves and reinforced ribbed collar.',
-  },
+  // Generic / Default
   'all': {
-    label: "Men's Wear",
-    genderFilter: 'Men',
-    dept: 'men',
-    desc: 'Browse our complete catalog of shirts, tees, hoodies, and luxury sweatshirts.',
+    label: "Complete Atelier Collection",
+    dept: 'all',
+    desc: 'Explore the full contemporary streetwear catalog engineered with 100% bio-washed combed cotton.',
   },
 };
 
 const MEN_COLLECTIONS = [
   { slug: 'men', label: "All Men's Wear" },
-  { slug: 'men-oversized-tees', label: 'Oversized T-Shirts' },
-  { slug: 'men-sweatshirts', label: 'Sweatshirts & Hoodies' },
-  { slug: 'men-classic-tees', label: 'Classic Tees' },
-  { slug: 'traditional-men', label: "Men's Traditional Wear" },
+  { slug: 'men-oversized-tees', label: 'Oversized Tees' },
+  { slug: 'men-sweatshirts', label: 'Hoodies & Fleece' },
+  { slug: 'men-classic-tees', label: 'Classic Shirts' },
+  { slug: 'traditional-men', label: 'Traditional Couture' },
 ];
 
 const WOMEN_COLLECTIONS = [
   { slug: 'women', label: "All Women's Wear" },
-  { slug: 'women-oversized-tees', label: 'Oversized T-Shirts' },
-  { slug: 'women-sweatshirts', label: 'Sweatshirts & Hoodies' },
-  { slug: 'women-classic-tees', label: 'Classic Tees' },
-  { slug: 'traditional-women', label: "Women's Traditional Wear" },
+  { slug: 'women-oversized-tees', label: 'Oversized Tees' },
+  { slug: 'women-sweatshirts', label: 'Sweatshirts' },
+  { slug: 'women-classic-tees', label: 'Classic Basics' },
+  { slug: 'traditional-women', label: 'Traditional Couture' },
 ];
 
 export const CollectionsPage: React.FC = () => {
-  const { category: rawCategory = 'men' } = useParams<{ category?: string }>();
+  const { category: rawCategory = 'all' } = useParams<{ category?: string }>();
   const currentCategory = rawCategory.toLowerCase();
-  const config = CATEGORY_MAP[currentCategory] || CATEGORY_MAP['men'];
+  const config = CATEGORY_MAP[currentCategory] || CATEGORY_MAP['all'];
 
-  // Determine active department strictly based on current category or URL
   const isInitialWomen = currentCategory.startsWith('women') || currentCategory === 'traditional-women';
-  const [selectedDept, setSelectedDept] = useState<'men' | 'women'>(isInitialWomen ? 'women' : 'men');
+  const [selectedDept, setSelectedDept] = useState<'men' | 'women' | 'all'>(isInitialWomen ? 'women' : 'men');
 
   useEffect(() => {
     if (currentCategory.startsWith('women') || currentCategory === 'traditional-women') {
       setSelectedDept('women');
+    } else if (currentCategory === 'all') {
+      setSelectedDept('all');
     } else {
       setSelectedDept('men');
     }
@@ -158,154 +135,109 @@ export const CollectionsPage: React.FC = () => {
   }, [products, config, sortBy]);
 
   return (
-    <div className="relative min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 bg-[#07111E] text-white overflow-hidden font-sans">
-      {/* Dark Blue Atmospheric Glow */}
-      <div className="pointer-events-none absolute top-4 left-1/4 w-[520px] h-48 bg-gradient-to-r from-[#1D4ED8]/25 via-[#2563EB]/15 to-transparent blur-3xl rounded-full" />
-
-      {/* Breadcrumb Navigation & Department Switcher */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 mb-8">
-        <nav className="flex items-center space-x-2 text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-medium">
-          <Link to="/" className="hover:text-[#F88379] transition-colors">Home</Link>
-          <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
+    <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 bg-[#F4F1EA] text-[#171717] font-sans">
+      {/* Editorial Breadcrumbs */}
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <nav className="flex items-center space-x-2 text-xs uppercase tracking-wider text-[#706B64] font-medium">
+          <Link to="/" className="hover:text-[#171717] transition-colors">Home</Link>
+          <ChevronRight className="w-3.5 h-3.5 text-[#B9AA96]" />
           <Link
             to={selectedDept === 'women' ? '/collections/women' : '/collections/men'}
-            className="hover:text-[#F88379] transition-colors font-bold text-white"
+            className="hover:text-[#171717] transition-colors text-[#171717]"
           >
-            {selectedDept === 'women' ? "Women's Wear" : "Men's Wear"}
+            {selectedDept === 'women' ? "Women's Edit" : "Men's Edit"}
           </Link>
-          {currentCategory !== 'men' && currentCategory !== 'women' && (
+          {currentCategory !== 'men' && currentCategory !== 'women' && currentCategory !== 'all' && (
             <>
-              <ChevronRight className="w-3.5 h-3.5 text-[#64748B]" />
-              <span className="text-[#F88379] font-bold">{config.label}</span>
+              <ChevronRight className="w-3.5 h-3.5 text-[#B9AA96]" />
+              <span className="text-[#171717] font-semibold">{config.label}</span>
             </>
           )}
         </nav>
 
-        {/* Quick Link to Other Department */}
+        {/* Department Switcher */}
         <Link
           to={selectedDept === 'women' ? '/collections/men' : '/collections/women'}
-          className="text-xs uppercase tracking-wider px-3.5 py-1.5 border border-[#1E3A66] bg-[#0B1A30] text-[#94A3B8] hover:border-[#F88379] hover:text-[#F88379] transition-all font-sans font-bold shadow-sm"
+          className="text-xs uppercase tracking-[0.2em] px-4 py-2 border border-[#DDD8CE] bg-[#FFFFFF] text-[#706B64] hover:text-[#171717] hover:border-[#171717] transition-colors font-medium"
         >
-          {selectedDept === 'women' ? "Switch to Men's Wear →" : "Switch to Women's Wear →"}
+          {selectedDept === 'women' ? "Switch to Men's Silhouettes →" : "Switch to Women's Silhouettes →"}
         </Link>
       </div>
 
-      {/* Header */}
-      <div className="relative z-10 mb-10 pb-8 border-b border-[#1E3A66]/50">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] text-[10px] uppercase tracking-wider font-sans font-bold shadow-sm mb-2">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#F88379] animate-pulse" />
-          <span>{selectedDept === 'women' ? "Women's Collection" : "Men's Collection"}</span>
-        </div>
-        <h1 className="font-sans text-3xl sm:text-5xl font-extrabold text-white tracking-tight mt-1 mb-3">
+      {/* Editorial Category Header */}
+      <div className="mb-10 pb-8 border-b border-[#DDD8CE]">
+        <span className="text-[10px] uppercase tracking-[0.3em] text-[#B9AA96] font-semibold block mb-2">
+          {selectedDept === 'women' ? "Women's Collection // Volume IV" : "Men's Collection // Volume IV"}
+        </span>
+        <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#171717] tracking-tight mb-3">
           {config.label}
         </h1>
-        <p className="text-xs sm:text-sm text-[#94A3B8] font-normal max-w-2xl leading-relaxed">
+        <p className="text-xs sm:text-sm text-[#706B64] max-w-2xl font-light leading-relaxed">
           {config.desc}
         </p>
-
-
-        {/* Separated Collection Tabs: Shows ONLY Men's or ONLY Women's Categories */}
-        <div className="flex flex-wrap items-center gap-2 mt-6 pt-6 border-t border-[#1E3A66]/40">
-          {selectedDept === 'men' ? (
-            MEN_COLLECTIONS.map((item) => {
-              const isTabActive =
-                currentCategory === item.slug ||
-                (item.slug === 'men' && currentCategory === 'all') ||
-                (item.slug === 'men-sweatshirts' && currentCategory === 'sweatshirts') ||
-                (item.slug === 'men-oversized-tees' && currentCategory === 'oversized-tees') ||
-                (item.slug === 'men-classic-tees' && currentCategory === 'classic-tees');
-
-              return (
-                <Link
-                  key={item.slug}
-                  to={`/collections/${item.slug}`}
-                  className={`px-4 sm:px-5 py-2.5 text-xs uppercase tracking-wider border transition-all duration-300 cursor-pointer font-sans ${
-                    isTabActive
-                      ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_4px_16px_rgba(248,131,121,0.45)] scale-[1.02]'
-                      : 'border-[#1E3A66]/70 bg-[#0B1A30] text-[#CBD5E1] hover:border-[#F88379] hover:text-[#F88379] font-medium'
-                  }`}
-                  title={`Open ${item.label}`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })
-          ) : (
-            WOMEN_COLLECTIONS.map((item) => {
-              const isTabActive = currentCategory === item.slug;
-
-              return (
-                <Link
-                  key={item.slug}
-                  to={`/collections/${item.slug}`}
-                  className={`px-4 sm:px-5 py-2.5 text-xs uppercase tracking-wider border transition-all duration-300 cursor-pointer font-sans ${
-                    isTabActive
-                      ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_4px_16px_rgba(248,131,121,0.45)] scale-[1.02]'
-                      : 'border-[#1E3A66]/70 bg-[#0B1A30] text-[#CBD5E1] hover:border-[#F88379] hover:text-[#F88379] font-medium'
-                  }`}
-                  title={`Open ${item.label}`}
-                >
-                  {item.label}
-                </Link>
-              );
-            })
-          )}
-        </div>
       </div>
 
-      {/* Filter and Count Bar */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#1E3A66]/50 text-xs">
-        <span className="text-[12px] font-sans text-[#94A3B8] font-medium">
-          Showing <strong className="text-white font-bold">{filteredProducts.length}</strong> {filteredProducts.length === 1 ? 'piece' : 'pieces'}
-        </span>
+      {/* Subcategory Pills */}
+      <div className="flex flex-wrap items-center gap-2 mb-8">
+        {(selectedDept === 'women' ? WOMEN_COLLECTIONS : MEN_COLLECTIONS).map((item) => {
+          const isActive = currentCategory === item.slug;
+          return (
+            <Link
+              key={item.slug}
+              to={`/collections/${item.slug}`}
+              className={`px-4 py-2 text-xs uppercase tracking-wider transition-colors border ${
+                isActive
+                  ? 'border-[#171717] bg-[#171717] text-white font-medium'
+                  : 'border-[#DDD8CE] bg-[#FFFFFF] text-[#706B64] hover:border-[#171717] hover:text-[#171717]'
+              }`}
+            >
+              {item.label}
+            </Link>
+          );
+        })}
+      </div>
 
-        <div className="flex items-center gap-2 text-[#94A3B8]">
-          <SlidersHorizontal className="w-3.5 h-3.5 text-[#F88379]" />
-          <span className="text-[11px] uppercase font-sans font-bold text-white">Sort:</span>
+      {/* Sorting & Filter Header */}
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 border-b border-[#DDD8CE] text-xs">
+        <div className="text-[#706B64]">
+          Showing <strong className="text-[#171717]">{filteredProducts.length}</strong> architectural silhouettes
+        </div>
+
+        <div className="flex items-center gap-2">
+          <SlidersHorizontal className="w-3.5 h-3.5 text-[#706B64]" />
           <select
             value={sortBy}
             onChange={(e) => setSortBy(e.target.value as any)}
-            className="bg-[#0B1A30] border border-[#1E3A66] text-xs uppercase tracking-wider text-white px-3 py-1.5 focus:outline-none focus:border-[#F88379] focus:ring-1 focus:ring-[#F88379] font-sans font-semibold cursor-pointer"
+            className="bg-[#FFFFFF] border border-[#DDD8CE] px-3 py-1.5 text-xs text-[#171717] focus:outline-none focus:border-[#171717] uppercase tracking-wider cursor-pointer"
           >
-            <option value="featured">Featured Drops</option>
+            <option value="featured">Featured Sequence</option>
             <option value="price-asc">Price: Low to High</option>
             <option value="price-desc">Price: High to Low</option>
           </select>
         </div>
       </div>
 
-      {/* Products Grid */}
+      {/* 4:5 Products Grid */}
       {isLoadingProducts ? (
-        <div className="py-28 text-center flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="w-8 h-8 text-[#F88379] animate-spin" />
-          <p className="text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-bold">
-            Loading Trevori Catalog...
-          </p>
+        <div className="py-24 text-center flex flex-col items-center justify-center space-y-4">
+          <Loader2 className="w-6 h-6 text-[#171717] animate-spin" />
+          <p className="text-xs uppercase tracking-widest text-[#706B64]">Loading Atelier Silhouettes...</p>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="py-20 text-center border border-[#1E3A66]/60 p-8 sm:p-14 bg-[#0B1A30] text-white space-y-5 shadow-2xl backdrop-blur-xl">
-          <div className="w-14 h-14 mx-auto rounded-full bg-[#F88379]/15 border border-[#F88379]/30 flex items-center justify-center text-[#F88379]">
-            <Sparkles className="w-6 h-6" />
-          </div>
-          <h3 className="font-sans text-2xl sm:text-3xl text-white font-bold">
-            Next Drop Coming Soon
-          </h3>
-          <p className="text-xs sm:text-sm text-[#94A3B8] max-w-md mx-auto font-normal leading-relaxed">
-            All previous drop pieces for <strong className="text-[#F88379]">{config.label}</strong> are sold out. We are preparing our next exclusive launch.
-          </p>
-          <div className="pt-2">
-            <Link
-              to="/collections/all"
-              className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-wider font-bold shadow-[0_4px_16px_rgba(248,131,121,0.45)] transition-all cursor-pointer font-sans"
-            >
-              <span>Explore All Available Drops</span>
-            </Link>
-          </div>
+        <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-12 text-center">
+          <p className="font-serif text-2xl text-[#171717] mb-2">No silhouettes currently active.</p>
+          <p className="text-xs text-[#706B64] mb-6">Explore our foundational drops or reset your filter.</p>
+          <Link
+            to="/collections/men"
+            className="px-6 py-2.5 bg-[#171717] text-white text-xs uppercase tracking-widest font-medium"
+          >
+            View Men's Wear
+          </Link>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-14">
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
+          {filteredProducts.map((p) => (
+            <ProductCard key={p.id} product={p} />
           ))}
         </div>
       )}

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { X, Check, Truck, ShieldCheck, Ruler, ExternalLink, Heart } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
+import { X, Heart, Check, Ruler, Truck, ShieldCheck, ArrowRight } from 'lucide-react';
 import { SizingModal } from './SizingModal';
 
 const COLOR_IMAGE_MAP: Record<string, string> = {
@@ -16,12 +16,12 @@ const COLOR_IMAGE_MAP: Record<string, string> = {
 export const ProductDetailModal: React.FC = () => {
   const { selectedProduct, setSelectedProduct, addToCart, formatPrice, isWishlisted, toggleWishlist } = useShop();
 
-  if (!selectedProduct) return null;
-
-  const [selectedColor, setSelectedColor] = useState(selectedProduct.colors[0]?.name || 'Ash Grey');
-  const [selectedSize, setSelectedSize] = useState(selectedProduct.sizes[1] || 'M');
-  const [isAdded, setIsAdded] = useState(false);
+  const [selectedColor, setSelectedColor] = useState<string>('Black');
+  const [selectedSize, setSelectedSize] = useState<string>('M');
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
+  const [isAdded, setIsAdded] = useState(false);
+
+  if (!selectedProduct) return null;
 
   const isSaved = isWishlisted(selectedProduct.id);
   const activeImage = COLOR_IMAGE_MAP[selectedColor] || selectedProduct.images.primary;
@@ -32,198 +32,136 @@ export const ProductDetailModal: React.FC = () => {
     setTimeout(() => {
       setIsAdded(false);
       setSelectedProduct(null);
-    }, 1200);
+    }, 1500);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
-      {/* Dark frosted backdrop */}
+    <div className="fixed inset-0 z-50 overflow-y-auto font-sans">
       <div
-        className="fixed inset-0 bg-[#060C1A]/85 backdrop-blur-xl transition-opacity"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
         onClick={() => setSelectedProduct(null)}
       />
 
-      {/* Modal Dialog */}
-      <div className="relative w-full max-w-4xl bg-[#0D1B3A] border border-white/15 shadow-2xl overflow-hidden z-10 my-8 text-[#FFFFFF]">
-        {/* Controls */}
-        <div className="absolute top-4 right-4 z-20 flex items-center gap-2">
-          <button
-            onClick={() => toggleWishlist(selectedProduct.id)}
-            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all cursor-pointer ${
-              isSaved
-                ? 'bg-[#F88379] border-[#F88379] text-white shadow-[0_0_12px_rgba(248,131,121,0.5)]'
-                : 'bg-white/[0.05] border-white/15 text-[#FFFFFF] hover:text-[#F88379] hover:border-[#F88379]'
-            }`}
-            title={isSaved ? "Saved in Vault" : "Save to Vault"}
-          >
-            <Heart className={`w-4 h-4 ${isSaved ? 'fill-white' : ''}`} />
-          </button>
-
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <div className="relative w-full max-w-4xl bg-[#FFFFFF] border border-[#DDD8CE] shadow-2xl z-10 grid grid-cols-1 md:grid-cols-2 text-[#171717]">
+          {/* Close button */}
           <button
             onClick={() => setSelectedProduct(null)}
-            className="w-9 h-9 rounded-full bg-white/[0.05] border border-white/15 flex items-center justify-center text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB] transition-colors cursor-pointer"
+            className="absolute top-4 right-4 z-20 w-8 h-8 rounded-full border border-[#DDD8CE] flex items-center justify-center text-[#171717] hover:bg-[#171717] hover:text-white cursor-pointer transition-colors"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
-        </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 max-h-[85vh] overflow-y-auto">
-          {/* Left: Real Mockup Image Gallery */}
-          <div className="p-6 flex flex-col justify-between bg-black/40">
-            <div className="aspect-[3/4] w-full overflow-hidden bg-gradient-to-b from-white/[0.06] to-white/[0.02] border border-white/12 mb-4 flex items-center justify-center p-6 shadow-inner">
-              <img
-                src={activeImage}
-                alt={`${selectedProduct.name} in ${selectedColor}`}
-                className="w-full h-full object-contain object-center transition-all duration-300"
-              />
-            </div>
-
-            {/* Color Swatch Thumbnails */}
-            <div className="grid grid-cols-7 gap-1.5">
-              {selectedProduct.colors.map((c) => {
-                const img = COLOR_IMAGE_MAP[c.name];
-                return (
-                  <button
-                    key={c.name}
-                    onClick={() => setSelectedColor(c.name)}
-                    className={`aspect-square p-1 overflow-hidden border transition-all flex items-center justify-center bg-white/[0.04] ${
-                      selectedColor === c.name
-                        ? 'border-[#2563EB] ring-2 ring-[#2563EB]/50'
-                        : 'border-white/15 opacity-75 hover:opacity-100 hover:border-[#2563EB]'
-                    }`}
-                    title={c.name}
-                  >
-                    {img ? (
-                      <img src={img} alt={c.name} className="w-full h-full object-contain" />
-                    ) : (
-                      <span className="w-4 h-4 rounded-full" style={{ backgroundColor: c.hex }} />
-                    )}
-                  </button>
-                );
-              })}
-            </div>
+          {/* Left: Product Image Box */}
+          <div className="relative aspect-[4/5] bg-[#FFFFFF] border-r border-[#DDD8CE] p-8 flex items-center justify-center">
+            <img
+              src={activeImage}
+              alt={selectedProduct.name}
+              className="max-h-full max-w-full object-contain"
+            />
+            <button
+              onClick={() => toggleWishlist(selectedProduct.id)}
+              className={`absolute top-4 left-4 z-10 w-8 h-8 rounded-full border flex items-center justify-center transition-colors ${
+                isSaved
+                  ? 'bg-[#171717] text-white border-[#171717]'
+                  : 'bg-white text-[#171717] border-[#DDD8CE] hover:bg-[#171717] hover:text-white'
+              }`}
+            >
+              <Heart className={`w-3.5 h-3.5 ${isSaved ? 'fill-current' : ''}`} />
+            </button>
           </div>
 
-          {/* Right: Info & Sizes */}
-          <div className="p-6 sm:p-8 flex flex-col justify-between space-y-6">
+          {/* Right: Details */}
+          <div className="p-8 flex flex-col justify-between space-y-6">
             <div>
-              <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider mb-2 font-mono">
-                <span className="bg-[#10224A] border border-white/15 text-[#FFFFFF] px-2 py-0.5 font-bold">
-                  100% Combed Cotton
-                </span>
-                <span className="text-[#F88379] font-medium">
-                  Trevori Edition &bull; In Stock
-                </span>
-              </div>
-
-              <h2 className="font-serif text-2xl sm:text-3xl text-[#FFFFFF] font-light leading-snug">
+              <span className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-semibold">
+                {selectedProduct.category} &bull; {selectedProduct.gender}
+              </span>
+              <h2 className="font-serif text-2xl sm:text-3xl font-normal text-[#171717] mt-1">
                 {selectedProduct.name}
               </h2>
 
-              <div className="text-3xl font-mono font-bold text-[#F88379] tracking-wider mt-2">
+              <div className="text-xl font-serif font-semibold text-[#171717] mt-3">
                 {formatPrice(selectedProduct.priceINR)}
               </div>
 
-              {/* Color Select */}
-              <div className="mt-6">
-                <div className="flex justify-between text-xs tracking-wider uppercase text-[#94A3B8] mb-2 font-mono">
-                  <span>Selected Colorway:</span>
-                  <span className="text-[#F88379] font-bold">{selectedColor}</span>
+              {/* Color choices */}
+              <div className="mt-6 space-y-2">
+                <div className="flex justify-between text-xs text-[#706B64]">
+                  <span>Colorway:</span>
+                  <span className="font-semibold text-[#171717]">{selectedColor}</span>
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {selectedProduct.colors.map((c) => (
+                <div className="flex items-center gap-2">
+                  {selectedProduct.colors.map((color) => (
                     <button
-                      key={c.name}
-                      onClick={() => setSelectedColor(c.name)}
-                      className={`flex items-center gap-1.5 px-2.5 py-1.5 border text-xs transition-all cursor-pointer font-mono ${
-                        selectedColor === c.name
-                          ? 'border-[#F88379] bg-[#F88379] text-white font-extrabold shadow-[0_0_10px_rgba(248,131,121,0.3)]'
-                          : 'border-white/15 text-[#FFFFFF] hover:border-[#F88379] bg-white/[0.04]'
+                      key={color.name}
+                      onClick={() => setSelectedColor(color.name)}
+                      className={`w-6 h-6 rounded-full border transition-all cursor-pointer ${
+                        selectedColor === color.name
+                          ? 'border-[#171717] ring-2 ring-[#171717] scale-110'
+                          : 'border-[#DDD8CE] hover:scale-105'
                       }`}
-                    >
-                      <span className="w-3 h-3 rounded-full border border-black/20" style={{ backgroundColor: c.hex }} />
-                      <span>{c.name}</span>
-                    </button>
+                      style={{ backgroundColor: color.hex }}
+                      title={color.name}
+                    />
                   ))}
                 </div>
               </div>
 
-              {/* Size Select */}
-              <div className="mt-6">
-                <div className="flex justify-between items-center text-xs tracking-wider uppercase text-[#94A3B8] mb-2 font-mono">
+              {/* Size choices */}
+              <div className="mt-6 space-y-2">
+                <div className="flex justify-between text-xs text-[#706B64]">
                   <span>Select Size:</span>
                   <button
                     onClick={() => setIsSizeGuideOpen(true)}
-                    className="flex items-center gap-1 text-[#F88379] hover:underline text-xs cursor-pointer lowercase font-bold"
+                    className="flex items-center gap-1 text-[#171717] hover:underline"
                   >
-                    <Ruler className="w-3.5 h-3.5" />
-                    <span>View Chest Measurements</span>
+                    <Ruler className="w-3 h-3" />
+                    <span>Guide</span>
                   </button>
                 </div>
-                <div className="grid grid-cols-6 gap-1.5">
-                  {selectedProduct.sizes.map((s) => (
+                <div className="flex flex-wrap gap-2">
+                  {selectedProduct.sizes.map((size) => (
                     <button
-                      key={s}
-                      onClick={() => setSelectedSize(s)}
-                      className={`py-2 text-xs font-mono font-bold border transition-all cursor-pointer ${
-                        selectedSize === s
-                          ? 'border-[#F88379] bg-[#F88379] text-white font-extrabold shadow-[0_0_10px_rgba(248,131,121,0.3)]'
-                          : 'border-white/15 text-[#FFFFFF] hover:bg-[#F88379] hover:text-white hover:border-[#F88379] bg-white/[0.04]'
+                      key={size}
+                      onClick={() => setSelectedSize(size)}
+                      className={`px-3 py-1.5 text-xs uppercase font-medium border transition-colors cursor-pointer ${
+                        selectedSize === size
+                          ? 'bg-[#171717] text-white border-[#171717]'
+                          : 'bg-[#FFFFFF] text-[#171717] border-[#DDD8CE] hover:border-[#171717]'
                       }`}
                     >
-                      {s}
+                      {size}
                     </button>
                   ))}
                 </div>
-              </div>
-
-              {/* Fit Description */}
-              <div className="mt-4 text-[11px] text-[#94A3B8] font-light border-l-2 border-[#F88379] pl-3 py-0.5">
-                {selectedProduct.fitDescription} &bull; {selectedProduct.modelMeasurements}
               </div>
             </div>
 
             {/* Actions */}
-            <div className="space-y-4 pt-4 border-t border-white/10">
-              <div className="flex gap-2">
-                <button
-                  onClick={handleAdd}
-                  className={`w-full py-4 uppercase tracking-widest text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 shadow-xl cursor-pointer font-mono ${
-                    isAdded
-                      ? 'bg-emerald-500 text-black'
-                      : 'bg-[#F88379] hover:bg-[#FA958D] text-white shadow-[0_4px_20px_rgba(248,131,121,0.45)]'
-                  }`}
-                >
-                  {isAdded ? (
-                    <>
-                      <Check className="w-4 h-4" />
-                      <span>Added to Bag</span>
-                    </>
-                  ) : (
-                    <span>Add to Bag &bull; {formatPrice(selectedProduct.priceINR)}</span>
-                  )}
-                </button>
-              </div>
-
-              {/* Domestic Shipping badges */}
-              <div className="grid grid-cols-2 gap-2 text-[10px] text-[#94A3B8] uppercase tracking-wider pt-1 font-mono">
-                <div className="flex items-center gap-1.5">
-                  <Truck className="w-3.5 h-3.5 text-[#F88379]" />
-                  <span>Doorstep Delivery (Express)</span>
-                </div>
-                <div className="flex items-center gap-1.5">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#F88379]" />
-                  <span>UPI, Cards & COD Accepted</span>
-                </div>
-              </div>
+            <div className="space-y-3 pt-4 border-t border-[#DDD8CE]">
+              <button
+                onClick={handleAdd}
+                className="w-full py-3.5 bg-[#171717] text-white hover:bg-[#333333] transition-colors text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 cursor-pointer"
+              >
+                {isAdded ? (
+                  <>
+                    <Check className="w-4 h-4" />
+                    <span>Added to Bag</span>
+                  </>
+                ) : (
+                  <>
+                    <span>Add to Shopping Bag</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {isSizeGuideOpen && (
-        <SizingModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} />
-      )}
+      <SizingModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} />
     </div>
   );
 };

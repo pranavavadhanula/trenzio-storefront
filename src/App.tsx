@@ -40,16 +40,16 @@ function MainStorefront() {
   const isLoginPage = pathname === '/login';
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#07111E] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#F88379] selection:text-white">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F4F1EA] text-[#171717] flex flex-col font-sans selection:bg-[#DDD8CE] selection:text-[#171717]">
       <ScrollToTop />
 
-      {/* Navigation Bar (Navy Blue Glossy with Coral Pink Accents) - Hidden on full-screen Login */}
+      {/* 1. Minimal Sticky Navigation */}
       {!isLoginPage && <Navbar />}
 
-      {/* Main Multi-Page Routed Content (Dark Blue Theme) */}
-      <main className="flex-1 w-full max-w-full overflow-x-hidden bg-[#07111E]">
+      {/* Main Multi-Page Routed Content */}
+      <main className="flex-1 w-full max-w-full overflow-x-hidden bg-[#F4F1EA]">
         <Routes>
-          {/* Home Page: Hero, Collections, Fabric Promise */}
+          {/* Home Page: 12-Section Editorial Homepage */}
           <Route path="/" element={<HomePage />} />
 
           {/* Dedicated Collections Catalog Pages */}
@@ -68,16 +68,16 @@ function MainStorefront() {
           {/* Brand Philosophy & Craftsmanship */}
           <Route path="/about" element={<AboutPage />} />
 
-          {/* WhatsApp Direct Concierge & Support */}
+          {/* Atelier Concierge & Support */}
           <Route path="/contact" element={<ContactPage />} />
 
           {/* 3D Virtual Try-On Studio */}
           <Route path="/try-on" element={<VirtualTryOnPage />} />
 
-          {/* Customer Login & Registration (Zara Luxury Style) */}
+          {/* Customer Login & Registration */}
           <Route path="/login" element={<LoginPage />} />
 
-          {/* Customer VIP Account Dashboard with Animated Lookbook Muse */}
+          {/* Customer VIP Account Dashboard (Passport) */}
           <Route path="/account" element={<DashboardPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
 
@@ -89,7 +89,7 @@ function MainStorefront() {
         </Routes>
       </main>
 
-      {/* Footer in Deep Midnight Sapphire - Hidden on dedicated full-screen Login */}
+      {/* 12. Premium Footer */}
       {!isLoginPage && <Footer />}
 
       {/* Global Slide-Over Drawers & Modals */}

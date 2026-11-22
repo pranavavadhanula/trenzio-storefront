@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { ProductCard } from './ProductCard';
-import { SlidersHorizontal, Sparkles, Loader2 } from 'lucide-react';
+import { SlidersHorizontal, Loader2 } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
-const CATEGORIES = ['All', 'Oversized Tees', 'Sweatshirts', 'T-Shirts'] as const;
-const GENDERS = ['All', 'Men', 'Women'] as const;
+const CATEGORIES = ['All', 'Hoodies', 'Oversized Tees', 'Pants', 'Sweatshirts', 'T-Shirts', 'Traditional', 'Accessories'] as const;
+const GENDERS = ['All', 'Men', 'Women', 'Unisex'] as const;
 
 export const ProductGrid: React.FC = () => {
   const { products, isLoadingProducts, selectedCategory, setSelectedCategory, selectedGender, setSelectedGender } = useShop();
@@ -21,29 +21,28 @@ export const ProductGrid: React.FC = () => {
   });
 
   return (
-    <section id="collection-section" className="py-20 sm:py-28 max-w-7xl mx-auto px-6 sm:px-10 text-white">
+    <section id="collection-section" className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-8 text-[#171717]">
       {/* Top Filter Bar */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 font-sans">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 font-sans border-b border-[#DDD8CE] pb-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] text-[10px] uppercase tracking-wider font-sans font-bold shadow-sm mb-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#F88379] animate-pulse" />
-            <span>Luxury Streetwear &bull; India</span>
-          </div>
-          <h2 className="font-sans text-3xl sm:text-4xl font-extrabold text-white tracking-tight mt-1">
-            {selectedCategory === 'All' ? 'Catalog' : selectedCategory}
+          <span className="text-[11px] uppercase tracking-[0.25em] text-[#706B64] font-medium block mb-1">
+            The Complete Atelier Edit
+          </span>
+          <h2 className="font-serif text-3xl sm:text-5xl font-normal text-[#171717] tracking-tight">
+            {selectedCategory === 'All' ? 'Current Catalog' : selectedCategory}
           </h2>
         </div>
 
-        {/* Category Pills */}
-        <div className="flex flex-wrap items-center gap-2">
+        {/* Category Filter Buttons */}
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setSelectedCategory(cat)}
-              className={`px-4 py-2 text-xs uppercase tracking-wider rounded-none border transition-all cursor-pointer font-sans ${
+              className={`px-3 sm:px-4 py-1.5 text-xs uppercase tracking-wider transition-all cursor-pointer border ${
                 selectedCategory === cat
-                  ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_4px_16px_rgba(248,131,121,0.4)] scale-[1.02]'
-                  : 'border-[#1E3A66] bg-[#0B1A30] text-[#CBD5E1] hover:border-[#F88379] hover:text-[#F88379] font-medium'
+                  ? 'border-[#171717] bg-[#171717] text-white font-medium'
+                  : 'border-[#DDD8CE] bg-[#FFFFFF] text-[#706B64] hover:text-[#171717] hover:border-[#171717]'
               }`}
             >
               {cat}
@@ -53,18 +52,18 @@ export const ProductGrid: React.FC = () => {
       </div>
 
       {/* Sub-bar: Gender Filter + Sorting + Item Count */}
-      <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-12 border-b border-[#2563EB]/20 text-xs">
+      <div className="flex flex-wrap items-center justify-between gap-4 pb-6 mb-10 text-xs">
         {/* Gender Pills */}
         <div className="flex items-center gap-2">
-          <span className="text-[10px] uppercase tracking-wider text-[#94A3B8] font-mono">Fit For:</span>
+          <span className="text-[10px] uppercase tracking-widest text-[#706B64] font-medium">Silhouette:</span>
           {GENDERS.map((g) => (
             <button
               key={g}
               onClick={() => setSelectedGender(g)}
-              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-colors cursor-pointer font-mono ${
+              className={`px-2.5 py-1 text-[11px] uppercase tracking-wider transition-colors cursor-pointer ${
                 selectedGender === g
-                  ? 'text-[#3B82F6] font-bold underline underline-offset-4'
-                  : 'text-[#94A3B8] hover:text-white'
+                  ? 'text-[#171717] font-semibold underline underline-offset-4'
+                  : 'text-[#706B64] hover:text-[#171717]'
               }`}
             >
               {g}
@@ -73,19 +72,19 @@ export const ProductGrid: React.FC = () => {
         </div>
 
         {/* Sorting & Count */}
-        <div className="flex items-center gap-4 text-[#94A3B8]">
-          <span className="text-[11px] font-mono">
-            Showing <strong className="text-[#3B82F6]">{filteredProducts.length}</strong> styles
+        <div className="flex items-center gap-4 text-[#706B64]">
+          <span className="text-[11px]">
+            Showing <strong className="text-[#171717]">{filteredProducts.length}</strong> styles
           </span>
 
-          <div className="flex items-center gap-1.5 border-l border-white/10 pl-4">
-            <SlidersHorizontal className="w-3.5 h-3.5 text-[#3B82F6]" />
+          <div className="flex items-center gap-1.5 border-l border-[#DDD8CE] pl-4">
+            <SlidersHorizontal className="w-3.5 h-3.5 text-[#706B64]" />
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value as any)}
-              className="bg-white text-xs uppercase tracking-wider text-white border border-[#2563EB]/30 px-2 py-1 focus:outline-none focus:border-[#3B82F6] cursor-pointer font-mono"
+              className="bg-[#FFFFFF] text-xs uppercase tracking-wider text-[#171717] border border-[#DDD8CE] px-2.5 py-1 focus:outline-none focus:border-[#171717] cursor-pointer"
             >
-              <option value="featured">Featured</option>
+              <option value="featured">Featured Order</option>
               <option value="price-asc">Price: Low to High</option>
               <option value="price-desc">Price: High to Low</option>
             </select>
@@ -96,26 +95,29 @@ export const ProductGrid: React.FC = () => {
       {/* Grid of Products */}
       {isLoadingProducts ? (
         <div className="py-24 text-center flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="w-8 h-8 text-[#3B82F6] animate-spin" />
-          <p className="text-xs uppercase tracking-widest text-[#94A3B8] font-mono font-medium">
-            Fetching Apparel Collection...
+          <Loader2 className="w-6 h-6 text-[#171717] animate-spin" />
+          <p className="text-xs uppercase tracking-widest text-[#706B64] font-medium">
+            Synchronizing Trevori Atelier Catalog...
           </p>
         </div>
       ) : filteredProducts.length === 0 ? (
-        <div className="py-16 text-center border border-[#2563EB]/25 p-8 bg-white space-y-3">
-          <p className="text-base text-white font-serif">No products found in this category.</p>
+        <div className="py-24 text-center bg-[#FFFFFF] border border-[#DDD8CE] p-12">
+          <p className="font-serif text-2xl text-[#171717] mb-2">No matching silhouettes found.</p>
+          <p className="text-xs text-[#706B64] max-w-sm mx-auto mb-6">
+            Adjust your active category or gender filters to explore the available collection.
+          </p>
           <button
             onClick={() => {
               setSelectedCategory('All');
               setSelectedGender('All');
             }}
-            className="text-xs uppercase tracking-wider text-[#3B82F6] underline font-mono cursor-pointer"
+            className="px-6 py-2.5 bg-[#171717] text-white text-xs uppercase tracking-widest hover:bg-[#333333] transition-colors"
           >
-            Clear Filters
+            Reset Filters
           </button>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
           {filteredProducts.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

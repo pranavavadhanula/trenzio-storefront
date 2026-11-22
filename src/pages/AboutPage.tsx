@@ -4,73 +4,72 @@ import { ShieldCheck, Feather, Sparkles, ArrowRight, Check } from 'lucide-react'
 
 export const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen py-10 sm:py-20 max-w-5xl mx-auto px-6 sm:px-10 bg-[#07111E] text-white font-sans">
-      {/* Header */}
+    <div className="min-h-screen py-12 sm:py-20 max-w-5xl mx-auto px-6 sm:px-10 lg:px-12 bg-[#F4F1EA] text-[#171717] font-sans">
+      {/* Editorial Header */}
       <div className="text-center max-w-2xl mx-auto mb-16">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] text-[10px] uppercase tracking-wider font-bold shadow-sm mb-3">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#F88379] animate-pulse" />
-          <span>The Philosophy</span>
-        </div>
-        <h1 className="font-sans text-4xl sm:text-6xl font-extrabold text-white tracking-tight mt-1 mb-4">
+        <span className="text-[10px] uppercase tracking-[0.3em] text-[#B9AA96] font-semibold block mb-2">
+          The Trevori Atelier
+        </span>
+        <h1 className="font-serif text-4xl sm:text-6xl font-normal text-[#171717] tracking-tight mb-4">
           Rejecting Flimsy. <br />
-          <span className="italic text-[#F88379]">Engineering Substance.</span>
+          <span className="italic">Engineering Substance.</span>
         </h1>
-        <p className="text-xs sm:text-sm text-[#94A3B8] font-normal leading-relaxed">
-          Trevori was founded with a single obsession: to create authentic luxury streetwear and classic everyday shirts & tees designed, milled, and crafted in India.
+        <p className="text-xs sm:text-sm text-[#706B64] font-light leading-relaxed">
+          Trevori was conceived with an uncompromising conviction: to build contemporary luxury streetwear rooted in architectural brutalism, generous minimalist drape, and tactile garment integrity.
         </p>
       </div>
 
       {/* The 3 Core Pillars */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-        <div className="p-8 bg-[#0B1A30] border border-[#1E3A66]/60 space-y-4 shadow-xl text-white backdrop-blur-md">
-          <Feather className="w-6 h-6 text-[#F88379]" />
-          <h3 className="font-sans text-2xl font-bold text-white">100% Combed Cotton</h3>
-          <p className="text-xs text-[#94A3B8] font-normal leading-relaxed">
-            Constructed with high-grade combed cotton jersey for exceptional durability, clean silhouette structure, and effortless everyday comfort.
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        <div className="p-8 bg-[#FFFFFF] border border-[#DDD8CE] space-y-4">
+          <Feather className="w-6 h-6 text-[#B9AA96]" />
+          <h3 className="font-serif text-2xl font-normal text-[#171717]">450 GSM Heavyweight</h3>
+          <p className="text-xs text-[#706B64] font-light leading-relaxed">
+            Constructed with high-density bio-washed combed cotton jersey and French Terry for an enduring architectural silhouette.
           </p>
         </div>
 
-        <div className="p-8 bg-[#0B1A30] border border-[#1E3A66]/60 space-y-4 shadow-xl text-white backdrop-blur-md">
-          <ShieldCheck className="w-6 h-6 text-[#F88379]" />
-          <h3 className="font-sans text-2xl font-bold text-white">Zero Shrinkage</h3>
-          <p className="text-xs text-[#94A3B8] font-normal leading-relaxed">
-            Our fabrics undergo biological enzyme washes and rigorous pre-shrinking. Your tee fits the exact same way after 50 machine cycles.
+        <div className="p-8 bg-[#FFFFFF] border border-[#DDD8CE] space-y-4">
+          <ShieldCheck className="w-6 h-6 text-[#B9AA96]" />
+          <h3 className="font-serif text-2xl font-normal text-[#171717]">Zero Synthetic Fillers</h3>
+          <p className="text-xs text-[#706B64] font-light leading-relaxed">
+            Our textiles are 100% natural organic cotton fibers, biological enzyme washed for softness without chemical synthetic residues.
           </p>
         </div>
 
-        <div className="p-8 bg-[#0B1A30] border border-[#1E3A66]/60 space-y-4 shadow-xl text-white backdrop-blur-md">
-          <Sparkles className="w-6 h-6 text-[#F88379]" />
-          <h3 className="font-sans text-2xl font-bold text-white">Unisex Geometry</h3>
-          <p className="text-xs text-[#94A3B8] font-normal leading-relaxed">
-            Calibrated dropped shoulders and tailored armholes that flatter both men and women with relaxed effortless drape.
+        <div className="p-8 bg-[#FFFFFF] border border-[#DDD8CE] space-y-4">
+          <Sparkles className="w-6 h-6 text-[#B9AA96]" />
+          <h3 className="font-serif text-2xl font-normal text-[#171717]">Mathematical Drape</h3>
+          <p className="text-xs text-[#706B64] font-light leading-relaxed">
+            Calibrated dropped shoulders and reinforced 1.25" collars engineered to flatter with natural spatial presence.
           </p>
         </div>
       </div>
 
       {/* Narrative Section */}
-      <div className="p-8 sm:p-14 bg-[#0B1A30] border border-[#1E3A66]/60 space-y-6 mb-20 text-[#CBD5E1] font-normal leading-relaxed text-xs sm:text-sm shadow-2xl backdrop-blur-md">
-        <h2 className="font-sans text-2xl sm:text-3xl text-white font-bold">
-          Crafted In Our Dedicated Design Studios
+      <div className="p-8 sm:p-14 bg-[#FFFFFF] border border-[#DDD8CE] space-y-6 mb-16 text-[#706B64] font-light leading-relaxed text-xs sm:text-sm">
+        <h2 className="font-serif text-2xl sm:text-3xl text-[#171717] font-normal">
+          Crafted with Reverence for Pure Textile Chemistry
         </h2>
-        <p className="text-[#94A3B8]">
-          We operate direct artisan production facilities across India to ensure every garment meets strict dimensional accuracy. Every seam is double-needle stitched, collars are reinforced with 1x1 elastane ribbed cotton, and eco-friendly Oeko-Tex certified inks ensure color stays rich wash after wash.
+        <p>
+          We operate direct artisan production facilities to ensure every garment meets strict dimensional accuracy. Every seam is double-needle flatlock stitched, collars are reinforced with high-density elastane ribbed cotton, and low-impact dyes preserve textile luster wash after wash.
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#1E3A66]/40 text-xs text-white font-medium">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4 border-t border-[#DDD8CE] text-xs text-[#171717] font-medium">
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-[#F88379] font-bold" />
-            <span>100% Super-Combed Indian Cotton</span>
+            <Check className="w-4 h-4 text-[#B9AA96]" />
+            <span>100% Super-Combed Ring-Spun Cotton</span>
           </div>
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-[#F88379] font-bold" />
-            <span>Bio-Washed & Silicon Softened</span>
+            <Check className="w-4 h-4 text-[#B9AA96]" />
+            <span>Enzyme Bio-Washed & Silicon Softened</span>
           </div>
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-[#F88379] font-bold" />
-            <span>Anti-Pilling Yarn Construction</span>
+            <Check className="w-4 h-4 text-[#B9AA96]" />
+            <span>Anti-Torque & Anti-Pilling Yarn Weave</span>
           </div>
           <div className="flex items-center gap-2">
-            <Check className="w-4 h-4 text-[#F88379] font-bold" />
-            <span>Pan-India Doorstep Dispatch within 24h</span>
+            <Check className="w-4 h-4 text-[#B9AA96]" />
+            <span>Worldwide Tracked Courier Dispatch</span>
           </div>
         </div>
       </div>
@@ -78,10 +77,10 @@ export const AboutPage: React.FC = () => {
       {/* CTA */}
       <div className="text-center space-y-4">
         <Link
-          to="/collections/all"
-          className="inline-flex items-center gap-2 px-8 py-4 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs uppercase tracking-wider font-bold shadow-[0_4px_16px_rgba(248,131,121,0.4)] transition-all cursor-pointer font-sans"
+          to="/collections"
+          className="inline-flex items-center gap-2 px-8 py-4 bg-[#171717] text-white text-xs uppercase tracking-[0.2em] font-medium hover:bg-[#333333] transition-colors"
         >
-          <span>Shop The Collection</span>
+          <span>Explore The Collection</span>
           <ArrowRight className="w-4 h-4" />
         </Link>
       </div>

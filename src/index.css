@@ -3,35 +3,41 @@
 @tailwind utilities;
 
 html, body, #root {
-  background-color: #07111E !important;
-  color: #F8FAFC !important;
+  background-color: #F4F1EA !important;
+  color: #171717 !important;
 }
 
 @layer base {
   body {
-    background-color: #07111E !important;
-    color: #F8FAFC !important;
+    background-color: #F4F1EA !important;
+    color: #171717 !important;
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
-  /* Custom smooth scrollbar in Dark Blue & Coral Pink */
+  h1, h2, h3, .font-editorial {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+
+  /* Refined minimal scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
+    height: 6px;
   }
   ::-webkit-scrollbar-track {
-    background: #07111E;
+    background: #F4F1EA;
   }
   ::-webkit-scrollbar-thumb {
-    background: #1E3A66;
+    background: #DDD8CE;
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #F88379;
+    background: #B9AA96;
   }
 }
 
-/* Infinite Marquee Ticker */
-@keyframes marquee-scroll {
+/* Subtle editorial marquee */
+@keyframes editorial-ticker {
   0% {
     transform: translateX(0%);
   }
@@ -40,60 +46,42 @@ html, body, #root {
   }
 }
 
-.animate-marquee-infinite {
+.animate-editorial-ticker {
   display: flex;
   width: max-content;
-  animation: marquee-scroll 28s linear infinite;
+  animation: editorial-ticker 35s linear infinite;
   will-change: transform;
 }
 
-.animate-marquee-infinite:hover {
+.animate-editorial-ticker:hover {
   animation-play-state: paused;
 }
 
-/* 3D Holographic Shimmer Sweep */
-@keyframes shimmer-sweep {
-  0% {
-    transform: translateX(-100%);
-  }
-  100% {
-    transform: translateX(200%);
-  }
+/* Subtle image reveal transition */
+.image-reveal-container {
+  overflow: hidden;
 }
 
-.animate-shimmer-sweep {
-  animation: shimmer-sweep 5s ease-in-out infinite;
+.image-reveal-container img {
+  transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
 }
 
-/* Smooth 3D Floating Animation for Dashboard Avatar */
-@keyframes float-subtle {
-  0%, 100% {
-    transform: translateY(0px) rotate(0deg);
-  }
-  50% {
-    transform: translateY(-10px) rotate(0.4deg);
-  }
+.image-reveal-container:hover img {
+  transform: scale(1.03);
 }
 
-.animate-float-subtle {
-  animation: float-subtle 5s ease-in-out infinite;
-}
-
-/* Pulsing Neon Ambient Aura */
-@keyframes pulse-aura {
-  0%, 100% {
-    opacity: 0.45;
-    transform: scale(1);
+/* Understated fade-in */
+@keyframes fadeInSubtle {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
   }
-  50% {
-    opacity: 0.85;
-    transform: scale(1.06);
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
-.animate-pulse-aura {
-  animation: pulse-aura 3.5s ease-in-out infinite;
+.animate-fade-in-subtle {
+  animation: fadeInSubtle 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
-
-
-

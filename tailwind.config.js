@@ -7,62 +7,70 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        serif: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif'],
-        sans: ['"Plus Jakarta Sans"', '"Outfit"', 'system-ui', 'sans-serif'],
-        display: ['"Outfit"', '"Plus Jakarta Sans"', 'sans-serif'],
-        mono: ['"Plus Jakarta Sans"', '"Outfit"', 'sans-serif'],
+        serif: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+        heading: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        body: ['"Inter"', 'system-ui', 'sans-serif'],
+        display: ['"Cormorant Garamond"', 'Georgia', 'serif'],
+        mono: ['"Inter"', 'monospace'],
       },
       colors: {
+        // Official TREVORI Luxury Editorial Color Palette
+        trevori: {
+          bg: '#F4F1EA',          // Primary background: Warm Ivory
+          text: '#171717',        // Primary text: Deep Charcoal / Black
+          secondary: '#706B64',   // Secondary text: Refined Warm Taupe-Grey
+          accent: '#B9AA96',      // Accent: Warm Architectural Taupe
+          'accent-hover': '#9F8F79',
+          card: '#DDD8CE',        // Card background: Subtle Stone / Warm Card
+          surface: '#FFFFFF',     // Product surfaces: Crisp White
+          border: 'rgba(23, 23, 23, 0.08)',
+          'border-dark': 'rgba(23, 23, 23, 0.16)',
+        },
+        // Backwards compatibility mappings mapped to official luxury palette
         atelier: {
-          // "The Above": Forest Green Palette
-          forest: '#0E2619',
-          'forest-deep': '#08170F',
-          'forest-surface': '#133320',
-          'forest-border': '#1E452E',
-          'forest-accent': '#22C55E',
-
-          // "The Other Thing": Blue Only Palette
-          blue: '#2563EB',
-          'blue-night': '#060C1A',
-          'blue-deep': '#081026',
-          'blue-surface': '#0D1B3A',
-          'blue-card': '#10224A',
-          'blue-border': 'rgba(37, 99, 235, 0.25)',
-          'blue-vivid': '#3B82F6',
-          'blue-electric': '#00D2FF',
-          'blue-slate': '#94A3B8',
-          'blue-light': '#F8FAFC',
-
-          // Semantic backwards-compatible mappings
-          ink: '#060C1A',
-          'ink-dark': '#040812',
-          'ink-surface': '#0D1B3A',
-          'ink-card': '#10224A',
-          silver: '#F8FAFC',
-          'silver-muted': '#94A3B8',
-          'silver-glass': 'rgba(37, 99, 235, 0.08)',
-          'silver-border': 'rgba(37, 99, 235, 0.25)',
-          lime: '#2563EB',
-          'lime-hover': '#3B82F6',
-          'lime-soft': 'rgba(37, 99, 235, 0.15)',
-          navy: '#0D1B3A',
-          'navy-dark': '#060C1A',
-          'navy-surface': '#10224A',
-          'navy-border': 'rgba(37, 99, 235, 0.25)',
-          'navy-muted': '#94A3B8',
-          coral: '#2563EB',
-          'coral-hover': '#3B82F6',
-          'coral-soft': 'rgba(37, 99, 235, 0.15)',
-
-          // Standard semantic numbers for unified theme
-          950: '#060C1A', // Canvas
-          900: '#0D1B3A', // Cards
-          850: '#10224A', // Surface
-          800: 'rgba(37, 99, 235, 0.25)', // Borders
-          700: '#94A3B8', // Secondary
-          300: '#64748B', // Muted
-          200: '#CBD5E1', // Body
-          100: '#F8FAFC', // Primary Heading
+          forest: '#171717',
+          'forest-deep': '#171717',
+          'forest-surface': '#F4F1EA',
+          'forest-border': '#DDD8CE',
+          'forest-accent': '#B9AA96',
+          blue: '#171717',
+          'blue-night': '#F4F1EA',
+          'blue-deep': '#F4F1EA',
+          'blue-surface': '#DDD8CE',
+          'blue-card': '#DDD8CE',
+          'blue-border': 'rgba(23, 23, 23, 0.1)',
+          'blue-vivid': '#171717',
+          'blue-electric': '#B9AA96',
+          'blue-slate': '#706B64',
+          'blue-light': '#FFFFFF',
+          ink: '#171717',
+          'ink-dark': '#171717',
+          'ink-surface': '#F4F1EA',
+          'ink-card': '#DDD8CE',
+          silver: '#171717',
+          'silver-muted': '#706B64',
+          'silver-glass': 'rgba(23, 23, 23, 0.04)',
+          'silver-border': 'rgba(23, 23, 23, 0.1)',
+          lime: '#171717',
+          'lime-hover': '#333333',
+          'lime-soft': '#DDD8CE',
+          navy: '#171717',
+          'navy-dark': '#171717',
+          'navy-surface': '#DDD8CE',
+          'navy-border': 'rgba(23, 23, 23, 0.1)',
+          'navy-muted': '#706B64',
+          coral: '#171717',
+          'coral-hover': '#333333',
+          'coral-soft': '#DDD8CE',
+          950: '#F4F1EA',
+          900: '#DDD8CE',
+          850: '#FFFFFF',
+          800: 'rgba(23, 23, 23, 0.1)',
+          700: '#706B64',
+          300: '#B9AA96',
+          200: '#706B64',
+          100: '#171717',
         },
       },
     },

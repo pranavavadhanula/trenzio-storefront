@@ -357,27 +357,27 @@ export const VirtualTryOnPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-4 sm:px-8 bg-[#EBF3FA] text-[#FFFFFF]">
+    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-4 sm:px-8 bg-[#F4F1EA] text-[#171717] font-sans">
       {/* Breadcrumb Navigation */}
-      <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#3B82F6] font-mono mb-6">
-        <Link to="/" className="hover:text-[#2563EB] transition-colors">Home</Link>
+      <nav className="flex items-center space-x-2 text-xs uppercase tracking-widest text-[#706B64] font-medium mb-6">
+        <Link to="/" className="hover:text-[#171717] transition-colors">Home</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <Link to="/collections/all" className="hover:text-[#2563EB] transition-colors">Collections</Link>
+        <Link to="/collections" className="hover:text-[#171717] transition-colors">Collections</Link>
         <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-[#2563EB] font-bold">3D Virtual Fitting Studio</span>
+        <span className="text-[#171717] font-semibold">3D Virtual Fitting Studio</span>
       </nav>
 
       {/* Header */}
-      <div className="mb-8 pb-6 border-b border-[#3B82F6]/20 flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="mb-8 pb-6 border-b border-[#DDD8CE] flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#2563EB]/15 border border-[#2563EB]/40 text-[#2563EB] text-[10px] uppercase tracking-widest font-mono font-medium mb-2 shadow-[0_0_12px_rgba(37,99,235,0.3)]">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#FFFFFF] border border-[#DDD8CE] text-[#171717] text-[10px] uppercase tracking-widest font-medium mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-[#B9AA96]" />
             <span>Interactive 3D Fit & Try-On Technology</span>
           </div>
-          <h1 className="font-serif text-3xl sm:text-5xl font-light text-[#FFFFFF] tracking-tight">
+          <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#171717] tracking-tight">
             Virtual Dressing Studio
           </h1>
-          <p className="text-xs sm:text-sm text-[#3B82F6] font-light mt-1">
+          <p className="text-xs sm:text-sm text-[#706B64] font-light mt-1">
             Upload your photo or choose a model to see how Trevori's boxy streetwear cuts drape on your body before buying.
           </p>
         </div>
@@ -395,19 +395,19 @@ export const VirtualTryOnPage: React.FC = () => {
 
           <button
             onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2.5 bg-white/[0.04] border border-[#3B82F6]/25 text-[#FFFFFF] hover:bg-white/[0.08] hover:text-[#2563EB] hover:border-[#2563EB] transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-md"
+            className="px-4 py-2.5 bg-[#FFFFFF] border border-[#DDD8CE] text-[#171717] hover:border-[#171717] transition-colors text-xs uppercase tracking-wider font-medium flex items-center gap-2 cursor-pointer shadow-sm"
             title="Upload your own full-body or upper-body photo"
           >
-            <Upload className="w-4 h-4 text-[#2563EB]" />
+            <Upload className="w-4 h-4 text-[#B9AA96]" />
             <span>Upload Your Photo</span>
           </button>
 
           <button
             onClick={isCameraActive ? stopCamera : startCamera}
-            className="px-4 py-2.5 bg-white/[0.04] border border-[#3B82F6]/25 text-[#FFFFFF] hover:bg-white/[0.08] hover:text-[#2563EB] hover:border-[#2563EB] transition-colors text-xs uppercase tracking-wider font-mono flex items-center gap-2 cursor-pointer shadow-md"
+            className="px-4 py-2.5 bg-[#FFFFFF] border border-[#DDD8CE] text-[#171717] hover:border-[#171717] transition-colors text-xs uppercase tracking-wider font-medium flex items-center gap-2 cursor-pointer shadow-sm"
             title="Snap a live selfie using your webcam"
           >
-            <Camera className="w-4 h-4 text-[#2563EB]" />
+            <Camera className="w-4 h-4 text-[#B9AA96]" />
             <span>{isCameraActive ? 'Cancel Camera' : 'Live Selfie Camera'}</span>
           </button>
         </div>

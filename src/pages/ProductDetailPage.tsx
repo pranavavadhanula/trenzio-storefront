@@ -9,9 +9,8 @@ import {
   Truck,
   RotateCcw,
   ShieldCheck,
-  Sparkles,
   ArrowRight,
-  ExternalLink,
+  ShoppingBag,
 } from 'lucide-react';
 import { SizingModal } from '../components/SizingModal';
 import { createShopifyCheckout } from '../services/shopify';
@@ -29,23 +28,24 @@ const COLOR_IMAGE_MAP: Record<string, string> = {
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { products, addToCart, formatPrice, isWishlisted, toggleWishlist } = useShop();
+  const { products, addToCart, formatPrice, isWishlisted, toggleWishlist, setIsCartOpen } = useShop();
 
   const product = products.find((p) => p.id === id) || products[0];
 
-  const [selectedColor, setSelectedColor] = useState(product?.colors[0]?.name || 'Ash Grey');
-  const [selectedSize, setSelectedSize] = useState(product?.sizes[1] || 'M');
+  const [selectedColor, setSelectedColor] = useState(product?.colors[0]?.name || 'Default');
+  const [selectedSize, setSelectedSize] = useState(product?.sizes[1] || product?.sizes[0] || 'M');
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
 
   if (!product) {
     return (
-      <div className="min-h-[70vh] flex flex-col items-center justify-center p-8 text-center bg-[#EBF3FA] text-white">
-        <h2 className="font-serif text-3xl mb-4">Product Not Found</h2>
+      <div className="min-h-[70vh] flex flex-col items-center justify-center p-8 text-center bg-[#F4F1EA] text-[#171717]">
+        <h2 className="font-serif text-3xl mb-4">Silhouette Not Found</h2>
         <Link
-          to="/collections/all"
-          className="px-6 py-3 bg-[#2563EB] text-white font-black uppercase tracking-wider text-xs font-mono shadow-[0_4px_16px_rgba(248,131,121,0.4)]"
+          to="/collections"
+          className="px-6 py-3 bg-[#171717] text-white text-xs uppercase tracking-widest font-medium"
         >
           Return to Collections
         </Link>
@@ -54,11 +54,20 @@ export const ProductDetailPage: React.FC = () => {
   }
 
   const isSaved = isWishlisted(product.id);
-  const activeImage = COLOR_IMAGE_MAP[selectedColor] || product.images.primary;
+  const colorMappedImage = COLOR_IMAGE_MAP[selectedColor] || product.images.primary;
+
+  const galleryImages = [
+    colorMappedImage,
+    product.images.secondary !== product.images.primary ? product.images.secondary : null,
+    product.images.detail !== product.images.primary ? product.images.detail : null,
+  ].filter(Boolean) as string[];
+
+  const displayedImage = galleryImages[activeGalleryIndex] || colorMappedImage;
 
   const handleAdd = () => {
     addToCart(product, selectedSize, selectedColor);
     setIsAdded(true);
+    setIsCartOpen(true);
     setTimeout(() => setIsAdded(false), 2000);
   };
 
@@ -67,7 +76,7 @@ export const ProductDetailPage: React.FC = () => {
     try {
       const checkoutUrl = await createShopifyCheckout([
         {
-          variantId: product.id.startsWith('prod_') ? '44119548559395' : product.id,
+          variantId: product.variants?.[0]?.id || product.id,
           quantity: 1,
         },
       ], 'IN');
@@ -75,251 +84,229 @@ export const ProductDetailPage: React.FC = () => {
         window.location.href = checkoutUrl;
       } else {
         addToCart(product, selectedSize, selectedColor);
+        setIsCartOpen(true);
       }
     } catch {
       addToCart(product, selectedSize, selectedColor);
+      setIsCartOpen(true);
     } finally {
       setIsCheckingOut(false);
     }
   };
 
   return (
-    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-6 sm:px-10 bg-[#07111E] text-white font-sans">
-      {/* Breadcrumb Navigation */}
-      <nav className="flex items-center space-x-2 text-xs uppercase tracking-wider text-[#94A3B8] font-sans font-medium mb-8">
-        <Link to="/" className="hover:text-[#F88379] transition-colors">Home</Link>
-        <ChevronRight className="w-3.5 h-3.5" />
-        <Link to="/collections/all" className="hover:text-[#F88379] transition-colors">Collections</Link>
-        <ChevronRight className="w-3.5 h-3.5" />
+    <div className="min-h-screen py-8 sm:py-14 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 bg-[#F4F1EA] text-[#171717] font-sans">
+      {/* Editorial Breadcrumbs */}
+      <nav className="flex items-center space-x-2 text-xs uppercase tracking-wider text-[#706B64] font-medium mb-8">
+        <Link to="/" className="hover:text-[#171717] transition-colors">Home</Link>
+        <ChevronRight className="w-3.5 h-3.5 text-[#B9AA96]" />
+        <Link to="/collections" className="hover:text-[#171717] transition-colors">Collections</Link>
+        <ChevronRight className="w-3.5 h-3.5 text-[#B9AA96]" />
         <Link
-          to={`/collections/${product.category.toLowerCase().replace(/\s+/g, '-')}`}
-          className="hover:text-[#F88379] transition-colors"
+          to={`/collections/${product.gender === 'Women' ? 'women' : 'men'}`}
+          className="hover:text-[#171717] transition-colors"
         >
           {product.category}
         </Link>
-        <ChevronRight className="w-3.5 h-3.5" />
-        <span className="text-[#F88379] font-bold truncate max-w-xs">{product.name}</span>
+        <ChevronRight className="w-3.5 h-3.5 text-[#B9AA96]" />
+        <span className="text-[#171717] font-semibold truncate max-w-xs">{product.name}</span>
       </nav>
 
-      {/* Main PDP Grid */}
+      {/* Main Product Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
-        {/* Left Gallery (7 Cols) */}
+        
+        {/* Left: 4:5 Photography & Gallery */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="aspect-[3/4] w-full bg-gradient-to-b from-white/[0.05] to-[#2563EB]/[0.04] backdrop-blur-md border border-[#2563EB]/25 flex items-center justify-center p-8 relative overflow-hidden shadow-2xl">
+          {/* Main 4:5 Product Surface Box */}
+          <div className="relative aspect-[4/5] w-full bg-[#FFFFFF] border border-[#DDD8CE] overflow-hidden flex items-center justify-center p-6 sm:p-10 shadow-sm">
             <img
-              src={activeImage}
-              alt={`${product.name} in ${selectedColor}`}
-              className="max-h-full max-w-full object-contain object-center transition-all duration-300"
+              src={displayedImage}
+              alt={product.name}
+              className="w-full h-full object-contain transition-transform duration-700 ease-out hover:scale-105"
             />
-            {/* Top-Right Wishlist Floating Button */}
+
+            {/* Badges */}
+            <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
+              {product.gsm && (
+                <span className="bg-[#F4F1EA] text-[#171717] text-[10px] tracking-widest uppercase px-2.5 py-1 font-semibold border border-[#DDD8CE]">
+                  {product.gsm} GSM Bio-Washed
+                </span>
+              )}
+              <span className="bg-[#FFFFFF] text-[#706B64] text-[9px] tracking-widest uppercase px-2 py-0.5 font-medium border border-[#DDD8CE]">
+                In Stock &bull; Ships in 24h
+              </span>
+            </div>
+
+            {/* Wishlist Button */}
             <button
               onClick={() => toggleWishlist(product.id)}
-              className={`absolute top-4 right-4 w-10 h-10 rounded-full border flex items-center justify-center transition-all cursor-pointer shadow-md ${
+              className={`absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                 isSaved
-                  ? 'bg-[#F88379] border-[#F88379] text-white shadow-[0_0_15px_rgba(248,131,121,0.5)]'
-                  : 'bg-[#071325]/80 border-[#1E3A66] text-white hover:text-[#F88379] hover:border-[#F88379]'
+                  ? 'bg-[#171717] text-white'
+                  : 'bg-[#FFFFFF] text-[#171717] hover:bg-[#171717] hover:text-white border border-[#DDD8CE]'
               }`}
-              title={isSaved ? "Saved in Vault" : "Save to Vault"}
+              title={isSaved ? "Saved in Wishlist" : "Save to Wishlist"}
             >
-              <Heart className={`w-4 h-4 ${isSaved ? 'fill-white' : ''}`} />
+              <Heart className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
             </button>
           </div>
 
-          {/* Color Mockup Thumbnails */}
-          <div className="grid grid-cols-7 gap-2">
-            {product.colors.map((c) => {
-              const img = COLOR_IMAGE_MAP[c.name];
-              const isSelected = selectedColor === c.name;
-              return (
+          {/* Thumbnails row if multiple images exist */}
+          {galleryImages.length > 1 && (
+            <div className="flex items-center gap-3">
+              {galleryImages.map((img, idx) => (
                 <button
-                  key={c.name}
-                  onClick={() => setSelectedColor(c.name)}
-                  className={`aspect-square p-1.5 border transition-all flex flex-col items-center justify-center bg-white/[0.03] backdrop-blur-sm cursor-pointer ${
-                    isSelected
-                      ? 'border-[#3B82F6] ring-2 ring-[#3B82F6]/50'
-                      : 'border-[#2563EB]/20 opacity-70 hover:opacity-100 hover:border-[#3B82F6]'
+                  key={idx}
+                  onClick={() => setActiveGalleryIndex(idx)}
+                  className={`w-20 h-24 bg-[#FFFFFF] border p-2 overflow-hidden transition-all cursor-pointer ${
+                    activeGalleryIndex === idx
+                      ? 'border-[#171717] ring-1 ring-[#171717]'
+                      : 'border-[#DDD8CE] opacity-70 hover:opacity-100'
                   }`}
-                  title={`Color: ${c.name}`}
                 >
-                  {img ? (
-                    <img src={img} alt={c.name} className="w-full h-full object-contain" />
-                  ) : (
-                    <span className="w-4 h-4 rounded-full" style={{ backgroundColor: c.hex }} />
-                  )}
-                  <span className="text-[8px] font-mono mt-1 truncate max-w-full text-white font-bold">
-                    {c.name.split(' ')[0]}
-                  </span>
+                  <img src={img} alt="thumbnail" className="w-full h-full object-contain" />
                 </button>
-              );
-            })}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Right Info & Purchasing Panel (5 Cols) */}
-        <div className="lg:col-span-5 flex flex-col justify-between space-y-8">
-          <div className="space-y-6">
-            {/* Badges */}
-            <div className="flex items-center gap-2 text-[10px] uppercase tracking-wider font-sans">
-              <span className="bg-[#0B1A30] border border-[#1E3A66] text-white px-2.5 py-0.5 font-bold shadow-sm">
-                100% Combed Bio-Wash Cotton
-              </span>
-              <span className="bg-[#F88379] text-white px-2 py-0.5 font-bold shadow-sm">
-                Trevori Edition &bull; In Stock
-              </span>
+        {/* Right: Product Details & Purchase Controls */}
+        <div className="lg:col-span-5 space-y-6">
+          <div>
+            <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.25em] text-[#706B64] mb-2 font-medium">
+              <span>{product.category}</span>
+              <span className="text-[#B9AA96]">{product.gender} Silhouette</span>
             </div>
+            <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal text-[#171717] tracking-tight leading-tight">
+              {product.name}
+            </h1>
 
-            {/* Title & Price */}
-            <div>
-              <h1 className="font-sans text-3xl sm:text-4xl text-white font-extrabold leading-tight">
-                {product.name}
-              </h1>
-              <div className="text-3xl font-sans font-bold text-[#F88379] tracking-wider mt-3">
+            {/* Price */}
+            <div className="mt-4 flex items-baseline gap-3">
+              <span className="font-serif text-2xl sm:text-3xl font-semibold text-[#171717]">
                 {formatPrice(product.priceINR)}
-              </div>
-              <p className="text-[11px] text-[#94A3B8] font-sans mt-1 font-medium">
-                Inclusive of all taxes &bull; Free express delivery across India
-              </p>
-            </div>
-
-            {/* Color Selection */}
-            <div>
-              <div className="flex justify-between text-xs tracking-wider uppercase text-white mb-2.5 font-sans font-semibold">
-                <span>Selected Colorway:</span>
-                <span className="text-[#F88379] font-bold">{selectedColor}</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {product.colors.map((c) => (
-                  <button
-                    key={c.name}
-                    onClick={() => setSelectedColor(c.name)}
-                    className={`flex items-center gap-2 px-3 py-2 border text-xs transition-all cursor-pointer font-sans ${
-                      selectedColor === c.name
-                        ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_2px_10px_rgba(248,131,121,0.4)]'
-                        : 'border-[#1E3A66] bg-[#0B1A30] text-white hover:border-[#F88379]'
-                    }`}
-                  >
-                    <span className="w-3 h-3 rounded-full border border-white/20" style={{ backgroundColor: c.hex }} />
-                    <span>{c.name}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Size Selection */}
-            <div>
-              <div className="flex justify-between items-center text-xs tracking-wider uppercase text-white mb-2.5 font-sans font-semibold">
-                <span>Select Size:</span>
-                <button
-                  onClick={() => setIsSizeGuideOpen(true)}
-                  className="flex items-center gap-1 text-[#F88379] hover:underline cursor-pointer lowercase font-bold"
-                >
-                  <Ruler className="w-3.5 h-3.5" />
-                  <span>View Chest Measurements</span>
-                </button>
-              </div>
-              <div className="grid grid-cols-6 gap-2">
-                {product.sizes.map((s) => (
-                  <button
-                    key={s}
-                    onClick={() => setSelectedSize(s)}
-                    className={`py-3 text-xs font-sans font-bold border transition-all cursor-pointer ${
-                      selectedSize === s
-                        ? 'border-[#F88379] bg-[#F88379] text-white font-bold shadow-[0_2px_10px_rgba(248,131,121,0.4)]'
-                        : 'border-[#1E3A66] bg-[#0B1A30] text-white hover:border-[#F88379] hover:text-[#F88379]'
-                    }`}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Fabric & Fit Details */}
-            <div className="p-5 bg-[#0B1A30] backdrop-blur-md text-white border border-[#1E3A66] space-y-2 text-xs font-normal leading-relaxed shadow-xl">
-              <div className="flex items-center gap-2 text-[#F88379] font-sans uppercase text-[10px] font-bold">
-                <span>Specifications</span>
-              </div>
-              <p className="text-[#CBD5E1]">{product.fabric}</p>
-              <p className="border-t border-[#1E3A66] pt-2 text-[11px] text-[#94A3B8] font-sans">
-                {product.fitDescription} &bull; {product.modelMeasurements}
-              </p>
+              </span>
+              <span className="text-xs text-[#706B64]">
+                Inclusive of all taxes & express shipping
+              </span>
             </div>
           </div>
 
-          {/* Action CTAs */}
-          <div className="space-y-3 pt-6 border-t border-[#1E3A66]">
-            {/* 3D Virtual Try-On Studio Trigger */}
-            <Link
-              to={`/try-on?product=${product.id}&color=${encodeURIComponent(selectedColor)}&size=${selectedSize}`}
-              className="w-full py-3.5 bg-[#F88379]/15 border border-[#F88379]/40 text-[#F88379] hover:bg-[#F88379] hover:text-white transition-all duration-300 text-xs font-sans uppercase tracking-wider font-bold flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+          {/* Color Selector */}
+          <div className="pt-4 border-t border-[#DDD8CE] space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="uppercase tracking-wider text-[#706B64] font-medium">Colorway:</span>
+              <span className="font-semibold text-[#171717]">{selectedColor}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {product.colors.map((color) => {
+                const isSelected = selectedColor === color.name;
+                return (
+                  <button
+                    key={color.name}
+                    onClick={() => {
+                      setSelectedColor(color.name);
+                      setActiveGalleryIndex(0);
+                    }}
+                    className={`w-7 h-7 rounded-full border transition-all cursor-pointer ${
+                      isSelected
+                        ? 'border-[#171717] scale-110 ring-2 ring-[#171717] ring-offset-2'
+                        : 'border-[#DDD8CE] hover:scale-105 opacity-80 hover:opacity-100'
+                    }`}
+                    style={{ backgroundColor: color.hex }}
+                    title={color.name}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Size Selector */}
+          <div className="pt-4 border-t border-[#DDD8CE] space-y-2">
+            <div className="flex items-center justify-between text-xs">
+              <span className="uppercase tracking-wider text-[#706B64] font-medium">Select Size:</span>
+              <button
+                onClick={() => setIsSizeGuideOpen(true)}
+                className="text-xs uppercase tracking-wider text-[#171717] hover:text-[#B9AA96] transition-colors flex items-center gap-1 font-medium underline"
+              >
+                <Ruler className="w-3.5 h-3.5" />
+                <span>Size Guide</span>
+              </button>
+            </div>
+            <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
+              {product.sizes.map((size) => {
+                const isSelected = selectedSize === size;
+                return (
+                  <button
+                    key={size}
+                    onClick={() => setSelectedSize(size)}
+                    className={`py-2 text-xs uppercase tracking-wider font-medium border transition-colors cursor-pointer ${
+                      isSelected
+                        ? 'bg-[#171717] text-white border-[#171717]'
+                        : 'bg-[#FFFFFF] text-[#171717] border-[#DDD8CE] hover:border-[#171717]'
+                    }`}
+                  >
+                    {size}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="pt-4 space-y-3">
+            <button
+              onClick={handleAdd}
+              className="w-full py-4 bg-[#171717] text-white hover:bg-[#333333] transition-colors text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
-              <Sparkles className="w-4 h-4 text-[#F88379]" />
-              <span>⚡ Try On Yourself in 3D Fitting Studio</span>
-            </Link>
+              <ShoppingBag className="w-4 h-4" />
+              <span>{isAdded ? 'Added to Bag ✓' : 'Add to Shopping Bag'}</span>
+            </button>
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              {/* Add to Bag */}
-              <button
-                onClick={handleAdd}
-                className={`flex-1 py-4 uppercase tracking-wider text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer shadow-lg font-sans ${
-                  isAdded
-                    ? 'bg-emerald-500 text-black'
-                    : 'bg-[#F88379] hover:bg-[#FA958D] text-white shadow-[0_4px_20px_rgba(248,131,121,0.45)]'
-                }`}
-              >
-                {isAdded ? (
-                  <>
-                    <Check className="w-4 h-4" />
-                    <span>Added to Bag</span>
-                  </>
-                ) : (
-                  <span>Add to Bag &bull; {formatPrice(product.priceINR)}</span>
-                )}
-              </button>
+            <button
+              onClick={handleBuyNow}
+              disabled={isCheckingOut}
+              className="w-full py-4 bg-[#FFFFFF] border border-[#171717] text-[#171717] hover:bg-[#F4F1EA] transition-colors text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>{isCheckingOut ? 'Opening Shopify Checkout...' : 'Instant Shopify Checkout'}</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
+          </div>
 
-              {/* Instant Buy */}
-              <button
-                onClick={handleBuyNow}
-                disabled={isCheckingOut}
-                className="px-6 py-4 bg-[#0B1A30] border border-[#1E3A66] text-white hover:border-[#F88379] hover:text-[#F88379] text-xs uppercase tracking-wider font-sans flex items-center justify-center gap-2 transition-all cursor-pointer font-bold shadow-sm"
-                title="Instant Checkout"
-              >
-                {isCheckingOut ? (
-                  <span>Connecting...</span>
-                ) : (
-                  <>
-                    <span>Buy Now</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </>
-                )}
-              </button>
+          {/* Trust Guarantees */}
+          <div className="pt-6 border-t border-[#DDD8CE] space-y-2.5 text-xs text-[#706B64]">
+            <div className="flex items-center gap-2.5">
+              <Truck className="w-4 h-4 text-[#B9AA96]" />
+              <span>Complimentary Pan-India Dispatch within 24 Hours &bull; Delivered in 3-5 Days</span>
             </div>
-
-            {/* D2C Guarantees */}
-            <div className="grid grid-cols-2 gap-3 text-[10px] text-[#94A3B8] uppercase tracking-wider pt-3 font-sans border-t border-[#1E3A66]">
-              <div className="flex items-center gap-2">
-                <Truck className="w-3.5 h-3.5 text-[#F88379]" />
-                <span>Pan-India Delivery</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <RotateCcw className="w-3.5 h-3.5 text-[#F88379]" />
-                <span>7-Day Size Exchanges</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <ShieldCheck className="w-3.5 h-3.5 text-[#F88379]" />
-                <span>UPI & COD Accepted</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Check className="w-3.5 h-3.5 text-[#F88379]" />
-                <span>Zero Shrinkage Guarantee</span>
-              </div>
+            <div className="flex items-center gap-2.5">
+              <RotateCcw className="w-4 h-4 text-[#B9AA96]" />
+              <span>Hassle-Free 7-Day Size Exchanges arranged via Client Passport</span>
+            </div>
+            <div className="flex items-center gap-2.5">
+              <ShieldCheck className="w-4 h-4 text-[#B9AA96]" />
+              <span>100% Bio-Washed Combed Cotton &bull; Zero Synthetic Fillers</span>
             </div>
           </div>
+
+          {/* Specifications Accordion / Description */}
+          <div className="pt-6 border-t border-[#DDD8CE] space-y-3">
+            <h3 className="font-serif text-lg text-[#171717]">Atelier Specifications</h3>
+            <p className="text-xs text-[#706B64] font-light leading-relaxed">
+              {product.fitDescription}
+            </p>
+            <div className="p-4 bg-[#FFFFFF] border border-[#DDD8CE] text-xs space-y-1.5 font-light">
+              <div><strong className="font-medium text-[#171717]">Fabric:</strong> {product.fabric}</div>
+              <div><strong className="font-medium text-[#171717]">Model Drape:</strong> {product.modelMeasurements}</div>
+              <div><strong className="font-medium text-[#171717]">Care:</strong> Machine wash cold inside-out, tumble dry low or line dry in shade.</div>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      {/* Sizing Modal */}
-      {isSizeGuideOpen && <SizingModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} />}
+      <SizingModal isOpen={isSizeGuideOpen} onClose={() => setIsSizeGuideOpen(false)} />
     </div>
   );
 };

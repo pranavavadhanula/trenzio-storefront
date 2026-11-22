@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, Ruler, HelpCircle } from 'lucide-react';
+import { X, Ruler } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 
 interface SizingModalProps {
@@ -16,7 +16,6 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
 
   if (!visible) return null;
 
-  // Exact Trevori relaxed sizing chart
   const tShirtSizes = [
     { size: 'XS', chestIn: 40, chestCm: 101.6, lengthIn: 27, lengthCm: 68.6 },
     { size: 'S', chestIn: 42, chestCm: 106.7, lengthIn: 28, lengthCm: 71.1 },
@@ -27,25 +26,25 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
   ];
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 overflow-y-auto font-sans">
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-[#060C1A]/85 backdrop-blur-md"
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm"
         onClick={handleClose}
       />
 
       {/* Modal Box */}
-      <div className="relative w-full max-w-xl bg-[#0D1B3A] border border-white/15 p-6 sm:p-8 shadow-2xl z-10 space-y-6 text-[#FFFFFF]">
-        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+      <div className="relative w-full max-w-xl bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 shadow-2xl z-10 space-y-6 text-[#171717]">
+        <div className="flex items-center justify-between border-b border-[#DDD8CE] pb-4">
           <div className="flex items-center gap-2">
-            <Ruler className="w-5 h-5 text-[#2563EB]" />
-            <h3 className="font-serif text-2xl text-[#FFFFFF] font-light">
-              Oversized T-Shirt Size Guide
+            <Ruler className="w-5 h-5 text-[#B9AA96]" />
+            <h3 className="font-serif text-2xl text-[#171717] font-normal">
+              Atelier Sizing Guide
             </h3>
           </div>
           <button
             onClick={handleClose}
-            className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-[#FFFFFF] hover:text-[#2563EB] hover:border-[#2563EB] cursor-pointer"
+            className="w-8 h-8 rounded-full border border-[#DDD8CE] flex items-center justify-center text-[#171717] hover:bg-[#171717] hover:text-white transition-colors cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -53,25 +52,25 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
 
         {/* Unit switcher */}
         <div className="flex items-center justify-between gap-4">
-          <p className="text-xs text-[#3B82F6] font-light">
-            Exact dimensions from Trevori studio specifications.
+          <p className="text-xs text-[#706B64] font-light">
+            Exact architectural dimensions from Trevori specifications.
           </p>
-          <div className="flex border border-white/15 bg-white/[0.03]">
+          <div className="flex border border-[#DDD8CE]">
             <button
               onClick={() => setUnit('in')}
-              className={`px-3 py-1 text-xs uppercase font-mono cursor-pointer ${
-                unit === 'in' ? 'bg-[#2563EB] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]' : 'text-[#3B82F6] hover:bg-white/5'
+              className={`px-3 py-1 text-xs uppercase font-medium cursor-pointer ${
+                unit === 'in' ? 'bg-[#171717] text-white' : 'text-[#706B64] hover:bg-[#F4F1EA]'
               }`}
             >
-              In (Inches)
+              Inches
             </button>
             <button
               onClick={() => setUnit('cm')}
-              className={`px-3 py-1 text-xs uppercase font-mono cursor-pointer ${
-                unit === 'cm' ? 'bg-[#2563EB] text-black font-extrabold shadow-[0_0_10px_rgba(212,255,0,0.3)]' : 'text-[#3B82F6] hover:bg-white/5'
+              className={`px-3 py-1 text-xs uppercase font-medium cursor-pointer ${
+                unit === 'cm' ? 'bg-[#171717] text-white' : 'text-[#706B64] hover:bg-[#F4F1EA]'
               }`}
             >
-              Cm (Centimeters)
+              Centimeters
             </button>
           </div>
         </div>
@@ -80,30 +79,30 @@ export const SizingModal: React.FC<SizingModalProps> = ({ isOpen, onClose }) => 
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse text-xs">
             <thead>
-              <tr className="border-b border-white/10 text-[10px] uppercase tracking-widest text-[#2563EB] font-mono font-bold">
+              <tr className="border-b border-[#DDD8CE] text-[10px] uppercase tracking-widest text-[#706B64] font-medium">
                 <th className="py-2.5">Size</th>
                 <th className="py-2.5">Chest (Around)</th>
                 <th className="py-2.5">Length (Neck to Hem)</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10 font-mono text-[#FFFFFF]">
+            <tbody className="divide-y divide-[#DDD8CE]/60 text-[#171717]">
               {tShirtSizes.map((row) => (
-                <tr key={row.size} className="hover:bg-white/[0.03]">
-                  <td className="py-3 font-bold text-white">{row.size}</td>
-                  <td className="py-3">{unit === 'in' ? `${row.chestIn}"` : `${row.chestCm} cm`}</td>
-                  <td className="py-3">{unit === 'in' ? `${row.lengthIn}"` : `${row.lengthCm} cm`}</td>
+                <tr key={row.size} className="hover:bg-[#F4F1EA]">
+                  <td className="py-2.5 font-semibold">{row.size}</td>
+                  <td className="py-2.5 text-[#706B64]">
+                    {unit === 'in' ? `${row.chestIn}"` : `${row.chestCm} cm`}
+                  </td>
+                  <td className="py-2.5 text-[#706B64]">
+                    {unit === 'in' ? `${row.lengthIn}"` : `${row.lengthCm} cm`}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
 
-        {/* Help Note */}
-        <div className="flex items-start gap-2.5 p-3 bg-white/[0.03] border border-white/12 text-xs text-[#3B82F6]">
-          <HelpCircle className="w-4 h-4 text-[#2563EB] flex-shrink-0 mt-0.5" />
-          <span>
-            The final size may vary by &plusmn;0.5 inches due to manual cutting and bio-wash finishing.
-          </span>
+        <div className="p-3 bg-[#F4F1EA] border border-[#DDD8CE] text-[11px] text-[#706B64] font-light">
+          <strong>Fit Recommendation:</strong> Our silhouettes feature intentional dropped shoulders and a boxy torso. Choose your standard size for the calibrated relaxed streetwear drape, or size down for a conventional regular fit.
         </div>
       </div>
     </div>
