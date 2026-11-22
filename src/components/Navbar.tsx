@@ -90,10 +90,10 @@ export const Navbar: React.FC = () => {
     >
       {/* Plain Sticky Navigation Bar with Centered TREVORI Logo */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        <div className="h-16 sm:h-20 flex items-center justify-between gap-3 sm:gap-6">
+        <div className="relative h-16 sm:h-20 flex items-center justify-between gap-3 sm:gap-6">
           
-          {/* Left: Mobile Menu Trigger & Counterbalance to keep TREVORI Centered */}
-          <div className="flex-1 flex items-center gap-3 shrink-0">
+          {/* Left: Mobile Menu Trigger */}
+          <div className="flex items-center gap-3 z-10">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer"
@@ -103,8 +103,8 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
 
-          {/* Center: TREVORI Brand Logo */}
-          <div className="shrink-0 flex flex-col items-center justify-center text-center">
+          {/* Exact Dead-Center: TREVORI Brand Logo */}
+          <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center pointer-events-auto z-10">
             <Link to="/" className="group cursor-pointer flex flex-col items-center justify-center text-center" title="TREVORI Contemporary Streetwear">
               <span className="font-serif text-2xl sm:text-3xl lg:text-[32px] tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors">
                 TREVORI
@@ -116,9 +116,9 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Right: Search Bar & Larger Clean Icons (Vault, Bag, Account) */}
-          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-3 shrink-0">
+          <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0 ml-auto z-10">
             {/* Search Bar on Right */}
-            <div className="w-40 md:w-52 lg:w-64 xl:w-72 hidden md:block">
+            <div className="w-36 md:w-48 lg:w-56 xl:w-64 hidden md:block">
               <form onSubmit={handleSearchSubmit} className="relative w-full">
                 <input
                   type="text"

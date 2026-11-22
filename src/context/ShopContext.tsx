@@ -138,7 +138,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   useEffect(() => {
-    setProducts(FALLBACK_PRODUCTS);
+    refreshProducts();
   }, []);
 
   useEffect(() => {
