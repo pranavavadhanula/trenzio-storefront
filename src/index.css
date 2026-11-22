@@ -85,3 +85,74 @@ html, body, #root {
 .animate-fade-in-subtle {
   animation: fadeInSubtle 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* ------------------------------------------------------------- */
+/* 3D Glowing Luxury Editorial Look Cards & Interactive Motion  */
+/* ------------------------------------------------------------- */
+@keyframes luxuryGlowPulse {
+  0%, 100% {
+    box-shadow: 0 0 25px rgba(212, 175, 55, 0.55), 0 0 65px rgba(185, 170, 150, 0.35), 0 25px 45px rgba(0, 0, 0, 0.45);
+    border-color: rgba(212, 175, 55, 0.9);
+  }
+  50% {
+    box-shadow: 0 0 48px rgba(212, 175, 55, 0.85), 0 0 100px rgba(212, 175, 55, 0.55), 0 30px 60px rgba(0, 0, 0, 0.55);
+    border-color: rgba(255, 235, 170, 1);
+  }
+}
+
+@keyframes lightBeamSweep {
+  0% {
+    transform: translateX(-150%) skewX(-25deg);
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(350%) skewX(-25deg);
+    opacity: 0;
+  }
+}
+
+@keyframes float3DRightward {
+  0% {
+    transform: perspective(1200px) rotateY(-8deg) rotateX(2deg) translateZ(35px) translateX(18px) scale(1.04);
+  }
+  50% {
+    transform: perspective(1200px) rotateY(-11deg) rotateX(3deg) translateZ(48px) translateX(28px) scale(1.06);
+  }
+  100% {
+    transform: perspective(1200px) rotateY(-8deg) rotateX(2deg) translateZ(35px) translateX(18px) scale(1.04);
+  }
+}
+
+.look-card-3d-glow {
+  transition: all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+  transform-style: preserve-3d;
+  will-change: transform, box-shadow;
+}
+
+.look-card-3d-glow:hover {
+  animation: luxuryGlowPulse 2.4s ease-in-out infinite, float3DRightward 3.2s ease-in-out infinite;
+  z-index: 30;
+}
+
+.look-card-3d-glow .beam-effect {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.08) 25%,
+    rgba(255, 240, 200, 0.45) 50%,
+    rgba(255, 255, 255, 0.08) 75%,
+    transparent 100%
+  );
+  pointer-events: none;
+  opacity: 0;
+  z-index: 15;
+}
+
+.look-card-3d-glow:hover .beam-effect {
+  animation: lightBeamSweep 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}

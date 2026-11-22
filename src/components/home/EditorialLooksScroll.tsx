@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Sparkles } from 'lucide-react';
 
@@ -68,6 +68,8 @@ const EDITORIAL_LOOKS: LookItem[] = [
 
 export const EditorialLooksScroll: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isGliding, setIsGliding] = useState(false);
+  const animFrameId = useRef<number | null>(null);
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -78,6 +80,43 @@ export const EditorialLooksScroll: React.FC = () => {
       });
     }
   };
+
+  // Continuous 3D rightward glide as long as cursor is kept on the cards/reel
+  useEffect(() => {
+    if (!isGliding) {
+      if (animFrameId.current) {
+        cancelAnimationFrame(animFrameId.current);
+        animFrameId.current = null;
+      }
+      return;
+    }
+
+    let active = true;
+
+    const glide = () => {
+      if (!active || !scrollContainerRef.current) return;
+      const el = scrollContainerRef.current;
+      const maxScroll = el.scrollWidth - el.clientWidth;
+
+      if (el.scrollLeft >= maxScroll - 3) {
+        // Loop back smoothly to allow continuous exploration
+        el.scrollLeft = 0;
+      } else {
+        el.scrollLeft += 2.0; // Buttery smooth 60fps rightward 3D drift
+      }
+
+      animFrameId.current = requestAnimationFrame(glide);
+    };
+
+    animFrameId.current = requestAnimationFrame(glide);
+
+    return () => {
+      active = false;
+      if (animFrameId.current) {
+        cancelAnimationFrame(animFrameId.current);
+      }
+    };
+  }, [isGliding]);
 
   const tickerItems = [
     'TREVORI EDITION IV',
@@ -102,6 +141,12 @@ export const EditorialLooksScroll: React.FC = () => {
               <span className="text-xs uppercase tracking-[0.3em] text-[#706B64] font-medium">
                 SEASONAL EDITORIAL REEL // 2026
               </span>
+              {isGliding && (
+                <span className="ml-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#171717] text-[#B9AA96] text-[10px] uppercase font-mono tracking-widest border border-[#B9AA96]/60 shadow-lg animate-pulse rounded-full">
+                  <Sparkles className="w-2.5 h-2.5 text-[#B9AA96]" />
+                  <span>3D GLIDE ACTIVE</span>
+                </span>
+              )}
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#171717] font-normal tracking-tight">
               Curated Silhouette Looks
@@ -142,17 +187,25 @@ export const EditorialLooksScroll: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Horizontal Scrolling Look Cards */}
+      {/* 3. Horizontal Scrolling Look Cards with 3D Glow & Rightward Motion on Hover */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 mt-10">
         <div
           ref={scrollContainerRef}
-          className="flex gap-5 sm:gap-6 overflow-x-auto no-scrollbar scroll-smooth snap-x snap-mandatory pb-8 pt-2"
+          onMouseEnter={() => setIsGliding(true)}
+          onMouseLeave={() => setIsGliding(false)}
+          className={`flex gap-5 sm:gap-6 overflow-x-auto no-scrollbar pb-8 pt-4 ${
+            isGliding ? 'scroll-auto' : 'scroll-smooth snap-x'
+          }`}
+          style={{ perspective: '1200px' }}
         >
           {EDITORIAL_LOOKS.map((look) => (
             <div
               key={look.id}
-              className="w-[260px] sm:w-[290px] md:w-[320px] shrink-0 snap-start group relative bg-[#DDD8CE] border border-[#DDD8CE] overflow-hidden transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
+              className="look-card-3d-glow w-[260px] sm:w-[290px] md:w-[320px] shrink-0 snap-start group relative bg-[#DDD8CE] border border-[#DDD8CE] overflow-hidden cursor-pointer"
             >
+              {/* Luminous Shimmer Light Beam Effect */}
+              <div className="beam-effect" />
+
               {/* Image Container with 3:4 Aspect Ratio */}
               <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#DDD8CE]">
                 <img
@@ -172,7 +225,7 @@ export const EditorialLooksScroll: React.FC = () => {
                 </div>
 
                 {/* Bottom Card Content */}
-                <div className="absolute bottom-0 inset-x-0 p-5 text-white">
+                <div className="absolute bottom-0 inset-x-0 p-5 text-white z-10">
                   <span className="text-[10px] uppercase tracking-widest text-[#DDD8CE] font-medium block mb-1">
                     {look.category}
                   </span>
@@ -200,11 +253,14 @@ export const EditorialLooksScroll: React.FC = () => {
             </div>
           ))}
 
-          {/* 4. Final "View All" Card (Matching Image 1) */}
+          {/* 4. Final "View All" Card */}
           <Link
             to="/collections"
-            className="w-[240px] sm:w-[270px] shrink-0 snap-start group relative bg-[#171717] text-white flex flex-col items-center justify-center text-center p-8 border border-[#B9AA96]/30 transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl cursor-pointer"
+            className="look-card-3d-glow w-[240px] sm:w-[270px] shrink-0 snap-start group relative bg-[#171717] text-white flex flex-col items-center justify-center text-center p-8 border border-[#B9AA96]/30 cursor-pointer overflow-hidden"
           >
+            {/* Luminous Shimmer Light Beam Effect */}
+            <div className="beam-effect" />
+
             {/* Subtle luxury badge */}
             <span className="text-[10px] uppercase tracking-[0.3em] text-[#B9AA96] font-mono mb-4 block">
               TREVORI ARCHIVE
