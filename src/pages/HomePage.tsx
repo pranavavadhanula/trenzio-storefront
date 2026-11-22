@@ -164,9 +164,9 @@ const Showcase3DCard: React.FC<Showcase3DCardProps> = ({
 
 export const HomePage: React.FC = () => {
   return (
-    <div className="relative min-h-[90vh] flex flex-col justify-start w-full bg-[#07111E] text-white overflow-hidden font-sans pb-14">
+    <div className="relative min-h-[90vh] flex flex-col justify-start w-full max-w-full bg-[#07111E] text-white overflow-hidden font-sans pb-14">
       {/* Deep Royal Midnight Ambient Glow */}
-      <div className="pointer-events-none absolute top-10 left-1/3 w-[650px] h-72 bg-gradient-to-r from-[#1D4ED8]/25 via-[#2563EB]/15 to-transparent blur-3xl rounded-full" />
+      <div className="pointer-events-none absolute top-10 left-1/2 -translate-x-1/2 w-72 sm:w-[500px] h-72 bg-gradient-to-r from-[#1D4ED8]/25 via-[#2563EB]/15 to-transparent blur-3xl rounded-full" />
 
       {/* 1. Cinematic Hero Editorial Photo Banner with Custom Shirt & Monogram Hoodie */}
       <div className="relative z-10 w-full mb-8 sm:mb-10">

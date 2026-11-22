@@ -41,7 +41,7 @@ function MainStorefront() {
   const isLoginPage = pathname === '/login';
 
   return (
-    <div className="min-h-screen bg-[#07111E] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#F88379] selection:text-white">
+    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#07111E] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#F88379] selection:text-white">
       <ScrollToTop />
 
       {/* Top Banner (Navy Blue Glossy) - Hidden on full-screen Login */}
@@ -51,7 +51,7 @@ function MainStorefront() {
       {!isLoginPage && <Navbar />}
 
       {/* Main Multi-Page Routed Content (Dark Blue Theme) */}
-      <main className="flex-1 bg-[#07111E]">
+      <main className="flex-1 w-full max-w-full overflow-x-hidden bg-[#07111E]">
         <Routes>
           {/* Home Page: Hero, Heavyweight Drops, Fabric Promise */}
           <Route path="/" element={<HomePage />} />

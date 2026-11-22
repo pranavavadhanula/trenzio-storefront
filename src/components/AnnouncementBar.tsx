@@ -4,22 +4,22 @@ import { Link } from 'react-router-dom';
 
 const ANNOUNCEMENTS = [
   {
-    text: 'FREE SHIPPING ACROSS INDIA ON ORDERS ABOVE ₹1,999 • COD AVAILABLE',
-    highlight: 'FREE SHIPPING',
+    text: 'FREE EXPRESS SHIPPING ON ORDERS OVER ₹1,999',
+    highlight: 'FREE EXPRESS SHIPPING',
     link: '/collections',
   },
   {
-    text: 'USE CODE: TREVORI200 FOR FLAT ₹200 OFF YOUR FIRST ORDER',
+    text: 'USE CODE: TREVORI200 FOR FLAT ₹200 OFF',
     highlight: 'TREVORI200',
     link: '/collections',
   },
   {
-    text: '100% COMBED BIO-WASH COTTON • 240–400 GSM ARCHITECTURAL HEAVYWEIGHT DROPS',
+    text: '100% COMBED COTTON • 240–400 GSM DROPS',
     highlight: '240–400 GSM',
     link: '/about',
   },
   {
-    text: 'EXPERIENCE YOUR SILHOUETTE IN THE 3D VIRTUAL FITTING ROOM',
+    text: '3D VIRTUAL FIT ROOM • LIVE PREVIEW',
     highlight: '3D VIRTUAL',
     link: '/try-on',
   },
@@ -33,15 +33,17 @@ export const AnnouncementBar: React.FC = () => {
     if (isPaused) return;
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
-    }, 4000);
+    }, 4500);
     return () => clearInterval(interval);
   }, [isPaused]);
 
-  const handlePrev = () => {
+  const handlePrev = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setCurrentIndex((prev) => (prev - 1 + ANNOUNCEMENTS.length) % ANNOUNCEMENTS.length);
   };
 
-  const handleNext = () => {
+  const handleNext = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setCurrentIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
   };
 
@@ -51,26 +53,26 @@ export const AnnouncementBar: React.FC = () => {
     <div
       onMouseEnter={() => setIsPaused(true)}
       onMouseLeave={() => setIsPaused(false)}
-      className="w-full bg-[#07111E] text-slate-300 border-b border-[#1E3A66]/40 py-2 sm:py-2.5 px-4 font-sans select-none relative z-40 transition-colors"
+      className="w-full max-w-full overflow-hidden bg-[#07111E] text-slate-300 border-b border-[#1E3A66]/40 py-2 sm:py-2.5 px-3 sm:px-4 font-sans select-none relative z-40 transition-colors"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between text-[11px] sm:text-xs">
+      <div className="w-full max-w-7xl mx-auto flex items-center justify-between min-w-0 text-[10px] sm:text-xs">
         {/* Left Arrow */}
         <button
           type="button"
           onClick={handlePrev}
           aria-label="Previous announcement"
-          className="p-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
+          className="shrink-0 p-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
         >
           <ChevronLeft className="w-3.5 h-3.5" />
         </button>
 
-        {/* Central Clean Message */}
-        <div className="flex-1 text-center overflow-hidden px-2">
+        {/* Central Clean Luxury Message */}
+        <div className="flex-1 min-w-0 text-center overflow-hidden px-2">
           <Link
             to={current.link}
-            className="inline-block transition-opacity duration-300 hover:text-white"
+            className="block truncate max-w-full transition-opacity duration-300 hover:text-white"
           >
-            <span className="tracking-[0.16em] uppercase font-medium text-slate-300 hover:text-white">
+            <span className="tracking-[0.14em] uppercase font-medium text-slate-300 hover:text-white">
               {current.text.split(current.highlight).map((part, i, arr) => (
                 <React.Fragment key={i}>
                   {part}
@@ -90,7 +92,7 @@ export const AnnouncementBar: React.FC = () => {
           type="button"
           onClick={handleNext}
           aria-label="Next announcement"
-          className="p-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
+          className="shrink-0 p-1 text-slate-400 hover:text-white transition-colors cursor-pointer"
         >
           <ChevronRight className="w-3.5 h-3.5" />
         </button>

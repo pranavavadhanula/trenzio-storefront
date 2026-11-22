@@ -132,24 +132,24 @@ export const Navbar: React.FC = () => {
             <span>INR (₹)</span>
           </div>
 
-          {/* AI Stylist Studio Link */}
+          {/* AI Stylist Studio Link - Visible on tablet/desktop */}
           <Link
             to="/ai-stylist"
-            className="relative flex items-center gap-1.5 text-white hover:text-[#93C5FD] transition-all px-2.5 py-1.5 rounded-sm bg-[#2563EB]/25 border border-[#2563EB]/60 hover:bg-[#2563EB]/35 cursor-pointer font-sans text-xs font-bold tracking-wider shadow-[0_0_12px_rgba(37,99,235,0.35)]"
+            className="hidden md:flex relative items-center gap-1.5 text-white hover:text-[#93C5FD] transition-all px-2.5 py-1.5 rounded-sm bg-[#2563EB]/25 border border-[#2563EB]/60 hover:bg-[#2563EB]/35 cursor-pointer font-sans text-xs font-bold tracking-wider shadow-[0_0_12px_rgba(37,99,235,0.35)]"
             title="Trevori AI Fashion Stylist Studio"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#3B82F6] animate-pulse" />
-            <span className="hidden sm:inline">AI STYLIST</span>
+            <span>AI STYLIST</span>
           </Link>
 
-          {/* Account / Log In */}
+          {/* Account / Log In - Visible on tablet/desktop, accessible via hamburger drawer on mobile */}
           <Link
             to={isLoggedIn ? "/account" : "/login"}
-            className="relative flex items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
+            className="hidden sm:flex relative items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
             title={isLoggedIn ? `Account (${user?.name})` : "Customer Log In or Register"}
           >
             <User className="w-4 h-4 text-[#F88379]" />
-            <span className="hidden sm:inline">
+            <span>
               {isLoggedIn ? 'ACCOUNT' : 'LOG IN'}
             </span>
           </Link>
