@@ -5,6 +5,7 @@ import { HeroEditorialBanner } from '../components/HeroEditorialBanner';
 import { EditorialLooksScroll } from '../components/home/EditorialLooksScroll';
 import { ProductCard } from '../components/ProductCard';
 import { Glossy3DCard } from '../components/Glossy3DCard';
+import { Lookbook3DCard } from '../components/Lookbook3DCard';
 import { useShop } from '../context/ShopContext';
 import { Product } from '../types';
 
@@ -100,23 +101,23 @@ export const HomePage: React.FC = () => {
     {
       id: 'look-01',
       title: 'Look 01: The Monolith Silhouette',
-      setting: 'Concrete Brutalist Pavilion &bull; Milan',
-      image: '/images/models/man_streetwear_hoodie.jpg',
-      description: 'French Terry Cotton Boxy Hoodie paired with Relaxed Pleated Wide-Leg Cargo Pants.',
+      setting: '',
+      image: '/images/models/trevori_green_sweatshirt.png',
+      description: 'Embroidered French Terry Cotton Crewneck paired with Relaxed Atelier Draped Pants.',
       items: [
-        { name: 'Classic French Terry Boxy Hoodie', priceINR: 2499, category: 'Hoodies' },
+        { name: 'Embroidered French Terry Crewneck', priceINR: 2499, category: 'Sweatshirts' },
         { name: 'Relaxed Pleated Wide-Leg Cargo Pants', priceINR: 1499, category: 'Pants' },
       ],
     },
     {
       id: 'look-02',
       title: 'Look 02: Architectural Contrast',
-      setting: 'Warm Studio Chiaroscuro &bull; Tokyo',
-      image: '/images/models/street_tee.jpg',
-      description: 'Vintage Acid-Wash Monogram Oversized Tee worn with Clean Indigo Tailored Streetwear Denim.',
+      setting: '',
+      image: '/images/models/trevori_editorial_sitting.jpg',
+      description: 'Textured Knit Summer Polo worn with Relaxed Pleated Cargo Pants.',
       items: [
-        { name: 'Vintage Acid-Wash Monogram Tee', priceINR: 1699, category: 'Oversized Tees' },
-        { name: 'Clean Indigo Tailored Denim', priceINR: 1799, category: 'Pants' },
+        { name: 'Textured Knit Summer Polo', priceINR: 1699, category: 'Shirts' },
+        { name: 'Relaxed Pleated Cargo Pants', priceINR: 1799, category: 'Pants' },
       ],
     },
     {
@@ -361,9 +362,9 @@ export const HomePage: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             <Glossy3DCard
               badge="Capsule 01"
-              image="/images/models/man_streetwear_hoodie.jpg"
+              image="/images/models/trevori_green_sweatshirt.png"
               title="The Architectural Core"
-              description="Brutalist minimalism in contemporary French Terry Cotton. Obsidian black, ecru ivory, and reinforced dropped seams."
+              description="Brutalist minimalism in contemporary French Terry Cotton. Obsidian black, forest green, and reinforced seams."
               linkTo="/collections/men"
             />
 
@@ -406,26 +407,13 @@ export const HomePage: React.FC = () => {
 
         {/* Lookbook Interactive Split Gallery */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          {/* Main Large Editorial Image */}
-          <div className="lg:col-span-7 relative aspect-[4/5] bg-[#DDD8CE] border border-[#DDD8CE] overflow-hidden group">
-            <img
-              src={LOOKBOOK_ITEMS[activeLookIndex].image}
-              alt={LOOKBOOK_ITEMS[activeLookIndex].title}
-              className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-102"
+          {/* Main Large Editorial 3D Glossy Image */}
+          <div className="lg:col-span-7">
+            <Lookbook3DCard
+              image={LOOKBOOK_ITEMS[activeLookIndex].image}
+              title={LOOKBOOK_ITEMS[activeLookIndex].title}
+              onOpenModal={() => setLookbookModalOpen(true)}
             />
-            {/* Setting badge */}
-            <div className="absolute top-4 left-4 bg-[#FFFFFF]/90 backdrop-blur-md px-3 py-1 text-[10px] uppercase tracking-wider text-[#171717] font-medium border border-[#DDD8CE]">
-              <span dangerouslySetInnerHTML={{ __html: LOOKBOOK_ITEMS[activeLookIndex].setting }} />
-            </div>
-
-            {/* Click to open details */}
-            <button
-              onClick={() => setLookbookModalOpen(true)}
-              className="absolute bottom-4 right-4 bg-[#171717] text-white hover:bg-[#333333] px-4 py-2 text-[10px] uppercase tracking-widest font-medium transition-colors flex items-center gap-1.5 cursor-pointer shadow-sm"
-            >
-              <Eye className="w-3.5 h-3.5" />
-              <span>Inspect Look Details</span>
-            </button>
           </div>
 
           {/* Look Selector and Styled Pieces breakdown */}

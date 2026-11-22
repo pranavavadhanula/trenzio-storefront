@@ -1,0 +1,110 @@
+import React, { useRef, useState, useCallback } from 'react';
+import { Eye } from 'lucide-react';
+
+interface Lookbook3DCardProps {
+  image: string;
+  title: string;
+  onOpenModal: () => void;
+}
+
+export const Lookbook3DCard: React.FC<Lookbook3DCardProps> = ({
+  image,
+  title,
+  onOpenModal,
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [rotate, setRotate] = useState({ x: 0, y: 0 });
+  const [glare, setGlare] = useState({ x: 50, y: 50, opacity: 0 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (!containerRef.current) return;
+    const rect = containerRef.current.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top) / rect.height;
+
+    // Smooth responsive 3D tilt angles (-14 to +14 deg)
+    const rotX = (0.5 - y) * 16;
+    const rotY = (x - 0.5) * 16;
+
+    setRotate({ x: rotX, y: rotY });
+    setGlare({ x: x * 100, y: y * 100, opacity: 0.8 });
+  }, []);
+
+  const handleMouseEnter = useCallback(() => {
+    setIsHovered(true);
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    setIsHovered(false);
+    setRotate({ x: 0, y: 0 });
+    setGlare({ x: 50, y: 50, opacity: 0 });
+  }, []);
+
+  return (
+    <div
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ perspective: '1400px' }}
+      className="relative select-none cursor-pointer w-full"
+      onClick={onOpenModal}
+    >
+      <div
+        style={{
+          transform: isHovered
+            ? `rotateX(${rotate.x.toFixed(2)}deg) rotateY(${rotate.y.toFixed(2)}deg) translateY(-8px) scale3d(1.02, 1.02, 1.02)`
+            : 'rotateX(0deg) rotateY(0deg) translateY(0px) scale3d(1, 1, 1)',
+          transition: isHovered
+            ? 'transform 0.12s ease-out, box-shadow 0.25s ease-out'
+            : 'transform 0.55s cubic-bezier(0.2, 0.8, 0.25, 1), box-shadow 0.55s ease-out',
+          transformStyle: 'preserve-3d',
+        }}
+        className="relative aspect-[4/5] bg-white/95 backdrop-blur-2xl border border-white/80 overflow-hidden shadow-[0_20px_45px_rgba(23,23,23,0.1),0_2px_8px_rgba(0,0,0,0.04),inset_0_1px_2px_rgba(255,255,255,0.95)] hover:shadow-[0_36px_85px_rgba(23,23,23,0.22),0_8px_24px_rgba(0,0,0,0.1),inset_0_2px_4px_rgba(255,255,255,1)] transition-shadow duration-300 group"
+      >
+        {/* Top Edge Specular Reflection Beam */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-white to-transparent z-40 opacity-95" />
+
+        {/* Dynamic Specular Gloss Glare Reflection */}
+        <div
+          className="absolute inset-0 z-30 pointer-events-none transition-opacity duration-200"
+          style={{
+            opacity: glare.opacity,
+            background: `radial-gradient(circle at ${glare.x}% ${glare.y}%, rgba(255,255,255,0.85) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0) 65%)`,
+          }}
+        />
+
+        {/* Diagonal High-Gloss Liquid Sheen Overlay */}
+        <div className="absolute inset-0 z-25 pointer-events-none bg-gradient-to-tr from-transparent via-white/10 to-white/45 opacity-60 group-hover:opacity-90 transition-opacity duration-300" />
+
+        {/* Subtle Glass Border */}
+        <div className="absolute inset-0 z-35 pointer-events-none border border-white/50" />
+
+        {/* 3D Image Layer */}
+        <div className="w-full h-full" style={{ transform: 'translateZ(15px)' }}>
+          <img
+            src={image}
+            alt={title}
+            className="w-full h-full object-cover object-top transition-transform duration-700 ease-out group-hover:scale-106"
+          />
+          {/* Subtle bottom gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-white/10 pointer-events-none" />
+        </div>
+
+        {/* 3D Floating Inspect Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onOpenModal();
+          }}
+          style={{ transform: 'translateZ(35px)' }}
+          className="absolute bottom-5 right-5 bg-[#171717]/90 hover:bg-[#171717] backdrop-blur-md text-white px-5 py-2.5 text-[10px] uppercase tracking-widest font-medium transition-all flex items-center gap-2 cursor-pointer shadow-xl border border-white/20 group-hover:scale-105"
+        >
+          <Eye className="w-3.5 h-3.5" />
+          <span>Inspect Look Details</span>
+        </button>
+      </div>
+    </div>
+  );
+};
