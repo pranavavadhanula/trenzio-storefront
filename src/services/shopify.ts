@@ -168,6 +168,8 @@ export async function fetchShopifyProducts(): Promise<Product[]> {
         modelMeasurements: "Model is 6'1\" wearing size L.",
         inStock: true,
         stockCount: 25,
+        isNewArrival: true,
+        isBestSeller: true,
         variants: node.variants.edges.map(v => ({
           id: v.node.id,
           color: v.node.selectedOptions.find(o => o.name.toLowerCase() === 'color')?.value || 'Default',

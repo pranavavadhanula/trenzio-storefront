@@ -22,7 +22,7 @@ export const HomePage: React.FC = () => {
 
   // Filter products for New Arrivals and Best Sellers
   const newArrivals = products
-    .filter((p) => p.isNewArrival || p.id.includes('TRV-TSH') || p.id.includes('TRV-HD') || p.id.includes('TRV-PNT'))
+    .filter((p) => p.isNewArrival || p.id.startsWith('gid://') || p.id.includes('shopify') || p.id.includes('TRV-TSH') || p.id.includes('TRV-HD') || p.id.includes('TRV-PNT'))
     .filter((p) => activeNewArrivalCategory === 'All' || p.category === activeNewArrivalCategory)
     .slice(0, 8);
 
