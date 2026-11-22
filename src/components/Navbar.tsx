@@ -104,8 +104,8 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
 
-          {/* TREVORI Brand Logo: Centered on mobile, shifted slightly left on desktop to prevent crowding with the search bar */}
-          <div className="absolute left-1/2 lg:left-[38%] xl:left-[39%] -translate-x-1/2 flex flex-col items-center justify-center text-center pointer-events-auto z-10 transition-all duration-300">
+          {/* TREVORI Brand Logo: Centered on mobile, shifted slightly left on desktop to balance search bar with breathing room */}
+          <div className="absolute left-1/2 lg:left-[34%] xl:left-[35%] -translate-x-1/2 flex flex-col items-center justify-center text-center pointer-events-auto z-10 transition-all duration-300">
             <Link to="/" className="group cursor-pointer flex flex-col items-center justify-center text-center" title="TREVORI Contemporary Streetwear">
               <span className="font-serif text-2xl sm:text-3xl lg:text-[32px] tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors">
                 TREVORI
@@ -118,29 +118,29 @@ export const Navbar: React.FC = () => {
 
           {/* Right: Search Bar & Larger Clean Icons (Vault, Bag, Account) */}
           <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0 ml-auto z-10">
-            {/* Desktop Search Bar on Right (lg screens and up) */}
-            <div className="w-44 lg:w-48 xl:w-56 hidden lg:block">
+            {/* Desktop Search Bar on Right: Wide & Uncongested */}
+            <div className="w-64 lg:w-72 xl:w-80 hidden lg:block">
               <form onSubmit={handleSearchSubmit} className="relative w-full">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search shirts, hoodies, cargos..."
-                  className="w-full bg-[#FFFFFF] text-[#171717] placeholder-[#706B64]/70 text-xs pl-8 pr-16 py-1.5 sm:py-2 border border-[#DDD8CE] focus:border-[#171717] focus:outline-none transition-all shadow-none"
+                  className="w-full bg-[#FFFFFF] text-[#171717] placeholder-[#706B64]/80 text-xs sm:text-sm pl-9 pr-20 py-2 border border-[#DDD8CE] focus:border-[#171717] focus:outline-none transition-all shadow-none"
                 />
-                <Search className="w-3.5 h-3.5 text-[#706B64] absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                <Search className="w-4 h-4 text-[#706B64] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
                 {searchQuery && (
                   <button
                     type="button"
                     onClick={() => setSearchQuery('')}
-                    className="absolute right-14 top-1/2 -translate-y-1/2 text-[9px] text-[#706B64] hover:text-[#171717] uppercase tracking-wider px-1"
+                    className="absolute right-16 top-1/2 -translate-y-1/2 text-[9px] text-[#706B64] hover:text-[#171717] uppercase tracking-wider px-1"
                   >
                     Clear
                   </button>
                 )}
                 <button
                   type="submit"
-                  className="absolute right-1 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-[#171717] hover:bg-[#333333] text-white text-[9px] uppercase tracking-widest font-medium transition-colors cursor-pointer"
+                  className="absolute right-1.5 top-1/2 -translate-y-1/2 px-3 py-1 bg-[#171717] hover:bg-[#333333] text-white text-[9px] uppercase tracking-widest font-medium transition-colors cursor-pointer"
                 >
                   Search
                 </button>
@@ -222,8 +222,8 @@ export const Navbar: React.FC = () => {
           </form>
         </div>
 
-        {/* Desktop Secondary Editorial Menu Bar */}
-        <div className="hidden lg:flex items-center justify-center space-x-9 py-2.5 border-t border-[#DDD8CE]/60 text-xs font-medium tracking-[0.18em] uppercase text-[#171717]">
+        {/* Desktop Secondary Editorial Menu Bar: Only New Arrivals, Men, and Women */}
+        <div className="hidden lg:flex items-center justify-center space-x-14 py-3 border-t border-[#DDD8CE]/60 text-xs font-medium tracking-[0.22em] uppercase text-[#171717]">
           {/* New Arrivals */}
           <Link to="/collections" className="hover:text-[#B9AA96] transition-colors py-1">
             New Arrivals
@@ -280,47 +280,6 @@ export const Navbar: React.FC = () => {
               </div>
             )}
           </div>
-
-          {/* Traditional Couture Dropdown */}
-          <div
-            className="relative"
-            onMouseEnter={() => handleMouseEnter('traditional')}
-            onMouseLeave={handleMouseLeave}
-          >
-            <button className="flex items-center gap-1 hover:text-[#B9AA96] transition-colors py-1 cursor-pointer">
-              <span>Heritage & Traditional</span>
-              <ChevronDown className="w-3 h-3 opacity-60" />
-            </button>
-            {openDropdown === 'traditional' && (
-              <div className="absolute top-full left-0 w-72 bg-[#FFFFFF] border border-[#DDD8CE] shadow-lg py-3 z-50">
-                {TRADITIONAL_SUB_ITEMS.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className="block px-5 py-2 hover:bg-[#F4F1EA] transition-colors text-left"
-                  >
-                    <div className="text-xs font-medium text-[#171717]">{item.label}</div>
-                    {item.sub && <div className="text-[10px] text-[#706B64] normal-case tracking-normal">{item.sub}</div>}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Editorial Lookbook */}
-          <a href="/#lookbook" className="hover:text-[#B9AA96] transition-colors py-1">
-            Lookbook
-          </a>
-
-          {/* Brand Philosophy */}
-          <Link to="/about" className="hover:text-[#B9AA96] transition-colors py-1">
-            Atelier Story
-          </Link>
-
-          {/* 3D Virtual Try-On */}
-          <Link to="/virtual-tryon" className="hover:text-[#B9AA96] transition-colors py-1">
-            Virtual Try-On
-          </Link>
         </div>
       </div>
 
@@ -334,20 +293,8 @@ export const Navbar: React.FC = () => {
             <Link to="/collections/men" className="block py-2 text-[#171717] border-b border-[#DDD8CE]">
               Men's Apparel
             </Link>
-            <Link to="/collections/women" className="block py-2 text-[#171717] border-b border-[#DDD8CE]">
+            <Link to="/collections/women" className="block py-2 text-[#171717]">
               Women's Apparel
-            </Link>
-            <Link to="/collections/traditional-men" className="block py-2 text-[#171717] border-b border-[#DDD8CE]">
-              Heritage Traditional Wear
-            </Link>
-            <a href="/#lookbook" className="block py-2 text-[#171717] border-b border-[#DDD8CE]">
-              Editorial Lookbook
-            </a>
-            <Link to="/about" className="block py-2 text-[#171717] border-b border-[#DDD8CE]">
-              Atelier Story
-            </Link>
-            <Link to="/virtual-tryon" className="block py-2 text-[#171717]">
-              Virtual Try-On 3D
             </Link>
           </nav>
         </div>

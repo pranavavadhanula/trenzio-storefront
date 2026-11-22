@@ -4,7 +4,7 @@ import { TrevoriOutfitGenerator } from './TrevoriOutfitGenerator';
 import { TrevoriSizeAssistant } from './TrevoriSizeAssistant';
 import { TrevoriImageUploader } from './TrevoriImageUploader';
 import { TrevoriProductCard } from './TrevoriProductCard';
-import { PRODUCTS } from '../../data/products';
+import { useShop } from '../../context/ShopContext';
 import { Product } from '../../types';
 import {
   Sparkles,
@@ -20,6 +20,7 @@ import {
 import { Link } from 'react-router-dom';
 
 export const TrevoriAIStylist: React.FC = () => {
+  const { products } = useShop();
   const [activeTab, setActiveTab] = useState<'chat' | 'outfit' | 'size' | 'vision'>('chat');
   const [selectedInitialPrompt, setSelectedInitialPrompt] = useState<string>('');
 
@@ -37,10 +38,10 @@ export const TrevoriAIStylist: React.FC = () => {
       icon: '👕',
     },
     {
-      title: 'Traditional Couture',
-      desc: 'Bandhgalas, Kurtas & Lehengas',
-      prompt: 'Show traditional Indian clothing and royal wedding couture.',
-      icon: '👑',
+      title: 'Latest Atelier Drops',
+      desc: 'Explore new collection designs',
+      prompt: 'Show me the latest new drops in the store.',
+      icon: '✨',
     },
     {
       title: 'Utility Cargo Pants',
@@ -248,13 +249,13 @@ export const TrevoriAIStylist: React.FC = () => {
               to="/collections"
               className="text-xs font-sans font-bold text-[#2563EB] hover:underline flex items-center gap-1"
             >
-              <span>Explore All ({PRODUCTS.length} styles)</span>
+              <span>Explore All ({products.length} styles)</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {PRODUCTS.slice(0, 4).map((product) => (
+            {products.slice(0, 4).map((product) => (
               <TrevoriProductCard key={product.id} product={product} />
             ))}
           </div>

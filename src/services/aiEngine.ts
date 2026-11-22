@@ -9,6 +9,16 @@ import { PRODUCTS } from '../data/products';
 import { findOrderByIdOrEmail } from '../data/orders';
 import { findPolicy } from '../data/policies';
 
+let dynamicAICatalog: Product[] = [];
+
+export function setAICatalog(products: Product[]) {
+  dynamicAICatalog = products;
+}
+
+export function getAICatalog(): Product[] {
+  return dynamicAICatalog.length > 0 ? dynamicAICatalog : PRODUCTS;
+}
+
 export interface AIResponsePayload {
   message: string;
   products?: Product[];
@@ -48,7 +58,8 @@ export function searchCatalogue(params: {
   const targetOccasion = occasion?.toLowerCase().trim();
   const targetGender = gender?.toLowerCase().trim();
 
-  let results = PRODUCTS.filter((p) => {
+  const catalog = getAICatalog();
+  let results = catalog.filter((p) => {
     // 1. Price filters (strict server-side database constraint)
     if (maxPrice !== undefined && p.priceINR > maxPrice) return false;
     if (minPrice !== undefined && p.priceINR < minPrice) return false;
@@ -141,6 +152,19 @@ export function generateCuratedOutfit(params: {
   const occasion = params.occasion.toLowerCase();
   const maxBudget = params.budget || 3000;
   const gender = params.gender || 'Unisex';
+  const catalog = getAICatalog();
+
+  if (catalog.length === 0) {
+    return {
+      id: `OUTFIT-${Date.now()}`,
+      title: 'Atelier Drops Incoming',
+      occasion: params.occasion,
+      totalCostINR: 0,
+      description: 'New designs are being added to the catalog from Shopify.',
+      styleAdvice: 'Stay tuned for upcoming collection releases.',
+      products: [],
+    };
+  }
 
   // 1. Traditional Occasion (Wedding, Sangeet, Festive)
   if (
@@ -151,13 +175,13 @@ export function generateCuratedOutfit(params: {
     occasion.includes('sangeet') ||
     occasion.includes('ethnic')
   ) {
-    const traditionalWear = PRODUCTS.filter((p) => p.category === 'Traditional');
-    let mainPiece = traditionalWear.find((p) => p.priceINR <= maxBudget) || traditionalWear[0];
+    const traditionalWear = catalog.filter((p) => p.category === 'Traditional');
+    let mainPiece = traditionalWear.find((p) => p.priceINR <= maxBudget) || traditionalWear[0] || catalog[0];
 
-    const accessories = PRODUCTS.filter((p) => p.category === 'Accessories');
+    const accessories = catalog.filter((p) => p.category === 'Accessories');
     const matchedAcc = accessories[0];
 
-    const outfitItems = [mainPiece];
+    const outfitItems = [mainPiece].filter(Boolean);
     if (matchedAcc && mainPiece.priceINR + matchedAcc.priceINR <= maxBudget * 1.15) {
       outfitItems.push(matchedAcc);
     }
@@ -166,53 +190,57 @@ export function generateCuratedOutfit(params: {
 
     return {
       id: `OUTFIT-TRAD-${Date.now()}`,
-      title: `Royal Heritage ${gender === 'Women' ? 'Lehenga & Jewel' : 'Bandhgala / Kurta'} Ensemble`,
+      title: `Curated Heritage Ensemble`,
       occasion: 'Royal Wedding & Traditional Celebration',
       totalCostINR: total,
-      description: `Engineered for ceremonial poise, blending heritage craftsmanship with architectural silhouettes.`,
-      styleAdvice: `Pair with polished velvet juttis or mojaris. Keep personal fragrances warm and woody with saffron or oud notes.`,
+      description: `Engineered for ceremonial poise, blending craftsmanship with architectural silhouettes.`,
+      styleAdvice: `Pair with clean footwear and warm amber notes.`,
       products: outfitItems,
     };
   }
 
   // 2. College Party / Fest / Casual Streetwear under budget
-  // Find a Top (Oversized Tee or Hoodie)
-  const tops = PRODUCTS.filter(
+  const tops = catalog.filter(
     (p) =>
       (p.category === 'Oversized Tees' || p.category === 'T-Shirts' || p.category === 'Hoodies') &&
       p.priceINR <= maxBudget * 0.65
   );
 
-  // Find a Bottom (Cargo Pants or Denim)
-  const bottoms = PRODUCTS.filter(
+  const bottoms = catalog.filter(
     (p) => p.category === 'Pants' && p.priceINR <= maxBudget * 0.65
   );
 
-  // Find an Accessory or Footwear
-  const accents = PRODUCTS.filter(
+  const accents = catalog.filter(
     (p) => p.category === 'Accessories' || p.category === 'Footwear'
   );
 
-  let selectedTop = tops[0] || PRODUCTS[0];
-  let selectedBottom = bottoms[0] || PRODUCTS[7]; // Cargo pants
+  let selectedTop = tops[0] || catalog[0];
+  let selectedBottom = bottoms[0] || catalog[1] || catalog[0];
   let selectedAccent = accents[0];
 
-  // If top + bottom exceeds budget, prioritize top + affordable accessory or cargo under 1500 + tee
   let outfitItems: Product[] = [];
-  if (selectedTop.priceINR + selectedBottom.priceINR <= maxBudget) {
-    outfitItems = [selectedTop, selectedBottom];
-    if (
-      selectedAccent &&
-      selectedTop.priceINR + selectedBottom.priceINR + selectedAccent.priceINR <= maxBudget
-    ) {
-      outfitItems.push(selectedAccent);
+  if (selectedTop && selectedBottom) {
+    if (selectedTop.priceINR + selectedBottom.priceINR <= maxBudget) {
+      outfitItems = [selectedTop, selectedBottom];
+      if (
+        selectedAccent &&
+        selectedTop.priceINR + selectedBottom.priceINR + selectedAccent.priceINR <= maxBudget
+      ) {
+        outfitItems.push(selectedAccent);
+      }
+    } else {
+      const affordableTop = tops.find((t) => t.priceINR <= 1000) || tops[0] || selectedTop;
+      const affordableBottom = bottoms.find((b) => b.priceINR <= 1500) || bottoms[0] || selectedBottom;
+      outfitItems = [affordableTop, affordableBottom];
     }
-  } else {
-    // Pick the best value combination
-    const affordableTop = tops.find((t) => t.priceINR <= 1000) || tops[0];
-    const affordableBottom = bottoms.find((b) => b.priceINR <= 1500) || bottoms[0];
-    outfitItems = [affordableTop, affordableBottom];
+  } else if (selectedTop) {
+    outfitItems = [selectedTop];
   }
+
+  // Deduplicate by ID
+  outfitItems = Array.from(new Set(outfitItems.map(i => i.id)))
+    .map(id => outfitItems.find(i => i.id === id)!)
+    .filter(Boolean);
 
   const total = outfitItems.reduce((sum, item) => sum + item.priceINR, 0);
 
@@ -1102,6 +1130,6 @@ export async function analyzeFashionImage(
       vibe: 'Modern Streetwear & Relaxed Cuts',
       stylingTips: 'The inspiration features clean dropped shoulders and comfortable drape. Our 100% Combed Cotton oversized tee provides this exact relaxed form.',
     },
-    matchedProducts: matched.length > 0 ? matched : PRODUCTS.slice(0, 3),
+    matchedProducts: matched.length > 0 ? matched : getAICatalog().slice(0, 3),
   };
 }

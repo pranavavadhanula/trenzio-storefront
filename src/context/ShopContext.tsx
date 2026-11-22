@@ -1,7 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import { Product, CartItem, CurrencyCode } from '../types';
-import { CURRENCIES, PRODUCTS as FALLBACK_PRODUCTS } from '../data/products';
+import { CURRENCIES } from '../data/products';
 import { fetchShopifyProducts } from '../services/shopify';
+import { setAICatalog } from '../services/aiEngine';
 
 interface ShopContextType {
   products: Product[];
@@ -70,7 +71,7 @@ export interface UserProfile {
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products, setProducts] = useState<Product[]>(FALLBACK_PRODUCTS);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
@@ -125,13 +126,11 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setIsLoadingProducts(true);
     try {
       const live = await fetchShopifyProducts();
-      if (live && live.length > 0) {
-        setProducts(live);
-      } else {
-        setProducts(FALLBACK_PRODUCTS);
-      }
+      setProducts(live || []);
+      setAICatalog(live || []);
     } catch {
-      setProducts(FALLBACK_PRODUCTS);
+      setProducts([]);
+      setAICatalog([]);
     } finally {
       setIsLoadingProducts(false);
     }

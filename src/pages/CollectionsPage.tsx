@@ -33,12 +33,6 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     dept: 'men',
     desc: 'Everyday refined luxury cuts in long-staple Supima cotton for effortless minimalist layering.',
   },
-  'traditional-men': {
-    label: "Men's Heritage Couture",
-    genderFilter: 'Men',
-    dept: 'men',
-    desc: 'Bespoke velvet bandhgalas and handwoven silk zardozi kurta sets honoring traditional Indian tailoring.',
-  },
 
   // Women's Section
   'women': {
@@ -68,12 +62,6 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     dept: 'women',
     desc: 'Clean essential cotton tanks and structured tailored basics.',
   },
-  'traditional-women': {
-    label: "Women's Heritage Couture",
-    genderFilter: 'Women',
-    dept: 'women',
-    desc: 'Pure handloom Chanderi silk lehengas and royal heritage drapes with 24k gold zari artistry.',
-  },
 
   // Generic / Default
   'all': {
@@ -88,7 +76,6 @@ const MEN_COLLECTIONS = [
   { slug: 'men-oversized-tees', label: 'Oversized Tees' },
   { slug: 'men-sweatshirts', label: 'Hoodies & Fleece' },
   { slug: 'men-classic-tees', label: 'Classic Shirts' },
-  { slug: 'traditional-men', label: 'Traditional Couture' },
 ];
 
 const WOMEN_COLLECTIONS = [
@@ -96,7 +83,6 @@ const WOMEN_COLLECTIONS = [
   { slug: 'women-oversized-tees', label: 'Oversized Tees' },
   { slug: 'women-sweatshirts', label: 'Sweatshirts' },
   { slug: 'women-classic-tees', label: 'Classic Basics' },
-  { slug: 'traditional-women', label: 'Traditional Couture' },
 ];
 
 export const CollectionsPage: React.FC = () => {

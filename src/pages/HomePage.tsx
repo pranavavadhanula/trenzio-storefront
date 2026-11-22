@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, CheckCircle, Sparkles, Plus, Eye, ShoppingBag } from 'lucide-react';
 import { HeroEditorialBanner } from '../components/HeroEditorialBanner';
@@ -20,15 +20,30 @@ export const HomePage: React.FC = () => {
   // Active Category filter for New Arrivals
   const [activeNewArrivalCategory, setActiveNewArrivalCategory] = useState<string>('All');
 
-  // Filter products for New Arrivals and Best Sellers
-  const newArrivals = products
-    .filter((p) => p.isNewArrival || p.id.startsWith('gid://') || p.id.includes('shopify') || p.id.includes('TRV-TSH') || p.id.includes('TRV-HD') || p.id.includes('TRV-PNT'))
-    .filter((p) => activeNewArrivalCategory === 'All' || p.category === activeNewArrivalCategory)
-    .slice(0, 8);
+  // Dynamic categories strictly based on active Shopify products
+  const availableCategories: string[] = useMemo<string[]>(() => {
+    const cats = Array.from(new Set(products.map((p: Product) => p.category).filter(Boolean)));
+    return ['All', ...cats];
+  }, [products]);
 
-  const bestSellers = products
-    .filter((p) => p.isBestSeller || p.stockCount && p.stockCount < 30)
-    .slice(0, 4);
+  // Filter products for New Arrivals and Best Sellers (only live Shopify products)
+  const newArrivals: Product[] = useMemo<Product[]>(() => {
+    return products
+      .filter((p: Product) => activeNewArrivalCategory === 'All' || p.category === activeNewArrivalCategory)
+      .slice(0, 8);
+  }, [products, activeNewArrivalCategory]);
+
+  const bestSellers: Product[] = useMemo<Product[]>(() => {
+    return products.slice(0, 4);
+  }, [products]);
+
+  const lookbookFeaturedItems: Array<{ name: string; priceINR: number; category: string }> = useMemo(() => {
+    return products.slice(0, 2).map((p: Product) => ({
+      name: p.name,
+      priceINR: p.priceINR,
+      category: p.category,
+    }));
+  }, [products]);
 
   const handleNewsletterSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -246,7 +261,7 @@ export const HomePage: React.FC = () => {
 
             {/* Category filter pills */}
             <div className="flex flex-wrap items-center gap-2 mt-4 md:mt-0">
-              {['All', 'Hoodies', 'Oversized Tees', 'Pants'].map((category) => (
+              {availableCategories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setActiveNewArrivalCategory(category)}
@@ -264,9 +279,15 @@ export const HomePage: React.FC = () => {
 
           {/* 4:5 Products Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-            {newArrivals.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
+            {newArrivals.length === 0 ? (
+              <div className="col-span-full py-16 text-center text-[#706B64] font-serif text-lg">
+                No designs currently found in this category.
+              </div>
+            ) : (
+              newArrivals.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))
+            )}
           </div>
 
           <div className="mt-14 text-center">
@@ -301,9 +322,15 @@ export const HomePage: React.FC = () => {
 
         {/* 4:5 Products Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8">
-          {bestSellers.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
+          {bestSellers.length === 0 ? (
+            <div className="col-span-full py-16 text-center text-[#706B64] font-serif text-lg">
+              New atelier creations arriving soon.
+            </div>
+          ) : (
+            bestSellers.map((product) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          )}
         </div>
       </section>
 
@@ -504,22 +531,24 @@ export const HomePage: React.FC = () => {
               </div>
 
               {/* Garments featured in this look */}
-              <div className="pt-4 border-t border-[#DDD8CE] space-y-3">
-                <span className="text-[10px] uppercase tracking-widest text-[#706B64] font-medium block">
-                  Garments in this Look:
-                </span>
-                {LOOKBOOK_ITEMS[activeLookIndex].items.map((item, i) => (
-                  <div key={i} className="flex items-center justify-between text-xs py-1 border-b border-[#DDD8CE]/40 last:border-b-0">
-                    <div>
-                      <div className="font-medium text-[#171717]">{item.name}</div>
-                      <div className="text-[10px] text-[#706B64]">{item.category}</div>
+              {lookbookFeaturedItems.length > 0 && (
+                <div className="pt-4 border-t border-[#DDD8CE] space-y-3">
+                  <span className="text-[10px] uppercase tracking-widest text-[#706B64] font-medium block">
+                    Featured Designs in this Look:
+                  </span>
+                  {lookbookFeaturedItems.map((item, i) => (
+                    <div key={i} className="flex items-center justify-between text-xs py-1 border-b border-[#DDD8CE]/40 last:border-b-0">
+                      <div>
+                        <div className="font-medium text-[#171717]">{item.name}</div>
+                        <div className="text-[10px] text-[#706B64]">{item.category}</div>
+                      </div>
+                      <div className="font-semibold text-[#171717]">
+                        {formatPrice(item.priceINR)}
+                      </div>
                     </div>
-                    <div className="font-semibold text-[#171717]">
-                      {formatPrice(item.priceINR)}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               <Link
                 to="/collections"
@@ -549,7 +578,7 @@ export const HomePage: React.FC = () => {
                 {LOOKBOOK_ITEMS[activeLookIndex].description}
               </p>
               <div className="space-y-3 mb-6">
-                {LOOKBOOK_ITEMS[activeLookIndex].items.map((item, i) => (
+                {lookbookFeaturedItems.map((item, i) => (
                   <div key={i} className="flex justify-between items-center p-3 bg-[#F4F1EA] border border-[#DDD8CE] text-xs">
                     <span className="font-medium">{item.name}</span>
                     <span className="font-semibold">{formatPrice(item.priceINR)}</span>
