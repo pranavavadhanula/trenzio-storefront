@@ -36,8 +36,15 @@ export async function sendChatMessage(
     console.warn('[AI Client] API route unreachable, falling back to client-side engine:', err);
   }
 
-  // Graceful client-side fallback
-  return await processStylistQuery(message, history);
+  // Graceful client-side fallback (or direct OpenAI if local key configured)
+  const localKey =
+    typeof window !== 'undefined'
+      ? localStorage.getItem('trevori_openai_api_key') ||
+        (import.meta.env.VITE_OPENAI_API_KEY as string) ||
+        undefined
+      : undefined;
+
+  return await processStylistQuery(message, history, localKey);
 }
 
 /**

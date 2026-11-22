@@ -4,7 +4,7 @@ import { sendChatMessage } from '../../services/aiClient';
 import { TrevoriAIMessage } from './TrevoriAIMessage';
 import { TrevoriChatInput } from './TrevoriChatInput';
 import { TrevoriTypingIndicator } from './TrevoriTypingIndicator';
-import { Sparkles, Trash2, ArrowRight } from 'lucide-react';
+import { Sparkles, Trash2, ArrowRight, KeyRound, Check, X } from 'lucide-react';
 
 interface TrevoriAIChatProps {
   initialMessage?: string;
@@ -15,17 +15,21 @@ interface TrevoriAIChatProps {
 const DEFAULT_WELCOME_MESSAGE: AIMessage = {
   id: 'msg-welcome-01',
   role: 'assistant',
-  content: `Namaste & Welcome to **TREVORI AI** — your dedicated 24/7 personal fashion stylist.
+  content: `Namaste & Welcome to **TREVORI AI** — your dedicated 24/7 personal fashion stylist and concierge.
 
-I can help you style complete outfits, find garments from our 350–450 GSM heavyweight drops, calculate your exact sizing, or track active orders.
+Ask me anything naturally like ChatGPT:
+• Style complete streetwear or royal traditional outfits under any budget
+• Calculate your exact size across our 240–450 GSM heavyweight drops
+• Ask about fabric science, garment care, or lifestyle & sleep advice
+• Track orders or search real inventory in seconds
 
-What are you looking to wear today?`,
+What can I help you with today?`,
   timestamp: Date.now(),
   suggestedActions: [
     'Suggest an outfit for a college party under ₹2,500',
     'Find oversized black T-shirts',
-    'Show traditional Indian clothing',
-    'Find cargo pants under ₹1,500',
+    'What size should I wear for a 40" chest?',
+    'What is 400 GSM French Terry?',
     'Track Order #TRV-89421',
   ],
 };
@@ -48,6 +52,17 @@ export const TrevoriAIChat: React.FC<TrevoriAIChatProps> = ({
 
   const [isLoading, setIsLoading] = useState(false);
   const scrollEndRef = useRef<HTMLDivElement>(null);
+
+  // OpenAI API Key Modal state
+  const [isKeyModalOpen, setIsKeyModalOpen] = useState(false);
+  const [apiKeyInput, setApiKeyInput] = useState(() => {
+    try {
+      return localStorage.getItem('trevori_openai_api_key') || '';
+    } catch {
+      return '';
+    }
+  });
+  const [isKeySaved, setIsKeySaved] = useState(false);
 
   // Persist conversation history
   useEffect(() => {
@@ -101,7 +116,7 @@ export const TrevoriAIChat: React.FC<TrevoriAIChatProps> = ({
       const errorMsg: AIMessage = {
         id: `msg-err-${Date.now()}`,
         role: 'assistant',
-        content: `I apologize, I encountered a temporary connection glitch. Please retry or browse our curated collections.`,
+        content: `I apologize, I encountered a temporary connection glitch. Please retry or ask any styling question.`,
         timestamp: Date.now(),
         suggestedActions: ['Try again', 'Show Oversized Tees', 'Explore Catalog'],
       };
@@ -120,26 +135,58 @@ export const TrevoriAIChat: React.FC<TrevoriAIChatProps> = ({
     ]);
   };
 
+  const handleSaveApiKey = (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanKey = apiKeyInput.trim();
+    if (cleanKey) {
+      localStorage.setItem('trevori_openai_api_key', cleanKey);
+    } else {
+      localStorage.removeItem('trevori_openai_api_key');
+    }
+    setIsKeySaved(true);
+    setTimeout(() => {
+      setIsKeySaved(false);
+      setIsKeyModalOpen(false);
+    }, 1200);
+  };
+
   return (
-    <div className="flex flex-col h-full w-full bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm">
+    <div className="flex flex-col h-full w-full bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm relative">
       {/* Chat Top Subheader */}
-      <div className="px-4 py-3 bg-slate-50/80 border-b border-slate-100 flex items-center justify-between">
+      <div className="px-4 py-2.5 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between select-none">
         <div className="flex items-center gap-2">
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-slate-600">
-            Stylist Online &bull; Mumbai Studio
+            Stylist Online • Mumbai Studio
           </span>
+          {apiKeyInput && (
+            <span className="px-1.5 py-0.2 bg-blue-100 text-blue-700 text-[9px] font-mono font-bold rounded">
+              GPT-4o
+            </span>
+          )}
         </div>
 
-        <button
-          type="button"
-          onClick={handleClearHistory}
-          className="text-[11px] font-sans font-medium text-slate-400 hover:text-rose-500 transition-colors flex items-center gap-1 cursor-pointer"
-          title="Reset conversation"
-        >
-          <Trash2 className="w-3.5 h-3.5" />
-          <span className="hidden sm:inline">Clear Chat</span>
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => setIsKeyModalOpen(true)}
+            className="text-[11px] font-sans font-medium text-slate-400 hover:text-blue-600 transition-colors flex items-center gap-1 cursor-pointer"
+            title="Connect OpenAI / ChatGPT API Key"
+          >
+            <KeyRound className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">ChatGPT Key</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={handleClearHistory}
+            className="text-[11px] font-sans font-medium text-slate-400 hover:text-rose-500 transition-colors flex items-center gap-1 cursor-pointer"
+            title="Reset conversation"
+          >
+            <Trash2 className="w-3.5 h-3.5" />
+            <span className="hidden sm:inline">Clear</span>
+          </button>
+        </div>
       </div>
 
       {/* Messages Thread Container */}
@@ -163,6 +210,69 @@ export const TrevoriAIChat: React.FC<TrevoriAIChatProps> = ({
         onSendMessage={handleSendMessage}
         isLoading={isLoading}
       />
+
+      {/* OpenAI API Key Settings Modal */}
+      {isKeyModalOpen && (
+        <div className="absolute inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-[#0A1728] border border-[#1E3A66] rounded-2xl max-w-sm w-full p-5 text-left relative shadow-2xl text-white">
+            <button
+              onClick={() => setIsKeyModalOpen(false)}
+              className="absolute top-3.5 right-3.5 text-slate-400 hover:text-white cursor-pointer"
+            >
+              <X className="w-4 h-4" />
+            </button>
+
+            <div className="flex items-center gap-2 mb-2">
+              <KeyRound className="w-4 h-4 text-[#F88379]" />
+              <h4 className="text-sm font-black uppercase text-white tracking-wide">
+                Connect OpenAI API Key
+              </h4>
+            </div>
+
+            <p className="text-[11px] text-slate-300 mb-4 leading-relaxed">
+              Trevori AI has built-in conversational intelligence. To connect direct live <strong>OpenAI GPT-4o-mini</strong> with function calling, paste your API key below:
+            </p>
+
+            <form onSubmit={handleSaveApiKey} className="space-y-3">
+              <input
+                type="password"
+                value={apiKeyInput}
+                onChange={(e) => setApiKeyInput(e.target.value)}
+                placeholder="sk-proj-..."
+                className="w-full bg-[#071324] border border-[#1E3A66] focus:border-[#4285F4] rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 font-mono outline-none"
+              />
+
+              <div className="flex items-center gap-2 pt-1">
+                <button
+                  type="submit"
+                  className="flex-1 py-2 bg-[#F88379] hover:bg-[#FA958D] text-white text-xs font-black uppercase tracking-wider rounded-lg transition-all flex items-center justify-center gap-1.5 cursor-pointer shadow-md"
+                >
+                  {isKeySaved ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Saved!</span>
+                    </>
+                  ) : (
+                    <span>Save API Key</span>
+                  )}
+                </button>
+                {apiKeyInput && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setApiKeyInput('');
+                      localStorage.removeItem('trevori_openai_api_key');
+                    }}
+                    className="px-3 py-2 bg-red-950/40 hover:bg-red-900/60 border border-red-800/40 text-red-200 text-xs font-bold rounded-lg cursor-pointer"
+                  >
+                    Remove
+                  </button>
+                )}
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -455,9 +455,218 @@ export async function processStylistQuery(
     };
   }
 
-  // 5. NATURAL LANGUAGE PRODUCT SEARCH
-  // Handles: "Find oversized black T-shirts", "Show traditional Indian clothing",
-  // "Find cargo pants under ₹1,500", "Show white shirts", "Find aesthetic streetwear outfits", etc.
+  // 5. CONVERSATIONAL & GENERAL KNOWLEDGE INTELLIGENCE (ChatGPT-Grade Conversational Fluency)
+
+  // 5A. Sleep & Sleepwear Inquiries ("how to sleep?", "can't sleep", "sleep tips", "insomnia")
+  if (
+    q.includes('sleep') ||
+    q.includes('insomnia') ||
+    q.includes('tired') ||
+    q.includes('bedtime') ||
+    q.includes('cant sleep') ||
+    q.includes("can't sleep") ||
+    q.includes('night routine') ||
+    q.includes('nap')
+  ) {
+    return {
+      message: `Here are 5 proven steps to fall asleep naturally and achieve deep, restorative rest:\n\n` +
+        `1. **Keep Your Sleeping Space Cool:** The body's core temperature needs to drop by about 1°C to initiate sleep. Keep your bedroom between **18°C–20°C (65°F–68°F)**.\n` +
+        `2. **Wear Breathable, Loose Natural Cotton:** Synthetic polyester fabrics trap heat and moisture, disrupting deep REM cycles. Sleep in loose-fitting, **100% combed breathable cotton** (like a soft oversized tee) that lets your skin breathe.\n` +
+        `3. **The 4-7-8 Relaxation Technique:** Inhale quietly through your nose for **4 seconds**, hold your breath for **7 seconds**, and exhale completely through your mouth for **8 seconds**. This slows your heart rate and quiets racing thoughts.\n` +
+        `4. **Eliminate Blue Light 60 Mins Before Bed:** Screen light from phones, tablets, and laptops suppresses your brain's natural melatonin release. Switch to reading or listening to calm music.\n` +
+        `5. **Consistent Circadian Schedule:** Waking up at the exact same hour every morning stabilizes your internal body clock.\n\n` +
+        `*Would you like me to recommend our most comfortable, lightweight 100% breathable combed cotton lounge tees, or are you having trouble winding down tonight?*`,
+      suggestedActions: [
+        'Show Lightweight Combed Cotton Tees',
+        'Find Relaxed Loungewear',
+        'Tell me about Trevori Fabric Care',
+      ],
+    };
+  }
+
+  // 5B. Greetings & Warm Small Talk ("hi", "hello", "hey", "namaste", "good morning")
+  const isGreeting =
+    /^(hi|hello|hey|namaste|yo|sup|good\s*(morning|afternoon|evening|night)|howdy|greetings)\b/i.test(cleanQuery) ||
+    cleanQuery.length <= 4;
+  if (isGreeting && !q.includes('hoodie') && !q.includes('pant') && !q.includes('tee')) {
+    return {
+      message: `Hello & Welcome! I am **TREVORI AI**, your 24/7 personal fashion stylist and concierge.\n\n` +
+        `I can help you with:\n` +
+        `• **Occasion Styling:** Curate complete streetwear & traditional outfits under any budget\n` +
+        `• **Precision Sizing:** Compute your exact fit across our 240–450 GSM drops\n` +
+        `• **Catalogue Discovery:** Find specific pieces, colors, fabrics, and silhouettes\n` +
+        `• **Order Tracking:** Check real-time shipping milestones for orders like #TRV-89421\n` +
+        `• **General Style & Lifestyle Advice:** From color coordination to fabric science\n\n` +
+        `How can I assist you today?`,
+      suggestedActions: [
+        'Suggest an outfit for a party under ₹2,500',
+        'Find oversized black T-shirts',
+        'What size should I wear for a 40" chest?',
+        'Show Royal Traditional Wear',
+      ],
+    };
+  }
+
+  // 5C. Identity & Assistant Questions ("who are you", "what can you do", "are you ai")
+  if (
+    q.includes('who are you') ||
+    q.includes('what are you') ||
+    q.includes('what can you do') ||
+    q.includes('are you ai') ||
+    q.includes('are you real') ||
+    q.includes('are you chatgpt')
+  ) {
+    return {
+      message: `I am **TREVORI AI** — an intelligent, conversational fashion stylist and concierge engineered specifically for the luxury streetwear and traditional couture world of **TREVORI**.\n\n` +
+        `Just like ChatGPT, you can converse with me naturally about anything: styling aesthetics, fabric engineering, color matching, sizing algorithms, lifestyle tips, order tracking, or brand history.\n\n` +
+        `What would you like to explore?`,
+      suggestedActions: [
+        'Style an outfit under ₹2,500',
+        'What is 400 GSM French Terry?',
+        'Find cargo pants under ₹1,500',
+      ],
+    };
+  }
+
+  // 5D. Jokes & Humor ("tell me a joke", "make me laugh")
+  if (q.includes('joke') || q.includes('funny') || q.includes('make me laugh')) {
+    return {
+      message: `Why did the 450 GSM oversized hoodie break up with the skinny jeans?\n\n` +
+        `*Because it needed more space to express its perspective!* 😄\n\n` +
+        `On a serious note, what can I help you style or find in our drops today?`,
+      suggestedActions: [
+        'Show Oversized Heavyweight Hoodies',
+        'Recommend an outfit for a date',
+        'Explore Bestsellers',
+      ],
+    };
+  }
+
+  // 5E. Fabric Science & Technical Knowledge ("what is gsm?", "why heavyweight?")
+  if (
+    q.includes('what is gsm') ||
+    q.includes('gsm meaning') ||
+    q.includes('why heavyweight') ||
+    q.includes('french terry') ||
+    q.includes('bio-wash') ||
+    q.includes('combed cotton') ||
+    q.includes('supima')
+  ) {
+    return {
+      message: `### The Science of Heavyweight Fabrics\n\n` +
+        `**GSM** stands for *Grams per Square Meter* — the universal standard for measuring fabric density and weight.\n\n` +
+        `• **Standard Fast-Fashion Tees (140–180 GSM):** Flimsy, clingy, and lose shape after 3 washes.\n` +
+        `• **Trevori Heavyweight Tees (240–350 GSM):** 100% bio-washed combed cotton with an architectural, structured drape that holds its boxy silhouette without clinging to your body.\n` +
+        `• **Trevori Loopback French Terry (400–450 GSM):** Ultra-plush, dense cotton with diagonal loopback weaving for substantial winter warmth, breathable all-day wear, and decades of durability.\n\n` +
+        `*Every Trevori piece is pre-shrunk and bio-washed for zero shrinkage and silky hand-feel.*`,
+      suggestedActions: [
+        'Show 450 GSM Hoodies',
+        'Show 350 GSM Heavyweight Tees',
+        'Check Size Guide',
+      ],
+    };
+  }
+
+  // 5F. Garment Washing & Care Instructions ("how to wash", "how to care", "ironing")
+  if (
+    q.includes('how to wash') ||
+    q.includes('how to care') ||
+    q.includes('washing') ||
+    q.includes('shrinkage') ||
+    q.includes('iron') ||
+    q.includes('dry clean')
+  ) {
+    return {
+      message: `### Trevori Garment Care Masterclass\n\n` +
+        `To ensure your heavyweight cotton garments last for years and maintain their architectural drape:\n\n` +
+        `1. **Wash Inside Out in Cold Water (30°C / 85°F):** Protects high-density embroidery, screenprints, and surface luster.\n` +
+        `2. **Use Mild, Liquid Detergent:** Harsh bleach or powder detergents can weaken natural cotton fibers.\n` +
+        `3. **Flat Air Dry in Shade:** Never tumble dry heavyweight French Terry — high machine heat causes unwanted shrinkage. Lay flat on a drying rack away from harsh direct sunlight.\n` +
+        `4. **Iron Inside Out on Low-to-Medium Heat:** Avoid direct iron contact with rubberized logos or metallic zips.\n\n` +
+        `*For Royal Velvet Bandhgalas and Zardozi lehengas, professional dry cleaning is recommended.*`,
+      suggestedActions: [
+        'Explore Heavyweight Drops',
+        'Return & Exchange Policy',
+        'Ask another question',
+      ],
+    };
+  }
+
+  // 5G. Brand Heritage ("what is trevori?", "wear your perspective", "who founded")
+  if (
+    q.includes('what is trevori') ||
+    q.includes('about trevori') ||
+    q.includes('wear your perspective') ||
+    q.includes('who founded') ||
+    q.includes('where are you from') ||
+    q.includes('where are you located')
+  ) {
+    return {
+      message: `### Trevori: Wear Your Perspective\n\n` +
+        `Trevori is an Indian luxury fashion house born at the intersection of **brutalist architectural streetwear** and **royal heritage couture**.\n\n` +
+        `Our motto — *“Wear Your Perspective”* — represents self-definition through structure, heavyweight textiles (240–450 GSM), and unapologetic craftsmanship. From bespoke midnight navy velvet Bandhgalas to boxy drop-shoulder French Terry hoodies, every silhouette is engineered in India with global luxury standards.\n\n` +
+        `*Pan-India express shipping, door-step size exchanges, and 24/7 personal styling are standard for every client.*`,
+      suggestedActions: [
+        'Explore Men\'s Streetwear',
+        'Explore Royal Traditional Wear',
+        'Try 3D Virtual Fitting Room',
+      ],
+    };
+  }
+
+  // 5H. General Knowledge & Off-Topic Conversational Fallback
+  // If query DOES NOT mention apparel, clothing, products, or shopping:
+  const isClothingQuery =
+    q.includes('buy') ||
+    q.includes('show') ||
+    q.includes('find') ||
+    q.includes('shop') ||
+    q.includes('price') ||
+    q.includes('cost') ||
+    q.includes('pant') ||
+    q.includes('cargo') ||
+    q.includes('denim') ||
+    q.includes('jeans') ||
+    q.includes('trouser') ||
+    q.includes('tee') ||
+    q.includes('shirt') ||
+    q.includes('hoodie') ||
+    q.includes('sweatshirt') ||
+    q.includes('jacket') ||
+    q.includes('tank top') ||
+    q.includes('traditional') ||
+    q.includes('lehenga') ||
+    q.includes('sherwani') ||
+    q.includes('bandhgala') ||
+    q.includes('kurta') ||
+    q.includes('collection') ||
+    q.includes('drop') ||
+    q.includes('clothes') ||
+    q.includes('clothing') ||
+    q.includes('apparel') ||
+    q.includes('black') ||
+    q.includes('white') ||
+    q.includes('navy') ||
+    q.includes('maroon') ||
+    q.includes('under') ||
+    q.includes('cheap') ||
+    q.includes('luxury');
+
+  if (!isClothingQuery) {
+    return {
+      message: `That's a thoughtful question! As your **Trevori AI assistant**, I specialize in high-fashion styling, garment architecture, lifestyle recommendations, and luxury shopping guidance.\n\n` +
+        `While I'm focused on fashion, design, and styling your perspective, I'm always here to help you put together the perfect look, find garments within your budget, or answer any questions about our 240–450 GSM heavyweight collections.\n\n` +
+        `*What kind of look, event, or outfit can I help you put together today?*`,
+      suggestedActions: [
+        'Suggest an outfit for college under ₹2,500',
+        'Find oversized black T-shirts',
+        'Find cargo pants under ₹1,500',
+        'What size should I wear for a 40" chest?',
+      ],
+    };
+  }
+
+  // 6. NATURAL LANGUAGE PRODUCT SEARCH (Triggered ONLY when user explicitly asks for products/clothing)
   let targetCategory: string | undefined = undefined;
   let targetColor: string | undefined = undefined;
   let maxPrice: number | undefined = undefined;
@@ -469,12 +678,14 @@ export async function processStylistQuery(
   }
 
   // Category detection
-  if (q.includes('cargo') || q.includes('pant') || q.includes('trousers') || q.includes('bottom')) {
+  if (q.includes('cargo') || q.includes('pant') || q.includes('trousers') || q.includes('bottom') || q.includes('denim') || q.includes('jeans')) {
     targetCategory = 'Pants';
   } else if (q.includes('traditional') || q.includes('indian') || q.includes('ethnic') || q.includes('bandhgala') || q.includes('kurta') || q.includes('lehenga') || q.includes('sherwani')) {
     targetCategory = 'Traditional';
   } else if (q.includes('hoodie') || q.includes('sweatshirt')) {
     targetCategory = 'Hoodies';
+  } else if (q.includes('tank top') || q.includes('tank') || q.includes('vest')) {
+    targetCategory = 'T-Shirts';
   } else if (q.includes('t-shirt') || q.includes('tee') || q.includes('shirt')) {
     targetCategory = q.includes('oversized') ? 'Oversized Tees' : 'T-Shirts';
   } else if (q.includes('sneaker') || q.includes('shoes') || q.includes('footwear')) {
@@ -501,7 +712,6 @@ export async function processStylistQuery(
     limit: 4,
   });
 
-  // If specific query yields none, fallback to top featured items
   if (matchedProducts.length === 0) {
     matchedProducts = searchCatalogue({ limit: 4 });
   }
