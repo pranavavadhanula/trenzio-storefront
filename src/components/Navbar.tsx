@@ -122,26 +122,8 @@ export const Navbar: React.FC = () => {
           </p>
         </Link>
 
-        {/* Right: Actions (Fixed INR Badge, Wishlist, Bag) */}
+        {/* Right: Actions (Account, Wishlist, Bag) */}
         <div className="flex items-center space-x-3 sm:space-x-5">
-          {/* Fixed INR Only Indicator - Hidden on extra-small mobile to prevent header squish */}
-          <div
-            className="hidden sm:flex items-center space-x-1 py-1 px-3 rounded-none border border-[#F88379]/40 bg-[#0B1A30] text-[#F88379] font-sans text-xs font-bold tracking-wider select-none shadow-[inset_0_1px_0_0_rgba(248,131,121,0.25),0_2px_8px_rgba(0,0,0,0.3)] backdrop-blur-md"
-            title="Exclusively Launching in India — Billed strictly in INR (₹)"
-          >
-            <span>INR (₹)</span>
-          </div>
-
-          {/* AI Stylist Studio Link - Visible on tablet/desktop */}
-          <Link
-            to="/ai-stylist"
-            className="hidden md:flex relative items-center gap-1.5 text-white hover:text-[#93C5FD] transition-all px-2.5 py-1.5 rounded-sm bg-[#2563EB]/25 border border-[#2563EB]/60 hover:bg-[#2563EB]/35 cursor-pointer font-sans text-xs font-bold tracking-wider shadow-[0_0_12px_rgba(37,99,235,0.35)]"
-            title="Trevori AI Fashion Stylist Studio"
-          >
-            <Sparkles className="w-3.5 h-3.5 text-[#3B82F6] animate-pulse" />
-            <span>AI STYLIST</span>
-          </Link>
-
           {/* Account / Log In - Visible on tablet/desktop, accessible via hamburger drawer on mobile */}
           <Link
             to={isLoggedIn ? "/account" : "/login"}

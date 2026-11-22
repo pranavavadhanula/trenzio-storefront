@@ -387,30 +387,82 @@ export async function processStylistQuery(
 
   // 3. AI SIZE ASSISTANT (Check for explicit size/fit inquiries first)
   const isSizeQuery =
-    /\b(size|sizing|measurements?|chest|waist)\b/i.test(cleanQuery) ||
+    /\b(size|sizing|measurements?|chest|waist|fit|fitting)\b/i.test(cleanQuery) ||
     ((/\b(height|weight)\b/i.test(cleanQuery) || /(\d+)\s*(cm|kg|lbs)/i.test(cleanQuery)) && !q.includes('outfit'));
 
   if (isSizeQuery) {
-    // Parse height/weight if typed
+    // Parse chest, waist, height, and weight from user input
+    const chestMatch = cleanQuery.match(/(\d{2})\s*["']?\s*(?:inch(?:es)?)?\s*chest/i) || cleanQuery.match(/chest\s*(?:size)?\s*(?:of|is|:)?\s*(\d{2})/i);
+    const waistMatch = cleanQuery.match(/(\d{2})\s*["']?\s*(?:inch(?:es)?)?\s*waist/i) || cleanQuery.match(/waist\s*(?:size)?\s*(?:of|is|:)?\s*(\d{2})/i);
     const heightMatch = cleanQuery.match(/(\d{2,3})\s*(cm|feet|ft)/i);
     const weightMatch = cleanQuery.match(/(\d{2,3})\s*(kg|lbs)/i);
-    const heightCm = heightMatch ? parseInt(heightMatch[1]) : 178;
-    const weightKg = weightMatch ? parseInt(weightMatch[1]) : 74;
+
+    const chestInches = chestMatch ? parseInt(chestMatch[1]) : undefined;
+    const waistInches = waistMatch ? parseInt(waistMatch[1]) : undefined;
+    const heightCm = heightMatch ? parseInt(heightMatch[1]) : (chestInches ? 178 : undefined);
+    const weightKg = weightMatch ? parseInt(weightMatch[1]) : (chestInches ? Math.round((chestInches - 4) / 0.52) : undefined);
+
+    const isPantQuery = q.includes('pant') || q.includes('cargo') || q.includes('waist') || q.includes('trouser') || q.includes('denim');
 
     const sizeResult = calculateClothingSize({
-      heightCm,
-      weightKg,
-      fitPreference: q.includes('slim') ? 'slim' : 'oversized',
-      category: q.includes('pant') || q.includes('cargo') ? 'pant' : 't-shirt',
+      heightCm: heightCm || 178,
+      weightKg: weightKg || 74,
+      chestInches,
+      waistInches,
+      fitPreference: q.includes('slim') ? 'slim' : q.includes('regular') ? 'regular' : 'oversized',
+      category: isPantQuery ? 'pant' : 't-shirt',
     });
 
+    let conversationalMessage = '';
+
+    if (chestInches) {
+      const standardSize = chestInches <= 37 ? 'S' : chestInches <= 40 ? 'M' : chestInches <= 43 ? 'L' : 'XL';
+      const oversizedSize = chestInches <= 37 ? 'M' : chestInches <= 40 ? 'L' : chestInches <= 43 ? 'XL' : '2XL';
+      
+      conversationalMessage =
+        `For a **${chestInches}" chest**, here is how our heavyweight silhouettes are engineered to drape:\n\n` +
+        `• **Size ${standardSize} (Clean Relaxed Fit):** Tailored with ~4" of chest ease. It provides an architectural boxy drape that defines your shoulders without excess bulk.\n` +
+        `• **Size ${oversizedSize} (Signature Streetwear Drop-Shoulder):** Tailored with ~6" of ease for an exaggerated dropped-shoulder runway silhouette.\n\n` +
+        `💡 *All Trevori drops are woven from 100% bio-washed combed cotton (240–400 GSM) and pre-shrunk, ensuring zero shrinkage after washing.*`;
+    } else if (waistInches) {
+      conversationalMessage =
+        `For a **${waistInches}" waist**, your optimal fit is **Size ${sizeResult.recommendedSize}** in our Indigo Denim and Pleated Cargo Pants.\n\n` +
+        `Our bottoms feature architectural knife pleats, heavy-gauge stitching, and an internal drawstring waistband for a bespoke tailored feel.`;
+    } else {
+      conversationalMessage =
+        `Based on your measurements, I recommend **Size ${sizeResult.recommendedSize}** for our ${sizeResult.category}.\n\n` +
+        `Our cuts are engineered with 350 GSM boxy drop-shoulders. If you prefer a closer, tailored fit, size down; for the signature relaxed runway drape, stay true to size.`;
+    }
+
     return {
-      message: `Based on your profile, I recommend size **${sizeResult.recommendedSize}** for our ${sizeResult.category}.\n\n${sizeResult.notes}\n\n*Confidence: 94% fit match.*`,
+      message: conversationalMessage,
       sizeResult,
       suggestedActions: [
-        'Show Oversized Tees in size ' + sizeResult.recommendedSize,
-        'Show Cargo Pants',
+        `Show Oversized Tees in size ${sizeResult.recommendedSize}`,
+        'Show Heavyweight Hoodies',
         'Recommend an Outfit',
+      ],
+    };
+  }
+
+  // 3B. COLOR STYLING & AESTHETIC ADVICE ("can I wear black with navy?", "color combination", "what matches with olive")
+  const isColorAdvice =
+    (q.includes('color') || q.includes('pair') || q.includes('match') || q.includes('with') || q.includes('can i wear') || q.includes('look good') || q.includes('combination')) &&
+    (q.includes('black') || q.includes('navy') || q.includes('white') || q.includes('grey') || q.includes('gray') || q.includes('beige') || q.includes('olive') || q.includes('brown') || q.includes('maroon')) &&
+    !q.includes('show') && !q.includes('buy') && !q.includes('find');
+
+  if (isColorAdvice) {
+    return {
+      message: `### Trevori Styling Masterclass: Color Harmony & Aesthetics\n\n` +
+        `Yes, absolutely! Pairing **Midnight Navy** with **Obsidian Black** is one of contemporary luxury fashion's most elevated, understated moves:\n\n` +
+        `1. **Contrast Through Textile Density:** Pair a heavy 400 GSM midnight navy loopback French Terry hoodie with washed obsidian black denim or pleated cargo trousers. The contrasting cotton weaves prevent the colors from blending into a muddle.\n` +
+        `2. **Anchor with a Raw-Edge White Layer:** Allow a subtle peek of a 280 GSM crisp white combed cotton tee at the collar or hemline to create a crisp visual barrier between the two deep tones.\n` +
+        `3. **Minimalist Hardware & Accessories:** Accentuate with brushed silver or stainless steel chain jewellery to reflect light against the dark palette.\n\n` +
+        `*Would you like me to curate a complete Navy & Black outfit within your budget, or suggest pieces in this palette?*`,
+      suggestedActions: [
+        'Curate Navy & Black Look',
+        'Show Heavyweight Hoodies',
+        'Show Pleated Cargo Pants',
       ],
     };
   }
@@ -418,16 +470,17 @@ export async function processStylistQuery(
   // 4. OUTFIT GENERATOR (Occasion & Budget Aware)
   const isOutfitQuery =
     q.includes('outfit') ||
-    q.includes('wear') ||
-    q.includes('party') ||
-    q.includes('college') ||
-    q.includes('date') ||
-    q.includes('wedding') ||
-    q.includes('summer') ||
-    q.includes('fest') ||
-    q.includes('reception') ||
     q.includes('curate look') ||
-    q.includes('style me');
+    q.includes('style me') ||
+    q.includes('what to wear to') ||
+    q.includes('what to wear for') ||
+    q.includes('what should i wear for') ||
+    q.includes('what should i wear to') ||
+    q.includes('party outfit') ||
+    q.includes('wedding outfit') ||
+    q.includes('college fest') ||
+    q.includes('date night') ||
+    ((q.includes('party') || q.includes('wedding') || q.includes('college')) && (q.includes('look') || q.includes('suggest') || q.includes('recommend')));
 
   if (isOutfitQuery) {
     // Extract budget if mentioned (e.g. "under 2500", "under 2,000", "budget 3000")
@@ -614,54 +667,86 @@ export async function processStylistQuery(
     };
   }
 
-  // 5H. General Knowledge & Off-Topic Conversational Fallback
+  // 5H. Returns, Exchanges & Refunds
+  if (
+    q.includes('return') ||
+    q.includes('exchange') ||
+    q.includes('refund') ||
+    q.includes('replacement') ||
+    q.includes('damaged')
+  ) {
+    return {
+      message: `### Trevori Hassle-Free 7-Day Exchange Policy\n\n` +
+        `We want you to love how every piece drapes on you. Here is our direct policy:\n\n` +
+        `• **7-Day Doorstep Size Exchanges:** If your tee or hoodie feels too oversized or tailored, request an exchange within 7 days of delivery. Our courier will deliver your new size and pick up the original simultaneously.\n` +
+        `• **Free Return Pickup:** Zero reverse-shipping charges across all Indian pin codes.\n` +
+        `• **Garment Condition:** Items must be unwashed, unworn, and retain all original Trevori security tags and loopback packaging.\n\n` +
+        `*To initiate an exchange right now, share your Order # (e.g., #TRV-89421) or tap below.*`,
+      suggestedActions: [
+        'Track Order #TRV-89421',
+        'Contact Concierge Support',
+        'Explore New Drops',
+      ],
+    };
+  }
+
+  // 5I. Shipping, Dispatch & Cash on Delivery (COD)
+  if (
+    q.includes('shipping') ||
+    q.includes('delivery') ||
+    q.includes('dispatch') ||
+    q.includes('cod') ||
+    q.includes('cash on delivery') ||
+    q.includes('how long') ||
+    q.includes('courier')
+  ) {
+    return {
+      message: `### Express Pan-India Delivery & Logistics\n\n` +
+        `• **Delivery Timelines:** 3–5 business days across all metro cities (Mumbai, Delhi NCR, Bengaluru, Hyderabad, Chennai, Kolkata); 4–6 days for Tier-2/3 regions.\n` +
+        `• **Free Shipping:** Complimentary priority air dispatch on all orders above **₹1,999**.\n` +
+        `• **Cash on Delivery (COD):** Available nationwide with OTP-verified doorstep payment.\n` +
+        `• **Courier Partners:** Dispatched via BlueDart Apex Air, Delhivery Direct, and DTDC Priority.\n\n` +
+        `*Have a tracking number or Order ID? Enter it anytime to see live milestones.*`,
+      suggestedActions: [
+        'Track Order #TRV-89421',
+        'Explore Heavyweight Drops',
+        'Ask about Sizing',
+      ],
+    };
+  }
+
+  // 5K. General Knowledge & Off-Topic Conversational Fallback
   // If query DOES NOT mention apparel, clothing, products, or shopping:
-  const isClothingQuery =
+  const isExplicitShoppingQuery =
     q.includes('buy') ||
     q.includes('show') ||
     q.includes('find') ||
     q.includes('shop') ||
     q.includes('price') ||
     q.includes('cost') ||
-    q.includes('pant') ||
     q.includes('cargo') ||
-    q.includes('denim') ||
-    q.includes('jeans') ||
-    q.includes('trouser') ||
-    q.includes('tee') ||
-    q.includes('shirt') ||
     q.includes('hoodie') ||
     q.includes('sweatshirt') ||
-    q.includes('jacket') ||
-    q.includes('tank top') ||
+    q.includes('t-shirt') ||
+    q.includes('tee') ||
     q.includes('traditional') ||
-    q.includes('lehenga') ||
-    q.includes('sherwani') ||
     q.includes('bandhgala') ||
-    q.includes('kurta') ||
+    q.includes('lehenga') ||
+    q.includes('catalog') ||
+    q.includes('pieces') ||
     q.includes('collection') ||
-    q.includes('drop') ||
-    q.includes('clothes') ||
-    q.includes('clothing') ||
-    q.includes('apparel') ||
-    q.includes('black') ||
-    q.includes('white') ||
-    q.includes('navy') ||
-    q.includes('maroon') ||
-    q.includes('under') ||
-    q.includes('cheap') ||
-    q.includes('luxury');
+    q.includes('drop');
 
-  if (!isClothingQuery) {
+  if (!isExplicitShoppingQuery) {
     return {
-      message: `That's a thoughtful question! As your **Trevori AI assistant**, I specialize in high-fashion styling, garment architecture, lifestyle recommendations, and luxury shopping guidance.\n\n` +
-        `While I'm focused on fashion, design, and styling your perspective, I'm always here to help you put together the perfect look, find garments within your budget, or answer any questions about our 240–450 GSM heavyweight collections.\n\n` +
-        `*What kind of look, event, or outfit can I help you put together today?*`,
+      message: `That's an interesting question! As your **Trevori AI Stylist**, I'm tuned to assist you with garment engineering, luxury streetwear silhouettes, bespoke sizing calculations, and outfit curation.\n\n` +
+        `Whether you need outfit ideas for an event, sizing recommendations for your measurements, or guidance on our 240–450 GSM drops, feel free to ask!\n\n` +
+        `*How can I help you style your perspective today?*`,
       suggestedActions: [
         'Suggest an outfit for college under ₹2,500',
         'Find oversized black T-shirts',
-        'Find cargo pants under ₹1,500',
         'What size should I wear for a 40" chest?',
+        'Show Royal Traditional Couture',
       ],
     };
   }
@@ -712,15 +797,25 @@ export async function processStylistQuery(
     limit: 4,
   });
 
-  if (matchedProducts.length === 0) {
-    matchedProducts = searchCatalogue({ limit: 4 });
-  }
-
   const categoryLabel = targetCategory || 'Curated Pieces';
   const filterDesc = [
     targetColor ? `in **${targetColor.toUpperCase()}**` : '',
     maxPrice ? `under **₹${maxPrice.toLocaleString('en-IN')}**` : '',
   ].filter(Boolean).join(' ');
+
+  if (matchedProducts.length === 0) {
+    // Helpful recommendation without pretending false matches
+    const fallbackProducts = searchCatalogue({ limit: 3 });
+    return {
+      message: `We don't currently have ${categoryLabel} ${filterDesc} in this specific drop. However, here are our closest trending pieces tailored from our signature heavyweight cotton:`,
+      products: fallbackProducts,
+      suggestedActions: [
+        'Explore All Drops',
+        'Recommend an Outfit under ₹2,500',
+        'Size Assistance',
+      ],
+    };
+  }
 
   return {
     message: `Here are the matching **Trevori ${categoryLabel}** ${filterDesc} from our current runway collection. Every piece is woven from premium heavy-gauge cotton and tailored for an architectural silhouette:`,

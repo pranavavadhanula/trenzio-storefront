@@ -6,52 +6,24 @@ import { Link } from 'react-router-dom';
 export const TrevoriAIWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [hasInteracted, setHasInteracted] = useState(false);
 
   const toggleOpen = () => {
     setIsOpen(!isOpen);
-    setHasInteracted(true);
   };
 
   return (
     <div className="fixed bottom-5 right-5 z-50 select-none font-sans">
-      {/* Floating Trigger Button */}
+      {/* Normal Floating Chat Button without any name or text */}
       {!isOpen && (
-        <div className="relative group">
-          {/* Subtle Pulse Rings */}
-          <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-[#2563EB] to-[#1D4ED8] opacity-40 blur-xs group-hover:opacity-75 transition duration-500 animate-pulse" />
-
-          <button
-            type="button"
-            onClick={toggleOpen}
-            className="relative px-4 py-3 rounded-full bg-gradient-to-r from-[#0A172D] via-[#0F2444] to-[#1E3A66] text-white shadow-[0_10px_25px_rgba(7,19,36,0.5)] border border-[#2563EB]/40 flex items-center gap-2.5 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer"
-            aria-label="Open Trevori AI Stylist"
-          >
-            <div className="relative">
-              <Sparkles className="w-5 h-5 text-[#3B82F6] animate-pulse" />
-              <span className="absolute -top-1 -right-1 w-2 h-2 rounded-full bg-[#F88379] ring-2 ring-[#0A172D]" />
-            </div>
-
-            <div className="flex flex-col text-left">
-              <span className="text-[12px] font-sans font-black tracking-wider uppercase text-white leading-none">
-                TREVORI AI
-              </span>
-              <span className="text-[9px] font-sans text-blue-200 font-medium tracking-wide leading-none mt-0.5">
-                Personal Stylist
-              </span>
-            </div>
-          </button>
-
-          {/* Initial Tooltip Balloon for Discoverability */}
-          {!hasInteracted && (
-            <div className="absolute bottom-full right-0 mb-3 w-56 p-2.5 rounded-2xl bg-white text-slate-800 text-xs shadow-xl border border-slate-200/90 pointer-events-none animate-bounce">
-              <p className="font-sans font-semibold text-[11px] leading-snug">
-                ✨ Need outfit advice or sizing help? Ask your 24/7 AI Stylist!
-              </p>
-              <div className="absolute bottom-[-6px] right-8 w-3 h-3 bg-white border-r border-b border-slate-200/90 rotate-45" />
-            </div>
-          )}
-        </div>
+        <button
+          type="button"
+          onClick={toggleOpen}
+          className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-full bg-[#0A172D] hover:bg-[#122442] text-white shadow-[0_8px_25px_rgba(7,19,36,0.45)] border border-[#1E3A66] flex items-center justify-center hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer group"
+          aria-label="Open chat"
+        >
+          <MessageSquare className="w-6 h-6 text-white group-hover:text-[#F88379] transition-colors" />
+          <span className="absolute top-3 right-3 w-2.5 h-2.5 rounded-full bg-[#F88379] ring-2 ring-[#0A172D]" />
+        </button>
       )}
 
       {/* Interactive Chat Window Modal */}

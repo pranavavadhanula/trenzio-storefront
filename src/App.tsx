@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import { ShopProvider } from './context/ShopContext';
-import { AnnouncementBar } from './components/AnnouncementBar';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 
@@ -43,9 +42,6 @@ function MainStorefront() {
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#07111E] text-[#F8FAFC] flex flex-col font-sans selection:bg-[#F88379] selection:text-white">
       <ScrollToTop />
-
-      {/* Top Banner (Navy Blue Glossy) - Hidden on full-screen Login */}
-      {!isLoginPage && <AnnouncementBar />}
 
       {/* Navigation Bar (Navy Blue Glossy with Coral Pink Accents) - Hidden on full-screen Login */}
       {!isLoginPage && <Navbar />}

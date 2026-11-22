@@ -235,18 +235,18 @@ export const TrevoriAIMessage: React.FC<TrevoriAIMessageProps> = ({
           </div>
         )}
 
-        {/* 4. SIZE RESULT RECOMMENDATION */}
+        {/* 4. SIZE RESULT RECOMMENDATION BADGE */}
         {message.sizeResult && (
-          <div className="mt-2.5 w-full bg-slate-50 border border-slate-200 rounded-2xl p-3 text-xs font-sans">
-            <div className="flex items-center justify-between mb-1.5">
-              <span className="text-slate-600 font-medium">Recommended Fit:</span>
-              <span className="px-2.5 py-0.5 rounded-lg bg-[#0A172D] text-white font-mono font-bold">
-                Size {message.sizeResult.recommendedSize}
+          <div className="mt-2 w-full bg-slate-50/90 border border-slate-200/90 rounded-xl px-3 py-2 text-xs font-sans flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Ruler className="w-3.5 h-3.5 text-[#2563EB]" />
+              <span className="text-slate-600 font-semibold text-[11px] uppercase tracking-wider">
+                {message.sizeResult.category}
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 leading-normal">
-              {message.sizeResult.notes}
-            </p>
+            <span className="px-2.5 py-0.5 rounded-md bg-[#0A172D] text-white font-mono font-bold text-xs">
+              Size {message.sizeResult.recommendedSize} • {message.sizeResult.fitType}
+            </span>
           </div>
         )}
 
