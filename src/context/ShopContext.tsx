@@ -39,6 +39,8 @@ interface ShopContextType {
   // Search
   isSearchOpen: boolean;
   setIsSearchOpen: (open: boolean) => void;
+  searchQuery: string;
+  setSearchQuery: (query: string) => void;
 
   // Selected Category & Gender Filter
   selectedCategory: string;
@@ -84,6 +86,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isWishlistOpen, setIsWishlistOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
   const [currency, setCurrency] = useState<CurrencyCode>('INR'); // Default India
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
@@ -255,6 +258,8 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setIsWishlistOpen,
         isSearchOpen,
         setIsSearchOpen,
+        searchQuery,
+        setSearchQuery,
         selectedCategory,
         setSelectedCategory,
         selectedGender,

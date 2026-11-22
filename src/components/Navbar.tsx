@@ -16,6 +16,8 @@ export const Navbar: React.FC = () => {
     wishlist,
     setIsWishlistOpen,
     setIsSearchOpen,
+    searchQuery,
+    setSearchQuery,
     isLoggedIn,
     user,
   } = useShop();
@@ -86,10 +88,10 @@ export const Navbar: React.FC = () => {
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_75%_65%_at_50%_0%,rgba(248,131,121,0.12),transparent_75%)]" />
       <div className="pointer-events-none absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-[#F88379]/40 to-transparent" />
 
-      {/* Top Main Brand Header (Navy Blue Glossy) */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-4 sm:py-5 flex items-center justify-between border-b border-[#1E3A66]/50">
-        {/* Left: Mobile Menu & Search */}
-        <div className="flex items-center space-x-3 sm:space-x-5">
+      {/* Top Main Brand Header (Navy Blue Glossy - Amazon Style Layout) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-3.5 sm:py-4 flex items-center justify-between gap-3 sm:gap-6 border-b border-[#1E3A66]/50">
+        {/* Left: Mobile Menu Toggle (mobile only) & Brand Logo on Desktop */}
+        <div className="flex items-center gap-3">
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden text-white hover:text-[#F88379] p-1 cursor-pointer transition-colors"
@@ -98,33 +100,83 @@ export const Navbar: React.FC = () => {
             {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
 
-          <button
-            onClick={() => setIsSearchOpen(true)}
-            className="flex items-center gap-2 text-xs uppercase tracking-wider text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans font-semibold"
-            title="Search Catalog"
+          {/* Desktop Brand Logo (Left-aligned like Amazon / luxury e-commerce) */}
+          <Link
+            to="/"
+            className="hidden md:block group cursor-pointer flex-shrink-0"
+            title="Trevori Home"
           >
-            <Search className="w-4 h-4 text-[#F88379]" />
-            <span className="hidden sm:inline text-xs font-bold">SEARCH</span>
-          </button>
+            <h1 className="font-serif text-2xl lg:text-3xl tracking-[0.35em] text-white font-bold group-hover:text-[#F88379] transition-all drop-shadow-[0_2px_14px_rgba(248,131,121,0.2)]">
+              TREVORI
+            </h1>
+            <p className="text-[8.5px] uppercase tracking-[0.28em] text-[#94A3B8] mt-0.5 font-sans font-medium group-hover:text-white transition-colors">
+              Wear Your Perspective
+            </p>
+          </Link>
         </div>
 
-        {/* Center: Brand Name (Luxe Haute Navy Typography) */}
+        {/* Mobile Centered Brand Logo */}
         <Link
           to="/"
-          className="text-center group block cursor-pointer"
+          className="md:hidden text-center group block cursor-pointer flex-1"
           title="Trevori Home"
         >
-          <h1 className="font-serif text-2xl sm:text-4xl tracking-[0.4em] text-white font-bold group-hover:text-[#F88379] transition-all pl-[0.4em] drop-shadow-[0_2px_14px_rgba(248,131,121,0.2)]">
+          <h1 className="font-serif text-xl sm:text-2xl tracking-[0.35em] text-white font-bold group-hover:text-[#F88379] transition-all pl-[0.35em]">
             TREVORI
           </h1>
-          <p className="text-[9px] uppercase tracking-[0.32em] text-[#94A3B8] mt-0.5 font-sans font-medium group-hover:text-white transition-colors">
+          <p className="text-[8px] uppercase tracking-[0.25em] text-[#94A3B8] font-sans font-medium">
             Wear Your Perspective
           </p>
         </Link>
 
+        {/* Center: Amazon-Style Prominent Search Bar (Desktop) */}
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setIsSearchOpen(true);
+          }}
+          className="hidden md:flex flex-1 max-w-xl lg:max-w-2xl mx-2 lg:mx-6 items-stretch bg-[#071325]/95 hover:bg-[#091830] border border-[#1E3A66] hover:border-[#F88379] focus-within:border-[#F88379] focus-within:ring-2 focus-within:ring-[#F88379]/20 rounded-md overflow-hidden transition-all shadow-[inset_0_2px_4px_rgba(0,0,0,0.35)]"
+        >
+          {/* Category Filter Pill (Amazon-style) */}
+          <div className="hidden lg:flex items-center px-3 text-[#94A3B8] text-[11px] font-sans font-semibold tracking-wide border-r border-[#1E3A66]/70 bg-white/[0.03] select-none whitespace-nowrap">
+            All Drops
+          </div>
+
+          {/* Search Input Bar */}
+          <div className="flex-1 flex items-center px-3 py-2 min-w-0">
+            <Search className="w-4 h-4 text-[#94A3B8] mr-2.5 flex-shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search heavyweight hoodies, 350 GSM tees, cargo pants..."
+              className="w-full bg-transparent text-xs text-white placeholder:text-[#64748B] focus:outline-none font-sans"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="text-[#94A3B8] hover:text-white p-1 ml-1 cursor-pointer"
+                title="Clear Search"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Amazon-style Coral Accent Search Button */}
+          <button
+            type="submit"
+            className="bg-[#F88379] hover:bg-[#FA958D] text-[#07111E] px-4 py-2 flex items-center justify-center font-bold transition-colors cursor-pointer shadow-[0_0_12px_rgba(248,131,121,0.35)] flex-shrink-0"
+            title="Search Catalog"
+          >
+            <Search className="w-4 h-4 text-[#07111E] stroke-[2.5]" />
+          </button>
+        </form>
+
         {/* Right: Actions (Account, Wishlist, Bag) */}
-        <div className="flex items-center space-x-3 sm:space-x-5">
-          {/* Account / Log In - Visible on tablet/desktop, accessible via hamburger drawer on mobile */}
+        <div className="flex items-center space-x-2 sm:space-x-5 flex-shrink-0">
+          {/* Account / Log In */}
           <Link
             to={isLoggedIn ? "/account" : "/login"}
             className="hidden sm:flex relative items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
@@ -145,7 +197,7 @@ export const Navbar: React.FC = () => {
                 setIsWishlistOpen(true);
               }
             }}
-            className="relative flex items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
+            className="relative flex items-center gap-1.5 text-[#CBD5E1] hover:text-[#F88379] transition-all px-2 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
             title="Wishlist (Right click to open in new tab)"
           >
             <Heart className="w-4 h-4 text-[#F88379]" />
@@ -166,7 +218,7 @@ export const Navbar: React.FC = () => {
                 setIsCartOpen(true);
               }
             }}
-            className="relative flex items-center gap-1.5 text-white hover:text-[#F88379] transition-all px-2.5 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
+            className="relative flex items-center gap-1.5 text-white hover:text-[#F88379] transition-all px-2 py-1.5 rounded-sm hover:bg-white/[0.06] cursor-pointer font-sans text-xs font-bold tracking-wider"
             title="Shopping Bag (Right click to open in new tab)"
           >
             <ShoppingBag className="w-4 h-4 text-[#F88379]" />
@@ -176,6 +228,44 @@ export const Navbar: React.FC = () => {
             </span>
           </Link>
         </div>
+      </div>
+
+      {/* Mobile Amazon-Style Search Bar (md:hidden) */}
+      <div className="md:hidden px-3 sm:px-4 pb-2.5 pt-1 border-b border-[#1E3A66]/40">
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            setIsSearchOpen(true);
+          }}
+          className="flex items-center bg-[#071325] border border-[#1E3A66] hover:border-[#F88379] focus-within:border-[#F88379] rounded-md overflow-hidden shadow-[inset_0_2px_4px_rgba(0,0,0,0.4)] transition-all"
+        >
+          <div className="flex-1 flex items-center px-3 py-2 min-w-0">
+            <Search className="w-4 h-4 text-[#F88379] mr-2 flex-shrink-0" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search heavyweight tees, 350 GSM..."
+              className="w-full bg-transparent text-xs text-white placeholder:text-[#64748B] focus:outline-none font-sans"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="text-[#94A3B8] hover:text-white p-0.5 ml-1 cursor-pointer"
+                title="Clear Search"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+          <button
+            type="submit"
+            className="bg-[#F88379] hover:bg-[#FA958D] text-[#07111E] text-[11px] font-bold px-3.5 py-2 uppercase tracking-wider flex-shrink-0 transition-colors cursor-pointer"
+          >
+            Search
+          </button>
+        </form>
       </div>
 
       {/* Secondary Nav Bar: Navy Blue with Coral Pink Active Accents - Hidden on mobile, shown on md+ */}
