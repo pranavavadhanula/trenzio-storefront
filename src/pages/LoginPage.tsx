@@ -241,6 +241,17 @@ export const LoginPage: React.FC = () => {
 
         {/* RIGHT COLUMN: The exact red editorial photo from the reference */}
         <div className="relative w-full h-full min-h-[460px] md:min-h-full overflow-hidden bg-[#BA2C17] hidden md:block">
+          {/* Top Brand & Tagline replacing Brand New */}
+          <div className="absolute top-6 sm:top-7 left-6 sm:left-8 z-10 flex items-center gap-2 select-none">
+            <span className="text-[11px] sm:text-xs font-medium tracking-[0.28em] text-white uppercase font-sans">
+              TREVORI
+            </span>
+            <span className="text-white/40 text-[10px]">&bull;</span>
+            <span className="text-[10px] sm:text-[11px] tracking-[0.22em] text-white/85 uppercase font-light font-sans">
+              WEAR YOUR PERSPECTIVE
+            </span>
+          </div>
+
           {/* Exact Photo Cropped from the User Image */}
           <img
             src="/images/auth/login_editorial_red.jpg"
