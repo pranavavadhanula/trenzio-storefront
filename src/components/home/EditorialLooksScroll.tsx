@@ -68,8 +68,15 @@ const EDITORIAL_LOOKS: LookItem[] = [
 
 export const EditorialLooksScroll: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isGliding, setIsGliding] = useState(false);
-  const animFrameId = useRef<number | null>(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const isHoveredRef = useRef(false);
+
+  // Triple set of looks for truly seamless, infinite perpetual motion
+  const ALL_LOOKS = [
+    ...EDITORIAL_LOOKS.map((l) => ({ ...l, instanceId: `${l.id}-a` })),
+    ...EDITORIAL_LOOKS.map((l) => ({ ...l, instanceId: `${l.id}-b` })),
+    ...EDITORIAL_LOOKS.map((l) => ({ ...l, instanceId: `${l.id}-c` })),
+  ];
 
   const handleScroll = (direction: 'left' | 'right') => {
     if (scrollContainerRef.current) {
@@ -81,42 +88,47 @@ export const EditorialLooksScroll: React.FC = () => {
     }
   };
 
-  // Continuous 3D rightward glide as long as cursor is kept on the cards/reel
+  // Perpetual 24/7 continuous motion loop
   useEffect(() => {
-    if (!isGliding) {
-      if (animFrameId.current) {
-        cancelAnimationFrame(animFrameId.current);
-        animFrameId.current = null;
+    let animId: number;
+    let lastTime = performance.now();
+
+    const glide = (now: number) => {
+      if (scrollContainerRef.current) {
+        const el = scrollContainerRef.current;
+        const delta = Math.min((now - lastTime) / 16.67, 2.0); // normalized 60fps delta
+        lastTime = now;
+
+        // Base continuous glide: 1.35px/frame; slows gently on hover to 0.4px/frame for reading/clicking
+        const speed = isHoveredRef.current ? 0.45 : 1.35;
+        
+        const oneThird = el.scrollWidth / 3;
+        if (el.scrollLeft >= oneThird * 2) {
+          // Seamless infinite wrap with zero visual jump
+          el.scrollLeft -= oneThird;
+        } else {
+          el.scrollLeft += speed * delta;
+        }
       }
-      return;
-    }
-
-    let active = true;
-
-    const glide = () => {
-      if (!active || !scrollContainerRef.current) return;
-      const el = scrollContainerRef.current;
-      const maxScroll = el.scrollWidth - el.clientWidth;
-
-      if (el.scrollLeft >= maxScroll - 3) {
-        // Loop back smoothly to allow continuous exploration
-        el.scrollLeft = 0;
-      } else {
-        el.scrollLeft += 2.0; // Buttery smooth 60fps rightward 3D drift
-      }
-
-      animFrameId.current = requestAnimationFrame(glide);
+      animId = requestAnimationFrame(glide);
     };
 
-    animFrameId.current = requestAnimationFrame(glide);
+    animId = requestAnimationFrame(glide);
 
     return () => {
-      active = false;
-      if (animFrameId.current) {
-        cancelAnimationFrame(animFrameId.current);
-      }
+      cancelAnimationFrame(animId);
     };
-  }, [isGliding]);
+  }, []);
+
+  const handleMouseEnter = () => {
+    isHoveredRef.current = true;
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    isHoveredRef.current = false;
+    setIsHovered(false);
+  };
 
   const tickerItems = [
     'TREVORI EDITION IV',
@@ -141,12 +153,10 @@ export const EditorialLooksScroll: React.FC = () => {
               <span className="text-xs uppercase tracking-[0.3em] text-[#706B64] font-medium">
                 SEASONAL EDITORIAL REEL // 2026
               </span>
-              {isGliding && (
-                <span className="ml-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#171717] text-[#B9AA96] text-[10px] uppercase font-mono tracking-widest border border-[#B9AA96]/60 shadow-lg animate-pulse rounded-full">
-                  <Sparkles className="w-2.5 h-2.5 text-[#B9AA96]" />
-                  <span>3D GLIDE ACTIVE</span>
-                </span>
-              )}
+              <span className="ml-2 inline-flex items-center gap-1.5 px-2.5 py-0.5 bg-[#171717] text-[#B9AA96] text-[10px] uppercase font-mono tracking-widest border border-[#B9AA96]/60 shadow-lg rounded-full">
+                <Sparkles className="w-2.5 h-2.5 text-[#B9AA96] animate-spin" />
+                <span>{isHovered ? '3D FOCUS GLIDE' : 'PERPETUAL 3D MOTION'}</span>
+              </span>
             </div>
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl text-[#171717] font-normal tracking-tight">
               Curated Silhouette Looks
@@ -187,97 +197,96 @@ export const EditorialLooksScroll: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. Horizontal Scrolling Look Cards with 3D Glow & Rightward Motion on Hover */}
+      {/* 3. Perpetual Seamless Horizontal Scrolling Look Reel */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8 mt-10">
         <div
           ref={scrollContainerRef}
-          onMouseEnter={() => setIsGliding(true)}
-          onMouseLeave={() => setIsGliding(false)}
-          className={`flex gap-5 sm:gap-6 overflow-x-auto no-scrollbar pb-8 pt-4 ${
-            isGliding ? 'scroll-auto' : 'scroll-smooth snap-x'
-          }`}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          className="flex gap-5 sm:gap-6 overflow-x-hidden no-scrollbar pb-8 pt-4 select-none"
           style={{ perspective: '1200px' }}
         >
-          {EDITORIAL_LOOKS.map((look) => (
-            <div
-              key={look.id}
-              className="look-card-3d-glow w-[260px] sm:w-[290px] md:w-[320px] shrink-0 snap-start group relative bg-[#DDD8CE] border border-[#DDD8CE] overflow-hidden cursor-pointer"
-            >
-              {/* Luminous Shimmer Light Beam Effect */}
-              <div className="beam-effect" />
+          {ALL_LOOKS.map((look, index) => (
+            <React.Fragment key={look.instanceId}>
+              <div className="look-card-3d-glow w-[260px] sm:w-[290px] md:w-[320px] shrink-0 group relative bg-[#DDD8CE] border border-[#DDD8CE] overflow-hidden cursor-pointer">
+                {/* Luminous Shimmer Light Beam Effect */}
+                <div className="beam-effect" />
 
-              {/* Image Container with 3:4 Aspect Ratio */}
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#DDD8CE]">
-                <img
-                  src={look.image}
-                  alt={look.name}
-                  className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
-                  loading="lazy"
-                />
+                {/* Image Container with 3:4 Aspect Ratio */}
+                <div className="relative aspect-[3/4] w-full overflow-hidden bg-[#DDD8CE]">
+                  <img
+                    src={look.image}
+                    alt={look.name}
+                    className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out pointer-events-none"
+                    loading="lazy"
+                  />
 
-                {/* Scrim Gradient for text contrast */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
+                  {/* Scrim Gradient for text contrast */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent pointer-events-none" />
 
-                {/* Top Look Badge */}
-                <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-md text-white text-[9px] uppercase tracking-widest font-mono border border-white/20">
-                  <Sparkles className="w-2.5 h-2.5 text-[#B9AA96]" />
-                  <span>LOOK {look.lookNumber}</span>
-                </div>
-
-                {/* Bottom Card Content */}
-                <div className="absolute bottom-0 inset-x-0 p-5 text-white z-10">
-                  <span className="text-[10px] uppercase tracking-widest text-[#DDD8CE] font-medium block mb-1">
-                    {look.category}
-                  </span>
-                  <h3 className="font-serif text-lg sm:text-xl text-white font-normal leading-tight group-hover:text-[#F4F1EA] transition-colors">
-                    {look.name}
-                  </h3>
-                  <div className="text-[11px] text-[#DDD8CE]/80 font-light mt-1">
-                    {look.textile}
+                  {/* Top Look Badge */}
+                  <div className="absolute top-3.5 left-3.5 flex items-center gap-1.5 px-2.5 py-1 bg-black/60 backdrop-blur-md text-white text-[9px] uppercase tracking-widest font-mono border border-white/20 pointer-events-none">
+                    <Sparkles className="w-2.5 h-2.5 text-[#B9AA96]" />
+                    <span>LOOK {look.lookNumber}</span>
                   </div>
 
-                  <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/20">
-                    <span className="font-medium text-sm text-white">
-                      ₹{look.priceINR.toLocaleString('en-IN')}
+                  {/* Bottom Card Content */}
+                  <div className="absolute bottom-0 inset-x-0 p-5 text-white z-10 pointer-events-none">
+                    <span className="text-[10px] uppercase tracking-widest text-[#DDD8CE] font-medium block mb-1">
+                      {look.category}
                     </span>
-                    <Link
-                      to={look.link}
-                      className="inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white bg-white/20 hover:bg-white hover:text-[#171717] px-2.5 py-1 backdrop-blur-sm transition-all"
-                    >
-                      <span>Explore</span>
-                      <ArrowUpRight className="w-3 h-3" />
-                    </Link>
+                    <h3 className="font-serif text-lg sm:text-xl text-white font-normal leading-tight group-hover:text-[#F4F1EA] transition-colors">
+                      {look.name}
+                    </h3>
+                    <div className="text-[11px] text-[#DDD8CE]/80 font-light mt-1">
+                      {look.textile}
+                    </div>
+
+                    <div className="flex items-center justify-between mt-4 pt-3 border-t border-white/20">
+                      <span className="font-medium text-sm text-white">
+                        ₹{look.priceINR.toLocaleString('en-IN')}
+                      </span>
+                      <Link
+                        to={look.link}
+                        className="pointer-events-auto inline-flex items-center gap-1 text-[10px] uppercase tracking-wider text-white bg-white/20 hover:bg-white hover:text-[#171717] px-2.5 py-1 backdrop-blur-sm transition-all"
+                      >
+                        <span>Explore</span>
+                        <ArrowUpRight className="w-3 h-3" />
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+
+              {/* Insert "View All" Card after every 5 looks (at the end of each set) */}
+              {(index + 1) % 5 === 0 && (
+                <Link
+                  to="/collections"
+                  className="look-card-3d-glow w-[240px] sm:w-[270px] shrink-0 group relative bg-[#171717] text-white flex flex-col items-center justify-center text-center p-8 border border-[#B9AA96]/30 cursor-pointer overflow-hidden"
+                >
+                  {/* Luminous Shimmer Light Beam Effect */}
+                  <div className="beam-effect" />
+
+                  {/* Subtle luxury badge */}
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-[#B9AA96] font-mono mb-4 block">
+                    TREVORI ARCHIVE
+                  </span>
+
+                  <h3 className="font-serif text-3xl sm:text-4xl font-normal text-white mb-3">
+                    View All
+                  </h3>
+
+                  <p className="text-xs text-[#DDD8CE] font-light max-w-[180px] leading-relaxed mb-6">
+                    Explore all 50+ contemporary drop-shoulder silhouettes.
+                  </p>
+
+                  <div className="w-14 h-14 rounded-full border border-white/40 flex items-center justify-center group-hover:bg-white group-hover:text-[#171717] group-hover:scale-110 transition-all duration-300">
+                    <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
+                  </div>
+                </Link>
+              )}
+            </React.Fragment>
           ))}
-
-          {/* 4. Final "View All" Card */}
-          <Link
-            to="/collections"
-            className="look-card-3d-glow w-[240px] sm:w-[270px] shrink-0 snap-start group relative bg-[#171717] text-white flex flex-col items-center justify-center text-center p-8 border border-[#B9AA96]/30 cursor-pointer overflow-hidden"
-          >
-            {/* Luminous Shimmer Light Beam Effect */}
-            <div className="beam-effect" />
-
-            {/* Subtle luxury badge */}
-            <span className="text-[10px] uppercase tracking-[0.3em] text-[#B9AA96] font-mono mb-4 block">
-              TREVORI ARCHIVE
-            </span>
-
-            <h3 className="font-serif text-3xl sm:text-4xl font-normal text-white mb-3">
-              View All
-            </h3>
-
-            <p className="text-xs text-[#DDD8CE] font-light max-w-[180px] leading-relaxed mb-6">
-              Explore all 50+ contemporary drop-shoulder silhouettes.
-            </p>
-
-            <div className="w-14 h-14 rounded-full border border-white/40 flex items-center justify-center group-hover:bg-white group-hover:text-[#171717] group-hover:scale-110 transition-all duration-300">
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" />
-            </div>
-          </Link>
         </div>
       </div>
     </section>
