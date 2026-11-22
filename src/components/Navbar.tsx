@@ -104,8 +104,8 @@ export const Navbar: React.FC = () => {
             </button>
           </div>
 
-          {/* Exact Dead-Center: TREVORI Brand Logo */}
-          <div className="absolute left-1/2 -translate-x-1/2 flex flex-col items-center justify-center text-center pointer-events-auto z-10">
+          {/* TREVORI Brand Logo: Centered on mobile, shifted slightly left on desktop to prevent crowding with the search bar */}
+          <div className="absolute left-1/2 lg:left-[38%] xl:left-[39%] -translate-x-1/2 flex flex-col items-center justify-center text-center pointer-events-auto z-10 transition-all duration-300">
             <Link to="/" className="group cursor-pointer flex flex-col items-center justify-center text-center" title="TREVORI Contemporary Streetwear">
               <span className="font-serif text-2xl sm:text-3xl lg:text-[32px] tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors">
                 TREVORI
@@ -119,7 +119,7 @@ export const Navbar: React.FC = () => {
           {/* Right: Search Bar & Larger Clean Icons (Vault, Bag, Account) */}
           <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0 ml-auto z-10">
             {/* Desktop Search Bar on Right (lg screens and up) */}
-            <div className="w-48 xl:w-64 hidden lg:block">
+            <div className="w-44 lg:w-48 xl:w-56 hidden lg:block">
               <form onSubmit={handleSearchSubmit} className="relative w-full">
                 <input
                   type="text"

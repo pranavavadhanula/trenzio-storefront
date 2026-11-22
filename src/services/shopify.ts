@@ -138,7 +138,7 @@ export async function fetchShopifyProducts(): Promise<Product[]> {
     }>(query, { first: 30 });
 
     if (!res || !res.products || !res.products.edges.length) {
-      return FALLBACK_PRODUCTS;
+      return [];
     }
 
     const liveProducts = res.products.edges.map(({ node }) => {
@@ -180,14 +180,10 @@ export async function fetchShopifyProducts(): Promise<Product[]> {
       };
     });
 
-    // Merge live products at the top with catalog items
-    const nonCollidingFallback = FALLBACK_PRODUCTS.filter(
-      fb => !liveProducts.some(lp => lp.name.toLowerCase() === fb.name.toLowerCase())
-    );
-
-    return [...liveProducts, ...nonCollidingFallback];
+    // Return ONLY live products connected from Shopify — zero mock/demo items
+    return liveProducts;
   } catch {
-    return FALLBACK_PRODUCTS;
+    return [];
   }
 }
 
