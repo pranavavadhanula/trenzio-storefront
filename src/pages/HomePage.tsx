@@ -352,7 +352,7 @@ export const HomePage: React.FC = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             <Glossy3DCard
               badge="Capsule 01"
               image="/images/models/man_streetwear_hoodie.jpg"

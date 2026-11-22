@@ -71,6 +71,11 @@ export const Glossy3DCard: React.FC<Glossy3DCardProps> = ({
         }}
         className="relative bg-white/90 backdrop-blur-2xl border border-white/70 overflow-hidden flex flex-col justify-between shadow-[0_16px_36px_rgba(23,23,23,0.08),0_2px_6px_rgba(0,0,0,0.04),inset_0_1px_2px_rgba(255,255,255,0.95)] hover:shadow-[0_32px_70px_rgba(23,23,23,0.18),0_6px_20px_rgba(0,0,0,0.08),inset_0_2px_4px_rgba(255,255,255,1)] transition-shadow duration-300"
       >
+        {/* Top Edge Specular Reflection Beam */}
+        <div className="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent z-40 opacity-90" />
+        
+        {/* Subtle Glass Inner Border */}
+        <div className="absolute inset-0 z-35 pointer-events-none border border-white/40" />
         {/* Dynamic Specular Gloss Glare Reflection */}
         <div
           className="absolute inset-0 z-30 pointer-events-none transition-opacity duration-200"
