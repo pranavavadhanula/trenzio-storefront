@@ -15,6 +15,7 @@ export const Navbar: React.FC = () => {
     setIsCartOpen,
     wishlist,
     setIsWishlistOpen,
+    setIsSearchOpen,
     searchQuery,
     setSearchQuery,
     isLoggedIn,
@@ -117,15 +118,15 @@ export const Navbar: React.FC = () => {
 
           {/* Right: Search Bar & Larger Clean Icons (Vault, Bag, Account) */}
           <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0 ml-auto z-10">
-            {/* Search Bar on Right */}
-            <div className="w-36 md:w-48 lg:w-56 xl:w-64 hidden md:block">
+            {/* Desktop Search Bar on Right (lg screens and up) */}
+            <div className="w-48 xl:w-64 hidden lg:block">
               <form onSubmit={handleSearchSubmit} className="relative w-full">
                 <input
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   placeholder="Search shirts, hoodies, cargos..."
-                  className="w-full bg-[#FFFFFF] text-[#171717] placeholder-[#706B64]/70 text-xs sm:text-sm pl-8 pr-16 py-1.5 sm:py-2 border border-[#DDD8CE] focus:border-[#171717] focus:outline-none transition-all shadow-none"
+                  className="w-full bg-[#FFFFFF] text-[#171717] placeholder-[#706B64]/70 text-xs pl-8 pr-16 py-1.5 sm:py-2 border border-[#DDD8CE] focus:border-[#171717] focus:outline-none transition-all shadow-none"
                 />
                 <Search className="w-3.5 h-3.5 text-[#706B64] absolute left-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 {searchQuery && (
@@ -145,6 +146,16 @@ export const Navbar: React.FC = () => {
                 </button>
               </form>
             </div>
+
+            {/* Mobile / Tablet Search Icon (Opens quick search modal) */}
+            <button
+              onClick={() => setIsSearchOpen(true)}
+              className="lg:hidden relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
+              aria-label="Search Collection"
+              title="Search Collection"
+            >
+              <Search className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.75} />
+            </button>
 
             {/* Vault Icon (Wishlist) */}
             <button
