@@ -339,8 +339,8 @@ export async function processStylistQuery(
     q.includes('where is my order') ||
     q.includes('tracking')
   ) {
-    const orderIdToLookup = orderMatch ? orderMatch[0] : 'TRV-89421';
-    const foundOrder = findOrderByIdOrEmail(orderIdToLookup);
+    const orderIdToLookup = orderMatch ? orderMatch[0] : '';
+    const foundOrder = orderIdToLookup ? findOrderByIdOrEmail(orderIdToLookup) : null;
 
     if (foundOrder) {
       return {
@@ -354,8 +354,8 @@ export async function processStylistQuery(
       };
     } else {
       return {
-        message: `I couldn't locate an order matching "${orderIdToLookup}". Please double-check your Order ID (format: **TRV-XXXXX**) or provide the email address used during checkout.`,
-        suggestedActions: ['Check Demo Order #TRV-89421', 'Track Order #TRV-67210', 'Shipping Policy'],
+        message: `There are currently no active orders in our system. All past test orders have been cleared pending Shopify storefront integration.\n\nOnce an order is placed through our store, your live Blue Dart shipping checkpoints and delivery milestones will appear here in real time.`,
+        suggestedActions: ['Browse New Arrivals', 'Sizing Recommendations', 'Shipping Policy'],
       };
     }
   }
@@ -548,7 +548,7 @@ export async function processStylistQuery(
         `• **Occasion Styling:** Curate complete streetwear & traditional outfits under any budget\n` +
         `• **Precision Sizing:** Compute your exact fit across our shirts, tees, and hoodies\n` +
         `• **Catalogue Discovery:** Find specific pieces, colors, fabrics, and silhouettes\n` +
-        `• **Order Tracking:** Check real-time shipping milestones for orders like #TRV-89421\n` +
+        `• **Order Tracking:** Check real-time shipping milestones once your order is placed\n` +
         `• **General Style & Lifestyle Advice:** From color coordination to fabric science\n\n` +
         `How can I assist you today?`,
       suggestedActions: [
@@ -599,7 +599,7 @@ export async function processStylistQuery(
   if (
     q.includes('what is gsm') ||
     q.includes('gsm meaning') ||
-    q.includes('why heavyweight') ||
+    q.includes('why luxury cotton') ||
     q.includes('french terry') ||
     q.includes('bio-wash') ||
     q.includes('combed cotton') ||
@@ -680,11 +680,11 @@ export async function processStylistQuery(
         `• **7-Day Doorstep Size Exchanges:** If your tee or hoodie feels too oversized or tailored, request an exchange within 7 days of delivery. Our courier will deliver your new size and pick up the original simultaneously.\n` +
         `• **Free Return Pickup:** Zero reverse-shipping charges across all Indian pin codes.\n` +
         `• **Garment Condition:** Items must be unwashed, unworn, and retain all original Trevori security tags and loopback packaging.\n\n` +
-        `*To initiate an exchange right now, share your Order # (e.g., #TRV-89421) or tap below.*`,
+        `*To initiate an exchange right now, share your Order ID or contact our concierge.*`,
       suggestedActions: [
-        'Track Order #TRV-89421',
         'Contact Concierge Support',
         'Explore New Drops',
+        'Ask about Sizing',
       ],
     };
   }
@@ -707,9 +707,9 @@ export async function processStylistQuery(
         `• **Courier Partners:** Dispatched via BlueDart Apex Air, Delhivery Direct, and DTDC Priority.\n\n` +
         `*Have a tracking number or Order ID? Enter it anytime to see live milestones.*`,
       suggestedActions: [
-        'Track Order #TRV-89421',
         'Explore All Drops',
         'Ask about Sizing',
+        'Contact Support',
       ],
     };
   }

@@ -112,13 +112,13 @@ export const LoginPage: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/75 via-transparent to-transparent" />
             <div className="absolute bottom-8 left-8 right-8 text-white">
               <span className="text-[10px] uppercase tracking-[0.3em] text-[#DDD8CE] block mb-1">
-                Trevori Passport
+                TREVORI &bull; ALL EYES ON YOU
               </span>
               <h2 className="font-serif text-2xl sm:text-3xl font-normal text-white">
-                The Contemporary Silhouette.
+                Wear Your Perspective.
               </h2>
               <p className="text-xs text-[#DDD8CE]/80 font-light mt-1">
-                450 GSM Bio-Washed French Terry &bull; Dropped Seams
+                Bio-Washed French Terry Cotton &bull; Relaxed Dropped Seams
               </p>
             </div>
           </div>

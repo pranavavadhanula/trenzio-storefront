@@ -23,9 +23,9 @@ export const Footer: React.FC = () => {
             <span className="text-[10px] tracking-[0.25em] uppercase text-[#B9AA96] font-medium block">
               TEXTILE EXCELLENCE
             </span>
-            <div className="font-serif text-lg text-white">450 GSM Combed Cotton</div>
+            <div className="font-serif text-lg text-white">Combed Pure Cotton</div>
             <p className="text-[#DDD8CE]/70 text-[11px] leading-relaxed">
-              Bio-washed luxury French Terry and heavyweight jersey for enduring architectural shape.
+              Bio-washed luxury French Terry and pure cotton jersey for enduring architectural shape.
             </p>
           </div>
 
@@ -86,7 +86,7 @@ export const Footer: React.FC = () => {
                 <Link to="/collections" className="hover:text-white transition-colors">New Arrivals</Link>
               </li>
               <li>
-                <Link to="/collections/men" className="hover:text-white transition-colors">Heavyweight Hoodies</Link>
+                <Link to="/collections/men" className="hover:text-white transition-colors">Hoodies & Sweatshirts</Link>
               </li>
               <li>
                 <Link to="/collections/men" className="hover:text-white transition-colors">Oversized T-Shirts</Link>

@@ -143,7 +143,7 @@ export const VirtualTryOnPage: React.FC = () => {
 
   // AI recommended size calculation
   const recommendedSize = useMemo(() => {
-    // Formula calibrated to Trevori 350 GSM chest measurements
+    // Formula calibrated to Trevori streetwear chest measurements
     const bmi = userWeightKg / Math.pow(userHeightCm / 100, 2);
     if (bmi < 20) return fitPreference === 'oversized' ? 'M' : 'S';
     if (bmi < 23) return fitPreference === 'oversized' ? 'L' : 'M';
@@ -690,7 +690,7 @@ export const VirtualTryOnPage: React.FC = () => {
             <div className="p-6 bg-white/[0.03] backdrop-blur-md border border-[#3B82F6]/20 space-y-4 shadow-xl text-[#FFFFFF]">
               <div className="flex items-center justify-between text-[10px] uppercase tracking-wider font-mono">
                 <span className="bg-white border border-[#3B82F6]/30 text-[#2563EB] px-2 py-0.5 font-bold">
-                  {selectedProduct.gsm} GSM Bio-Washed Cotton
+                  100% Bio-Washed Cotton
                 </span>
                 <span className="text-[#F88379] font-medium">
                   Trevori Edition &bull; In Stock

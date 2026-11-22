@@ -39,7 +39,7 @@ export const HeroEditorialBanner: React.FC = () => {
             </h1>
 
             <p className="font-sans text-sm sm:text-base lg:text-lg text-[#DDD8CE] font-light mt-4 sm:mt-6 max-w-xl leading-relaxed">
-              Engineered with 450 GSM bio-washed French Terry, dropped architectural shoulders, and precision utilitarian tailoring for an international luxury presence.
+              Engineered with bio-washed French Terry cotton, dropped architectural shoulders, and precision utilitarian tailoring for an international luxury presence.
             </p>
 
             <div className="flex flex-wrap items-center gap-4 mt-8 sm:mt-10">
@@ -63,7 +63,7 @@ export const HeroEditorialBanner: React.FC = () => {
             <div className="mt-12 pt-6 border-t border-white/20 grid grid-cols-2 sm:grid-cols-4 gap-4 text-[10px] sm:text-[11px] tracking-widest uppercase text-white/75 font-mono">
               <div>
                 <span className="text-[#B9AA96] block mb-0.5">TEXTILE</span>
-                <span>450 GSM Combed Cotton</span>
+                <span>Combed Pure Cotton</span>
               </div>
               <div>
                 <span className="text-[#B9AA96] block mb-0.5">SILHOUETTE</span>

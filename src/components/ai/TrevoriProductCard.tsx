@@ -64,7 +64,7 @@ export const TrevoriProductCard: React.FC<TrevoriProductCardProps> = ({
         <div className="absolute top-2.5 left-2.5 flex flex-col gap-1 z-10">
           {product.gsm && (
             <span className="px-2 py-0.5 rounded-full bg-[#0A172D]/90 backdrop-blur-md text-[10px] font-mono font-bold tracking-wider text-white shadow-sm">
-              {product.gsm} GSM
+              {product.category}
             </span>
           )}
           {product.isBestSeller && (

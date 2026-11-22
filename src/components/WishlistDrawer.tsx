@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Heart, Trash2, ShoppingBag } from 'lucide-react';
+import { X, Bookmark, Trash2, ShoppingBag } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import { Product } from '../types';
 
@@ -37,9 +37,12 @@ export const WishlistDrawer: React.FC = () => {
           {/* Header */}
           <div className="p-6 border-b border-[#DDD8CE] flex items-center justify-between bg-[#FFFFFF]">
             <div>
-              <h2 className="font-serif text-2xl text-[#171717] font-normal">Personal Wishlist</h2>
+              <h2 className="font-serif text-2xl text-[#171717] font-normal flex items-center gap-2">
+                <Bookmark className="w-5 h-5 text-[#B9AA96]" />
+                <span>Personal Vault</span>
+              </h2>
               <p className="text-[10px] uppercase tracking-widest text-[#706B64] mt-0.5">
-                {wishlistedProducts.length} {wishlistedProducts.length === 1 ? 'Silhouette' : 'Silhouettes'} Saved
+                {wishlistedProducts.length} {wishlistedProducts.length === 1 ? 'Silhouette' : 'Silhouettes'} Curated
               </p>
             </div>
             <button
@@ -66,7 +69,7 @@ export const WishlistDrawer: React.FC = () => {
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
             {wishlistedProducts.length === 0 ? (
               <div className="h-full flex flex-col items-center justify-center text-center py-20 space-y-4">
-                <Heart className="w-8 h-8 text-[#B9AA96] stroke-1" />
+                <Bookmark className="w-8 h-8 text-[#B9AA96] stroke-1" />
                 <h3 className="font-serif text-xl text-[#171717]">Your wishlist is empty</h3>
                 <p className="text-xs text-[#706B64] max-w-xs font-light leading-relaxed">
                   Save your preferred oversized tees, hoodies, and tailored cargos for private consideration.

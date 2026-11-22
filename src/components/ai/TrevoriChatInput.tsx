@@ -22,7 +22,7 @@ export const TrevoriChatInput: React.FC<TrevoriChatInputProps> = ({
     'Find oversized black T-shirts...',
     'Show traditional Indian clothing...',
     'Find cargo pants under ₹1,500...',
-    'Track my order #TRV-89421...',
+    'Recommend an outfit under ₹2,500...',
     'What size should I wear for a 40" chest?',
     'What should I wear on a date night?',
   ];

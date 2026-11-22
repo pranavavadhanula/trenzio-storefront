@@ -41,9 +41,9 @@ export const HomePage: React.FC = () => {
   // Categories list with 4:5 editorial imagery
   const CATEGORIES_LIST = [
     {
-      name: 'Heavyweight Hoodies',
+      name: 'Hoodies & Sweatshirts',
       slug: '/collections/men',
-      count: '450 GSM French Terry',
+      count: 'French Terry Cotton',
       image: '/images/models/man_streetwear_hoodie.jpg',
     },
     {
@@ -85,7 +85,7 @@ export const HomePage: React.FC = () => {
       title: 'Look 01: The Monolith Silhouette',
       setting: 'Concrete Brutalist Pavilion &bull; Milan',
       image: '/images/models/man_streetwear_hoodie.jpg',
-      description: 'Heavyweight 450 GSM French Terry Boxy Hoodie paired with Relaxed Pleated Wide-Leg Cargo Pants.',
+      description: 'French Terry Cotton Boxy Hoodie paired with Relaxed Pleated Wide-Leg Cargo Pants.',
       items: [
         { name: 'Classic French Terry Boxy Hoodie', priceINR: 2499, category: 'Hoodies' },
         { name: 'Relaxed Pleated Wide-Leg Cargo Pants', priceINR: 1499, category: 'Pants' },
@@ -118,7 +118,7 @@ export const HomePage: React.FC = () => {
       title: 'Look 04: Tactical Utilitarian',
       setting: 'Architectural Shadowplay &bull; New York',
       image: '/images/models/man_street_standing.jpg',
-      description: 'Tactical Utility Zip Bomber Jacket over Boxy Heavyweight Tee and Nappa Leather Chunky Sneakers.',
+      description: 'Tactical Utility Zip Bomber Jacket over Boxy Oversized Tee and Nappa Leather Chunky Sneakers.',
       items: [
         { name: 'Tactical Utility Zip Bomber Jacket', priceINR: 2799, category: 'Jackets' },
         { name: 'Italian Nappa Leather Chunky Sneaker', priceINR: 2499, category: 'Footwear' },
@@ -131,10 +131,10 @@ export const HomePage: React.FC = () => {
     {
       author: 'Julian V.',
       location: 'London, United Kingdom',
-      item: 'Classic French Terry Boxy Hoodie (450 GSM)',
+      item: 'Classic French Terry Boxy Hoodie ',
       rating: 5,
       review:
-        'The drape is sublime. You can immediately feel the density of the 450 GSM combed cotton. The collar holds its shape effortlessly and the hood doesn’t flop. Truly on par with bespoke Japanese streetwear.',
+        'The drape is sublime. You can immediately feel the density of the combed cotton. The collar holds its shape effortlessly and the hood doesn’t flop. Truly on par with bespoke Japanese streetwear.',
       verified: true,
     },
     {
@@ -149,7 +149,7 @@ export const HomePage: React.FC = () => {
     {
       author: 'Kenji T.',
       location: 'Tokyo, Japan',
-      item: 'Boxy Oversized T-Shirt (350 GSM)',
+      item: 'Boxy Oversized T-Shirt ',
       rating: 5,
       review:
         'Subtle, understated, architectural. The ribbed collar is 1.25 inches thick and stays razor-sharp after ten washes. No unnecessary loud graphics—pure minimalist proportions.',
@@ -343,7 +343,7 @@ export const HomePage: React.FC = () => {
                     The Architectural Core
                   </h3>
                   <p className="text-xs text-[#706B64] leading-relaxed mb-6 font-light">
-                    Brutalist minimalism in heavyweight 450 GSM French Terry. Obsidian black, ecru ivory, and reinforced dropped seams.
+                    Brutalist minimalism in contemporary French Terry Cotton. Obsidian black, ecru ivory, and reinforced dropped seams.
                   </p>
                 </div>
                 <Link
@@ -374,7 +374,7 @@ export const HomePage: React.FC = () => {
                     Raw Concrete & Earth
                   </h3>
                   <p className="text-xs text-[#706B64] leading-relaxed mb-6 font-light">
-                    Mineral acid-washed combed jersey, stone-washed heavy cotton twills, and muted earthen pigments.
+                    Mineral acid-washed combed jersey, stone-washed cotton twills, and muted earthen pigments.
                   </p>
                 </div>
                 <Link
@@ -605,7 +605,7 @@ export const HomePage: React.FC = () => {
                   TREVORI was founded on an exacting conviction: that contemporary streetwear should possess the structural rigor of high-fashion tailoring and the enduring integrity of historic industrial workwear.
                 </p>
                 <p>
-                  We reject disposable, fleeting hype drops. Every silhouette is calibrated in our atelier using heavyweight 450 GSM organic French Terry, combed cotton jersey, and micro-ribbed collars reinforced to resist distortion across years of wear.
+                  We reject disposable, fleeting hype drops. Every silhouette is calibrated in our atelier using French Terry organic French Terry, combed cotton jersey, and micro-ribbed collars reinforced to resist distortion across years of wear.
                 </p>
                 <p>
                   By partnering directly with certified ethical spinning mills and utilizing zero synthetic microplastic fillers, we deliver garments that balance architectural form with everyday tactile comfort.

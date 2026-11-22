@@ -107,54 +107,25 @@ export const DashboardPage: React.FC = () => {
   // Wishlisted product objects
   const wishlistedProducts = products.filter((p) => wishlist.includes(p.id));
 
-  // Sample verified orders
-  const orders = [
-    {
-      id: 'TRV-2026-8942',
-      date: '20 November 2026',
-      totalINR: 3998,
-      status: 'In Transit',
-      carrier: 'Blue Dart Apex Express',
-      trackingNumber: 'BD-8839210-IN',
-      estimatedDelivery: '24 November 2026',
-      currentStep: 3, // 1: Confirmed, 2: Cut & Sewn, 3: In Transit, 4: Delivered
-      items: [
-        {
-          name: 'Classic French Terry Boxy Hoodie',
-          size: 'L',
-          color: 'Obsidian Black',
-          priceINR: 2499,
-          image: '/images/models/man_streetwear_hoodie.jpg',
-        },
-        {
-          name: 'Relaxed Pleated Wide-Leg Cargo Pants',
-          size: '32',
-          color: 'Washed Black',
-          priceINR: 1499,
-          image: '/images/runway/men_pants.jpg',
-        },
-      ],
-    },
-    {
-      id: 'TRV-2026-7731',
-      date: '04 October 2026',
-      totalINR: 1499,
-      status: 'Delivered',
-      carrier: 'Delhivery Surface',
-      trackingNumber: 'DEL-992144-IN',
-      estimatedDelivery: '08 October 2026',
-      currentStep: 4,
-      items: [
-        {
-          name: 'Boxy Oversized T-Shirt (350 GSM)',
-          size: 'L',
-          color: 'Ash Grey',
-          priceINR: 1499,
-          image: '/images/products/ash-grey.png',
-        },
-      ],
-    },
-  ];
+  interface OrderItem {
+    name: string;
+    size: string;
+    color: string;
+    priceINR: number;
+    image: string;
+  }
+  interface Order {
+    id: string;
+    date: string;
+    totalINR: number;
+    status: string;
+    carrier: string;
+    trackingNumber: string;
+    estimatedDelivery: string;
+    currentStep: number;
+    items: OrderItem[];
+  }
+  const orders: Order[] = [];
 
   const handleCopyCode = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -409,7 +380,7 @@ export const DashboardPage: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
                       <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Active Shipments</span>
-                      <div className="font-serif text-2xl text-[#171717] mt-1">1 In Transit</div>
+                      <div className="font-serif text-2xl text-[#171717] mt-1">{orders.length} In Transit</div>
                       <button
                         onClick={() => setActiveTab('orders')}
                         className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 underline"
@@ -447,33 +418,43 @@ export const DashboardPage: React.FC = () => {
                 <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8">
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="font-serif text-xl text-[#171717]">Latest Shipment</h3>
-                    <span className="bg-[#171717] text-white text-[10px] uppercase tracking-widest px-2.5 py-1">
-                      In Transit &bull; Est. 24 Nov
+                    <span className="bg-[#DDD8CE] text-[#171717] text-[10px] uppercase tracking-widest px-2.5 py-1">
+                      {orders.length > 0 ? "In Transit" : "Standing By"}
                     </span>
                   </div>
 
-                  <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE] text-xs space-y-2">
-                    <div className="flex justify-between">
-                      <span className="text-[#706B64]">Order Reference:</span>
-                      <span className="font-mono font-semibold">TRV-2026-8942</span>
+                  {orders.length > 0 ? (
+                    <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE] text-xs space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-[#706B64]">Order Reference:</span>
+                        <span className="font-mono font-semibold">{orders[0].id}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-[#706B64]">Courier Carrier:</span>
+                        <span>{orders[0].carrier}</span>
+                      </div>
+                      <button
+                        onClick={() => setActiveTab('orders')}
+                        className="mt-4 text-xs uppercase tracking-widest font-semibold text-[#171717] hover:text-[#B9AA96] transition-colors flex items-center gap-1"
+                      >
+                        <span>View Full Live Timeline</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-[#706B64]">Courier Carrier:</span>
-                      <span>Blue Dart Apex Express (BD-8839210-IN)</span>
+                  ) : (
+                    <div className="p-5 bg-[#F4F1EA] border border-[#DDD8CE] text-center">
+                      <p className="text-xs text-[#706B64] font-light mb-3">
+                        No active orders in the database. Orders will appear here once placed or when your Shopify store is connected.
+                      </p>
+                      <Link
+                        to="/collections"
+                        className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest font-medium text-[#171717] hover:text-[#B9AA96] transition-colors"
+                      >
+                        <span>Explore Current Drop</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </Link>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="text-[#706B64]">Contents:</span>
-                      <span>2 Items &bull; French Terry Hoodie + Wide-Leg Cargos</span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setActiveTab('orders')}
-                    className="mt-4 text-xs uppercase tracking-widest font-semibold text-[#171717] hover:text-[#B9AA96] transition-colors flex items-center gap-1"
-                  >
-                    <span>View Full Live Timeline</span>
-                    <ArrowRight className="w-3.5 h-3.5" />
-                  </button>
+                  )}
                 </div>
               </div>
             )}

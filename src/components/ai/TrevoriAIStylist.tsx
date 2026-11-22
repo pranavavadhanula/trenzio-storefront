@@ -51,7 +51,7 @@ export const TrevoriAIStylist: React.FC = () => {
     {
       title: 'Order Status & Tracking',
       desc: 'Check delivery for recent order',
-      prompt: 'Track my order #TRV-89421',
+      prompt: 'What size should I wear for a 40" chest?',
       icon: '📦',
     },
   ];

@@ -8,7 +8,7 @@ export const SearchModal: React.FC = () => {
 
   if (!isSearchOpen) return null;
 
-  const trendingQueries = ['Hoodies', 'Oversized Tees', 'Cargos', 'Jackets', 'Pants', '450 GSM', 'Accessories'];
+  const trendingQueries = ['Hoodies', 'Oversized Tees', 'Cargos', 'Jackets', 'Pants', 'Shirts', 'Accessories'];
 
   const results = searchQuery.trim() === ''
     ? []

@@ -113,7 +113,7 @@ export const CartDrawer: React.FC = () => {
               <div className="py-20 text-center space-y-4">
                 <p className="font-serif text-2xl text-[#171717]">Your shopping bag is empty.</p>
                 <p className="text-xs text-[#706B64] max-w-xs mx-auto leading-relaxed">
-                  Discover our heavyweight 450 GSM hoodies, dropped-shoulder tees, and tailored streetwear silhouettes.
+                  Discover our signature hoodies and shirts, dropped-shoulder tees, and tailored streetwear silhouettes.
                 </p>
                 <button
                   onClick={() => setIsCartOpen(false)}

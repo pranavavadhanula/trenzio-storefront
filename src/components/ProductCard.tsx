@@ -94,13 +94,11 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           />
         )}
 
-        {/* Top-Left Minimalist Badges: Category & GSM/Availability */}
+        {/* Top-Left Minimalist Badges: Category & Availability */}
         <div className="absolute top-3 left-3 flex flex-col gap-1 z-10 pointer-events-none">
-          {product.gsm && (
-            <span className="bg-[#F4F1EA]/95 text-[#171717] text-[10px] tracking-wider uppercase px-2 py-0.5 font-medium border border-[#DDD8CE]">
-              {product.gsm} GSM
-            </span>
-          )}
+          <span className="bg-[#F4F1EA]/95 text-[#171717] text-[10px] tracking-wider uppercase px-2 py-0.5 font-medium border border-[#DDD8CE]">
+            {product.category}
+          </span>
           <span className="bg-[#FFFFFF]/90 text-[#706B64] text-[9px] tracking-widest uppercase px-2 py-0.5 font-medium border border-[#DDD8CE]/80">
             {stockLabel}
           </span>

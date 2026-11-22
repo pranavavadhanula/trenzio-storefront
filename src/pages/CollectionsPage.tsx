@@ -10,21 +10,21 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     label: "Men's Contemporary Wear",
     genderFilter: 'Men',
     dept: 'men',
-    desc: 'Heavyweight architectural box cuts, bio-washed combed cotton tees, dropped-shoulder hoodies, and tailored utilitarian trousers.',
+    desc: 'Contemporary box cuts, bio-washed combed cotton tees, dropped-shoulder hoodies, and tailored utilitarian trousers.',
   },
   'men-sweatshirts': {
     label: "Men's Sweatshirts & Hoodies",
     catFilter: 'Hoodies',
     genderFilter: 'Men',
     dept: 'men',
-    desc: '450 GSM luxury brushed loopback French Terry hoodies engineered with double-layered hood structure and reinforced cuffs.',
+    desc: 'Luxury brushed loopback French Terry hoodies engineered with double-layered hood structure and reinforced cuffs.',
   },
   'men-oversized-tees': {
     label: "Men's Oversized T-Shirts",
     catFilter: 'Oversized Tees',
     genderFilter: 'Men',
     dept: 'men',
-    desc: '350 GSM bio-washed combed cotton jersey with architectural dropped shoulders and reinforced 1.25" ribbed collars.',
+    desc: 'Bio-washed combed cotton jersey with architectural dropped shoulders and reinforced 1.25" ribbed collars.',
   },
   'men-classic-tees': {
     label: "Men's Classic & Tailored Shirts",
@@ -52,7 +52,7 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     catFilter: 'Sweatshirts',
     genderFilter: 'Women',
     dept: 'women',
-    desc: '400 GSM soft French Terry crewnecks and boxy cropped fleece layers.',
+    desc: 'Soft French Terry cotton crewnecks and boxy cropped fleece layers.',
   },
   'women-oversized-tees': {
     label: "Women's Oversized T-Shirts",

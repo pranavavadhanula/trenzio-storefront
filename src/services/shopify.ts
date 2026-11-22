@@ -163,7 +163,7 @@ export async function fetchShopifyProducts(): Promise<Product[]> {
           { name: 'Ecru Ivory', hex: '#F4F1EA' },
         ],
         sizes: ['S', 'M', 'L', 'XL'],
-        fabric: '100% Bio-Washed Combed Cotton • 450 GSM Heavyweight Terry',
+        fabric: '100% Bio-Washed Combed Cotton • Luxury French Terry Cotton',
         fitDescription: node.description || 'Architectural oversized streetwear drape with reinforced collar.',
         modelMeasurements: "Model is 6'1\" wearing size L.",
         inStock: true,

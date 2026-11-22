@@ -30,7 +30,7 @@ What can I help you with today?`,
     'Find oversized black T-shirts',
     'What size should I wear for a 40" chest?',
     'What is French Terry?',
-    'Track Order #TRV-89421',
+    'What shirts or tees do you recommend?',
   ],
 };
 

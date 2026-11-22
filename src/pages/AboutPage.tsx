@@ -23,7 +23,7 @@ export const AboutPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
         <div className="p-8 bg-[#FFFFFF] border border-[#DDD8CE] space-y-4">
           <Feather className="w-6 h-6 text-[#B9AA96]" />
-          <h3 className="font-serif text-2xl font-normal text-[#171717]">450 GSM Heavyweight</h3>
+          <h3 className="font-serif text-2xl font-normal text-[#171717]">Architectural Cotton</h3>
           <p className="text-xs text-[#706B64] font-light leading-relaxed">
             Constructed with high-density bio-washed combed cotton jersey and French Terry for an enduring architectural silhouette.
           </p>
