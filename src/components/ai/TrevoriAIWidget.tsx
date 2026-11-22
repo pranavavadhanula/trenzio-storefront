@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { TrevoriAIChat } from './TrevoriAIChat';
-import { Sparkles, X, Minimize2, Maximize2, MessageSquare } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { X, Minimize2, Maximize2, MessageSquare } from 'lucide-react';
 
 export const TrevoriAIWidget: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -37,36 +36,22 @@ export const TrevoriAIWidget: React.FC = () => {
         >
           {/* Header Bar */}
           <div className="px-4 py-3.5 bg-[#171717] text-[#F4F1EA] flex items-center justify-between border-b border-[#DDD8CE]/30">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/10">
-                <Sparkles className="w-4 h-4 text-[#B9AA96]" />
+            <div>
+              <div className="flex items-center gap-1.5">
+                <h3 className="font-serif text-sm tracking-wider uppercase text-white">
+                  TREVORI CONCIERGE
+                </h3>
+                <span className="px-1.5 py-0.2 bg-[#B9AA96] text-[#171717] text-[8px] font-semibold tracking-wider uppercase">
+                  AI STYLIST
+                </span>
               </div>
-              <div>
-                <div className="flex items-center gap-1.5">
-                  <h3 className="font-serif text-sm tracking-wider uppercase text-white">
-                    TREVORI CONCIERGE
-                  </h3>
-                  <span className="px-1.5 py-0.2 bg-[#B9AA96] text-[#171717] text-[8px] font-semibold tracking-wider uppercase">
-                    AI STYLIST
-                  </span>
-                </div>
-                <p className="text-[10px] text-[#DDD8CE]/80 font-light">
-                  Tailoring & Silhouette Advisor &bull; 24/7
-                </p>
-              </div>
+              <p className="text-[10px] text-[#DDD8CE]/80 font-light">
+                Tailoring & Silhouette Advisor &bull; 24/7
+              </p>
             </div>
 
             {/* Window Controls */}
             <div className="flex items-center gap-1">
-              <Link
-                to="/ai-stylist"
-                onClick={() => setIsOpen(false)}
-                className="px-2 py-1 bg-white/10 hover:bg-white/20 text-white text-[10px] tracking-wider uppercase transition-colors mr-1 cursor-pointer font-medium"
-                title="Open Dedicated Full Page Studio"
-              >
-                STUDIO
-              </Link>
-
               <button
                 type="button"
                 onClick={() => setIsExpanded(!isExpanded)}

@@ -599,7 +599,7 @@ export async function processStylistQuery(
   ) {
     return {
       message: `I am **TREVORI AI** — an intelligent, conversational fashion stylist and concierge engineered specifically for the luxury streetwear and traditional couture world of **TREVORI**.\n\n` +
-        `Just like ChatGPT, you can converse with me naturally about anything: styling aesthetics, fabric engineering, color matching, sizing algorithms, lifestyle tips, order tracking, or brand history.\n\n` +
+        `You can converse with me naturally about anything: styling aesthetics, fabric engineering, color matching, sizing algorithms, lifestyle tips, order tracking, or brand history.\n\n` +
         `What would you like to explore?`,
       suggestedActions: [
         'Style an outfit under ₹2,500',

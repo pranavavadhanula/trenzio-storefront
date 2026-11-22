@@ -17,7 +17,7 @@ const DEFAULT_WELCOME_MESSAGE: AIMessage = {
   role: 'assistant',
   content: `Namaste & Welcome to **TREVORI AI** — your dedicated 24/7 personal fashion stylist and concierge.
 
-Ask me anything naturally like ChatGPT:
+Ask me anything:
 • Style complete streetwear or royal traditional outfits under any budget
 • Calculate your exact size across our shirts, tees, and hoodies
 • Ask about fabric science, garment care, or lifestyle & sleep advice
@@ -152,43 +152,6 @@ export const TrevoriAIChat: React.FC<TrevoriAIChatProps> = ({
 
   return (
     <div className="flex flex-col h-full w-full bg-white rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm relative">
-      {/* Chat Top Subheader */}
-      <div className="px-4 py-2.5 bg-slate-50/90 border-b border-slate-100 flex items-center justify-between select-none">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-slate-600">
-            Stylist Online • Mumbai Studio
-          </span>
-          {apiKeyInput && (
-            <span className="px-1.5 py-0.2 bg-blue-100 text-blue-700 text-[9px] font-mono font-bold rounded">
-              GPT-4o
-            </span>
-          )}
-        </div>
-
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setIsKeyModalOpen(true)}
-            className="text-[11px] font-sans font-medium text-slate-400 hover:text-blue-600 transition-colors flex items-center gap-1 cursor-pointer"
-            title="Connect OpenAI / ChatGPT API Key"
-          >
-            <KeyRound className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">ChatGPT Key</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={handleClearHistory}
-            className="text-[11px] font-sans font-medium text-slate-400 hover:text-rose-500 transition-colors flex items-center gap-1 cursor-pointer"
-            title="Reset conversation"
-          >
-            <Trash2 className="w-3.5 h-3.5" />
-            <span className="hidden sm:inline">Clear</span>
-          </button>
-        </div>
-      </div>
-
       {/* Messages Thread Container */}
       <div className="flex-1 overflow-y-auto p-4 sm:p-5 space-y-2 scrollbar-thin scrollbar-thumb-slate-200">
         {messages.map((msg) => (
