@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, CheckCircle, Sparkles, Plus, Eye, ShoppingBag } from 'lucide-react';
 import { HeroEditorialBanner } from '../components/HeroEditorialBanner';
+import { EditorialLooksScroll } from '../components/home/EditorialLooksScroll';
 import { ProductCard } from '../components/ProductCard';
 import { Glossy3DCard } from '../components/Glossy3DCard';
 import { useShop } from '../context/ShopContext';
@@ -188,6 +189,11 @@ export const HomePage: React.FC = () => {
       {/* 2. LARGE EDITORIAL HERO BANNER */}
       {/* ------------------------------------------------------------- */}
       <HeroEditorialBanner />
+
+      {/* ------------------------------------------------------------- */}
+      {/* 2.5 EDITORIAL LOOKS 3D SCROLL REEL */}
+      {/* ------------------------------------------------------------- */}
+      <EditorialLooksScroll />
 
       {/* ------------------------------------------------------------- */}
       {/* 3. SHOP BY CATEGORY */}
