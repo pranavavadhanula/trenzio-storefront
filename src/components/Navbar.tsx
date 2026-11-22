@@ -88,12 +88,12 @@ export const Navbar: React.FC = () => {
           : 'bg-[#F4F1EA] border-b border-[#DDD8CE]/70'
       }`}
     >
-      {/* Plain Sticky Navigation Bar (No Top Ticker, No INR, No AI Button) */}
+      {/* Plain Sticky Navigation Bar with Centered TREVORI Logo */}
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
         <div className="h-16 sm:h-20 flex items-center justify-between gap-3 sm:gap-6">
           
-          {/* Left: Mobile Menu Toggle & Brand Logo */}
-          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          {/* Left: Mobile Menu & Search Bar */}
+          <div className="flex-1 flex items-center gap-3 shrink-0">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-1.5 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer"
@@ -102,8 +102,40 @@ export const Navbar: React.FC = () => {
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
 
-            <Link to="/" className="group cursor-pointer flex-shrink-0" title="TREVORI Contemporary Streetwear">
-              <span className="font-serif text-2xl sm:text-3xl tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors">
+            {/* Search Bar on Left */}
+            <div className="w-full max-w-xs lg:max-w-sm hidden md:block">
+              <form onSubmit={handleSearchSubmit} className="relative w-full">
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search shirts, hoodies, cargos..."
+                  className="w-full bg-[#FFFFFF] text-[#171717] placeholder-[#706B64]/70 text-xs sm:text-sm pl-9 pr-20 py-2 border border-[#DDD8CE] focus:border-[#171717] focus:outline-none transition-all shadow-none"
+                />
+                <Search className="w-3.5 h-3.5 text-[#706B64] absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setSearchQuery('')}
+                    className="absolute right-14 top-1/2 -translate-y-1/2 text-[9px] text-[#706B64] hover:text-[#171717] uppercase tracking-wider px-1"
+                  >
+                    Clear
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  className="absolute right-1 top-1/2 -translate-y-1/2 px-2.5 py-1 bg-[#171717] hover:bg-[#333333] text-white text-[9px] uppercase tracking-widest font-medium transition-colors cursor-pointer"
+                >
+                  Search
+                </button>
+              </form>
+            </div>
+          </div>
+
+          {/* Center: TREVORI Brand Logo */}
+          <div className="shrink-0 flex flex-col items-center justify-center text-center">
+            <Link to="/" className="group cursor-pointer flex flex-col items-center justify-center text-center" title="TREVORI Contemporary Streetwear">
+              <span className="font-serif text-2xl sm:text-3xl lg:text-[32px] tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors">
                 TREVORI
               </span>
               <span className="hidden sm:block text-[8px] uppercase tracking-[0.25em] text-[#706B64] font-medium -mt-0.5">
@@ -112,37 +144,8 @@ export const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Center: Amazon-Style Search Bar */}
-          <div className="flex-1 max-w-xl mx-2 sm:mx-4 hidden md:block">
-            <form onSubmit={handleSearchSubmit} className="relative w-full">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search shirts, hoodies, cargo pants, traditional wear..."
-                className="w-full bg-[#FFFFFF] text-[#171717] placeholder-[#706B64]/70 text-xs sm:text-sm pl-10 pr-24 py-2.5 rounded-none border border-[#DDD8CE] focus:border-[#171717] focus:outline-none transition-all shadow-none"
-              />
-              <Search className="w-4 h-4 text-[#706B64] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery('')}
-                  className="absolute right-14 top-1/2 -translate-y-1/2 text-[10px] text-[#706B64] hover:text-[#171717] uppercase tracking-wider px-1.5 py-0.5"
-                >
-                  Clear
-                </button>
-              )}
-              <button
-                type="submit"
-                className="absolute right-1 top-1/2 -translate-y-1/2 px-3 py-1.5 bg-[#171717] hover:bg-[#333333] text-white text-[10px] uppercase tracking-widest font-medium transition-colors cursor-pointer"
-              >
-                Search
-              </button>
-            </form>
-          </div>
-
           {/* Right: Vault, Bag, and Right-Most Login */}
-          <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+          <div className="flex-1 flex items-center justify-end gap-2 sm:gap-4 shrink-0">
             {/* Vault (Renamed Wishlist) */}
             <button
               onClick={() => setIsWishlistOpen(true)}
