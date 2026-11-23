@@ -24,7 +24,7 @@ export const Navbar: React.FC = () => {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<'men' | 'women' | 'traditional' | 'collections' | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<'men' | 'women' | 'accessories' | 'traditional' | 'collections' | null>(null);
   const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
   const navigate = useNavigate();
@@ -42,7 +42,7 @@ export const Navbar: React.FC = () => {
     setOpenDropdown(null);
   }, [location.pathname]);
 
-  const handleMouseEnter = (menu: 'men' | 'women' | 'traditional' | 'collections') => {
+  const handleMouseEnter = (menu: 'men' | 'women' | 'accessories' | 'traditional' | 'collections') => {
     if (dropdownTimeoutRef.current) {
       clearTimeout(dropdownTimeoutRef.current);
     }
@@ -74,6 +74,16 @@ export const Navbar: React.FC = () => {
     { label: 'Draped Shirts & Tees', path: '/collections/women-oversized-tees', sub: 'Boxy drop-shoulder t-shirts' },
     { label: 'Hoodies & Sweaters', path: '/collections/women-sweatshirts', sub: 'Luxury French Terry & knits' },
     { label: 'Drape Wide-Leg Trousers', path: '/collections', sub: 'Architectural tailored trousers' },
+  ];
+
+  const ACCESSORIES_SUB_ITEMS: SubCategoryItem[] = [
+    { label: 'All Accessories', path: '/collections/accessories', sub: 'Everyday lifestyle objects' },
+    { label: 'Phone Covers & Cases', path: '/collections/accessories-phone-covers', sub: 'Drop-tested matte cases' },
+    { label: 'Ceramic Cups & Mugs', path: '/collections/accessories-cups', sub: 'Artisanal stoneware ceramics' },
+    { label: 'Thermal Bottles & Flasks', path: '/collections/accessories-bottles', sub: 'Double-wall vacuum insulated' },
+    { label: 'Wallets & Cardholders', path: '/collections/accessories-wallets', sub: 'Full-grain leather essentials' },
+    { label: 'Tote Bags & Backpacks', path: '/collections/accessories-bags', sub: 'Heavyweight organic canvas' },
+    { label: 'Caps & Beanies', path: '/collections/accessories-caps', sub: 'Embroidered streetwear headwear' },
   ];
 
   const TRADITIONAL_SUB_ITEMS: SubCategoryItem[] = [
@@ -222,8 +232,8 @@ export const Navbar: React.FC = () => {
           </form>
         </div>
 
-        {/* Desktop Secondary Editorial Menu Bar: New Arrivals, Men, Women, Contact Us */}
-        <div className="hidden lg:flex items-center justify-center gap-8 xl:gap-12 py-3 border-t border-[#DDD8CE]/60 text-xs font-medium tracking-[0.22em] uppercase text-[#171717]">
+        {/* Desktop Secondary Editorial Menu Bar: New Arrivals, Men, Women, Accessories, Contact Us */}
+        <div className="hidden lg:flex items-center justify-center gap-6 xl:gap-10 py-3 border-t border-[#DDD8CE]/60 text-xs font-medium tracking-[0.22em] uppercase text-[#171717]">
           {/* New Arrivals */}
           <Link to="/collections" className="hover:text-[#B9AA96] transition-colors py-1">
             New Arrivals
@@ -240,7 +250,7 @@ export const Navbar: React.FC = () => {
               <ChevronDown className="w-3 h-3 opacity-60" />
             </button>
             {openDropdown === 'men' && (
-              <div className="absolute top-full left-0 w-64 bg-[#FFFFFF] border border-[#DDD8CE] shadow-lg py-3 z-50">
+              <div className="absolute top-full left-0 w-64 bg-[#FFFFFF] border border-[#DDD8CE] shadow-lg py-3 z-50 animate-fade-in-subtle">
                 {MEN_SUB_ITEMS.map((item) => (
                   <Link
                     key={item.path}
@@ -266,8 +276,34 @@ export const Navbar: React.FC = () => {
               <ChevronDown className="w-3 h-3 opacity-60" />
             </button>
             {openDropdown === 'women' && (
-              <div className="absolute top-full left-0 w-64 bg-[#FFFFFF] border border-[#DDD8CE] shadow-lg py-3 z-50">
+              <div className="absolute top-full left-0 w-64 bg-[#FFFFFF] border border-[#DDD8CE] shadow-lg py-3 z-50 animate-fade-in-subtle">
                 {WOMEN_SUB_ITEMS.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className="block px-5 py-2 hover:bg-[#F4F1EA] transition-colors text-left"
+                  >
+                    <div className="text-xs font-medium text-[#171717]">{item.label}</div>
+                    {item.sub && <div className="text-[10px] text-[#706B64] normal-case tracking-normal">{item.sub}</div>}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
+
+          {/* Accessories Dropdown (beside Women) */}
+          <div
+            className="relative"
+            onMouseEnter={() => handleMouseEnter('accessories')}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button className="flex items-center gap-1 hover:text-[#B9AA96] transition-colors py-1 cursor-pointer">
+              <span>Accessories</span>
+              <ChevronDown className="w-3 h-3 opacity-60" />
+            </button>
+            {openDropdown === 'accessories' && (
+              <div className="absolute top-full left-0 w-72 bg-[#FFFFFF] border border-[#DDD8CE] shadow-lg py-3 z-50 animate-fade-in-subtle">
+                {ACCESSORIES_SUB_ITEMS.map((item) => (
                   <Link
                     key={item.path}
                     to={item.path}
@@ -303,6 +339,10 @@ export const Navbar: React.FC = () => {
             <Link to="/collections/women" className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
               <span>Women's Apparel</span>
               <span className="text-[10px] text-[#706B64] font-normal lowercase tracking-normal">drapes & knits</span>
+            </Link>
+            <Link to="/collections/accessories" className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
+              <span>Accessories</span>
+              <span className="text-[10px] text-[#706B64] font-normal lowercase tracking-normal">cases, cups, bottles & bags</span>
             </Link>
             <Link to="/contact" className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
               <span>Contact Us</span>

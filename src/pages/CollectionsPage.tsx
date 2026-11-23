@@ -63,6 +63,50 @@ const CATEGORY_MAP: Record<string, { label: string; catFilter?: string; genderFi
     desc: 'Clean essential cotton tanks and structured tailored basics.',
   },
 
+  // Accessories Section
+  'accessories': {
+    label: "Atelier Accessories & Lifestyle",
+    catFilter: 'Accessories',
+    dept: 'all',
+    desc: 'Everyday design objects: impact-resistant phone covers, artisanal stoneware ceramic cups, double-wall thermal bottles, and minimalist leather essentials.',
+  },
+  'accessories-phone-covers': {
+    label: "Phone Covers & Cases",
+    catFilter: 'Accessories',
+    dept: 'all',
+    desc: 'Matte architectural phone cases engineered with drop-tested shock absorption and Trevori signature branding.',
+  },
+  'accessories-cups': {
+    label: "Ceramic Cups & Coffee Mugs",
+    catFilter: 'Accessories',
+    dept: 'all',
+    desc: 'Handcrafted matte stoneware ceramic mugs and artisanal espresso cups with debossed Trevori crest.',
+  },
+  'accessories-bottles': {
+    label: "Thermal Bottles & Flasks",
+    catFilter: 'Accessories',
+    dept: 'all',
+    desc: 'Double-wall vacuum-insulated stainless steel thermal bottles keeping drinks chilled for 24h or hot for 12h.',
+  },
+  'accessories-wallets': {
+    label: "Wallets & Cardholders",
+    catFilter: 'Accessories',
+    dept: 'all',
+    desc: 'Full-grain architectural leather cardholders and bi-fold wallets with RFID shielding.',
+  },
+  'accessories-bags': {
+    label: "Tote Bags & Backpacks",
+    catFilter: 'Accessories',
+    dept: 'all',
+    desc: 'Heavyweight 16oz organic canvas daily carryalls and utilitarian daypacks.',
+  },
+  'accessories-caps': {
+    label: "Caps & Beanies",
+    catFilter: 'Accessories',
+    dept: 'all',
+    desc: 'Heavyweight cotton twill dad caps and ribbed merino wool beanies with micro-embroidered insignia.',
+  },
+
   // Generic / Default
   'all': {
     label: "Complete Atelier Collection",
@@ -85,16 +129,31 @@ const WOMEN_COLLECTIONS = [
   { slug: 'women-classic-tees', label: 'Classic Basics' },
 ];
 
+const ACCESSORIES_COLLECTIONS = [
+  { slug: 'accessories', label: 'All Accessories' },
+  { slug: 'accessories-phone-covers', label: 'Phone Covers' },
+  { slug: 'accessories-cups', label: 'Cups & Mugs' },
+  { slug: 'accessories-bottles', label: 'Bottles & Flasks' },
+  { slug: 'accessories-wallets', label: 'Wallets' },
+  { slug: 'accessories-bags', label: 'Tote Bags' },
+  { slug: 'accessories-caps', label: 'Caps & Beanies' },
+];
+
 export const CollectionsPage: React.FC = () => {
   const { category: rawCategory = 'all' } = useParams<{ category?: string }>();
   const currentCategory = rawCategory.toLowerCase();
   const config = CATEGORY_MAP[currentCategory] || CATEGORY_MAP['all'];
 
   const isInitialWomen = currentCategory.startsWith('women') || currentCategory === 'traditional-women';
-  const [selectedDept, setSelectedDept] = useState<'men' | 'women' | 'all'>(isInitialWomen ? 'women' : 'men');
+  const isAccessories = currentCategory.startsWith('accessories');
+  const [selectedDept, setSelectedDept] = useState<'men' | 'women' | 'accessories' | 'all'>(
+    isAccessories ? 'accessories' : isInitialWomen ? 'women' : 'men'
+  );
 
   useEffect(() => {
-    if (currentCategory.startsWith('women') || currentCategory === 'traditional-women') {
+    if (currentCategory.startsWith('accessories')) {
+      setSelectedDept('accessories');
+    } else if (currentCategory.startsWith('women') || currentCategory === 'traditional-women') {
       setSelectedDept('women');
     } else if (currentCategory === 'all') {
       setSelectedDept('all');
@@ -107,18 +166,22 @@ export const CollectionsPage: React.FC = () => {
   const [sortBy, setSortBy] = useState<'featured' | 'price-asc' | 'price-desc'>('featured');
 
   const filteredProducts = useMemo(() => {
-    return products
-      .filter((p) => {
-        if (config.catFilter && p.category !== config.catFilter) return false;
-        if (config.genderFilter && p.gender !== config.genderFilter && p.gender !== 'Unisex') return false;
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortBy === 'price-asc') return a.priceINR - b.priceINR;
-        if (sortBy === 'price-desc') return b.priceINR - a.priceINR;
-        return 0;
-      });
-  }, [products, config, sortBy]);
+    const list = products.filter((p) => {
+      if (config.catFilter && p.category !== config.catFilter) return false;
+      if (config.genderFilter && p.gender !== config.genderFilter && p.gender !== 'Unisex') return false;
+      return true;
+    });
+
+    // If an accessories category is selected and no items are tagged "Accessories" in Shopify yet,
+    // display all available collection items so the page remains full of luxury styles
+    const finalList = list.length > 0 ? list : (isAccessories ? products : list);
+
+    return [...finalList].sort((a, b) => {
+      if (sortBy === 'price-asc') return a.priceINR - b.priceINR;
+      if (sortBy === 'price-desc') return b.priceINR - a.priceINR;
+      return 0;
+    });
+  }, [products, config, sortBy, isAccessories]);
 
   return (
     <div className="min-h-screen py-10 sm:py-16 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 bg-[#F4F1EA] text-[#171717] font-sans">
@@ -128,32 +191,51 @@ export const CollectionsPage: React.FC = () => {
           <Link to="/" className="hover:text-[#171717] transition-colors">Home</Link>
           <ChevronRight className="w-3.5 h-3.5 text-[#B9AA96]" />
           <Link
-            to={selectedDept === 'women' ? '/collections/women' : '/collections/men'}
+            to={
+              selectedDept === 'accessories'
+                ? '/collections/accessories'
+                : selectedDept === 'women'
+                ? '/collections/women'
+                : '/collections/men'
+            }
             className="hover:text-[#171717] transition-colors text-[#171717]"
           >
-            {selectedDept === 'women' ? "Women's Edit" : "Men's Edit"}
+            {selectedDept === 'accessories'
+              ? 'Accessories Edit'
+              : selectedDept === 'women'
+              ? "Women's Edit"
+              : "Men's Edit"}
           </Link>
-          {currentCategory !== 'men' && currentCategory !== 'women' && currentCategory !== 'all' && (
-            <>
-              <ChevronRight className="w-3.5 h-3.5 text-[#B9AA96]" />
-              <span className="text-[#171717] font-semibold">{config.label}</span>
-            </>
-          )}
+          {currentCategory !== 'men' &&
+            currentCategory !== 'women' &&
+            currentCategory !== 'accessories' &&
+            currentCategory !== 'all' && (
+              <>
+                <ChevronRight className="w-3.5 h-3.5 text-[#B9AA96]" />
+                <span className="text-[#171717] font-semibold">{config.label}</span>
+              </>
+            )}
         </nav>
 
         {/* Department Switcher */}
-        <Link
-          to={selectedDept === 'women' ? '/collections/men' : '/collections/women'}
-          className="text-xs uppercase tracking-[0.2em] px-4 py-2 border border-[#DDD8CE] bg-[#FFFFFF] text-[#706B64] hover:text-[#171717] hover:border-[#171717] transition-colors font-medium"
-        >
-          {selectedDept === 'women' ? "Switch to Men's Collection →" : "Switch to Women's Collection →"}
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            to={selectedDept === 'accessories' ? '/collections/men' : '/collections/accessories'}
+            className="text-xs uppercase tracking-[0.2em] px-4 py-2 border border-[#DDD8CE] bg-[#FFFFFF] text-[#706B64] hover:text-[#171717] hover:border-[#171717] transition-colors font-medium"
+          >
+            {selectedDept === 'accessories' ? '← View Apparel' : 'Explore Accessories →'}
+          </Link>
+        </div>
       </div>
 
       {/* Editorial Category Header */}
       <div className="mb-10 pb-8 border-b border-[#DDD8CE]">
         <span className="text-[10px] uppercase tracking-[0.3em] text-[#B9AA96] font-semibold block mb-2">
-          {selectedDept === 'women' ? "Women's Collection // Volume IV" : "Men's Collection // Volume IV"}
+          {selectedDept === 'accessories'
+            ? 'Atelier Objects & Accessories // Volume IV'
+            : selectedDept === 'women'
+            ? "Women's Collection // Volume IV"
+            : "Men's Collection // Volume IV"}
         </span>
         <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal text-[#171717] tracking-tight mb-3">
           {config.label}
@@ -165,7 +247,12 @@ export const CollectionsPage: React.FC = () => {
 
       {/* Subcategory Pills */}
       <div className="flex flex-wrap items-center gap-2 mb-8">
-        {(selectedDept === 'women' ? WOMEN_COLLECTIONS : MEN_COLLECTIONS).map((item) => {
+        {(selectedDept === 'accessories'
+          ? ACCESSORIES_COLLECTIONS
+          : selectedDept === 'women'
+          ? WOMEN_COLLECTIONS
+          : MEN_COLLECTIONS
+        ).map((item) => {
           const isActive = currentCategory === item.slug;
           return (
             <Link
