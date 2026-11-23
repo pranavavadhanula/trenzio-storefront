@@ -81,7 +81,7 @@ export const HomePage: React.FC<{ scrollTo?: string }> = ({ scrollTo }) => {
       name: 'Oversized T-Shirts',
       slug: '/collections/men',
       count: 'Boxy Drop-Shoulder',
-      image: '/images/models/street_tee.jpg',
+      image: '/images/models/trevori_oversized_tee_4k.jpg',
     },
     {
       name: 'Tailored Pants & Cargos',
