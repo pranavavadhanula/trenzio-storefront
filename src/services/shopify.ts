@@ -195,7 +195,8 @@ export async function fetchShopifyProducts(): Promise<Product[]> {
  */
 export async function createShopifyCheckout(
   lineItems: ShopifyCheckoutItem[],
-  countryCode: string = "IN"
+  countryCode: string = "IN",
+  discountCode?: string
 ): Promise<string> {
   const domain = SHOPIFY_CONFIG.storeDomain;
   const token = SHOPIFY_CONFIG.storefrontAccessToken;
@@ -229,6 +230,22 @@ export async function createShopifyCheckout(
     `;
 
     try {
+      const inputPayload: any = {
+        lines: lineItems.map((item) => ({
+          merchandiseId: item.variantId.startsWith('gid://')
+            ? item.variantId
+            : `gid://shopify/ProductVariant/${item.variantId}`,
+          quantity: item.quantity,
+        })),
+        buyerIdentity: {
+          countryCode,
+        },
+      };
+
+      if (discountCode) {
+        inputPayload.discountCodes = [discountCode];
+      }
+
       const response = await fetch(
         `https://${domain}/api/${version}/graphql.json`,
         {
@@ -240,17 +257,7 @@ export async function createShopifyCheckout(
           body: JSON.stringify({
             query,
             variables: {
-              input: {
-                lines: lineItems.map((item) => ({
-                  merchandiseId: item.variantId.startsWith('gid://')
-                    ? item.variantId
-                    : `gid://shopify/ProductVariant/${item.variantId}`,
-                  quantity: item.quantity,
-                })),
-                buyerIdentity: {
-                  countryCode,
-                },
-              },
+              input: inputPayload,
             },
           }),
         }
@@ -281,7 +288,8 @@ export async function createShopifyCheckout(
     return `${rawId}:${item.quantity}`;
   });
 
-  return `https://${domain}/cart/${cleanItems.join(',')}?currency=INR`;
+  const discountParam = discountCode ? `&discount=${encodeURIComponent(discountCode)}` : '';
+  return `https://${domain}/cart/${cleanItems.join(',')}?currency=INR${discountParam}`;
 }
 
 // -------------------------------------------------------------

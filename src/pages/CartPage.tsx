@@ -1,8 +1,51 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { Trash2, ArrowRight, ShieldCheck, ShoppingBag, AlertCircle, CheckCircle2 } from 'lucide-react';
+import { Trash2, ArrowRight, ShieldCheck, ShoppingBag, AlertCircle, CheckCircle2, Tag } from 'lucide-react';
 import { createShopifyCheckout } from '../services/shopify';
+
+interface ValidCoupon {
+  code: string;
+  type: 'percent' | 'flat';
+  value: number;
+  description: string;
+  minSubtotal?: number;
+}
+
+const VALID_COUPONS: Record<string, ValidCoupon> = {
+  'TREVORI15': {
+    code: 'TREVORI15',
+    type: 'percent',
+    value: 15,
+    description: 'VIP Atelier 15% discount',
+  },
+  'VIP15': {
+    code: 'VIP15',
+    type: 'percent',
+    value: 15,
+    description: 'VIP Member 15% discount',
+  },
+  'TREVORI-VIP-NOIR': {
+    code: 'TREVORI-VIP-NOIR',
+    type: 'percent',
+    value: 15,
+    description: 'VIP Noir 15% privilege discount',
+  },
+  'TREVORI200': {
+    code: 'TREVORI200',
+    type: 'flat',
+    value: 200,
+    description: 'Flat ₹200 drop discount',
+    minSubtotal: 1000,
+  },
+  'PREPAID100': {
+    code: 'PREPAID100',
+    type: 'flat',
+    value: 100,
+    description: 'Flat ₹100 prepaid offer',
+    minSubtotal: 1499,
+  },
+};
 
 export const CartPage: React.FC = () => {
   const {
@@ -16,11 +59,55 @@ export const CartPage: React.FC = () => {
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [promoCode, setPromoCode] = useState('');
-  const [promoApplied, setPromoApplied] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState<ValidCoupon | null>(null);
+  const [promoError, setPromoError] = useState<string | null>(null);
 
   const freeShippingThresholdINR = 2000;
   const progressPercent = Math.min(100, Math.round((cartSubtotalINR / freeShippingThresholdINR) * 100));
   const remainingForFreeShipping = Math.max(0, freeShippingThresholdINR - cartSubtotalINR);
+
+  // Discount calculation
+  const discountAmount = appliedCoupon
+    ? appliedCoupon.type === 'percent'
+      ? Math.round((cartSubtotalINR * appliedCoupon.value) / 100)
+      : Math.min(cartSubtotalINR, appliedCoupon.value)
+    : 0;
+
+  const shippingCost = remainingForFreeShipping === 0 ? 0 : 150;
+  const estimatedTotal = Math.max(0, cartSubtotalINR - discountAmount + shippingCost);
+
+  const handleApplyPromo = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    const cleanCode = promoCode.trim().toUpperCase();
+    setPromoError(null);
+
+    if (!cleanCode) {
+      setPromoError('Please enter a coupon code.');
+      setAppliedCoupon(null);
+      return;
+    }
+
+    const matched = VALID_COUPONS[cleanCode];
+    if (!matched) {
+      setPromoError(`"${cleanCode}" is invalid. Please enter a valid coupon code (e.g. TREVORI15).`);
+      setAppliedCoupon(null);
+      return;
+    }
+
+    if (matched.minSubtotal && cartSubtotalINR < matched.minSubtotal) {
+      setPromoError(`Code ${cleanCode} requires a minimum order of ${formatPrice(matched.minSubtotal)}.`);
+      setAppliedCoupon(null);
+      return;
+    }
+
+    setAppliedCoupon(matched);
+  };
+
+  const handleRemovePromo = () => {
+    setAppliedCoupon(null);
+    setPromoError(null);
+    setPromoCode('');
+  };
 
   const handleCheckout = async () => {
     setIsCheckingOut(true);
@@ -43,7 +130,7 @@ export const CartPage: React.FC = () => {
         };
       });
 
-      const checkoutUrl = await createShopifyCheckout(lineItems, 'IN');
+      const checkoutUrl = await createShopifyCheckout(lineItems, 'IN', appliedCoupon?.code);
       window.location.href = checkoutUrl;
     } catch (err: any) {
       console.error(err);
@@ -186,6 +273,14 @@ export const CartPage: React.FC = () => {
                 <span>Items Subtotal</span>
                 <span className="font-semibold text-[#171717]">{formatPrice(cartSubtotalINR)}</span>
               </div>
+
+              {appliedCoupon && discountAmount > 0 && (
+                <div className="flex justify-between text-emerald-700 font-medium">
+                  <span>Discount ({appliedCoupon.code})</span>
+                  <span>-{formatPrice(discountAmount)}</span>
+                </div>
+              )}
+
               <div className="flex justify-between">
                 <span>Express Courier Dispatch</span>
                 <span className="text-[#171717]">
@@ -198,38 +293,65 @@ export const CartPage: React.FC = () => {
               </div>
             </div>
 
-            {/* Promo Code Input */}
-            <div className="space-y-2">
+            {/* Promo Code Form */}
+            <form onSubmit={handleApplyPromo} className="space-y-2">
               <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="PROMO CODE"
-                  value={promoCode}
-                  onChange={(e) => setPromoCode(e.target.value)}
-                  className="flex-1 px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] uppercase"
-                />
-                <button
-                  onClick={() => {
-                    if (promoCode.trim()) setPromoApplied(true);
-                  }}
-                  className="px-4 py-2 bg-[#171717] text-white text-xs uppercase tracking-wider font-medium cursor-pointer"
-                >
-                  Apply
-                </button>
+                <div className="relative flex-1">
+                  <input
+                    type="text"
+                    placeholder="PROMO CODE (e.g. TREVORI15)"
+                    value={promoCode}
+                    onChange={(e) => {
+                      setPromoCode(e.target.value);
+                      if (promoError) setPromoError(null);
+                    }}
+                    className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] uppercase focus:outline-none focus:border-[#171717]"
+                  />
+                  <Tag className="w-3.5 h-3.5 text-[#706B64] absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none opacity-50" />
+                </div>
+                {appliedCoupon ? (
+                  <button
+                    type="button"
+                    onClick={handleRemovePromo}
+                    className="px-3.5 py-2 bg-[#F4F1EA] hover:bg-red-50 text-red-600 border border-red-200 text-xs uppercase tracking-wider font-medium transition-colors cursor-pointer"
+                  >
+                    Remove
+                  </button>
+                ) : (
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-[#171717] hover:bg-[#333333] text-white text-xs uppercase tracking-wider font-medium transition-colors cursor-pointer"
+                  >
+                    Apply
+                  </button>
+                )}
               </div>
-              {promoApplied && (
-                <div className="text-[11px] text-[#171717] flex items-center gap-1">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-[#B9AA96]" />
-                  <span>VIP Atelier 15% discount confirmed.</span>
+
+              {/* Validation Error: Invalid code or subtotal requirement */}
+              {promoError && (
+                <div className="p-2.5 bg-red-50 border border-red-200 text-xs text-red-700 flex items-center gap-1.5 animate-fade-in-subtle">
+                  <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 text-red-600" />
+                  <span>{promoError}</span>
                 </div>
               )}
-            </div>
+
+              {/* Success: Valid code applied */}
+              {appliedCoupon && (
+                <div className="p-2.5 bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 flex items-center justify-between animate-fade-in-subtle">
+                  <div className="flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 flex-shrink-0" />
+                    <span>{appliedCoupon.description} applied</span>
+                  </div>
+                  <span className="font-semibold text-emerald-700">-{formatPrice(discountAmount)}</span>
+                </div>
+              )}
+            </form>
 
             {/* Total */}
             <div className="flex justify-between items-baseline pt-2 border-t border-[#DDD8CE]">
               <span className="text-sm font-semibold text-[#171717]">Total</span>
               <span className="font-serif text-2xl font-bold text-[#171717]">
-                {formatPrice(cartSubtotalINR + (remainingForFreeShipping === 0 ? 0 : 150))}
+                {formatPrice(estimatedTotal)}
               </span>
             </div>
 
