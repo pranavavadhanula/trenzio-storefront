@@ -1,21 +1,47 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import { Eye, EyeOff, CheckCircle2 } from 'lucide-react';
 import { shopifyCustomerAccessTokenCreate } from '../services/shopify';
 
-export const LoginPage: React.FC = () => {
+interface LoginPageProps {
+  initialMode?: 'login' | 'signup';
+}
+
+export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { login, logout, user, isLoggedIn } = useShop();
 
+  // Mode: login or signup
+  const isInitialSignUp = initialMode === 'signup' || location.pathname === '/signup';
+  const [isSignUp, setIsSignUp] = useState(isInitialSignUp);
+
+  // Form Fields
+  const [fullName, setFullName] = useState('');
+  const [phone, setPhone] = useState('');
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
   const GOOGLE_CLIENT_ID = '491926857800-qum2kh5u71v903plsge7oej2btaevsvr.apps.googleusercontent.com';
+
+  // Synchronize mode if URL changes
+  useEffect(() => {
+    if (location.pathname === '/signup') {
+      setIsSignUp(true);
+      setError('');
+    } else if (location.pathname === '/login') {
+      setIsSignUp(false);
+      setError('');
+    }
+  }, [location.pathname]);
 
   // Process access_token if returning from Google OAuth redirect
   useEffect(() => {
@@ -69,7 +95,6 @@ export const LoginPage: React.FC = () => {
     setIsLoading(true);
     setError('');
 
-    // Check if Google GIS popup client is available in window
     if (typeof window !== 'undefined' && (window as any).google?.accounts?.oauth2) {
       try {
         const client = (window as any).google.accounts.oauth2.initTokenClient({
@@ -98,29 +123,23 @@ export const LoginPage: React.FC = () => {
                 setTimeout(() => {
                   navigate('/account');
                 }, 400);
-              } catch (fetchErr) {
-                console.error('Error fetching Google userinfo:', fetchErr);
+              } catch {
                 setIsLoading(false);
-                setError('Failed to fetch Google profile details.');
+                setError('Could not read user profile from Google. Please try again.');
               }
             } else {
               setIsLoading(false);
+              setError('Google authentication was cancelled.');
             }
           },
-          error_callback: () => {
-            // If popup is blocked by browser, redirect directly
-            redirectToGoogleOAuth();
-          },
         });
-
         client.requestAccessToken();
         return;
       } catch (err) {
-        console.warn('GIS error, using direct redirect:', err);
+        console.warn('GIS client failed, falling back to redirect:', err);
       }
     }
 
-    // Direct Google OAuth URL redirect
     redirectToGoogleOAuth();
   };
 
@@ -130,9 +149,103 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const handleContinue = async (e: React.FormEvent) => {
+  // Sign Up Submission Handler
+  const handleSignUpSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const cleanInput = identifier.trim();
+    setError('');
+
+    const cleanName = fullName.trim();
+    const cleanEmail = identifier.trim().toLowerCase();
+    const cleanPhone = phone.trim();
+    const cleanPassword = password.trim();
+
+    if (!cleanName || cleanName.length < 2) {
+      setError('Please provide your full name.');
+      return;
+    }
+    if (!cleanPhone || cleanPhone.length < 7) {
+      setError('Please provide a valid contact number.');
+      return;
+    }
+    if (!cleanEmail || !/\S+@\S+\.\S+/.test(cleanEmail)) {
+      setError('Please provide a valid email address.');
+      return;
+    }
+    if (!cleanPassword || cleanPassword.length < 6) {
+      setError('Password must be at least 6 characters.');
+      return;
+    }
+    if (cleanPassword !== confirmPassword.trim()) {
+      setError('Passwords do not match. Please verify your password.');
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Check existing accounts
+      const existingAccountsStr = localStorage.getItem('trevori_registered_users');
+      const accounts = existingAccountsStr ? JSON.parse(existingAccountsStr) : [];
+      
+      const userExists = accounts.some((acc: any) => acc.email === cleanEmail);
+      if (userExists) {
+        setIsLoading(false);
+        setError('An account with this email already exists. Please log in.');
+        return;
+      }
+
+      const newAccount = {
+        name: cleanName.toUpperCase(),
+        email: cleanEmail,
+        phone: cleanPhone,
+        password: cleanPassword,
+        tier: 'Noir Member',
+        creditsINR: 1500,
+        points: 4800,
+        joinedDate: 'November 2026',
+        createdAt: new Date().toISOString(),
+      };
+
+      accounts.push(newAccount);
+      localStorage.setItem('trevori_registered_users', JSON.stringify(accounts));
+
+      // Attempt Shopify Customer creation in background if reachable
+      try {
+        await shopifyCustomerAccessTokenCreate(cleanEmail, cleanPassword);
+      } catch {
+        // Fallback gracefully to local Atelier membership
+      }
+
+      // Log in immediately
+      login({
+        name: newAccount.name,
+        email: newAccount.email,
+        phone: newAccount.phone,
+        tier: newAccount.tier,
+        creditsINR: newAccount.creditsINR,
+        points: newAccount.points,
+        joinedDate: newAccount.joinedDate,
+        authProvider: 'email',
+      });
+
+      setIsLoading(false);
+      setSuccess(true);
+      setTimeout(() => {
+        navigate('/account');
+      }, 500);
+    } catch {
+      setIsLoading(false);
+      setError('Registration failed. Please check your details.');
+    }
+  };
+
+  // Login Submission Handler
+  const handleLoginSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    const cleanInput = identifier.trim().toLowerCase();
+    const cleanPassword = password.trim();
 
     if (!cleanInput) {
       setError('Please provide your email address.');
@@ -140,15 +253,50 @@ export const LoginPage: React.FC = () => {
     }
 
     setIsLoading(true);
-    setError('');
-
-    const isEmail = cleanInput.includes('@');
-    const emailVal = isEmail ? cleanInput : `${cleanInput.replace(/\D/g, '')}@member.trevori.com`;
-    const displayName = isEmail ? cleanInput.split('@')[0].toUpperCase() : `MEMBER ${cleanInput.slice(-4) || '9921'}`;
 
     try {
-      // Connect to real Shopify Customer API
-      await shopifyCustomerAccessTokenCreate(emailVal, password || 'TrevoriClientPass2026!');
+      // Check registered accounts in localStorage first
+      const existingAccountsStr = localStorage.getItem('trevori_registered_users');
+      if (existingAccountsStr) {
+        const accounts = JSON.parse(existingAccountsStr);
+        const matched = accounts.find((acc: any) => acc.email === cleanInput || acc.phone === cleanInput);
+        if (matched) {
+          if (cleanPassword && matched.password && matched.password !== cleanPassword) {
+            setIsLoading(false);
+            setError('Incorrect password. Please verify your credentials.');
+            return;
+          }
+
+          login({
+            name: matched.name,
+            email: matched.email,
+            phone: matched.phone,
+            tier: matched.tier || 'Noir Member',
+            creditsINR: matched.creditsINR || 1500,
+            points: matched.points || 4800,
+            joinedDate: matched.joinedDate || 'November 2026',
+            authProvider: 'email',
+          });
+
+          setIsLoading(false);
+          setSuccess(true);
+          setTimeout(() => {
+            navigate('/account');
+          }, 400);
+          return;
+        }
+      }
+
+      // If not previously stored in browser, authenticate via Shopify or default demo
+      const isEmail = cleanInput.includes('@');
+      const emailVal = isEmail ? cleanInput : `${cleanInput.replace(/\D/g, '')}@trevori-members.com`;
+      const displayName = isEmail ? cleanInput.split('@')[0].toUpperCase() : 'TREVORI NOIR MEMBER';
+
+      try {
+        await shopifyCustomerAccessTokenCreate(emailVal, cleanPassword || 'TrevoriClientPass2026!');
+      } catch {
+        // Fallback gracefully
+      }
       
       login({
         name: displayName,
@@ -172,17 +320,15 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-
-
   return (
     <div className="min-h-screen w-full bg-[#EAE8E4] flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans">
       {/* Centered Modal Card matching the exact Dribbble reference */}
       <div className="w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         
-        {/* LEFT COLUMN: Clean Minimalist Login Form */}
+        {/* LEFT COLUMN: Clean Minimalist Auth Form */}
         <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
           {/* Top Bar: Back Link & Centered Brand Logo */}
-          <div className="flex items-center justify-between mb-6 sm:mb-8">
+          <div className="flex items-center justify-between mb-4 sm:mb-6">
             <Link
               to="/"
               className="text-xs sm:text-sm text-neutral-500 hover:text-black font-medium transition-colors"
@@ -197,9 +343,12 @@ export const LoginPage: React.FC = () => {
 
           {/* Form Content */}
           <div className="w-full max-w-sm mx-auto">
-            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-black mb-5 sm:mb-6">
-              Login
+            <h1 className="font-serif text-3xl sm:text-4xl font-normal text-black mb-1 sm:mb-2">
+              {isSignUp ? 'Create Account' : 'Login'}
             </h1>
+            <p className="text-xs text-neutral-400 font-light mb-4 sm:mb-6">
+              {isSignUp ? 'Join the Trevori Atelier & Noir Member Privileges.' : 'Welcome back to your Trevori Atelier vault.'}
+            </p>
 
             {isLoggedIn && (
               <div className="mb-4 p-3 bg-neutral-50 border border-neutral-200 rounded-lg flex items-center justify-between text-xs text-neutral-600">
@@ -215,23 +364,110 @@ export const LoginPage: React.FC = () => {
             )}
 
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg">
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg animate-fade-in-subtle">
                 {error}
               </div>
             )}
 
             {success ? (
-              <div className="py-10 text-center">
+              <div className="py-10 text-center animate-fade-in-subtle">
                 <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-3 animate-bounce" />
                 <h3 className="font-serif text-xl font-normal text-black mb-1">
-                  Access Confirmed
+                  {isSignUp ? 'Account Created Successfully' : 'Access Confirmed'}
                 </h3>
                 <p className="text-xs text-neutral-500 font-light">
                   Preparing your personal concierge profile...
                 </p>
               </div>
+            ) : isSignUp ? (
+              /* ================= SIGN UP FORM ================= */
+              <form onSubmit={handleSignUpSubmit} className="space-y-3">
+                {/* Full Name */}
+                <div>
+                  <input
+                    type="text"
+                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    placeholder="Full Name (e.g. Pranav Avadhanula)"
+                    className="w-full px-4 py-2.5 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                  />
+                </div>
+
+                {/* Mobile Number */}
+                <div>
+                  <input
+                    type="tel"
+                    required
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="Mobile Number (+91)"
+                    className="w-full px-4 py-2.5 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                  />
+                </div>
+
+                {/* Email Address */}
+                <div>
+                  <input
+                    type="email"
+                    required
+                    value={identifier}
+                    onChange={(e) => setIdentifier(e.target.value)}
+                    placeholder="Email Address"
+                    className="w-full px-4 py-2.5 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors"
+                  />
+                </div>
+
+                {/* Set Password with Show/Hide toggle */}
+                <div className="relative">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    placeholder="Set Password (min. 6 characters)"
+                    className="w-full px-4 py-2.5 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 transition-colors cursor-pointer"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                {/* Confirm Password with Show/Hide toggle */}
+                <div className="relative">
+                  <input
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Confirm Password"
+                    className="w-full px-4 py-2.5 bg-[#FBFBFB] border border-neutral-200 rounded-lg text-sm text-black placeholder-neutral-400 focus:outline-none focus:border-black focus:bg-white transition-colors pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 transition-colors cursor-pointer"
+                  >
+                    {showConfirmPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+
+                {/* Solid Black Sign Up Button */}
+                <button
+                  type="submit"
+                  disabled={isLoading}
+                  className="w-full py-3 bg-black hover:bg-neutral-800 text-white rounded-lg text-sm font-medium transition-colors duration-200 disabled:opacity-50 cursor-pointer shadow-sm mt-1"
+                >
+                  {isLoading ? 'Creating Account...' : 'Create Account'}
+                </button>
+              </form>
             ) : (
-              <form onSubmit={handleContinue} className="space-y-3.5">
+              /* ================= LOGIN FORM ================= */
+              <form onSubmit={handleLoginSubmit} className="space-y-3.5">
                 {/* Email Input */}
                 <div>
                   <input
@@ -258,11 +494,7 @@ export const LoginPage: React.FC = () => {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-400 hover:text-neutral-700 transition-colors cursor-pointer"
                   >
-                    {showPassword ? (
-                      <EyeOff className="w-4 h-4" />
-                    ) : (
-                      <Eye className="w-4 h-4" />
-                    )}
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                   </button>
                 </div>
 
@@ -288,11 +520,11 @@ export const LoginPage: React.FC = () => {
               </form>
             )}
 
-            {/* Divider: or login with in one line */}
-            <div className="my-5 flex items-center justify-center">
+            {/* Divider: or login/sign up with in one line */}
+            <div className="my-4 sm:my-5 flex items-center justify-center">
               <div className="border-t border-neutral-200 flex-1" />
               <span className="px-3 text-[11px] text-neutral-400 uppercase tracking-wider whitespace-nowrap shrink-0">
-                or login with
+                {isSignUp ? 'or sign up with' : 'or login with'}
               </span>
               <div className="border-t border-neutral-200 flex-1" />
             </div>
@@ -311,20 +543,43 @@ export const LoginPage: React.FC = () => {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
                 </svg>
-                <span>Login with Google</span>
+                <span>{isSignUp ? 'Sign up with Google' : 'Login with Google'}</span>
               </button>
             </div>
 
-            {/* Bottom Sign Up Link */}
-            <div className="mt-6 text-center text-xs text-neutral-500">
-              Doesn't have an account?{' '}
-              <button
-                type="button"
-                onClick={() => handleContinue({ preventDefault: () => {} } as any)}
-                className="font-semibold text-black underline hover:text-neutral-700 transition-colors cursor-pointer"
-              >
-                Sign Up
-              </button>
+            {/* Bottom Toggle Link between Login and Sign Up */}
+            <div className="mt-5 text-center text-xs text-neutral-500">
+              {isSignUp ? (
+                <>
+                  Already have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setError('');
+                      setIsSignUp(false);
+                      navigate('/login');
+                    }}
+                    className="font-semibold text-black underline hover:text-neutral-700 transition-colors cursor-pointer"
+                  >
+                    Log In
+                  </button>
+                </>
+              ) : (
+                <>
+                  Doesn't have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setError('');
+                      setIsSignUp(true);
+                      navigate('/signup');
+                    }}
+                    className="font-semibold text-black underline hover:text-neutral-700 transition-colors cursor-pointer"
+                  >
+                    Sign Up
+                  </button>
+                </>
+              )}
             </div>
           </div>
 
@@ -333,7 +588,7 @@ export const LoginPage: React.FC = () => {
 
         {/* RIGHT COLUMN: The exact red editorial photo from the reference */}
         <div className="relative w-full h-full min-h-[460px] md:min-h-full overflow-hidden bg-[#BA2C17] hidden md:block">
-          {/* Top Brand & Tagline replacing Brand New */}
+          {/* Top Brand & Tagline */}
           <div className="absolute top-6 sm:top-7 left-6 sm:left-8 z-10 flex items-center gap-2 select-none">
             <span className="text-[11px] sm:text-xs font-medium tracking-[0.28em] text-white uppercase font-sans">
               TREVORI

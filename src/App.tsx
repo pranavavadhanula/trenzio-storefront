@@ -20,6 +20,7 @@ import { AboutPage } from './pages/AboutPage';
 import { ContactPage } from './pages/ContactPage';
 import { VirtualTryOnPage } from './pages/VirtualTryOnPage';
 import { LoginPage } from './pages/LoginPage';
+import { SignUpPage } from './pages/SignUpPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { AIStylistPage } from './pages/AIStylistPage';
 
@@ -39,7 +40,7 @@ function MainStorefront() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { login } = useShop();
-  const isLoginPage = pathname === '/login';
+  const isAuthPage = pathname === '/login' || pathname === '/signup';
 
   // Listen for Google OAuth callback access_token hash
   useEffect(() => {
@@ -78,7 +79,7 @@ function MainStorefront() {
       <ScrollToTop />
 
       {/* 1. Minimal Sticky Navigation */}
-      {!isLoginPage && <Navbar />}
+      {!isAuthPage && <Navbar />}
 
       {/* Main Multi-Page Routed Content */}
       <main className="flex-1 w-full max-w-full bg-[#F4F1EA]">
@@ -111,6 +112,7 @@ function MainStorefront() {
 
           {/* Customer Login & Registration */}
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignUpPage />} />
 
           {/* Customer Account Dashboard */}
           <Route path="/account" element={<DashboardPage />} />
@@ -125,7 +127,7 @@ function MainStorefront() {
       </main>
 
       {/* 12. Premium Footer */}
-      {!isLoginPage && <Footer />}
+      {!isAuthPage && <Footer />}
 
       {/* Global Slide-Over Drawers & Modals */}
       <CartDrawer />
@@ -134,7 +136,7 @@ function MainStorefront() {
       <SizingModal />
 
       {/* Floating 24/7 AI Stylist Assistant (Across Website) */}
-      {!isLoginPage && <TrevoriAIWidget />}
+      {!isAuthPage && <TrevoriAIWidget />}
     </div>
   );
 }
