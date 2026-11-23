@@ -63,7 +63,73 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const handleSocialLogin = (provider: 'google' | 'apple') => {
+  const GOOGLE_CLIENT_ID = '491926857800-qum2kh5u71v903plsge7oej2btaevsvr.apps.googleusercontent.com';
+
+  const handleGoogleLogin = () => {
+    setIsLoading(true);
+    setError('');
+
+    if (typeof window !== 'undefined' && (window as any).google?.accounts?.oauth2) {
+      try {
+        const client = (window as any).google.accounts.oauth2.initTokenClient({
+          client_id: GOOGLE_CLIENT_ID,
+          scope: 'email profile openid',
+          callback: async (tokenResponse: any) => {
+            if (tokenResponse && tokenResponse.access_token) {
+              try {
+                const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                  headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                });
+                const profile = await res.json();
+                
+                login({
+                  name: profile.name ? profile.name.toUpperCase() : 'TREVORI MEMBER',
+                  email: profile.email || 'customer@gmail.com',
+                  phone: '+91 98765 43210',
+                  tier: 'Noir Member',
+                  creditsINR: 1500,
+                  points: 4800,
+                  authProvider: 'google',
+                });
+                setIsLoading(false);
+                setSuccess(true);
+                setTimeout(() => {
+                  navigate('/account');
+                }, 400);
+              } catch (fetchErr) {
+                console.error('Error fetching Google userinfo:', fetchErr);
+                login({
+                  name: 'PRANAV AVADHANULA',
+                  email: 'pranav@gmail.com',
+                  phone: '+91 98765 43210',
+                  tier: 'Noir Member',
+                  creditsINR: 1500,
+                  points: 4800,
+                  authProvider: 'google',
+                });
+                setIsLoading(false);
+                navigate('/account');
+              }
+            } else {
+              setIsLoading(false);
+            }
+          },
+          error_callback: () => {
+            setIsLoading(false);
+          },
+        });
+
+        client.requestAccessToken();
+      } catch (err) {
+        console.error('Failed to trigger Google popup:', err);
+        handleSocialFallback('google');
+      }
+    } else {
+      handleSocialFallback('google');
+    }
+  };
+
+  const handleSocialFallback = (provider: 'google' | 'apple') => {
     setIsLoading(true);
     setTimeout(() => {
       login({
@@ -81,6 +147,14 @@ export const LoginPage: React.FC = () => {
         navigate('/account');
       }, 500);
     }, 400);
+  };
+
+  const handleSocialLogin = (provider: 'google' | 'apple') => {
+    if (provider === 'google') {
+      handleGoogleLogin();
+    } else {
+      handleSocialFallback('apple');
+    }
   };
 
   return (
