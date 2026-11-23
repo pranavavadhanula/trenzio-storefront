@@ -222,8 +222,8 @@ export const Navbar: React.FC = () => {
           </form>
         </div>
 
-        {/* Desktop Secondary Editorial Menu Bar: Only New Arrivals, Men, and Women */}
-        <div className="hidden lg:flex items-center justify-center space-x-14 py-3 border-t border-[#DDD8CE]/60 text-xs font-medium tracking-[0.22em] uppercase text-[#171717]">
+        {/* Desktop Secondary Editorial Menu Bar: New Arrivals, Men, Women, Contact Us */}
+        <div className="hidden lg:flex items-center justify-center space-x-12 py-3 border-t border-[#DDD8CE]/60 text-xs font-medium tracking-[0.22em] uppercase text-[#171717]">
           {/* New Arrivals */}
           <Link to="/collections" className="hover:text-[#B9AA96] transition-colors py-1">
             New Arrivals
@@ -280,6 +280,11 @@ export const Navbar: React.FC = () => {
               </div>
             )}
           </div>
+
+          {/* Contact Us */}
+          <Link to="/contact" className="hover:text-[#B9AA96] transition-colors py-1">
+            Contact Us
+          </Link>
         </div>
       </div>
 
@@ -298,6 +303,10 @@ export const Navbar: React.FC = () => {
             <Link to="/collections/women" className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
               <span>Women's Apparel</span>
               <span className="text-[10px] text-[#706B64] font-normal lowercase tracking-normal">drapes & knits</span>
+            </Link>
+            <Link to="/contact" className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
+              <span>Contact Us</span>
+              <span className="text-[10px] text-[#706B64] font-normal lowercase tracking-normal">support & concierge</span>
             </Link>
             <a href="/#lookbook" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80">
               Lookbook Volume IV
