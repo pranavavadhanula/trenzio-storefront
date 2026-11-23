@@ -149,12 +149,14 @@ export const HomePage: React.FC<{ scrollTo?: string }> = ({ scrollTo }) => {
     {
       id: 'look-04',
       title: 'Look 04: Tactical Utilitarian',
-      setting: 'Architectural Shadowplay &bull; New York',
-      image: '/images/models/man_street_standing.jpg',
-      description: 'Tactical Utility Zip Bomber Jacket over Boxy Oversized Tee and Nappa Leather Chunky Sneakers.',
+      setting: 'Architectural Shadowplay · Milan',
+      image: '/images/models/trevori_lookbook_look04_4k.jpg',
+      aspectRatio: '682 / 1024',
+      description: 'Tactical Utility Zip Bomber Jacket over Boxy Oversized White Tee and Relaxed Pleated Wide-Leg Cargo Pants, finished with White Streetwear Sneakers.',
       items: [
         { name: 'Tactical Utility Zip Bomber Jacket', priceINR: 2799, category: 'Jackets' },
-        { name: 'Italian Nappa Leather Chunky Sneaker', priceINR: 2499, category: 'Footwear' },
+        { name: 'Relaxed Pleated Wide-Leg Cargo Pants', priceINR: 1499, category: 'Pants' },
+        { name: 'Boxy Oversized T-Shirt', priceINR: 999, category: 'T-Shirts' },
       ],
     },
   ];
@@ -519,17 +521,20 @@ export const HomePage: React.FC<{ scrollTo?: string }> = ({ scrollTo }) => {
 
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
                 {/* 4K Image Inspection Frame */}
-                <div className="md:col-span-6 relative aspect-[976/1024] bg-[#F4F1EA] border border-[#DDD8CE] overflow-hidden group">
+                <div
+                  className="md:col-span-6 relative bg-[#F4F1EA] border border-[#DDD8CE] overflow-hidden group"
+                  style={{ aspectRatio: LOOKBOOK_ITEMS[activeLookIndex].aspectRatio || '4 / 5' }}
+                >
                   <img
                     src={LOOKBOOK_ITEMS[activeLookIndex].image}
                     alt={LOOKBOOK_ITEMS[activeLookIndex].title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute top-3 left-3 bg-[#171717]/90 text-white text-[9px] uppercase px-2.5 py-1 tracking-widest font-semibold backdrop-blur-sm border border-white/20">
                     4K Editorial Master
                   </div>
                   <div className="absolute bottom-3 right-3 bg-white/90 text-[#171717] text-[9px] uppercase px-2 py-0.5 tracking-wider font-semibold backdrop-blur-sm border border-[#DDD8CE]">
-                    3904 × 4096 UHD
+                    {activeLookIndex === 3 ? '2728 × 4096 UHD' : '3904 × 4096 UHD'}
                   </div>
                 </div>
 
