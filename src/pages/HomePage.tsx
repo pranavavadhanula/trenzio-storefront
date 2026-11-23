@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Star, CheckCircle, Sparkles, Plus, Eye, ShoppingBag } from 'lucide-react';
 import { HeroEditorialBanner } from '../components/HeroEditorialBanner';
@@ -10,8 +10,20 @@ import { Lookbook3DCard } from '../components/Lookbook3DCard';
 import { useShop } from '../context/ShopContext';
 import { Product } from '../types';
 
-export const HomePage: React.FC = () => {
+export const HomePage: React.FC<{ scrollTo?: string }> = ({ scrollTo }) => {
   const { products, formatPrice, addToCart } = useShop();
+
+  // Scroll to lookbook if requested or if hash matches
+  useEffect(() => {
+    if (scrollTo === 'lookbook' || window.location.hash === '#lookbook') {
+      const el = document.getElementById('lookbook');
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }, 150);
+      }
+    }
+  }, [scrollTo]);
 
   // Newsletter state
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -101,10 +113,11 @@ export const HomePage: React.FC = () => {
   const LOOKBOOK_ITEMS = [
     {
       id: 'look-01',
-      title: 'Look 01: The Monolith Silhouette',
-      setting: '',
-      image: '/images/models/trevori_green_sweatshirt.png',
-      description: 'Embroidered French Terry Cotton Crewneck paired with Relaxed Atelier Draped Pants.',
+      title: 'Look 01: Wear Your Story',
+      setting: 'Trevori Studio · Milan',
+      image: '/images/models/trevori_lookbook_volume_iv_4k.jpg',
+      aspectRatio: '976 / 1024',
+      description: 'French Terry Cotton Crewneck with Embroidered Chest Signature, paired with relaxed atelier drape trousers. Premium Cotton Blend, Timeless Design, Effortless Style.',
       items: [
         { name: 'Embroidered French Terry Crewneck', priceINR: 2499, category: 'Sweatshirts' },
         { name: 'Relaxed Pleated Wide-Leg Cargo Pants', priceINR: 1499, category: 'Pants' },
@@ -113,8 +126,9 @@ export const HomePage: React.FC = () => {
     {
       id: 'look-02',
       title: 'Look 02: Architectural Contrast',
-      setting: '',
+      setting: 'Milan Fashion Pavilion',
       image: '/images/models/trevori_editorial_sitting.jpg',
+      aspectRatio: '4 / 5',
       description: 'Textured Knit Summer Polo worn with Relaxed Pleated Cargo Pants.',
       items: [
         { name: 'Textured Knit Summer Polo', priceINR: 1699, category: 'Shirts' },
@@ -416,6 +430,7 @@ export const HomePage: React.FC = () => {
             <Lookbook3DCard
               image={LOOKBOOK_ITEMS[activeLookIndex].image}
               title={LOOKBOOK_ITEMS[activeLookIndex].title}
+              aspectRatio={LOOKBOOK_ITEMS[activeLookIndex].aspectRatio || '4 / 5'}
               onOpenModal={() => setLookbookModalOpen(true)}
             />
           </div>
@@ -491,37 +506,79 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
 
-        {/* Lookbook Modal */}
+        {/* Lookbook Modal with 4K Inspection */}
         {lookbookModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in-subtle">
-            <div className="bg-[#FFFFFF] border border-[#DDD8CE] max-w-lg w-full p-6 sm:p-8 relative">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-black/75 backdrop-blur-md animate-fade-in-subtle">
+            <div className="bg-[#FFFFFF] border border-[#DDD8CE] max-w-4xl w-full p-6 sm:p-8 relative max-h-[90vh] overflow-y-auto shadow-2xl">
               <button
                 onClick={() => setLookbookModalOpen(false)}
-                className="absolute top-4 right-4 text-[#706B64] hover:text-[#171717] text-sm uppercase tracking-wider"
+                className="absolute top-4 right-4 z-10 text-[#706B64] hover:text-[#171717] text-xs uppercase tracking-widest font-semibold p-2 cursor-pointer transition-colors"
               >
                 Close ✕
               </button>
-              <h3 className="font-serif text-2xl text-[#171717] mb-2">
-                {LOOKBOOK_ITEMS[activeLookIndex].title}
-              </h3>
-              <p className="text-xs text-[#706B64] mb-6 leading-relaxed">
-                {LOOKBOOK_ITEMS[activeLookIndex].description}
-              </p>
-              <div className="space-y-3 mb-6">
-                {lookbookFeaturedItems.map((item, i) => (
-                  <div key={i} className="flex justify-between items-center p-3 bg-[#F4F1EA] border border-[#DDD8CE] text-xs">
-                    <span className="font-medium">{item.name}</span>
-                    <span className="font-semibold">{formatPrice(item.priceINR)}</span>
+
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 sm:gap-8 items-center">
+                {/* 4K Image Inspection Frame */}
+                <div className="md:col-span-6 relative aspect-[976/1024] bg-[#F4F1EA] border border-[#DDD8CE] overflow-hidden group">
+                  <img
+                    src={LOOKBOOK_ITEMS[activeLookIndex].image}
+                    alt={LOOKBOOK_ITEMS[activeLookIndex].title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                  <div className="absolute top-3 left-3 bg-[#171717]/90 text-white text-[9px] uppercase px-2.5 py-1 tracking-widest font-semibold backdrop-blur-sm border border-white/20">
+                    4K Editorial Master
                   </div>
-                ))}
+                  <div className="absolute bottom-3 right-3 bg-white/90 text-[#171717] text-[9px] uppercase px-2 py-0.5 tracking-wider font-semibold backdrop-blur-sm border border-[#DDD8CE]">
+                    3904 × 4096 UHD
+                  </div>
+                </div>
+
+                {/* Look Information & Styled Pieces */}
+                <div className="md:col-span-6 space-y-5">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-semibold block mb-1">
+                      {LOOKBOOK_ITEMS[activeLookIndex].setting || 'Trevori Studio · Milan'}
+                    </span>
+                    <h3 className="font-serif text-2xl sm:text-3xl text-[#171717] font-normal">
+                      {LOOKBOOK_ITEMS[activeLookIndex].title}
+                    </h3>
+                  </div>
+
+                  <p className="text-xs text-[#706B64] font-light leading-relaxed">
+                    {LOOKBOOK_ITEMS[activeLookIndex].description}
+                  </p>
+
+                  <div className="space-y-2 pt-2 border-t border-[#DDD8CE]">
+                    <span className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold block">
+                      Styled Items in this Editorial
+                    </span>
+                    {LOOKBOOK_ITEMS[activeLookIndex].items.map((item, i) => (
+                      <div key={i} className="flex justify-between items-center p-3 bg-[#F4F1EA] border border-[#DDD8CE] text-xs">
+                        <span className="font-medium text-[#171717]">{item.name}</span>
+                        <span className="font-semibold text-[#171717]">{formatPrice(item.priceINR)}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-2 flex flex-col gap-2">
+                    <Link
+                      to="/collections"
+                      onClick={() => setLookbookModalOpen(false)}
+                      className="w-full block py-3 text-center bg-[#171717] text-white text-xs uppercase tracking-widest font-medium hover:bg-black transition-colors"
+                    >
+                      Shop Featured Collection
+                    </Link>
+                    <a
+                      href={LOOKBOOK_ITEMS[activeLookIndex].image}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full block py-2.5 text-center border border-[#DDD8CE] text-[#171717] text-[10px] uppercase tracking-widest font-medium hover:bg-[#F4F1EA] transition-colors"
+                    >
+                      Inspect Master 4K Resolution ↗
+                    </a>
+                  </div>
+                </div>
               </div>
-              <Link
-                to="/collections"
-                onClick={() => setLookbookModalOpen(false)}
-                className="w-full block py-3 text-center bg-[#171717] text-white text-xs uppercase tracking-widest font-medium"
-              >
-                Browse Full Catalog
-              </Link>
             </div>
           </div>
         )}

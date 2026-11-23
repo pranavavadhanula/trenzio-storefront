@@ -85,6 +85,7 @@ function MainStorefront() {
         <Routes>
           {/* Home Page: 12-Section Editorial Homepage */}
           <Route path="/" element={<HomePage />} />
+          <Route path="/lookbook" element={<HomePage scrollTo="lookbook" />} />
 
           {/* Dedicated Collections Catalog Pages */}
           <Route path="/collections" element={<CollectionsPage />} />
