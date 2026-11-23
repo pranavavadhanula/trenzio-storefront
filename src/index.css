@@ -7,6 +7,10 @@ html, body, #root {
   color: #171717 !important;
 }
 
+html, body {
+  overflow-x: clip;
+}
+
 @layer base {
   body {
     background-color: #F4F1EA !important;

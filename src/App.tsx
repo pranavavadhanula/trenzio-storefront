@@ -74,14 +74,14 @@ function MainStorefront() {
   }, [login, navigate]);
 
   return (
-    <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F4F1EA] text-[#171717] flex flex-col font-sans selection:bg-[#DDD8CE] selection:text-[#171717]">
+    <div className="min-h-screen w-full max-w-full bg-[#F4F1EA] text-[#171717] flex flex-col font-sans selection:bg-[#DDD8CE] selection:text-[#171717]">
       <ScrollToTop />
 
       {/* 1. Minimal Sticky Navigation */}
       {!isLoginPage && <Navbar />}
 
       {/* Main Multi-Page Routed Content */}
-      <main className="flex-1 w-full max-w-full overflow-x-hidden bg-[#F4F1EA]">
+      <main className="flex-1 w-full max-w-full bg-[#F4F1EA]">
         <Routes>
           {/* Home Page: 12-Section Editorial Homepage */}
           <Route path="/" element={<HomePage />} />
