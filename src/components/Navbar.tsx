@@ -223,7 +223,7 @@ export const Navbar: React.FC = () => {
         </div>
 
         {/* Desktop Secondary Editorial Menu Bar: New Arrivals, Men, Women, Contact Us */}
-        <div className="hidden lg:flex items-center justify-center space-x-12 py-3 border-t border-[#DDD8CE]/60 text-xs font-medium tracking-[0.22em] uppercase text-[#171717]">
+        <div className="hidden lg:flex items-center justify-center gap-8 xl:gap-12 py-3 border-t border-[#DDD8CE]/60 text-xs font-medium tracking-[0.22em] uppercase text-[#171717]">
           {/* New Arrivals */}
           <Link to="/collections" className="hover:text-[#B9AA96] transition-colors py-1">
             New Arrivals
