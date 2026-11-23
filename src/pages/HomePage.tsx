@@ -205,50 +205,51 @@ export const HomePage: React.FC = () => {
       {/* ------------------------------------------------------------- */}
       {/* 3. SHOP BY CATEGORY */}
       {/* ------------------------------------------------------------- */}
-      <section className="py-20 sm:py-28 max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 sm:mb-16 border-b border-[#DDD8CE] pb-6">
+      <section className="pt-4 sm:pt-6 pb-12 sm:pb-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Header with Eyebrow, Title, Divider and Right-Aligned Link */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 sm:mb-8 border-b border-[#DDD8CE] pb-4 sm:pb-5">
           <div>
-            <span className="text-[11px] uppercase tracking-[0.25em] text-[#706B64] font-medium block mb-2">
-              Curated Wardrobe Architecture
+            <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.25em] text-[#706B64] font-medium block mb-1.5">
+              CURATED WARDROBE ARCHITECTURE
             </span>
-            <h2 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-normal tracking-tight text-[#171717]">
+            <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-tight text-[#171717]">
               Shop by Category
             </h2>
           </div>
           <Link
             to="/collections"
-            className="text-xs uppercase tracking-[0.2em] text-[#171717] hover:text-[#B9AA96] transition-colors mt-4 md:mt-0 font-medium flex items-center gap-2 group"
+            className="text-xs uppercase tracking-[0.2em] text-[#171717] hover:text-[#B9AA96] transition-colors mt-3 sm:mt-0 font-medium inline-flex items-center gap-1.5 group"
           >
-            <span>View All Categories</span>
-            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            <span>VIEW ALL CATEGORIES</span>
+            <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">→</span>
           </Link>
         </div>
 
-        {/* 6 Category 4:5 Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
+        {/* 3-Column x 2-Row Category Image Grid (2-Column on Mobile/Tablet) */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3.5 sm:gap-5 lg:gap-6">
           {CATEGORIES_LIST.map((cat, idx) => (
             <Link
               key={idx}
               to={cat.slug}
-              className="group relative flex flex-col bg-[#FFFFFF] border border-[#DDD8CE]/70 overflow-hidden cursor-pointer"
+              className="group relative flex flex-col bg-[#FFFFFF] border border-[#DDD8CE]/60 overflow-hidden cursor-pointer shadow-sm hover:shadow-md transition-shadow duration-300"
             >
-              {/* 4:5 Image Ratio */}
-              <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#DDD8CE]/40">
+              {/* 4:5 Consistent Image Ratio */}
+              <div className="relative aspect-[4/5] w-full overflow-hidden bg-[#DDD8CE]/30">
                 <img
                   src={cat.image}
                   alt={cat.name}
                   className="w-full h-full object-cover object-center filter contrast-105 group-hover:scale-105 transition-transform duration-700 ease-out"
                   loading="lazy"
                 />
-                {/* Subtle scrim for readability */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#171717]/70 via-transparent to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
+                {/* Subtle dark gradient overlay so white text remains readable */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/25 to-transparent transition-opacity duration-300 group-hover:from-black/85" />
 
-                {/* Bottom Overlay Text */}
-                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 text-white z-10 flex flex-col justify-end">
-                  <span className="text-[10px] tracking-[0.2em] uppercase text-[#DDD8CE] font-light mb-1">
+                {/* Bottom Overlay Text: Descriptive Label + Category Name */}
+                <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5 lg:p-6 text-white z-10 flex flex-col justify-end">
+                  <span className="text-[9px] sm:text-[10px] tracking-[0.2em] uppercase text-[#DDD8CE] font-light mb-1 block">
                     {cat.count}
                   </span>
-                  <h3 className="font-serif text-xl sm:text-2xl lg:text-3xl font-normal text-white group-hover:translate-x-1 transition-transform duration-300">
+                  <h3 className="font-serif text-base sm:text-xl lg:text-2xl font-normal text-white group-hover:translate-x-1 transition-transform duration-300 leading-snug">
                     {cat.name}
                   </h3>
                 </div>
