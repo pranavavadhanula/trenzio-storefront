@@ -37,6 +37,27 @@ const VALID_COUPONS: Record<string, ValidCoupon> = {
     description: 'Flat ₹200 drop discount',
     minSubtotal: 1000,
   },
+  'WINTER200': {
+    code: 'WINTER200',
+    type: 'flat',
+    value: 200,
+    description: 'Flat ₹200 Winterwear discount',
+    minSubtotal: 1000,
+  },
+  'TREVORI500': {
+    code: 'TREVORI500',
+    type: 'flat',
+    value: 500,
+    description: 'Flat ₹500 Atelier Winter discount',
+    minSubtotal: 2000,
+  },
+  'WINTER500': {
+    code: 'WINTER500',
+    type: 'flat',
+    value: 500,
+    description: 'Flat ₹500 Winterwear discount',
+    minSubtotal: 2000,
+  },
   'PREPAID100': {
     code: 'PREPAID100',
     type: 'flat',
