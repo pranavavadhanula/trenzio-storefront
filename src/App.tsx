@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { ShopProvider } from './context/ShopContext';
+import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { ShopProvider, useShop } from './context/ShopContext';
 import { Navbar } from './components/Navbar';
 import { Footer } from './components/Footer';
 
@@ -37,7 +37,41 @@ function ScrollToTop() {
 
 function MainStorefront() {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+  const { login } = useShop();
   const isLoginPage = pathname === '/login';
+
+  // Listen for Google OAuth callback access_token hash
+  useEffect(() => {
+    if (window.location.hash && window.location.hash.includes('access_token=')) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get('access_token');
+      if (accessToken) {
+        fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+          .then((res) => res.json())
+          .then((profile) => {
+            if (profile && profile.email) {
+              login({
+                name: profile.name ? profile.name.toUpperCase() : 'GOOGLE MEMBER',
+                email: profile.email,
+                picture: profile.picture,
+                tier: 'Noir Member',
+                creditsINR: 1500,
+                points: 4800,
+                authProvider: 'google',
+              });
+              window.history.replaceState(null, '', window.location.pathname);
+              navigate('/account');
+            }
+          })
+          .catch((err) => {
+            console.error('Google token callback failed:', err);
+          });
+      }
+    }
+  }, [login, navigate]);
 
   return (
     <div className="min-h-screen w-full max-w-full overflow-x-hidden bg-[#F4F1EA] text-[#171717] flex flex-col font-sans selection:bg-[#DDD8CE] selection:text-[#171717]">

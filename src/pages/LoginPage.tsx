@@ -6,7 +6,7 @@ import { shopifyCustomerAccessTokenCreate } from '../services/shopify';
 
 export const LoginPage: React.FC = () => {
   const navigate = useNavigate();
-  const { login, isLoggedIn } = useShop();
+  const { login, logout, user, isLoggedIn } = useShop();
 
   const [identifier, setIdentifier] = useState('');
   const [password, setPassword] = useState('');
@@ -15,11 +15,138 @@ export const LoginPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  const GOOGLE_CLIENT_ID = '491926857800-qum2kh5u71v903plsge7oej2btaevsvr.apps.googleusercontent.com';
+
+  // Process access_token if returning from Google OAuth redirect
   useEffect(() => {
-    if (isLoggedIn && !success) {
-      navigate('/account');
+    if (window.location.hash && window.location.hash.includes('access_token=')) {
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get('access_token');
+      if (accessToken) {
+        setIsLoading(true);
+        fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${accessToken}` },
+        })
+          .then((res) => res.json())
+          .then((profile) => {
+            if (profile && profile.email) {
+              login({
+                name: profile.name ? profile.name.toUpperCase() : 'GOOGLE MEMBER',
+                email: profile.email,
+                picture: profile.picture,
+                phone: '+91 98765 43210',
+                tier: 'Noir Member',
+                creditsINR: 1500,
+                points: 4800,
+                authProvider: 'google',
+              });
+              window.history.replaceState(null, '', window.location.pathname);
+              setIsLoading(false);
+              setSuccess(true);
+              setTimeout(() => {
+                navigate('/account');
+              }, 400);
+            }
+          })
+          .catch((err) => {
+            console.error('Google profile fetch failed:', err);
+            setIsLoading(false);
+            setError('Could not verify Google authentication. Please try again.');
+          });
+      }
     }
-  }, [isLoggedIn, navigate, success]);
+  }, [login, navigate]);
+
+  const redirectToGoogleOAuth = () => {
+    const redirectUri = window.location.origin;
+    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_CLIENT_ID}&redirect_uri=${encodeURIComponent(
+      redirectUri
+    )}&response_type=token&scope=email%20profile%20openid&prompt=select_account`;
+    window.location.href = authUrl;
+  };
+
+  const handleGoogleLogin = () => {
+    setIsLoading(true);
+    setError('');
+
+    // Check if Google GIS popup client is available in window
+    if (typeof window !== 'undefined' && (window as any).google?.accounts?.oauth2) {
+      try {
+        const client = (window as any).google.accounts.oauth2.initTokenClient({
+          client_id: GOOGLE_CLIENT_ID,
+          scope: 'email profile openid',
+          callback: async (tokenResponse: any) => {
+            if (tokenResponse && tokenResponse.access_token) {
+              try {
+                const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                  headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+                });
+                const profile = await res.json();
+                
+                login({
+                  name: profile.name ? profile.name.toUpperCase() : 'GOOGLE MEMBER',
+                  email: profile.email || 'customer@gmail.com',
+                  picture: profile.picture,
+                  phone: '+91 98765 43210',
+                  tier: 'Noir Member',
+                  creditsINR: 1500,
+                  points: 4800,
+                  authProvider: 'google',
+                });
+                setIsLoading(false);
+                setSuccess(true);
+                setTimeout(() => {
+                  navigate('/account');
+                }, 400);
+              } catch (fetchErr) {
+                console.error('Error fetching Google userinfo:', fetchErr);
+                setIsLoading(false);
+                setError('Failed to fetch Google profile details.');
+              }
+            } else {
+              setIsLoading(false);
+            }
+          },
+          error_callback: () => {
+            // If popup is blocked by browser, redirect directly
+            redirectToGoogleOAuth();
+          },
+        });
+
+        client.requestAccessToken();
+        return;
+      } catch (err) {
+        console.warn('GIS error, using direct redirect:', err);
+      }
+    }
+
+    // Direct Google OAuth URL redirect
+    redirectToGoogleOAuth();
+  };
+
+  const handleSocialLogin = (provider: 'google' | 'apple') => {
+    if (provider === 'google') {
+      handleGoogleLogin();
+    } else {
+      setIsLoading(true);
+      setTimeout(() => {
+        login({
+          name: 'ELENA ROSTOVA',
+          email: 'elena@icloud.com',
+          phone: '+91 98765 43210',
+          tier: 'Noir Member',
+          creditsINR: 1500,
+          points: 4800,
+          authProvider: 'apple',
+        });
+        setIsLoading(false);
+        setSuccess(true);
+        setTimeout(() => {
+          navigate('/account');
+        }, 400);
+      }, 400);
+    }
+  };
 
   const handleContinue = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,99 +190,7 @@ export const LoginPage: React.FC = () => {
     }
   };
 
-  const GOOGLE_CLIENT_ID = '491926857800-qum2kh5u71v903plsge7oej2btaevsvr.apps.googleusercontent.com';
 
-  const handleGoogleLogin = () => {
-    setIsLoading(true);
-    setError('');
-
-    if (typeof window !== 'undefined' && (window as any).google?.accounts?.oauth2) {
-      try {
-        const client = (window as any).google.accounts.oauth2.initTokenClient({
-          client_id: GOOGLE_CLIENT_ID,
-          scope: 'email profile openid',
-          callback: async (tokenResponse: any) => {
-            if (tokenResponse && tokenResponse.access_token) {
-              try {
-                const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-                  headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-                });
-                const profile = await res.json();
-                
-                login({
-                  name: profile.name ? profile.name.toUpperCase() : 'TREVORI MEMBER',
-                  email: profile.email || 'customer@gmail.com',
-                  phone: '+91 98765 43210',
-                  tier: 'Noir Member',
-                  creditsINR: 1500,
-                  points: 4800,
-                  authProvider: 'google',
-                });
-                setIsLoading(false);
-                setSuccess(true);
-                setTimeout(() => {
-                  navigate('/account');
-                }, 400);
-              } catch (fetchErr) {
-                console.error('Error fetching Google userinfo:', fetchErr);
-                login({
-                  name: 'PRANAV AVADHANULA',
-                  email: 'pranav@gmail.com',
-                  phone: '+91 98765 43210',
-                  tier: 'Noir Member',
-                  creditsINR: 1500,
-                  points: 4800,
-                  authProvider: 'google',
-                });
-                setIsLoading(false);
-                navigate('/account');
-              }
-            } else {
-              setIsLoading(false);
-            }
-          },
-          error_callback: () => {
-            setIsLoading(false);
-          },
-        });
-
-        client.requestAccessToken();
-      } catch (err) {
-        console.error('Failed to trigger Google popup:', err);
-        handleSocialFallback('google');
-      }
-    } else {
-      handleSocialFallback('google');
-    }
-  };
-
-  const handleSocialFallback = (provider: 'google' | 'apple') => {
-    setIsLoading(true);
-    setTimeout(() => {
-      login({
-        name: provider === 'google' ? 'PRANAV AVADHANULA' : 'ELENA ROSTOVA',
-        email: provider === 'google' ? 'pranav@gmail.com' : 'elena@icloud.com',
-        phone: '+91 98765 43210',
-        tier: 'Noir Member',
-        creditsINR: 1500,
-        points: 4800,
-        authProvider: provider,
-      });
-      setIsLoading(false);
-      setSuccess(true);
-      setTimeout(() => {
-        navigate('/account');
-      }, 500);
-    }, 400);
-  };
-
-  const handleSocialLogin = (provider: 'google' | 'apple') => {
-    if (provider === 'google') {
-      handleGoogleLogin();
-    } else {
-      handleSocialFallback('apple');
-    }
-  };
 
   return (
     <div className="min-h-screen w-full bg-[#EAE8E4] flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans">
@@ -183,6 +218,19 @@ export const LoginPage: React.FC = () => {
             <h1 className="font-serif text-3xl sm:text-4xl font-normal text-black mb-5 sm:mb-6">
               Login
             </h1>
+
+            {isLoggedIn && (
+              <div className="mb-4 p-3 bg-neutral-50 border border-neutral-200 rounded-lg flex items-center justify-between text-xs text-neutral-600">
+                <span>Signed in as <strong className="text-black">{user?.name}</strong></span>
+                <button
+                  type="button"
+                  onClick={() => logout()}
+                  className="underline text-red-500 hover:text-red-700 font-medium ml-2 cursor-pointer"
+                >
+                  Sign Out
+                </button>
+              </div>
+            )}
 
             {error && (
               <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg">
