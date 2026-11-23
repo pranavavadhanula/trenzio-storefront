@@ -231,8 +231,8 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F4F1EA] text-[#171717] font-sans pb-24">
       {/* Account Header Banner */}
-      <section className="bg-[#FFFFFF] border-b border-[#DDD8CE] py-10 sm:py-14">
-        <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <section className="bg-[#FFFFFF] border-b border-[#DDD8CE] py-8 sm:py-14">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
             <div className="flex items-center gap-2 mb-2">
               <span className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-semibold">
@@ -252,27 +252,16 @@ export const DashboardPage: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="bg-[#F4F1EA] border border-[#DDD8CE] px-4 py-2.5 text-right">
+            <div className="bg-[#F4F1EA] border border-[#DDD8CE] px-4 py-2.5 text-left sm:text-right w-full sm:w-auto">
               <div className="text-[10px] uppercase tracking-wider text-[#706B64]">Store Credits</div>
               <div className="text-base font-semibold text-[#171717]">{formatPrice(user.creditsINR || 1500)}</div>
             </div>
-            <button
-              onClick={() => {
-                logout();
-                navigate('/');
-              }}
-              className="px-4 py-2.5 border border-[#DDD8CE] hover:border-[#171717] text-xs uppercase tracking-wider text-[#706B64] hover:text-[#171717] transition-colors flex items-center gap-1.5 cursor-pointer bg-[#FFFFFF]"
-              title="Sign out"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Sign Out</span>
-            </button>
           </div>
         </div>
       </section>
 
       {/* Main Dashboard Layout with 7 Tabs */}
-      <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12 mt-10 sm:mt-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 mt-8 sm:mt-12">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           
           {/* Navigation Sidebar */}
@@ -361,6 +350,24 @@ export const DashboardPage: React.FC = () => {
                 <span>7. Account Security</span>
                 <Lock className="w-3.5 h-3.5 opacity-60" />
               </button>
+
+              {/* Bottom Left Sign Out Button */}
+              <div className="pt-2 border-t border-[#DDD8CE]/70 mt-2">
+                <button
+                  onClick={() => {
+                    logout();
+                    navigate('/login');
+                  }}
+                  className="w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-colors flex items-center justify-between cursor-pointer border border-transparent hover:border-rose-200"
+                  title="Sign out to Login Dashboard"
+                >
+                  <span className="flex items-center gap-2">
+                    <LogOut className="w-4 h-4" />
+                    <span>Sign Out</span>
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+                </button>
+              </div>
             </nav>
           </aside>
 

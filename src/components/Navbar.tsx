@@ -107,7 +107,7 @@ export const Navbar: React.FC = () => {
           {/* TREVORI Brand Logo: Centered on mobile, shifted slightly left on desktop to balance search bar with breathing room */}
           <div className="absolute left-1/2 lg:left-[34%] xl:left-[35%] -translate-x-1/2 flex flex-col items-center justify-center text-center pointer-events-auto z-10 transition-all duration-300">
             <Link to="/" className="group cursor-pointer flex flex-col items-center justify-center text-center" title="TREVORI Contemporary Streetwear">
-              <span className="font-serif text-2xl sm:text-3xl lg:text-[32px] tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors">
+              <span className="font-serif text-xl sm:text-3xl lg:text-[32px] tracking-[0.22em] sm:tracking-[0.28em] text-[#171717] font-semibold group-hover:text-[#706B64] transition-colors whitespace-nowrap">
                 TREVORI
               </span>
               <span className="hidden sm:block text-[8px] uppercase tracking-[0.25em] text-[#706B64] font-medium -mt-0.5">
@@ -117,7 +117,7 @@ export const Navbar: React.FC = () => {
           </div>
 
           {/* Right: Search Bar & Larger Clean Icons (Vault, Bag, Account) */}
-          <div className="flex items-center justify-end gap-2 sm:gap-3 shrink-0 ml-auto z-10">
+          <div className="flex items-center justify-end gap-1 sm:gap-3 shrink-0 ml-auto z-10">
             {/* Desktop Search Bar on Right: Wide & Uncongested */}
             <div className="w-64 lg:w-72 xl:w-80 hidden lg:block">
               <form onSubmit={handleSearchSubmit} className="relative w-full">
@@ -147,10 +147,10 @@ export const Navbar: React.FC = () => {
               </form>
             </div>
 
-            {/* Mobile / Tablet Search Icon (Opens quick search modal) */}
+            {/* Tablet Search Icon (Screen >= 640px and < 1024px; on small mobile, search bar is directly below header) */}
             <button
               onClick={() => setIsSearchOpen(true)}
-              className="lg:hidden relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
+              className="hidden sm:flex lg:hidden relative p-1.5 sm:p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer items-center justify-center"
               aria-label="Search Collection"
               title="Search Collection"
             >
@@ -160,7 +160,7 @@ export const Navbar: React.FC = () => {
             {/* Vault Icon (Wishlist) */}
             <button
               onClick={() => setIsWishlistOpen(true)}
-              className="relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
+              className="relative p-1.5 sm:p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
               aria-label="Personal Vault"
               title="Personal Vault"
             >
@@ -175,7 +175,7 @@ export const Navbar: React.FC = () => {
             {/* Shopping Bag Icon */}
             <button
               onClick={() => setIsCartOpen(true)}
-              className="relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
+              className="relative p-1.5 sm:p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
               aria-label="Shopping Bag"
               title="Shopping Bag"
             >
@@ -190,7 +190,7 @@ export const Navbar: React.FC = () => {
             {/* User Account / Login Icon */}
             <Link
               to={isLoggedIn ? '/account' : '/login'}
-              className="relative p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
+              className="relative p-1.5 sm:p-2 text-[#171717] hover:text-[#B9AA96] transition-colors cursor-pointer flex items-center justify-center"
               aria-label={isLoggedIn ? 'Account Dashboard' : 'Member Log In'}
               title={isLoggedIn ? `Account (${user?.name || 'Member'})` : 'Member Log In'}
             >
@@ -285,17 +285,38 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Slide-Out Menu */}
       {mobileMenuOpen && (
-        <div className="lg:hidden bg-[#F4F1EA] border-b border-[#DDD8CE] px-6 py-6 space-y-4">
+        <div className="lg:hidden bg-[#F4F1EA] border-b border-[#DDD8CE] px-6 py-6 space-y-4 animate-fade-in-subtle">
           <nav className="space-y-3 text-xs uppercase tracking-widest font-medium">
-            <Link to="/collections" className="block py-2 text-[#171717] border-b border-[#DDD8CE]">
-              New Arrivals
+            <Link to="/collections" className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
+              <span>New Arrivals</span>
+              <span className="text-[10px] text-[#B9AA96] font-mono">Vol. IV</span>
             </Link>
-            <Link to="/collections/men" className="block py-2 text-[#171717] border-b border-[#DDD8CE]">
-              Men's Apparel
+            <Link to="/collections/men" className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
+              <span>Men's Apparel</span>
+              <span className="text-[10px] text-[#706B64] font-normal lowercase tracking-normal">tees & hoodies</span>
             </Link>
-            <Link to="/collections/women" className="block py-2 text-[#171717]">
-              Women's Apparel
+            <Link to="/collections/women" className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
+              <span>Women's Apparel</span>
+              <span className="text-[10px] text-[#706B64] font-normal lowercase tracking-normal">drapes & knits</span>
             </Link>
+            <a href="/#lookbook" onClick={() => setMobileMenuOpen(false)} className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80">
+              Lookbook Volume IV
+            </a>
+            <Link to={isLoggedIn ? '/account' : '/login'} className="block py-2.5 text-[#171717] border-b border-[#DDD8CE]/80 flex items-center justify-between">
+              <span>{isLoggedIn ? 'My Account (Dashboard)' : 'Member Sign In'}</span>
+              {isLoggedIn && <span className="w-2 h-2 rounded-full bg-emerald-600" />}
+            </Link>
+            <button
+              type="button"
+              onClick={() => {
+                setMobileMenuOpen(false);
+                setIsWishlistOpen(true);
+              }}
+              className="w-full text-left py-2.5 text-[#171717] flex items-center justify-between uppercase tracking-widest cursor-pointer"
+            >
+              <span>Personal Vault</span>
+              <span className="text-[10px] text-[#706B64] font-mono">({wishlist.length})</span>
+            </button>
           </nav>
         </div>
       )}

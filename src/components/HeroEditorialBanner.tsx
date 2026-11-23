@@ -17,16 +17,16 @@ export const HeroEditorialBanner: React.FC = () => {
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-transparent z-10" />
 
         {/* Minimal Editorial Content: TREVORI Brand Heading & Dual CTA Buttons */}
-        <div className="relative z-20 h-full max-w-7xl mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-end pb-12 sm:pb-16">
+        <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-12 lg:px-16 flex flex-col justify-end pb-8 sm:pb-16">
           <div className="max-w-2xl text-white">
-            <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-normal tracking-[0.16em] sm:tracking-[0.22em] text-white uppercase leading-none mb-6 sm:mb-8 drop-shadow-md">
+            <h1 className="font-serif text-4xl sm:text-7xl lg:text-8xl xl:text-9xl font-normal tracking-[0.16em] sm:tracking-[0.22em] text-white uppercase leading-none mb-4 sm:mb-8 drop-shadow-md">
               TREVORI
             </h1>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4">
               <Link
                 to="/collections"
-                className="px-8 py-4 bg-[#FFFFFF] text-[#171717] hover:bg-[#F4F1EA] hover:text-[#171717] font-medium text-xs sm:text-sm uppercase tracking-[0.2em] transition-all duration-300 flex items-center gap-2.5 shadow-sm group cursor-pointer"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-[#FFFFFF] text-[#171717] hover:bg-[#F4F1EA] hover:text-[#171717] font-medium text-xs sm:text-sm uppercase tracking-[0.2em] transition-all duration-300 flex items-center justify-center gap-2.5 shadow-sm group cursor-pointer"
               >
                 <span>Explore New Arrivals</span>
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
@@ -34,7 +34,7 @@ export const HeroEditorialBanner: React.FC = () => {
 
               <a
                 href="#lookbook"
-                className="px-8 py-4 bg-transparent border border-white/70 text-white hover:bg-white hover:text-[#171717] font-medium text-xs sm:text-sm uppercase tracking-[0.2em] backdrop-blur-sm transition-all duration-300 cursor-pointer"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 bg-transparent border border-white/70 text-white hover:bg-white hover:text-[#171717] font-medium text-xs sm:text-sm uppercase tracking-[0.2em] backdrop-blur-sm transition-all duration-300 cursor-pointer flex items-center justify-center"
               >
                 <span>View Lookbook</span>
               </a>
