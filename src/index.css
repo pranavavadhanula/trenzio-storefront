@@ -118,6 +118,15 @@ html, body {
   }
 }
 
+@keyframes shimmer-sweep {
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  35%, 100% {
+    transform: translateX(280%) skewX(-20deg);
+  }
+}
+
 @keyframes float3DRightward {
   0% {
     transform: perspective(1200px) rotateY(-8deg) rotateX(2deg) translateZ(35px) translateX(18px) scale(1.04);
