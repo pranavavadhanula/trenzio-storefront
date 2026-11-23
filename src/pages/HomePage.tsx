@@ -398,9 +398,9 @@ export const HomePage: React.FC<{ scrollTo?: string }> = ({ scrollTo }) => {
             />
 
             <Glossy3DCard
-              image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90"
-              title="Fluid Tailoring"
-              description="Floor-grazing double-pleated drape trousers and relaxed architectural knitwear with fluid motion."
+              image="/images/banners/trevori_women_editorial_banner_4k.jpg"
+              title="Fluid Tailoring // Femme Drop"
+              description="Floor-grazing double-pleated drape trousers and relaxed architectural drop-shoulder streetwear with fluid motion."
               linkTo="/collections/women"
             />
           </div>
