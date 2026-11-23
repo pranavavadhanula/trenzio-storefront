@@ -290,23 +290,11 @@ export const DashboardPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex items-center gap-3 sm:gap-4">
-            <div className="bg-[#F4F1EA] border border-[#DDD8CE] px-4 py-2.5 text-left sm:text-right">
+          <div className="flex items-center">
+            <div className="bg-[#FFFFFF] border border-[#DDD8CE] px-5 py-2.5 text-left sm:text-right shadow-sm">
               <div className="text-[10px] uppercase tracking-wider text-[#706B64]">Store Credits</div>
               <div className="text-base font-semibold text-[#171717]">{formatPrice(user.creditsINR || 1500)}</div>
             </div>
-
-            <button
-              onClick={() => {
-                logout();
-                navigate('/login');
-              }}
-              className="px-4 py-2.5 border border-[#DDD8CE] bg-white hover:bg-[#171717] hover:text-white text-xs uppercase tracking-wider font-medium text-[#706B64] transition-all flex items-center gap-2 cursor-pointer shadow-sm"
-              title="Sign Out"
-            >
-              <LogOut className="w-3.5 h-3.5" />
-              <span>Sign Out</span>
-            </button>
           </div>
         </div>
       </section>
@@ -401,6 +389,24 @@ export const DashboardPage: React.FC = () => {
                 <span>Security</span>
                 <Lock className="w-3.5 h-3.5 opacity-60" />
               </button>
+
+              {/* Log Out Option at Bottom Left */}
+              <div className="pt-2 mt-2 border-t border-[#DDD8CE]">
+                <button
+                  onClick={() => {
+                    logout();
+                    navigate('/login');
+                  }}
+                  className="w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium text-[#706B64] hover:text-red-700 hover:bg-red-50/60 transition-colors flex items-center justify-between cursor-pointer"
+                  title="Log Out of your account"
+                >
+                  <span className="flex items-center gap-2">
+                    <LogOut className="w-3.5 h-3.5" />
+                    <span>Log Out</span>
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 opacity-40" />
+                </button>
+              </div>
             </nav>
           </aside>
 
