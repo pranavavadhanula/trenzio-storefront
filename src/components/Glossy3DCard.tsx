@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 interface Glossy3DCardProps {
-  badge: string;
+  badge?: string;
   image: string;
   title: string;
   description: string;
@@ -17,7 +17,7 @@ export const Glossy3DCard: React.FC<Glossy3DCardProps> = ({
   title,
   description,
   linkTo,
-  linkText = 'Explore Capsule',
+  linkText = 'Explore Collection',
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
   const [rotate, setRotate] = useState({ x: 0, y: 0 });
@@ -105,12 +105,14 @@ export const Glossy3DCard: React.FC<Glossy3DCardProps> = ({
           <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent pointer-events-none" />
 
           {/* 3D Elevated Badge */}
-          <div
-            style={{ transform: 'translateZ(35px)' }}
-            className="absolute top-4 left-4 bg-[#171717]/90 backdrop-blur-md text-white text-[9px] uppercase tracking-widest px-3 py-1 shadow-lg border border-white/20"
-          >
-            {badge}
-          </div>
+          {badge && (
+            <div
+              style={{ transform: 'translateZ(35px)' }}
+              className="absolute top-4 left-4 bg-[#171717]/90 backdrop-blur-md text-white text-[9px] uppercase tracking-widest px-3 py-1 shadow-lg border border-white/20"
+            >
+              {badge}
+            </div>
+          )}
         </div>
 
         {/* 3D Content Container */}

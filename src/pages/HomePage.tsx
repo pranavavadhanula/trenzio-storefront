@@ -355,7 +355,7 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-6 sm:px-10 lg:px-12">
           <div className="text-center max-w-2xl mx-auto mb-16">
             <span className="text-[11px] uppercase tracking-[0.3em] text-[#706B64] font-medium block mb-3">
-              Editorial Capsules
+              Design Studies
             </span>
             <h2 className="font-serif text-3xl sm:text-5xl font-normal tracking-tight text-[#171717]">
               Featured Collections
@@ -367,7 +367,6 @@ export const HomePage: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
             <Glossy3DCard
-              badge="Capsule 01"
               image="/images/models/trevori_green_sweatshirt.png"
               title="The Architectural Core"
               description="Brutalist minimalism in contemporary French Terry Cotton. Obsidian black, forest green, and reinforced seams."
@@ -375,7 +374,6 @@ export const HomePage: React.FC = () => {
             />
 
             <Glossy3DCard
-              badge="Capsule 02"
               image="/images/models/trevori_editorial_sitting.jpg"
               title="Raw Concrete & Earth"
               description="Mineral acid-washed combed jersey, relaxed cargo drape, and architectural summer knitwear."
@@ -383,7 +381,6 @@ export const HomePage: React.FC = () => {
             />
 
             <Glossy3DCard
-              badge="Capsule 03"
               image="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=90"
               title="Fluid Tailoring"
               description="Floor-grazing double-pleated drape trousers and relaxed architectural knitwear with fluid motion."
