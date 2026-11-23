@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
-import { Eye, EyeOff, CheckCircle2 } from 'lucide-react';
+import { Eye, EyeOff, CheckCircle2, ShieldAlert } from 'lucide-react';
 import { shopifyCustomerAccessTokenCreate } from '../services/shopify';
+import { LuxurySnowfall } from '../components/LuxurySnowfall';
+import {
+  registerUser,
+  authenticateUser,
+  registerOrLoginGoogleUser,
+  findUserByEmail,
+} from '../services/authDatabase';
 
 interface LoginPageProps {
   initialMode?: 'login' | 'signup';
@@ -56,14 +63,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
           .then((res) => res.json())
           .then((profile) => {
             if (profile && profile.email) {
-              login({
-                name: profile.name ? profile.name.toUpperCase() : 'GOOGLE MEMBER',
+              const { user: gUser } = registerOrLoginGoogleUser({
                 email: profile.email,
+                name: profile.name,
                 picture: profile.picture,
-                phone: '+91 98765 43210',
-                tier: 'Noir Member',
-                creditsINR: 1500,
-                points: 4800,
+              });
+
+              login({
+                name: gUser.name,
+                email: gUser.email,
+                picture: gUser.picture,
+                phone: gUser.phone,
+                tier: gUser.tier,
+                creditsINR: gUser.creditsINR,
+                points: gUser.points,
                 authProvider: 'google',
               });
               window.history.replaceState(null, '', window.location.pathname);
@@ -108,14 +121,20 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
                 });
                 const profile = await res.json();
                 
-                login({
-                  name: profile.name ? profile.name.toUpperCase() : 'GOOGLE MEMBER',
+                const { user: gUser } = registerOrLoginGoogleUser({
                   email: profile.email || 'customer@gmail.com',
+                  name: profile.name,
                   picture: profile.picture,
-                  phone: '+91 98765 43210',
-                  tier: 'Noir Member',
-                  creditsINR: 1500,
-                  points: 4800,
+                });
+
+                login({
+                  name: gUser.name,
+                  email: gUser.email,
+                  picture: gUser.picture,
+                  phone: gUser.phone,
+                  tier: gUser.tier,
+                  creditsINR: gUser.creditsINR,
+                  points: gUser.points,
                   authProvider: 'google',
                 });
                 setIsLoading(false);
@@ -160,19 +179,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
     const cleanPassword = password.trim();
 
     if (!cleanName || cleanName.length < 2) {
-      setError('Please provide your full name.');
+      setError('Please provide your full legal name.');
       return;
     }
-    if (!cleanPhone || cleanPhone.length < 7) {
-      setError('Please provide a valid contact number.');
+    if (!cleanPhone || cleanPhone.replace(/\D/g, '').length < 7) {
+      setError('Please provide a valid contact number (at least 7 digits).');
       return;
     }
-    if (!cleanEmail || !/\S+@\S+\.\S+/.test(cleanEmail)) {
+    if (!cleanEmail || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
       setError('Please provide a valid email address.');
       return;
     }
     if (!cleanPassword || cleanPassword.length < 6) {
-      setError('Password must be at least 6 characters.');
+      setError('Password must be at least 6 characters long.');
       return;
     }
     if (cleanPassword !== confirmPassword.trim()) {
@@ -183,48 +202,35 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
     setIsLoading(true);
 
     try {
-      // Check existing accounts
-      const existingAccountsStr = localStorage.getItem('trevori_registered_users');
-      const accounts = existingAccountsStr ? JSON.parse(existingAccountsStr) : [];
-      
-      const userExists = accounts.some((acc: any) => acc.email === cleanEmail);
-      if (userExists) {
-        setIsLoading(false);
-        setError('An account with this email already exists. Please log in.');
-        return;
-      }
-
-      const newAccount = {
-        name: cleanName.toUpperCase(),
+      const reg = registerUser({
+        name: cleanName,
         email: cleanEmail,
         phone: cleanPhone,
         password: cleanPassword,
-        tier: 'Noir Member',
-        creditsINR: 1500,
-        points: 4800,
-        joinedDate: 'November 2026',
-        createdAt: new Date().toISOString(),
-      };
+      });
 
-      accounts.push(newAccount);
-      localStorage.setItem('trevori_registered_users', JSON.stringify(accounts));
+      if (!reg.success || !reg.user) {
+        setIsLoading(false);
+        setError(reg.error || 'Registration failed. Please check your details.');
+        return;
+      }
 
       // Attempt Shopify Customer creation in background if reachable
       try {
         await shopifyCustomerAccessTokenCreate(cleanEmail, cleanPassword);
       } catch {
-        // Fallback gracefully to local Atelier membership
+        // Local Atelier registration is primary
       }
 
       // Log in immediately
       login({
-        name: newAccount.name,
-        email: newAccount.email,
-        phone: newAccount.phone,
-        tier: newAccount.tier,
-        creditsINR: newAccount.creditsINR,
-        points: newAccount.points,
-        joinedDate: newAccount.joinedDate,
+        name: reg.user.name,
+        email: reg.user.email,
+        phone: reg.user.phone,
+        tier: reg.user.tier,
+        creditsINR: reg.user.creditsINR,
+        points: reg.user.points,
+        joinedDate: reg.user.joinedDate,
         authProvider: 'email',
       });
 
@@ -239,7 +245,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
     }
   };
 
-  // Login Submission Handler
+  // Login Submission Handler - STRICT AUTHENTICATION
   const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -248,85 +254,79 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
     const cleanPassword = password.trim();
 
     if (!cleanInput) {
-      setError('Please provide your email address.');
+      setError('Please provide your registered email address.');
+      return;
+    }
+    if (!cleanPassword) {
+      setError('Please enter your account password.');
       return;
     }
 
     setIsLoading(true);
 
     try {
-      // Check registered accounts in localStorage first
-      const existingAccountsStr = localStorage.getItem('trevori_registered_users');
-      if (existingAccountsStr) {
-        const accounts = JSON.parse(existingAccountsStr);
-        const matched = accounts.find((acc: any) => acc.email === cleanInput || acc.phone === cleanInput);
-        if (matched) {
-          if (cleanPassword && matched.password && matched.password !== cleanPassword) {
-            setIsLoading(false);
-            setError('Incorrect password. Please verify your credentials.');
-            return;
-          }
+      const auth = authenticateUser(cleanInput, cleanPassword);
 
-          login({
-            name: matched.name,
-            email: matched.email,
-            phone: matched.phone,
-            tier: matched.tier || 'Noir Member',
-            creditsINR: matched.creditsINR || 1500,
-            points: matched.points || 4800,
-            joinedDate: matched.joinedDate || 'November 2026',
-            authProvider: 'email',
-          });
-
-          setIsLoading(false);
-          setSuccess(true);
-          setTimeout(() => {
-            navigate('/account');
-          }, 400);
-          return;
-        }
+      if (!auth.success || !auth.user) {
+        setIsLoading(false);
+        setError(auth.error || 'Access Denied: Invalid credentials.');
+        return;
       }
 
-      // If not previously stored in browser, authenticate via Shopify or default demo
-      const isEmail = cleanInput.includes('@');
-      const emailVal = isEmail ? cleanInput : `${cleanInput.replace(/\D/g, '')}@trevori-members.com`;
-      const displayName = isEmail ? cleanInput.split('@')[0].toUpperCase() : 'TREVORI NOIR MEMBER';
-
+      // Attempt Shopify sync in background if reachable
       try {
-        await shopifyCustomerAccessTokenCreate(emailVal, cleanPassword || 'TrevoriClientPass2026!');
+        await shopifyCustomerAccessTokenCreate(auth.user.email, cleanPassword);
       } catch {
-        // Fallback gracefully
+        // Vault authenticated
       }
-      
+
       login({
-        name: displayName,
-        email: emailVal,
-        phone: isEmail ? '+91 98765 43210' : cleanInput,
-        tier: 'Noir Member',
-        creditsINR: 1500,
-        points: 4800,
-        joinedDate: 'November 2026',
-        authProvider: isEmail ? 'email' : 'phone',
+        name: auth.user.name,
+        email: auth.user.email,
+        phone: auth.user.phone,
+        tier: auth.user.tier,
+        creditsINR: auth.user.creditsINR,
+        points: auth.user.points,
+        joinedDate: auth.user.joinedDate,
+        authProvider: auth.user.authProvider,
       });
 
       setIsLoading(false);
       setSuccess(true);
       setTimeout(() => {
         navigate('/account');
-      }, 500);
+      }, 400);
     } catch {
       setIsLoading(false);
-      setError('Authentication failed. Please check your credentials.');
+      setError('Authentication system error. Please retry.');
     }
   };
 
+  const handleForgotPassword = () => {
+    setError('');
+    const cleanInput = identifier.trim().toLowerCase();
+    if (!cleanInput) {
+      setError('Please enter your registered email address in the field above.');
+      return;
+    }
+    const registeredUser = findUserByEmail(cleanInput);
+    if (!registeredUser) {
+      setError(`No Trevori account found for "${cleanInput}". Please check spelling or create an account.`);
+      return;
+    }
+    alert(`Trevori Security: A password reset verification notice has been sent to ${registeredUser.email}.`);
+  };
+
   return (
-    <div className="min-h-screen w-full bg-[#EAE8E4] flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans">
+    <div className="relative min-h-screen w-full bg-[#EAE8E4] flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans overflow-hidden">
+      {/* Full-Page Luxury Snowfall Background */}
+      <LuxurySnowfall count={26} />
+
       {/* Centered Modal Card matching the exact Dribbble reference */}
-      <div className="w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
+      <div className="relative z-10 w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
         
         {/* LEFT COLUMN: Clean Minimalist Auth Form */}
-        <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-between">
+        <div className="p-6 sm:p-8 lg:p-10 flex flex-col justify-between bg-white relative z-10">
           {/* Top Bar: Back Link & Centered Brand Logo */}
           <div className="flex items-center justify-between mb-4 sm:mb-6">
             <Link
@@ -364,8 +364,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
             )}
 
             {error && (
-              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg animate-fade-in-subtle">
-                {error}
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 text-xs rounded-lg animate-fade-in-subtle flex items-start gap-2.5">
+                <ShieldAlert className="w-4 h-4 shrink-0 mt-0.5 text-red-600" />
+                <span>{error}</span>
               </div>
             )}
 
@@ -484,6 +485,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
                 <div className="relative">
                   <input
                     type={showPassword ? 'text' : 'password'}
+                    required
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Password"
@@ -502,7 +504,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
                 <div className="text-right">
                   <button
                     type="button"
-                    onClick={() => alert('Password recovery link has been sent to your email.')}
+                    onClick={handleForgotPassword}
                     className="text-xs text-neutral-500 hover:text-black transition-colors font-normal cursor-pointer"
                   >
                     Forgot Password?
@@ -588,6 +590,9 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
 
         {/* RIGHT COLUMN: The exact red editorial photo from the reference */}
         <div className="relative w-full h-full min-h-[460px] md:min-h-full overflow-hidden bg-[#BA2C17] hidden md:block">
+          {/* Subtle Campaign Snowfall Layer */}
+          <LuxurySnowfall count={12} isContainerRelative />
+
           {/* Top Brand & Tagline */}
           <div className="absolute top-6 sm:top-7 left-6 sm:left-8 z-10 flex items-center gap-2 select-none">
             <span className="text-[11px] sm:text-xs font-medium tracking-[0.28em] text-white uppercase font-sans">
