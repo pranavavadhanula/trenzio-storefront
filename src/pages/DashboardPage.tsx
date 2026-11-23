@@ -22,6 +22,7 @@ import {
   Trash2,
   ShoppingBag,
   ExternalLink,
+  Pencil,
 } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 
@@ -82,6 +83,17 @@ export const DashboardPage: React.FC = () => {
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [newAddress, setNewAddress] = useState({
     type: 'Home',
+    street: '',
+    city: '',
+    state: '',
+    pincode: '',
+    phone: '',
+  });
+
+  // Editing address state
+  const [editingAddressId, setEditingAddressId] = useState<string | null>(null);
+  const [editAddressData, setEditAddressData] = useState({
+    type: 'Default Shipping',
     street: '',
     city: '',
     state: '',
@@ -176,6 +188,39 @@ export const DashboardPage: React.FC = () => {
 
   const handleDeleteAddress = (id: string) => {
     setAddresses(addresses.filter((a) => a.id !== id));
+  };
+
+  const handleStartEdit = (addr: any) => {
+    setEditingAddressId(addr.id);
+    setEditAddressData({
+      type: addr.type,
+      street: addr.street,
+      city: addr.city,
+      state: addr.state,
+      pincode: addr.pincode,
+      phone: addr.phone,
+    });
+  };
+
+  const handleSaveEditAddress = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!editingAddressId) return;
+    setAddresses((prev) =>
+      prev.map((addr) =>
+        addr.id === editingAddressId
+          ? {
+              ...addr,
+              type: editAddressData.type,
+              street: editAddressData.street,
+              city: editAddressData.city,
+              state: editAddressData.state,
+              pincode: editAddressData.pincode,
+              phone: editAddressData.phone,
+            }
+          : addr
+      )
+    );
+    setEditingAddressId(null);
   };
 
   const handleSaveSecurity = (e: React.FormEvent) => {
@@ -494,20 +539,21 @@ export const DashboardPage: React.FC = () => {
             {/* TAB 2: PERSONAL INFORMATION */}
             {activeTab === 'personal' && (
               <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 space-y-6 animate-fade-in-subtle">
-                <div>
-                  <h2 className="font-serif text-2xl text-[#171717] mb-1">Personal Information</h2>
+                <div className="border-b border-[#DDD8CE] pb-4">
+                  <h2 className="font-serif text-2xl text-[#171717] mb-1">Personal Details</h2>
                   <p className="text-xs text-[#706B64] font-light">
-                    Update your personal details, contact info, and size preferences.
+                    Update your personal contact details and default shipping address.
                   </p>
                 </div>
 
                 {personalSaved && (
-                  <div className="p-3 bg-[#F4F1EA] border border-[#171717] text-xs text-[#171717] font-medium">
-                    ✓ Your profile preferences have been successfully updated.
+                  <div className="p-3.5 bg-emerald-50 border border-emerald-200 text-xs text-emerald-800 font-medium flex items-center gap-2">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                    <span>Your profile details have been saved successfully.</span>
                   </div>
                 )}
 
-                <form onSubmit={handleSavePersonalInfo} className="space-y-4">
+                <form onSubmit={handleSavePersonalInfo} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="text-[11px] uppercase tracking-wider text-[#706B64] block mb-1.5 font-medium">
@@ -517,7 +563,7 @@ export const DashboardPage: React.FC = () => {
                         type="text"
                         value={personalInfo.name}
                         onChange={(e) => setPersonalInfo({ ...personalInfo, name: e.target.value })}
-                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                        className="w-full px-4 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                       />
                     </div>
 
@@ -529,7 +575,7 @@ export const DashboardPage: React.FC = () => {
                         type="email"
                         value={personalInfo.email}
                         onChange={(e) => setPersonalInfo({ ...personalInfo, email: e.target.value })}
-                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                        className="w-full px-4 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                       />
                     </div>
                   </div>
@@ -543,33 +589,49 @@ export const DashboardPage: React.FC = () => {
                         type="text"
                         value={personalInfo.phone}
                         onChange={(e) => setPersonalInfo({ ...personalInfo, phone: e.target.value })}
-                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                        className="w-full px-4 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                       />
                     </div>
+                  </div>
 
-                    <div>
-                      <label className="text-[11px] uppercase tracking-wider text-[#706B64] block mb-1.5 font-medium">
-                        Preferred Streetwear Size
-                      </label>
-                      <select
-                        value={personalInfo.preferredSize}
-                        onChange={(e) => setPersonalInfo({ ...personalInfo, preferredSize: e.target.value })}
-                        className="w-full px-4 py-2.5 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717]"
+                  {/* Primary Delivery Address Section with Direct Edit Option */}
+                  <div className="pt-5 border-t border-[#DDD8CE]">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+                      <div>
+                        <span className="text-[11px] uppercase tracking-wider text-[#706B64] font-medium block">
+                          Default Shipping Address
+                        </span>
+                        <p className="text-xs text-[#171717] mt-1 font-normal leading-relaxed">
+                          {addresses[0] ? (
+                            <>
+                              {addresses[0].street}, {addresses[0].city}, {addresses[0].state} {addresses[0].pincode}
+                            </>
+                          ) : (
+                            'No default address set.'
+                          )}
+                        </p>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveTab('addresses');
+                          if (addresses[0]) {
+                            handleStartEdit(addresses[0]);
+                          }
+                        }}
+                        className="self-start sm:self-auto px-3.5 py-1.5 border border-[#DDD8CE] bg-white hover:bg-[#171717] hover:text-white text-xs uppercase tracking-wider font-medium text-[#171717] transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"
                       >
-                        <option value="XS">XS — Extra Small</option>
-                        <option value="S">S — Small (Boxy Drape)</option>
-                        <option value="M">M — Medium</option>
-                        <option value="L">L — Large (Standard Oversized)</option>
-                        <option value="XL">XL — Extra Large</option>
-                        <option value="2XL">2XL — Voluminous Cut</option>
-                      </select>
+                        <Pencil className="w-3.5 h-3.5" />
+                        <span>Edit Address</span>
+                      </button>
                     </div>
                   </div>
 
                   <div className="pt-4 border-t border-[#DDD8CE] flex justify-end">
                     <button
                       type="submit"
-                      className="px-6 py-2.5 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-[0.2em] font-medium transition-colors cursor-pointer"
+                      className="px-6 py-2.5 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-wider font-medium transition-colors cursor-pointer shadow-sm"
                     >
                       Save Profile Changes
                     </button>
@@ -760,79 +822,79 @@ export const DashboardPage: React.FC = () => {
                 </div>
 
                 {showAddressForm && (
-                  <form onSubmit={handleAddAddress} className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 space-y-4">
+                  <form onSubmit={handleAddAddress} className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 space-y-4 shadow-sm">
                     <h3 className="font-serif text-lg text-[#171717]">New Delivery Destination</h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">Address Label</label>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">Address Label</label>
                         <input
                           type="text"
                           placeholder="e.g. Home, Studio, Office"
                           value={newAddress.type}
                           onChange={(e) => setNewAddress({ ...newAddress, type: e.target.value })}
-                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                           required
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">Contact Phone</label>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">Contact Phone</label>
                         <input
                           type="text"
                           placeholder="+91..."
                           value={newAddress.phone}
                           onChange={(e) => setNewAddress({ ...newAddress, phone: e.target.value })}
-                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                         />
                       </div>
                     </div>
                     <div>
-                      <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">Street Address</label>
+                      <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">Street Address</label>
                       <input
                         type="text"
                         placeholder="Apartment, building, street..."
                         value={newAddress.street}
                         onChange={(e) => setNewAddress({ ...newAddress, street: e.target.value })}
-                        className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                        className="w-full px-3.5 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                         required
                       />
                     </div>
                     <div className="grid grid-cols-3 gap-3">
                       <div>
-                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">City</label>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">City</label>
                         <input
                           type="text"
                           placeholder="City"
                           value={newAddress.city}
                           onChange={(e) => setNewAddress({ ...newAddress, city: e.target.value })}
-                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                           required
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">State</label>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">State</label>
                         <input
                           type="text"
                           placeholder="State"
                           value={newAddress.state}
                           onChange={(e) => setNewAddress({ ...newAddress, state: e.target.value })}
-                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                         />
                       </div>
                       <div>
-                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1">Postal PIN Code</label>
+                        <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">Postal PIN Code</label>
                         <input
                           type="text"
                           placeholder="Pincode"
                           value={newAddress.pincode}
                           onChange={(e) => setNewAddress({ ...newAddress, pincode: e.target.value })}
-                          className="w-full px-3 py-2 bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#171717]"
+                          className="w-full px-3.5 py-2.5 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] focus:ring-1 focus:ring-[#171717] transition-all rounded-sm"
                         />
                       </div>
                     </div>
                     <div className="flex justify-end pt-2">
                       <button
                         type="submit"
-                        className="px-5 py-2 bg-[#171717] text-white text-xs uppercase tracking-widest font-medium"
+                        className="px-5 py-2 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-widest font-medium transition-colors shadow-sm cursor-pointer"
                       >
                         Save Address
                       </button>
@@ -842,35 +904,118 @@ export const DashboardPage: React.FC = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {addresses.map((addr) => (
-                    <div key={addr.id} className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 relative flex flex-col justify-between">
-                      <div>
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-semibold text-xs text-[#171717] uppercase tracking-wider">{addr.type}</span>
-                          {addr.isDefault && (
-                            <span className="text-[9px] bg-[#DDD8CE] text-[#171717] px-2 py-0.5 uppercase tracking-widest font-medium">
-                              Default
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-xs text-[#171717] font-medium">{addr.name}</p>
-                        <p className="text-xs text-[#706B64] font-light mt-1 leading-relaxed">
-                          {addr.street}<br />
-                          {addr.city}, {addr.state} {addr.pincode}<br />
-                          {addr.country}
-                        </p>
-                        <p className="text-xs text-[#706B64] mt-2 font-light">Tel: {addr.phone}</p>
-                      </div>
+                    <div key={addr.id} className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 relative flex flex-col justify-between shadow-sm">
+                      {editingAddressId === addr.id ? (
+                        <form onSubmit={handleSaveEditAddress} className="space-y-3">
+                          <div className="flex items-center justify-between border-b border-[#DDD8CE] pb-2">
+                            <span className="font-serif text-sm text-[#171717] font-medium">Edit Address</span>
+                            <span className="text-[10px] uppercase tracking-wider text-[#706B64]">{addr.type}</span>
+                          </div>
+                          <div>
+                            <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">Street Address</label>
+                            <input
+                              type="text"
+                              value={editAddressData.street}
+                              onChange={(e) => setEditAddressData({ ...editAddressData, street: e.target.value })}
+                              className="w-full px-3 py-2 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] rounded-sm"
+                              required
+                            />
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">City</label>
+                              <input
+                                type="text"
+                                value={editAddressData.city}
+                                onChange={(e) => setEditAddressData({ ...editAddressData, city: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] rounded-sm"
+                                required
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">State</label>
+                              <input
+                                type="text"
+                                value={editAddressData.state}
+                                onChange={(e) => setEditAddressData({ ...editAddressData, state: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] rounded-sm"
+                              />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            <div>
+                              <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">PIN Code</label>
+                              <input
+                                type="text"
+                                value={editAddressData.pincode}
+                                onChange={(e) => setEditAddressData({ ...editAddressData, pincode: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] rounded-sm"
+                              />
+                            </div>
+                            <div>
+                              <label className="text-[10px] uppercase tracking-wider text-[#706B64] block mb-1 font-medium">Phone</label>
+                              <input
+                                type="text"
+                                value={editAddressData.phone}
+                                onChange={(e) => setEditAddressData({ ...editAddressData, phone: e.target.value })}
+                                className="w-full px-3 py-2 bg-white border border-[#DDD8CE] text-xs text-[#171717] focus:outline-none focus:border-[#171717] rounded-sm"
+                              />
+                            </div>
+                          </div>
+                          <div className="flex justify-end gap-2 pt-2">
+                            <button
+                              type="button"
+                              onClick={() => setEditingAddressId(null)}
+                              className="px-3 py-1.5 border border-[#DDD8CE] text-xs uppercase tracking-wider text-[#706B64] hover:bg-[#F4F1EA] rounded-sm transition-colors cursor-pointer"
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              type="submit"
+                              className="px-4 py-1.5 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-wider font-medium rounded-sm transition-colors cursor-pointer"
+                            >
+                              Save Changes
+                            </button>
+                          </div>
+                        </form>
+                      ) : (
+                        <>
+                          <div>
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="font-semibold text-xs text-[#171717] uppercase tracking-wider">{addr.type}</span>
+                              {addr.isDefault && (
+                                <span className="text-[9px] bg-[#DDD8CE] text-[#171717] px-2 py-0.5 uppercase tracking-widest font-medium">
+                                  Default
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-[#171717] font-medium">{addr.name}</p>
+                            <p className="text-xs text-[#706B64] font-light mt-1 leading-relaxed">
+                              {addr.street}<br />
+                              {addr.city}, {addr.state} {addr.pincode}<br />
+                              {addr.country}
+                            </p>
+                            <p className="text-xs text-[#706B64] mt-2 font-light">Tel: {addr.phone}</p>
+                          </div>
 
-                      <div className="pt-4 mt-4 border-t border-[#DDD8CE] flex justify-between items-center text-xs">
-                        <span className="text-[#B9AA96] text-[10px] uppercase tracking-wider">Saved Address</span>
-                        <button
-                          onClick={() => handleDeleteAddress(addr.id)}
-                          className="text-[#706B64] hover:text-red-600 transition-colors cursor-pointer"
-                          title="Remove address"
-                        >
-                          <Trash2 className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
+                          <div className="pt-4 mt-4 border-t border-[#DDD8CE] flex justify-between items-center text-xs">
+                            <button
+                              onClick={() => handleStartEdit(addr)}
+                              className="text-xs uppercase tracking-wider text-[#171717] hover:text-[#B9AA96] font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
+                            >
+                              <Pencil className="w-3.5 h-3.5" />
+                              <span>Edit Address</span>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteAddress(addr.id)}
+                              className="text-[#706B64] hover:text-red-600 transition-colors cursor-pointer p-1"
+                              title="Remove address"
+                            >
+                              <Trash2 className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </>
+                      )}
                     </div>
                   ))}
                 </div>
