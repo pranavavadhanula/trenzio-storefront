@@ -225,6 +225,30 @@ export const DashboardPage: React.FC = () => {
 
   const handleSaveSecurity = (e: React.FormEvent) => {
     e.preventDefault();
+    if (passwordForm.newPassword) {
+      if (passwordForm.newPassword.length < 6) {
+        alert('New password must be at least 6 characters long.');
+        return;
+      }
+      if (passwordForm.newPassword !== passwordForm.confirmPassword) {
+        alert('New passwords do not match.');
+        return;
+      }
+      // Update in registered users database
+      try {
+        const raw = localStorage.getItem('trevori_registered_users');
+        if (raw) {
+          const accounts = JSON.parse(raw);
+          const idx = accounts.findIndex((a: any) => a.email?.toLowerCase() === user?.email?.toLowerCase());
+          if (idx !== -1) {
+            accounts[idx].password = passwordForm.newPassword;
+            localStorage.setItem('trevori_registered_users', JSON.stringify(accounts));
+          }
+        }
+      } catch (err) {
+        console.error('Failed to update password in database:', err);
+      }
+    }
     setSecuritySaved(true);
     setPasswordForm({ currentPassword: '', newPassword: '', confirmPassword: '' });
     setTimeout(() => setSecuritySaved(false), 2500);
