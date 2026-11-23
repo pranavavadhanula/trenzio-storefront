@@ -231,37 +231,43 @@ export const DashboardPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-[#F4F1EA] text-[#171717] font-sans pb-24">
       {/* Account Header Banner */}
-      <section className="bg-[#FFFFFF] border-b border-[#DDD8CE] py-8 sm:py-14">
+      <section className="bg-[#FFFFFF] border-b border-[#DDD8CE] py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-semibold">
-                TREVORI MEMBERSHIP
-              </span>
-              <span className="text-xs text-[#DDD8CE]">&bull;</span>
-              <span className="bg-[#F4F1EA] text-[#171717] text-[10px] tracking-widest uppercase px-2.5 py-0.5 border border-[#DDD8CE] font-medium">
-                {user.tier || 'Noir Member'}
-              </span>
-            </div>
+            <span className="text-[11px] uppercase tracking-[0.25em] text-[#706B64] font-medium block mb-1.5">
+              My Account
+            </span>
             <h1 className="font-serif text-3xl sm:text-5xl font-normal text-[#171717] tracking-tight">
               Welcome, {user.name}
             </h1>
             <p className="text-xs text-[#706B64] font-light mt-1">
-              Member ID: TRV-8942-IN &bull; Member since {user.joinedDate || 'November 2026'}
+              Member since {user.joinedDate || 'November 2026'}
             </p>
           </div>
 
-          <div className="flex items-center gap-4">
-            <div className="bg-[#F4F1EA] border border-[#DDD8CE] px-4 py-2.5 text-left sm:text-right w-full sm:w-auto">
+          <div className="flex items-center gap-3 sm:gap-4">
+            <div className="bg-[#F4F1EA] border border-[#DDD8CE] px-4 py-2.5 text-left sm:text-right">
               <div className="text-[10px] uppercase tracking-wider text-[#706B64]">Store Credits</div>
               <div className="text-base font-semibold text-[#171717]">{formatPrice(user.creditsINR || 1500)}</div>
             </div>
+
+            <button
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
+              className="px-4 py-2.5 border border-[#DDD8CE] bg-white hover:bg-[#171717] hover:text-white text-xs uppercase tracking-wider font-medium text-[#706B64] transition-all flex items-center gap-2 cursor-pointer shadow-sm"
+              title="Sign Out"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Sign Out</span>
+            </button>
           </div>
         </div>
       </section>
 
-      {/* Main Dashboard Layout with 7 Tabs */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 mt-8 sm:mt-12">
+      {/* Main Dashboard Layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 mt-8 sm:mt-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
           
           {/* Navigation Sidebar */}
@@ -275,20 +281,8 @@ export const DashboardPage: React.FC = () => {
                     : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
                 }`}
               >
-                <span>1. Overview</span>
+                <span>Overview</span>
                 <ArrowRight className="w-3.5 h-3.5 opacity-60" />
-              </button>
-
-              <button
-                onClick={() => setActiveTab('personal')}
-                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
-                  activeTab === 'personal'
-                    ? 'bg-[#171717] text-white'
-                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
-                }`}
-              >
-                <span>2. Personal Info</span>
-                <User className="w-3.5 h-3.5 opacity-60" />
               </button>
 
               <button
@@ -299,7 +293,7 @@ export const DashboardPage: React.FC = () => {
                     : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
                 }`}
               >
-                <span>3. Order Tracking</span>
+                <span>Orders</span>
                 <Package className="w-3.5 h-3.5 opacity-60" />
               </button>
 
@@ -311,8 +305,20 @@ export const DashboardPage: React.FC = () => {
                     : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
                 }`}
               >
-                <span>4. Wishlist ({wishlist.length})</span>
+                <span>Wishlist ({wishlist.length})</span>
                 <Heart className="w-3.5 h-3.5 opacity-60" />
+              </button>
+
+              <button
+                onClick={() => setActiveTab('personal')}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'personal'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span>Personal Info</span>
+                <User className="w-3.5 h-3.5 opacity-60" />
               </button>
 
               <button
@@ -323,7 +329,7 @@ export const DashboardPage: React.FC = () => {
                     : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
                 }`}
               >
-                <span>5. Saved Addresses</span>
+                <span>Saved Addresses</span>
                 <MapPin className="w-3.5 h-3.5 opacity-60" />
               </button>
 
@@ -335,7 +341,7 @@ export const DashboardPage: React.FC = () => {
                     : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
                 }`}
               >
-                <span>6. Returns & Exchanges</span>
+                <span>Returns</span>
                 <RotateCcw className="w-3.5 h-3.5 opacity-60" />
               </button>
 
@@ -347,27 +353,9 @@ export const DashboardPage: React.FC = () => {
                     : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
                 }`}
               >
-                <span>7. Account Security</span>
+                <span>Security</span>
                 <Lock className="w-3.5 h-3.5 opacity-60" />
               </button>
-
-              {/* Bottom Left Sign Out Button */}
-              <div className="pt-2 border-t border-[#DDD8CE]/70 mt-2">
-                <button
-                  onClick={() => {
-                    logout();
-                    navigate('/login');
-                  }}
-                  className="w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium text-rose-600 hover:bg-rose-50 hover:text-rose-700 transition-colors flex items-center justify-between cursor-pointer border border-transparent hover:border-rose-200"
-                  title="Sign out to Login Dashboard"
-                >
-                  <span className="flex items-center gap-2">
-                    <LogOut className="w-4 h-4" />
-                    <span>Sign Out</span>
-                  </span>
-                  <ArrowRight className="w-3.5 h-3.5 opacity-60" />
-                </button>
-              </div>
             </nav>
           </aside>
 
@@ -377,87 +365,124 @@ export const DashboardPage: React.FC = () => {
             {/* TAB 1: OVERVIEW */}
             {activeTab === 'overview' && (
               <div className="space-y-6 animate-fade-in-subtle">
-                {/* Status Snapshot Banner */}
-                <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8">
-                  <h2 className="font-serif text-2xl text-[#171717] mb-2">Account Overview</h2>
-                  <p className="text-xs text-[#706B64] font-light leading-relaxed mb-6">
-                    Track your orders, view member benefits, and update your sizing in one place.
-                  </p>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
-                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Active Orders</span>
-                      <div className="font-serif text-2xl text-[#171717] mt-1">{orders.length} In Progress</div>
-                      <button
-                        onClick={() => setActiveTab('orders')}
-                        className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 underline"
-                      >
-                        Track Status &rarr;
-                      </button>
+                {/* 3 Clear Action Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  {/* Orders Card */}
+                  <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[11px] uppercase tracking-wider text-[#706B64] font-medium">Orders</span>
+                        <Package className="w-4 h-4 text-[#706B64]" />
+                      </div>
+                      <div className="font-serif text-3xl text-[#171717]">
+                        {orders.length}
+                      </div>
+                      <p className="text-xs text-[#706B64] font-light mt-1">
+                        {orders.length === 0 ? 'No active orders in progress' : `${orders.length} order being processed`}
+                      </p>
                     </div>
+                    <button
+                      onClick={() => setActiveTab('orders')}
+                      className="mt-5 text-xs uppercase tracking-wider text-[#171717] hover:text-[#B9AA96] font-medium flex items-center gap-1.5 transition-colors"
+                    >
+                      <span>View Orders</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
 
-                    <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
-                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Saved Wishlist</span>
-                      <div className="font-serif text-2xl text-[#171717] mt-1">{wishlist.length} Items</div>
-                      <button
-                        onClick={() => setActiveTab('wishlist')}
-                        className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 underline"
-                      >
-                        View Items &rarr;
-                      </button>
+                  {/* Wishlist Card */}
+                  <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[11px] uppercase tracking-wider text-[#706B64] font-medium">Wishlist</span>
+                        <Heart className="w-4 h-4 text-[#706B64]" />
+                      </div>
+                      <div className="font-serif text-3xl text-[#171717]">
+                        {wishlist.length}
+                      </div>
+                      <p className="text-xs text-[#706B64] font-light mt-1">
+                        {wishlist.length === 0 ? 'No saved items yet' : `${wishlist.length} items saved to your list`}
+                      </p>
                     </div>
+                    <button
+                      onClick={() => setActiveTab('wishlist')}
+                      className="mt-5 text-xs uppercase tracking-wider text-[#171717] hover:text-[#B9AA96] font-medium flex items-center gap-1.5 transition-colors"
+                    >
+                      <span>View Wishlist</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
 
-                    <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE]">
-                      <span className="text-[10px] uppercase tracking-wider text-[#706B64]">Member Discount Code</span>
-                      <div className="font-mono text-sm font-bold text-[#171717] mt-1">TREVORI-VIP-NOIR</div>
-                      <button
-                        onClick={() => handleCopyCode('TREVORI-VIP-NOIR')}
-                        className="text-[10px] uppercase tracking-wider text-[#171717] font-semibold mt-2 flex items-center gap-1"
-                      >
-                        {isCopied ? <Check className="w-3 h-3 text-[#171717]" /> : <Copy className="w-3 h-3" />}
-                        <span>{isCopied ? 'Copied' : 'Copy 15% VIP Code'}</span>
-                      </button>
+                  {/* Member Discount Card */}
+                  <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="text-[11px] uppercase tracking-wider text-[#706B64] font-medium">15% Discount</span>
+                        <span className="px-2 py-0.5 bg-[#F4F1EA] text-[#171717] text-[10px] font-mono tracking-wider border border-[#DDD8CE]">CODE</span>
+                      </div>
+                      <div className="font-mono text-xl font-bold text-[#171717] tracking-wider">
+                        TREVORI15
+                      </div>
+                      <p className="text-xs text-[#706B64] font-light mt-1">
+                        Get 15% off your order at checkout
+                      </p>
                     </div>
+                    <button
+                      onClick={() => handleCopyCode('TREVORI15')}
+                      className="mt-5 text-xs uppercase tracking-wider text-[#171717] hover:text-[#B9AA96] font-medium flex items-center gap-1.5 transition-colors cursor-pointer"
+                    >
+                      {isCopied ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      <span>{isCopied ? 'Code Copied!' : 'Copy Code'}</span>
+                    </button>
                   </div>
                 </div>
 
-                {/* Latest Shipment Teaser */}
+                {/* Recent Orders Section */}
                 <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-serif text-xl text-[#171717]">Recent Order</h3>
-                    <span className="bg-[#DDD8CE] text-[#171717] text-[10px] uppercase tracking-widest px-2.5 py-1">
-                      {orders.length > 0 ? "In Transit" : "No Active Orders"}
+                  <div className="flex items-center justify-between mb-6 border-b border-[#DDD8CE] pb-4">
+                    <div>
+                      <h2 className="font-serif text-2xl text-[#171717]">Recent Order History</h2>
+                      <p className="text-xs text-[#706B64] font-light mt-0.5">
+                        Track live courier shipments and view invoices
+                      </p>
+                    </div>
+                    <span className="text-[10px] uppercase tracking-widest px-2.5 py-1 bg-[#F4F1EA] border border-[#DDD8CE] text-[#706B64] font-medium">
+                      {orders.length > 0 ? `${orders.length} Active` : '0 Orders'}
                     </span>
                   </div>
 
                   {orders.length > 0 ? (
                     <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE] text-xs space-y-2">
                       <div className="flex justify-between">
-                        <span className="text-[#706B64]">Order Reference:</span>
+                        <span className="text-[#706B64]">Order ID:</span>
                         <span className="font-mono font-semibold">{orders[0].id}</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-[#706B64]">Courier Carrier:</span>
+                        <span className="text-[#706B64]">Courier:</span>
                         <span>{orders[0].carrier}</span>
                       </div>
                       <button
                         onClick={() => setActiveTab('orders')}
                         className="mt-4 text-xs uppercase tracking-widest font-semibold text-[#171717] hover:text-[#B9AA96] transition-colors flex items-center gap-1"
                       >
-                        <span>View Full Live Timeline</span>
+                        <span>View Order Details</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
                   ) : (
-                    <div className="p-5 bg-[#F4F1EA] border border-[#DDD8CE] text-center">
-                      <p className="text-xs text-[#706B64] font-light mb-3">
-                        You have no active orders yet. When you place an order, it will appear here.
+                    <div className="py-10 text-center">
+                      <div className="w-12 h-12 rounded-full bg-[#F4F1EA] border border-[#DDD8CE] flex items-center justify-center mx-auto mb-3">
+                        <Package className="w-5 h-5 text-[#706B64]" />
+                      </div>
+                      <h3 className="font-serif text-lg text-[#171717] mb-1">No orders placed yet</h3>
+                      <p className="text-xs text-[#706B64] font-light max-w-sm mx-auto mb-5 leading-relaxed">
+                        When you make a purchase, your order status and courier tracking will appear right here.
                       </p>
                       <Link
                         to="/collections"
-                        className="inline-flex items-center gap-1.5 text-xs uppercase tracking-widest font-medium text-[#171717] hover:text-[#B9AA96] transition-colors"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#171717] text-white hover:bg-[#333333] text-xs uppercase tracking-wider font-medium transition-all shadow-sm"
                       >
-                        <span>Start Shopping</span>
+                        <span>Explore Collection</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </Link>
                     </div>
