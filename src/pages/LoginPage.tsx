@@ -124,27 +124,9 @@ export const LoginPage: React.FC = () => {
     redirectToGoogleOAuth();
   };
 
-  const handleSocialLogin = (provider: 'google' | 'apple') => {
+  const handleSocialLogin = (provider: 'google') => {
     if (provider === 'google') {
       handleGoogleLogin();
-    } else {
-      setIsLoading(true);
-      setTimeout(() => {
-        login({
-          name: 'ELENA ROSTOVA',
-          email: 'elena@icloud.com',
-          phone: '+91 98765 43210',
-          tier: 'Noir Member',
-          creditsINR: 1500,
-          points: 4800,
-          authProvider: 'apple',
-        });
-        setIsLoading(false);
-        setSuccess(true);
-        setTimeout(() => {
-          navigate('/account');
-        }, 400);
-      }, 400);
     }
   };
 
@@ -330,18 +312,6 @@ export const LoginPage: React.FC = () => {
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
                 </svg>
                 <span>Login with Google</span>
-              </button>
-
-              {/* Apple Button */}
-              <button
-                type="button"
-                onClick={() => handleSocialLogin('apple')}
-                className="w-full py-2.5 px-4 border border-neutral-200 hover:border-neutral-400 rounded-lg bg-white text-sm font-medium text-neutral-700 flex items-center justify-center gap-2.5 transition-colors cursor-pointer shadow-sm"
-              >
-                <svg className="w-4 h-4 fill-current text-black" viewBox="0 0 170 170">
-                  <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.6-7.85-11.75-14.43-6.19-9.88-10.98-20.91-14.37-33.09-3.39-12.18-5.09-23.75-5.09-34.7 0-14.56 3.73-26.68 11.2-36.35 7.46-9.68 16.73-14.58 27.81-14.71 4.71 0 10.15 1.25 16.32 3.75 6.17 2.5 10.13 3.8 11.89 3.89 1.54 0 5.68-1.39 12.42-4.17 6.74-2.78 12.44-4.04 17.1-3.79 13.62.9 24.31 5.92 32.06 15.06-11.77 7.14-17.51 16.92-17.21 29.35.3 9.69 4.11 17.85 11.45 24.49 7.34 6.64 16.14 10.36 26.4 11.16-2.14 6.35-4.77 12.98-7.89 19.89zm-26.69-95.2c0-6.9 2.47-13.3 7.41-19.18 4.94-5.88 11.08-9.59 18.42-11.13.12 1.03.18 2.06.18 3.09 0 6.66-2.58 13.15-7.75 19.46-5.17 6.31-11.39 9.87-18.66 10.67.24-.97.4-1.94.4-2.91z" />
-                </svg>
-                <span>Login with Apple</span>
               </button>
             </div>
 
