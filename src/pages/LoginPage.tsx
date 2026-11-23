@@ -319,8 +319,8 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
 
   return (
     <div className="relative min-h-screen w-full bg-[#EAE8E4] flex items-center justify-center p-3 sm:p-6 lg:p-10 font-sans overflow-hidden">
-      {/* Full-Page Luxury Snowfall Background */}
-      <LuxurySnowfall count={26} />
+      {/* Full-Page Luxury Snowfall Background: Darker & clearly visible against the light ivory canvas */}
+      <LuxurySnowfall count={36} theme="dark-particles" />
 
       {/* Centered Modal Card matching the exact Dribbble reference */}
       <div className="relative z-10 w-full max-w-4xl bg-white rounded-2xl sm:rounded-3xl shadow-xl overflow-hidden grid grid-cols-1 md:grid-cols-2">
@@ -591,7 +591,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ initialMode }) => {
         {/* RIGHT COLUMN: The exact red editorial photo from the reference */}
         <div className="relative w-full h-full min-h-[460px] md:min-h-full overflow-hidden bg-[#BA2C17] hidden md:block">
           {/* Subtle Campaign Snowfall Layer */}
-          <LuxurySnowfall count={12} isContainerRelative />
+          <LuxurySnowfall count={18} isContainerRelative theme="light-particles" />
 
           {/* Top Brand & Tagline */}
           <div className="absolute top-6 sm:top-7 left-6 sm:left-8 z-10 flex items-center gap-2 select-none">

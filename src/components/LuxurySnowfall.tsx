@@ -4,6 +4,7 @@ interface LuxurySnowfallProps {
   count?: number;
   className?: string;
   isContainerRelative?: boolean;
+  theme?: 'dark-particles' | 'light-particles';
 }
 
 interface SnowflakeConfig {
@@ -15,18 +16,22 @@ interface SnowflakeConfig {
   swayDuration: number;
   swayDistance: number;
   opacity: number;
+  color: string;
   blur: number;
-  glow: number;
+  shadow: string;
 }
 
 export const LuxurySnowfall: React.FC<LuxurySnowfallProps> = ({
-  count = 28,
+  count = 32,
   className = '',
   isContainerRelative = false,
+  theme,
 }) => {
+  // Determine effective theme: if not explicitly passed, default outer background to dark-particles for high visibility on light bg
+  const effectiveTheme = theme || (isContainerRelative ? 'light-particles' : 'dark-particles');
+
   // Generate deterministic particles to avoid hydration mismatches and unnecessary re-renders
   const snowflakes = useMemo<SnowflakeConfig[]>(() => {
-    // Deterministic pseudo-random seed sequence
     const pseudoRandom = (seed: number) => {
       const x = Math.sin(seed * 9999) * 10000;
       return x - Math.floor(x);
@@ -39,36 +44,50 @@ export const LuxurySnowfall: React.FC<LuxurySnowfallProps> = ({
       const r4 = pseudoRandom(i + 4);
       const r5 = pseudoRandom(i + 5);
 
-      // Sizes: between 2px and 5px with subtle realistic variation
-      const size = Math.round((2 + r1 * 2.8) * 10) / 10;
-      // Duration: 14s to 26s (slow, tranquil luxury snowfall)
-      const duration = Math.round((14 + r2 * 12) * 10) / 10;
-      // Negative delays: so particles are already dispersed and falling immediately on page load
+      // Sizes: between 3px and 6.5px so snowflakes are clearly visible to customers
+      const size = Math.round((2.8 + r1 * 3.4) * 10) / 10;
+      // Duration: 12s to 22s (smooth, natural snowfall)
+      const duration = Math.round((12 + r2 * 10) * 10) / 10;
+      // Negative delays: particles already active on load
       const delay = -Math.round(r3 * duration * 10) / 10;
-      // Gentle horizontal sway: 10px to 24px
-      const swayDuration = Math.round((3.5 + r4 * 3.5) * 10) / 10;
-      const swayDistance = Math.round(10 + r1 * 14);
-      // Soft opacity: 0.35 to 0.85
-      const opacity = Math.round((0.35 + r5 * 0.45) * 100) / 100;
-      // Photographic depth blur: subtle blur for a few background particles
-      const blur = size > 3.8 ? 0.8 : size < 2.5 ? 0.4 : 0;
-      // Soft glow: subtle aura
-      const glow = size > 3.2 ? 3 : 1.5;
+      // Sway parameters
+      const swayDuration = Math.round((3 + r4 * 3) * 10) / 10;
+      const swayDistance = Math.round(12 + r1 * 16);
+      // High visibility opacity: 0.65 to 0.95
+      const opacity = Math.round((0.65 + r5 * 0.3) * 100) / 100;
+      // Slight photographic depth blur
+      const blur = size > 5.5 ? 0.6 : size < 3.2 ? 0.3 : 0;
+
+      // Color and shadow based on theme:
+      let color: string;
+      let shadow: string;
+
+      if (effectiveTheme === 'dark-particles') {
+        // Darker luxury slate-charcoal tones with crisp contrast against #EAE8E4
+        const shades = ['#3D3833', '#4E473F', '#5F574E', '#2E2A26'];
+        color = shades[i % shades.length];
+        shadow = `0 1px 3px rgba(0, 0, 0, 0.25), 0 0 2px rgba(61, 56, 51, 0.4)`;
+      } else {
+        // Crisp white and glowing ivory over dark panels (e.g. red campaign photo)
+        color = '#FFFFFF';
+        shadow = `0 0 4px rgba(255, 255, 255, 0.95), 0 0 8px rgba(255, 255, 255, 0.6)`;
+      }
 
       return {
         id: i,
-        x: Math.round(r4 * 98 * 10) / 10, // 0% to 98%
+        x: Math.round(r4 * 98 * 10) / 10,
         size,
         duration,
         delay,
         swayDuration,
         swayDistance,
         opacity,
+        color,
         blur,
-        glow,
+        shadow,
       };
     });
-  }, [count]);
+  }, [count, effectiveTheme]);
 
   return (
     <>
@@ -91,10 +110,10 @@ export const LuxurySnowfall: React.FC<LuxurySnowfallProps> = ({
         }
         @keyframes luxurySnowSway {
           0% {
-            margin-left: -12px;
+            margin-left: -14px;
           }
           100% {
-            margin-left: 12px;
+            margin-left: 14px;
           }
         }
         @media (prefers-reduced-motion: reduce) {
@@ -112,15 +131,16 @@ export const LuxurySnowfall: React.FC<LuxurySnowfallProps> = ({
         {snowflakes.map((flake) => (
           <span
             key={flake.id}
-            className="luxury-snow-particle absolute rounded-full bg-[#FFFFFF]"
+            className="luxury-snow-particle absolute rounded-full"
             style={{
               left: `${flake.x}%`,
               top: 0,
               width: `${flake.size}px`,
               height: `${flake.size}px`,
+              backgroundColor: flake.color,
               opacity: flake.opacity,
               filter: flake.blur > 0 ? `blur(${flake.blur}px)` : undefined,
-              boxShadow: `0 0 ${flake.glow}px rgba(255, 255, 255, 0.85)`,
+              boxShadow: flake.shadow,
               animation: `${
                 isContainerRelative ? 'luxurySnowFallContainer' : 'luxurySnowFallViewport'
               } ${flake.duration}s linear ${flake.delay}s infinite, luxurySnowSway ${
