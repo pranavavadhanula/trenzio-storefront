@@ -11,9 +11,10 @@ import {
   ShieldCheck,
   ArrowRight,
   ShoppingBag,
+  AlertCircle,
 } from 'lucide-react';
 import { SizingModal } from '../components/SizingModal';
-import { createShopifyCheckout } from '../services/shopify';
+import { startRazorpayCheckout } from '../services/razorpay';
 
 const COLOR_IMAGE_MAP: Record<string, string> = {
   'Ash Grey': '/images/products/ash-grey.png',
@@ -28,7 +29,7 @@ const COLOR_IMAGE_MAP: Record<string, string> = {
 export const ProductDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { products, addToCart, formatPrice, isWishlisted, toggleWishlist, setIsCartOpen } = useShop();
+  const { products, addToCart, formatPrice, isWishlisted, toggleWishlist, setIsCartOpen, user } = useShop();
 
   const product = products.find((p) => p.id === id) || products[0];
 
@@ -37,6 +38,7 @@ export const ProductDetailPage: React.FC = () => {
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
 
   if (!product) {
@@ -73,22 +75,30 @@ export const ProductDetailPage: React.FC = () => {
 
   const handleBuyNow = async () => {
     setIsCheckingOut(true);
+    setCheckoutError(null);
     try {
-      const checkoutUrl = await createShopifyCheckout([
-        {
-          variantId: product.variants?.[0]?.id || product.id,
-          quantity: 1,
-        },
-      ], 'IN');
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        addToCart(product, selectedSize, selectedColor);
-        setIsCartOpen(true);
+      const result = await startRazorpayCheckout({
+        items: [
+          {
+            productId: product.id,
+            name: product.name,
+            size: selectedSize,
+            color: selectedColor,
+            quantity: 1,
+            unitPriceINR: product.priceINR,
+          },
+        ],
+        customer: user ? { name: user.name, email: user.email, phone: user.phone } : undefined,
+      });
+
+      navigate(
+        `/order-confirmed?payment_id=${encodeURIComponent(result.paymentId)}&order_id=${encodeURIComponent(result.orderId)}&amount=${encodeURIComponent(String(result.amountINR))}`
+      );
+    } catch (err: any) {
+      if (err?.code !== 'PAYMENT_CANCELLED') {
+        console.error(err);
       }
-    } catch {
-      addToCart(product, selectedSize, selectedColor);
-      setIsCartOpen(true);
+      setCheckoutError(err?.message || 'Unable to complete payment. Please try again.');
     } finally {
       setIsCheckingOut(false);
     }
@@ -267,9 +277,16 @@ export const ProductDetailPage: React.FC = () => {
               disabled={isCheckingOut}
               className="w-full py-4 bg-[#FFFFFF] border border-[#171717] text-[#171717] hover:bg-[#F4F1EA] transition-colors text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>{isCheckingOut ? 'Opening Shopify Checkout...' : 'Instant Shopify Checkout'}</span>
+              <span>{isCheckingOut ? 'Opening Secure Payment...' : 'Instant Secure Checkout'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
+
+            {checkoutError && (
+              <p className="flex items-start gap-2 text-[11px] text-red-700 bg-red-50 border border-red-200 px-3 py-2">
+                <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                <span>{checkoutError}</span>
+              </p>
+            )}
           </div>
 
           {/* Trust Guarantees */}

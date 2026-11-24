@@ -42,7 +42,7 @@ export const BRAND_POLICIES: Record<string, BrandPolicy> = {
   payments: {
     topic: 'payments',
     title: 'Payment Methods & Security',
-    summary: '100% encrypted 256-bit SSL secure checkout powered by Razorpay & Cashfree.',
+    summary: '100% encrypted 256-bit SSL secure checkout powered by Razorpay.',
     details: [
       'UPI: Google Pay, PhonePe, Paytm, BHIM, CRED UPI (instant 0% transaction fee).',
       'Cards: Visa, Mastercard, RuPay, American Express credit and debit cards.',

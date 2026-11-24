@@ -23,6 +23,7 @@ interface ShopContextType {
   ) => void;
   removeFromCart: (cartItemId: string) => void;
   updateQuantity: (cartItemId: string, newQty: number) => void;
+  clearCart: () => void;
   cartSubtotalINR: number;
   cartCount: number;
   selectedProduct: Product | null;
@@ -209,6 +210,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setCart((prev) => prev.filter((item) => item.cartItemId !== cartItemId));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   const updateQuantity = (cartItemId: string, newQty: number) => {
     if (newQty <= 0) {
       removeFromCart(cartItemId);
@@ -244,6 +249,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         addToCart,
         removeFromCart,
         updateQuantity,
+        clearCart,
         cartSubtotalINR,
         cartCount,
         selectedProduct,

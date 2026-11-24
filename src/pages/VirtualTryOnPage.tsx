@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import {
   Upload,
@@ -19,9 +19,10 @@ import {
   ChevronRight,
   ShieldCheck,
   Truck,
-  Eye
+  Eye,
+  AlertCircle
 } from 'lucide-react';
-import { createShopifyCheckout } from '../services/shopify';
+import { startRazorpayCheckout } from '../services/razorpay';
 
 const COLOR_IMAGE_MAP: Record<string, string> = {
   'Ash Grey': '/images/products/ash-grey.png',
@@ -71,7 +72,8 @@ const MODEL_PRESETS = [
 
 export const VirtualTryOnPage: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const { products, formatPrice, addToCart } = useShop();
+  const navigate = useNavigate();
+  const { products, formatPrice, addToCart, user } = useShop();
 
   const productIdParam = searchParams.get('product') || '44119548559395';
   const colorParam = searchParams.get('color') || 'Ash Grey';
@@ -112,6 +114,7 @@ export const VirtualTryOnPage: React.FC = () => {
   // Checkout & Cart Action
   const [isAdded, setIsAdded] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
 
   // Refs
@@ -337,20 +340,30 @@ export const VirtualTryOnPage: React.FC = () => {
   // Instant Checkout
   const handleInstantBuy = async () => {
     setIsCheckingOut(true);
+    setCheckoutError(null);
     try {
-      const checkoutUrl = await createShopifyCheckout([
-        {
-          variantId: selectedProduct.id.startsWith('prod_') ? '44119548559395' : selectedProduct.id,
-          quantity: 1,
-        },
-      ], 'IN');
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
-      } else {
-        addToCart(selectedProduct, selectedSize, selectedColor);
+      const result = await startRazorpayCheckout({
+        items: [
+          {
+            productId: selectedProduct.id,
+            name: selectedProduct.name,
+            size: selectedSize,
+            color: selectedColor,
+            quantity: 1,
+            unitPriceINR: selectedProduct.priceINR,
+          },
+        ],
+        customer: user ? { name: user.name, email: user.email, phone: user.phone } : undefined,
+      });
+
+      navigate(
+        `/order-confirmed?payment_id=${encodeURIComponent(result.paymentId)}&order_id=${encodeURIComponent(result.orderId)}&amount=${encodeURIComponent(String(result.amountINR))}`
+      );
+    } catch (err: any) {
+      if (err?.code !== 'PAYMENT_CANCELLED') {
+        console.error(err);
       }
-    } catch {
-      addToCart(selectedProduct, selectedSize, selectedColor);
+      setCheckoutError(err?.message || 'Unable to complete payment. Please try again.');
     } finally {
       setIsCheckingOut(false);
     }
@@ -909,6 +922,13 @@ export const VirtualTryOnPage: React.FC = () => {
                 <span>{downloading ? 'Rendering...' : 'Save Look'}</span>
               </button>
             </div>
+
+            {checkoutError && (
+              <div className="flex items-start gap-2 text-[10px] text-red-300 bg-red-500/10 border border-red-500/30 px-3 py-2 font-mono">
+                <AlertCircle className="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+                <span>{checkoutError}</span>
+              </div>
+            )}
 
             {/* D2C Badges */}
             <div className="grid grid-cols-2 gap-2 text-[10px] text-[#3B82F6] uppercase tracking-wider pt-2 font-mono font-medium">

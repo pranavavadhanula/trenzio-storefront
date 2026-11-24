@@ -23,6 +23,7 @@ import { LoginPage } from './pages/LoginPage';
 import { SignUpPage } from './pages/SignUpPage';
 import { DashboardPage } from './pages/DashboardPage';
 import { AIStylistPage } from './pages/AIStylistPage';
+import { OrderConfirmationPage } from './pages/OrderConfirmationPage';
 
 // Trevori AI Personal Stylist Floating Widget
 import { TrevoriAIWidget } from './components/ai/TrevoriAIWidget';
@@ -97,6 +98,9 @@ function MainStorefront() {
 
           {/* Dedicated Shopping Bag Page */}
           <Route path="/cart" element={<CartPage />} />
+
+          {/* Razorpay Payment Confirmation */}
+          <Route path="/order-confirmed" element={<OrderConfirmationPage />} />
 
           {/* Dedicated Saved Wishlist Page */}
           <Route path="/wishlist" element={<WishlistPage />} />

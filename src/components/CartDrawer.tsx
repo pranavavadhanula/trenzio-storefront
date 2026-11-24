@@ -1,71 +1,14 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, Trash2, ShieldCheck, ArrowRight, CheckCircle2, AlertCircle, Tag } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
-import { createShopifyCheckout } from '../services/shopify';
-
-interface ValidCoupon {
-  code: string;
-  type: 'percent' | 'flat';
-  value: number;
-  description: string;
-  minSubtotal?: number;
-}
-
-const VALID_COUPONS: Record<string, ValidCoupon> = {
-  'TREVORI15': {
-    code: 'TREVORI15',
-    type: 'percent',
-    value: 15,
-    description: 'VIP Atelier 15% discount',
-  },
-  'VIP15': {
-    code: 'VIP15',
-    type: 'percent',
-    value: 15,
-    description: 'VIP Member 15% discount',
-  },
-  'TREVORI-VIP-NOIR': {
-    code: 'TREVORI-VIP-NOIR',
-    type: 'percent',
-    value: 15,
-    description: 'VIP Noir 15% privilege discount',
-  },
-  'TREVORI200': {
-    code: 'TREVORI200',
-    type: 'flat',
-    value: 200,
-    description: 'Flat ₹200 drop discount',
-    minSubtotal: 1000,
-  },
-  'WINTER200': {
-    code: 'WINTER200',
-    type: 'flat',
-    value: 200,
-    description: 'Flat ₹200 Winterwear discount',
-    minSubtotal: 1000,
-  },
-  'TREVORI500': {
-    code: 'TREVORI500',
-    type: 'flat',
-    value: 500,
-    description: 'Flat ₹500 Atelier Winter discount',
-    minSubtotal: 2000,
-  },
-  'WINTER500': {
-    code: 'WINTER500',
-    type: 'flat',
-    value: 500,
-    description: 'Flat ₹500 Winterwear discount',
-    minSubtotal: 2000,
-  },
-  'PREPAID100': {
-    code: 'PREPAID100',
-    type: 'flat',
-    value: 100,
-    description: 'Flat ₹100 prepaid offer',
-    minSubtotal: 1499,
-  },
-};
+import {
+  computeOrderTotals,
+  FREE_SHIPPING_THRESHOLD_INR,
+  VALID_COUPONS,
+  type ValidCoupon,
+} from '../data/coupons';
+import { startRazorpayCheckout } from '../services/razorpay';
 
 export const CartDrawer: React.FC = () => {
   const {
@@ -74,9 +17,13 @@ export const CartDrawer: React.FC = () => {
     setIsCartOpen,
     removeFromCart,
     updateQuantity,
+    clearCart,
     cartSubtotalINR,
     formatPrice,
+    user,
   } = useShop();
+
+  const navigate = useNavigate();
 
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
@@ -86,20 +33,11 @@ export const CartDrawer: React.FC = () => {
 
   if (!isCartOpen) return null;
 
-  // Free shipping threshold in India (₹2,000)
-  const freeShippingThresholdINR = 2000;
-  const progressPercent = Math.min(100, Math.round((cartSubtotalINR / freeShippingThresholdINR) * 100));
-  const remainingForFreeShipping = Math.max(0, freeShippingThresholdINR - cartSubtotalINR);
+  const progressPercent = Math.min(100, Math.round((cartSubtotalINR / FREE_SHIPPING_THRESHOLD_INR) * 100));
+  const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_THRESHOLD_INR - cartSubtotalINR);
 
-  // Discount calculation
-  const discountAmount = appliedCoupon
-    ? appliedCoupon.type === 'percent'
-      ? Math.round((cartSubtotalINR * appliedCoupon.value) / 100)
-      : Math.min(cartSubtotalINR, appliedCoupon.value)
-    : 0;
-
-  const shippingCost = remainingForFreeShipping === 0 ? 0 : 150;
-  const estimatedTotal = Math.max(0, cartSubtotalINR - discountAmount + shippingCost);
+  const { discountINR: discountAmount, shippingINR: shippingCost, totalINR: estimatedTotal } =
+    computeOrderTotals(cartSubtotalINR, appliedCoupon);
 
   const handleApplyPromo = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
@@ -138,30 +76,29 @@ export const CartDrawer: React.FC = () => {
     setIsCheckingOut(true);
     setCheckoutError(null);
     try {
-      const lineItems = cart.map((item) => {
-        const matchedVariant = item.product.variants?.find(
-          (v) =>
-            v.size.toLowerCase() === item.selectedSize.toLowerCase() &&
-            v.color.toLowerCase() === item.selectedColor.toLowerCase()
-        );
-        const resolvedId =
-          item.selectedVariantId ||
-          matchedVariant?.id ||
-          (item.product.id.startsWith('prod_') ? '44119548559395' : item.product.id);
-
-        return {
-          variantId: resolvedId,
+      const result = await startRazorpayCheckout({
+        items: cart.map((item) => ({
+          productId: item.product.id,
+          name: item.product.name,
+          size: item.selectedSize,
+          color: item.selectedColor,
           quantity: item.quantity,
-        };
+          unitPriceINR: item.product.priceINR,
+        })),
+        couponCode: appliedCoupon?.code,
+        customer: user ? { name: user.name, email: user.email, phone: user.phone } : undefined,
       });
 
-      const checkoutUrl = await createShopifyCheckout(lineItems, 'IN', appliedCoupon?.code);
-      window.location.href = checkoutUrl;
-    } catch (err: any) {
-      console.error(err);
-      setCheckoutError(
-        err?.message || 'Unable to open checkout session. Please try again.'
+      clearCart();
+      setIsCartOpen(false);
+      navigate(
+        `/order-confirmed?payment_id=${encodeURIComponent(result.paymentId)}&order_id=${encodeURIComponent(result.orderId)}&amount=${encodeURIComponent(String(result.amountINR))}`
       );
+    } catch (err: any) {
+      if (err?.code !== 'PAYMENT_CANCELLED') {
+        console.error(err);
+      }
+      setCheckoutError(err?.message || 'Unable to complete payment. Please try again.');
     } finally {
       setIsCheckingOut(false);
     }
@@ -389,19 +326,19 @@ export const CartDrawer: React.FC = () => {
                 </div>
               )}
 
-              {/* Direct Shopify Storefront Checkout Button */}
+              {/* Direct Razorpay Checkout Button */}
               <button
                 onClick={handleCheckout}
                 disabled={isCheckingOut}
                 className="w-full py-4 bg-[#171717] text-white hover:bg-[#333333] transition-colors text-xs uppercase tracking-[0.2em] font-medium flex items-center justify-center gap-2 cursor-pointer shadow-sm"
               >
-                <span>{isCheckingOut ? 'Opening Shopify Checkout...' : 'Proceed to Shopify Checkout'}</span>
+                <span>{isCheckingOut ? 'Opening Secure Payment...' : 'Proceed to Secure Payment'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
 
               <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#706B64]">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#B9AA96]" />
-                <span>Encrypted 256-Bit SSL Shopify Storefront Checkout</span>
+                <span>Encrypted 256-Bit SSL Payment Secured by Razorpay</span>
               </div>
             </div>
           )}

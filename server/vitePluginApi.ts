@@ -2,6 +2,10 @@ import type { Plugin, ViteDevServer, PreviewServer } from 'vite';
 import { processStylistQuery, analyzeFashionImage } from '../src/services/aiEngine';
 import { findOrderByIdOrEmail } from '../src/data/orders';
 import { PRODUCTS } from '../src/data/products';
+import {
+  createRazorpayOrder,
+  verifyRazorpayPaymentSignature,
+} from './razorpay.mjs';
 
 // Simple in-memory token bucket rate limiter
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
@@ -156,6 +160,59 @@ export function trevoriApiPlugin(apiKey?: string): Plugin {
 
         res.statusCode = 200;
         res.end(JSON.stringify({ verifiedItems, verifiedAt: new Date().toISOString() }));
+        return;
+      }
+
+      // 5. /api/razorpay/create-order (server-side Razorpay order + amount)
+      if (url === '/api/razorpay/create-order' && req.method === 'POST') {
+        const body = await parseJsonBody(req);
+
+        try {
+          const order = await createRazorpayOrder({
+            amountINR: body.amountINR,
+            currency: 'INR',
+            receipt: body.receipt,
+            notes: body.notes,
+          });
+
+          res.statusCode = 200;
+          res.end(JSON.stringify(order));
+        } catch (err: any) {
+          res.statusCode = err?.status || 500;
+          res.end(JSON.stringify({ error: err?.message || 'Unable to create Razorpay order.' }));
+        }
+        return;
+      }
+
+      // 6. /api/razorpay/verify (payment signature verification)
+      if (url === '/api/razorpay/verify' && req.method === 'POST') {
+        const body = await parseJsonBody(req);
+
+        try {
+          const verified = verifyRazorpayPaymentSignature({
+            orderId: body.razorpay_order_id,
+            paymentId: body.razorpay_payment_id,
+            signature: body.razorpay_signature,
+          });
+
+          if (!verified) {
+            res.statusCode = 422;
+            res.end(JSON.stringify({ verified: false, error: 'Payment signature verification failed.' }));
+            return;
+          }
+
+          res.statusCode = 200;
+          res.end(
+            JSON.stringify({
+              verified: true,
+              orderId: body.razorpay_order_id,
+              paymentId: body.razorpay_payment_id,
+            })
+          );
+        } catch (err: any) {
+          res.statusCode = err?.status || 500;
+          res.end(JSON.stringify({ verified: false, error: err?.message || 'Payment verification failed.' }));
+        }
         return;
       }
 
