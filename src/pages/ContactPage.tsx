@@ -456,7 +456,7 @@ export const ContactPage: React.FC = () => {
                 Every inquiry is handled by our dedicated client styling desk. Response time is under 15 minutes during active atelier hours.
               </p>
               <div className="text-[11px] text-[#171717] font-medium pt-1">
-                Direct Email: <a href="mailto:concierge@trevori.com" className="underline hover:text-[#B9AA96]">concierge@trevori.com</a>
+                Direct Email: <a href="mailto:trevorishopping@gmail.com" className="underline hover:text-[#B9AA96]">trevorishopping@gmail.com</a>
               </div>
             </div>
 

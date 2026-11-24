@@ -73,7 +73,7 @@ export const Footer: React.FC = () => {
               Contemporary streetwear and luxury lifestyle fashion. Rooted in architectural brutalism, generous minimalist drape, and tactile garment engineering.
             </p>
             <div className="pt-2 text-xs text-[#B9AA96] space-y-1">
-              <div>Customer Support: <a href="mailto:support@trevori.com" className="text-white hover:underline">support@trevori.com</a></div>
+              <div>Customer Support: <a href="mailto:trevorishopping@gmail.com" className="text-white hover:underline">trevorishopping@gmail.com</a></div>
               <div>
                 <Link to="/contact" className="text-white hover:underline inline-flex items-center gap-1">
                   Contact Us &rarr;
