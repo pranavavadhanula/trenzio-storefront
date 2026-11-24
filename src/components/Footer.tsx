@@ -74,7 +74,11 @@ export const Footer: React.FC = () => {
             </p>
             <div className="pt-2 text-xs text-[#B9AA96] space-y-1">
               <div>Customer Support: <a href="mailto:support@trevori.com" className="text-white hover:underline">support@trevori.com</a></div>
-              <div>Headquarters: Milan &bull; Mumbai &bull; Tokyo</div>
+              <div>
+                <Link to="/contact" className="text-white hover:underline inline-flex items-center gap-1">
+                  Contact Us &rarr;
+                </Link>
+              </div>
             </div>
           </div>
 
@@ -128,6 +132,9 @@ export const Footer: React.FC = () => {
             <div className="text-[10px] uppercase tracking-[0.25em] text-[#B9AA96] font-medium">Customer Care</div>
             <ul className="space-y-2 text-xs text-[#DDD8CE]/80 font-light">
               <li>
+                <Link to="/contact" className="hover:text-white transition-colors text-white font-normal">Contact Us</Link>
+              </li>
+              <li>
                 <Link to="/account" className="hover:text-white transition-colors">Order Tracking</Link>
               </li>
               <li>
@@ -152,6 +159,8 @@ export const Footer: React.FC = () => {
             &copy; {new Date().getFullYear()} TREVORI STUDIOS INC. ALL RIGHTS RESERVED.
           </div>
           <div className="flex items-center space-x-6">
+            <Link to="/contact" className="hover:text-white transition-colors">Contact Us</Link>
+            <span>&bull;</span>
             <span className="hover:text-white transition-colors cursor-pointer">Privacy Policy</span>
             <span>&bull;</span>
             <span className="hover:text-white transition-colors cursor-pointer">Terms of Service</span>
