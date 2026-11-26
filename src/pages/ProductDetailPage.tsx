@@ -149,16 +149,6 @@ export const ProductDetailPage: React.FC = () => {
               className="w-full h-full object-contain transition-transform duration-700 ease-out hover:scale-105"
             />
 
-            {/* Badges */}
-            <div className="absolute top-4 left-4 flex flex-col gap-1.5 z-10 pointer-events-none">
-              <span className="bg-[#F4F1EA] text-[#171717] text-[10px] tracking-widest uppercase px-2.5 py-1 font-semibold border border-[#DDD8CE]">
-                {product.category} &bull; Bio-Washed
-              </span>
-              <span className="bg-[#FFFFFF] text-[#706B64] text-[9px] tracking-widest uppercase px-2 py-0.5 font-medium border border-[#DDD8CE]">
-                In Stock &bull; Ships in 24h
-              </span>
-            </div>
-
             {/* Wishlist Button */}
             <button
               onClick={() => toggleWishlist(product.id)}
