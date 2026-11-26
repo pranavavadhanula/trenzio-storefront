@@ -13,6 +13,10 @@ import {
   createRazorpayOrder,
   verifyRazorpayPaymentSignature,
 } from './razorpay.mjs';
+import {
+  fetchPrintroveStoreProducts,
+  fetchPrintroveDesigns,
+} from './printrove.mjs';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -153,6 +157,37 @@ const server = http.createServer(async (req, res) => {
           res.writeHead(err?.status || 500);
           res.end(JSON.stringify({ verified: false, error: err?.message || 'Payment verification failed.' }));
         }
+        return;
+      }
+
+      if (url === '/api/printrove/products' && req.method === 'GET') {
+        const fullUrl = new URL(req.url, `http://${req.headers.host}`);
+        const force = fullUrl.searchParams.get('refresh') === 'true';
+        const products = await fetchPrintroveStoreProducts(undefined, force);
+        res.writeHead(200);
+        res.end(JSON.stringify({ status: 'success', products, count: products.length }));
+        return;
+      }
+
+      if (url === '/api/printrove/designs' && req.method === 'GET') {
+        const designs = await fetchPrintroveDesigns();
+        res.writeHead(200);
+        res.end(JSON.stringify({ status: 'success', designs, count: designs.length }));
+        return;
+      }
+
+      if (url === '/api/printrove/sync' && (req.method === 'POST' || req.method === 'GET')) {
+        const products = await fetchPrintroveStoreProducts(undefined, true);
+        const designs = await fetchPrintroveDesigns();
+        res.writeHead(200);
+        res.end(JSON.stringify({
+          status: 'success',
+          syncedAt: new Date().toISOString(),
+          productsCount: products.length,
+          designsCount: designs.length,
+          products,
+          designs
+        }));
         return;
       }
 

@@ -6,6 +6,10 @@ import {
   createRazorpayOrder,
   verifyRazorpayPaymentSignature,
 } from './razorpay.mjs';
+import {
+  fetchPrintroveStoreProducts,
+  fetchPrintroveDesigns,
+} from './printrove.mjs';
 
 // Simple in-memory token bucket rate limiter
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
@@ -213,6 +217,40 @@ export function trevoriApiPlugin(apiKey?: string): Plugin {
           res.statusCode = err?.status || 500;
           res.end(JSON.stringify({ verified: false, error: err?.message || 'Payment verification failed.' }));
         }
+        return;
+      }
+
+      // 7. /api/printrove/products (Fetches live garments and mockups from Printrove)
+      if (url === '/api/printrove/products' && req.method === 'GET') {
+        const fullUrl = new URL(req.url, 'http://localhost');
+        const force = fullUrl.searchParams.get('refresh') === 'true';
+        const products = await fetchPrintroveStoreProducts(undefined, force);
+        res.statusCode = 200;
+        res.end(JSON.stringify({ status: 'success', products, count: products.length }));
+        return;
+      }
+
+      // 8. /api/printrove/designs (Fetches live uploaded artwork from Printrove)
+      if (url === '/api/printrove/designs' && req.method === 'GET') {
+        const designs = await fetchPrintroveDesigns();
+        res.statusCode = 200;
+        res.end(JSON.stringify({ status: 'success', designs, count: designs.length }));
+        return;
+      }
+
+      // 9. /api/printrove/sync (Triggers instant on-demand sync)
+      if (url === '/api/printrove/sync' && (req.method === 'POST' || req.method === 'GET')) {
+        const products = await fetchPrintroveStoreProducts(undefined, true);
+        const designs = await fetchPrintroveDesigns();
+        res.statusCode = 200;
+        res.end(JSON.stringify({
+          status: 'success',
+          syncedAt: new Date().toISOString(),
+          productsCount: products.length,
+          designsCount: designs.length,
+          products,
+          designs
+        }));
         return;
       }
 

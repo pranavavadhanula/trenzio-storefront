@@ -2,12 +2,15 @@ import React, { createContext, useContext, useState, useEffect, useMemo } from '
 import { Product, CartItem, CurrencyCode } from '../types';
 import { CURRENCIES } from '../data/products';
 import { fetchShopifyProducts } from '../services/shopify';
+import { fetchPrintroveProducts, syncPrintroveCatalog } from '../services/printrove';
 import { setAICatalog } from '../services/aiEngine';
 
 interface ShopContextType {
   products: Product[];
   isLoadingProducts: boolean;
   refreshProducts: () => Promise<void>;
+  isSyncingPrintrove: boolean;
+  syncPrintrove: () => Promise<{ productsCount: number; designsCount: number } | null>;
   cart: CartItem[];
   isCartOpen: boolean;
   setIsCartOpen: (open: boolean) => void;
@@ -123,17 +126,53 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.removeItem('trevori_user');
   };
 
+  const [isSyncingPrintrove, setIsSyncingPrintrove] = useState(false);
+
   const refreshProducts = async () => {
     setIsLoadingProducts(true);
     try {
-      const live = await fetchShopifyProducts();
-      setProducts(live || []);
-      setAICatalog(live || []);
+      const [shopifyLive, printroveLive] = await Promise.all([
+        fetchShopifyProducts().catch(() => []),
+        fetchPrintroveProducts().catch(() => []),
+      ]);
+
+      // Merge Printrove live products & designs with Shopify catalog
+      // Printrove items are positioned at the beginning as flagship drops
+      const merged = [...(printroveLive || []), ...(shopifyLive || [])];
+      const seen = new Set<string>();
+      const unique = merged.filter((p) => {
+        if (!p || !p.id || seen.has(p.id)) return false;
+        seen.add(p.id);
+        return true;
+      });
+
+      setProducts(unique);
+      setAICatalog(unique);
     } catch {
       setProducts([]);
       setAICatalog([]);
     } finally {
       setIsLoadingProducts(false);
+    }
+  };
+
+  const syncPrintrove = async (): Promise<{ productsCount: number; designsCount: number } | null> => {
+    setIsSyncingPrintrove(true);
+    try {
+      const res = await syncPrintroveCatalog();
+      if (res && Array.isArray(res.products)) {
+        await refreshProducts();
+        return {
+          productsCount: res.productsCount ?? res.products.length,
+          designsCount: res.designsCount ?? 0,
+        };
+      }
+      return null;
+    } catch (err) {
+      console.error('[ShopContext] Printrove sync error:', err);
+      return null;
+    } finally {
+      setIsSyncingPrintrove(false);
     }
   };
 
@@ -240,6 +279,8 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         products,
         isLoadingProducts,
         refreshProducts,
+        isSyncingPrintrove,
+        syncPrintrove,
         cart,
         isCartOpen,
         setIsCartOpen,

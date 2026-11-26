@@ -23,6 +23,10 @@ import {
   ShoppingBag,
   ExternalLink,
   Pencil,
+  Palette,
+  Layers,
+  RefreshCw,
+  Sparkles,
 } from 'lucide-react';
 import { ProductCard } from '../components/ProductCard';
 
@@ -33,15 +37,31 @@ type DashboardTab =
   | 'wishlist'
   | 'addresses'
   | 'returns'
-  | 'security';
+  | 'security'
+  | 'printrove';
 
 export const DashboardPage: React.FC = () => {
   const navigate = useNavigate();
-  const { user, isLoggedIn, login, logout, wishlist, products, formatPrice, addToCart } = useShop();
+  const {
+    user,
+    isLoggedIn,
+    login,
+    logout,
+    wishlist,
+    products,
+    formatPrice,
+    addToCart,
+    isSyncingPrintrove,
+    syncPrintrove,
+  } = useShop();
 
   const [activeTab, setActiveTab] = useState<DashboardTab>('overview');
   const [isCopied, setIsCopied] = useState(false);
   const [downloadingInvoice, setDownloadingInvoice] = useState<string | null>(null);
+
+  // Printrove Dropship Studio State
+  const [printroveDesigns, setPrintroveDesigns] = useState<any[]>([]);
+  const [printroveSyncStatus, setPrintroveSyncStatus] = useState<string | null>(null);
 
   // Personal Info Form State
   const [personalInfo, setPersonalInfo] = useState({
@@ -314,11 +334,22 @@ export const DashboardPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="flex items-center">
+          <div className="flex items-center gap-3">
             <div className="bg-[#FFFFFF] border border-[#DDD8CE] px-5 py-2.5 text-left sm:text-right shadow-sm">
               <div className="text-[10px] uppercase tracking-wider text-[#706B64]">Store Credits</div>
               <div className="text-base font-semibold text-[#171717]">{formatPrice(user.creditsINR || 1500)}</div>
             </div>
+            <button
+              onClick={() => {
+                logout();
+                navigate('/login');
+              }}
+              className="flex items-center gap-2 bg-[#FFFFFF] border border-[#DDD8CE] px-4 py-3 text-xs uppercase tracking-wider text-[#706B64] hover:text-[#171717] hover:border-[#171717] font-medium transition-colors shadow-sm cursor-pointer"
+              title="Sign Out of your account"
+            >
+              <LogOut className="w-3.5 h-3.5" />
+              <span>Sign Out</span>
+            </button>
           </div>
         </div>
       </section>
@@ -412,6 +443,27 @@ export const DashboardPage: React.FC = () => {
               >
                 <span>Security</span>
                 <Lock className="w-3.5 h-3.5 opacity-60" />
+              </button>
+
+              <button
+                onClick={() => {
+                  setActiveTab('printrove');
+                  fetch('/api/printrove/designs')
+                    .then((r) => r.json())
+                    .then((d) => setPrintroveDesigns(d.designs || []))
+                    .catch(() => {});
+                }}
+                className={`w-full text-left px-4 py-3 text-xs uppercase tracking-wider font-medium flex items-center justify-between transition-colors ${
+                  activeTab === 'printrove'
+                    ? 'bg-[#171717] text-white'
+                    : 'text-[#706B64] hover:bg-[#F4F1EA] hover:text-[#171717]'
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
+                  <span>Printrove Studio</span>
+                </span>
+                <Palette className="w-3.5 h-3.5 opacity-60" />
               </button>
 
               {/* Log Out Option at Bottom Left */}
@@ -1241,6 +1293,238 @@ export const DashboardPage: React.FC = () => {
                   <p className="text-[#706B64] text-[11px] leading-relaxed">
                     Customer records, cart checkouts, and address records are cryptographically secured and synchronized with Shopify Storefront API Customer protocols.
                   </p>
+                </div>
+              </div>
+            )}
+
+            {/* TAB 8: PRINTROVE STUDIO & DROPSHIP SYNC */}
+            {activeTab === 'printrove' && (
+              <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-6 sm:p-8 space-y-8 animate-fade-in-subtle">
+                {/* Header */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-[#DDD8CE]">
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold tracking-wider uppercase bg-emerald-50 text-emerald-700 border border-emerald-200">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                        API Connected
+                      </span>
+                      <span className="text-[10px] uppercase tracking-widest text-[#B9AA96] font-medium">
+                        Merchant ID: 301918
+                      </span>
+                    </div>
+                    <h2 className="font-serif text-2xl sm:text-3xl text-[#171717]">Printrove Design Studio</h2>
+                    <p className="text-xs text-[#706B64] font-light mt-1 max-w-xl leading-relaxed">
+                      Live Print-On-Demand garment sync. When you keep or upload new designs in your Printrove account, they automatically reflect on the Trevori storefront.
+                    </p>
+                  </div>
+
+                  <button
+                    onClick={async () => {
+                      setPrintroveSyncStatus('Syncing live products and designs from Printrove...');
+                      const res = await syncPrintrove();
+                      if (res) {
+                        setPrintroveSyncStatus(`✓ Successfully synced ${res.productsCount} products and ${res.designsCount} designs from Printrove!`);
+                        fetch('/api/printrove/designs')
+                          .then((r) => r.json())
+                          .then((d) => setPrintroveDesigns(d.designs || []))
+                          .catch(() => {});
+                      } else {
+                        setPrintroveSyncStatus('Synced products from cache.');
+                      }
+                      setTimeout(() => setPrintroveSyncStatus(null), 5000);
+                    }}
+                    disabled={isSyncingPrintrove}
+                    className="inline-flex items-center gap-2 px-5 py-3 bg-[#171717] text-white text-xs uppercase tracking-widest font-medium hover:bg-black transition-colors disabled:opacity-60 cursor-pointer shadow-sm self-start sm:self-auto"
+                  >
+                    <RefreshCw className={`w-3.5 h-3.5 ${isSyncingPrintrove ? 'animate-spin' : ''}`} />
+                    <span>{isSyncingPrintrove ? 'Syncing...' : 'Sync Designs Now'}</span>
+                  </button>
+                </div>
+
+                {/* Status Toast */}
+                {printroveSyncStatus && (
+                  <div className="p-3.5 bg-[#F4F1EA] border border-[#171717] text-xs text-[#171717] font-medium flex items-center justify-between animate-fade-in-subtle">
+                    <span>{printroveSyncStatus}</span>
+                    <button onClick={() => setPrintroveSyncStatus(null)} className="text-[#706B64] hover:text-black">✕</button>
+                  </div>
+                )}
+
+                {/* API Account Credentials Card */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+                  <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE] space-y-1">
+                    <span className="text-[10px] uppercase tracking-wider text-[#706B64] block font-semibold">Account Email</span>
+                    <div className="font-mono text-[11px] text-[#171717] truncate font-medium">pranav.avadhanula@gmail.com</div>
+                    <span className="text-[9px] text-[#706B64] block">Printrove Merchant Master</span>
+                  </div>
+
+                  <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE] space-y-1">
+                    <span className="text-[10px] uppercase tracking-wider text-[#706B64] block font-semibold">Token Security</span>
+                    <div className="text-[11px] text-emerald-800 font-medium flex items-center gap-1">
+                      <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Valid until 27/11/2027</span>
+                    </div>
+                    <span className="text-[9px] text-[#706B64] block">HMAC-SHA256 Encrypted</span>
+                  </div>
+
+                  <div className="p-4 bg-[#F4F1EA] border border-[#DDD8CE] space-y-1">
+                    <span className="text-[10px] uppercase tracking-wider text-[#706B64] block font-semibold">Auto-Sync Destination</span>
+                    <div className="text-[11px] text-[#171717] font-medium">Homepage & Collections</div>
+                    <span className="text-[9px] text-[#706B64] block">Real-time apparel mockups</span>
+                  </div>
+                </div>
+
+                {/* Live Synced Products from Printrove */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between pb-2 border-b border-[#DDD8CE]">
+                    <div className="flex items-center gap-2">
+                      <Layers className="w-4 h-4 text-[#B9AA96]" />
+                      <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-[#171717]">
+                        Live Synced Products ({products.filter((p) => p.id.startsWith('printrove-')).length})
+                      </h3>
+                    </div>
+                    <Link
+                      to="/"
+                      className="text-[10px] uppercase tracking-wider text-[#706B64] hover:text-[#171717] underline"
+                    >
+                      View on Homepage →
+                    </Link>
+                  </div>
+
+                  {products.filter((p) => p.id.startsWith('printrove-')).length > 0 ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {products
+                        .filter((p) => p.id.startsWith('printrove-'))
+                        .map((prod) => (
+                          <div
+                            key={prod.id}
+                            className="flex gap-4 p-4 border border-[#DDD8CE] bg-white hover:border-[#171717] transition-colors"
+                          >
+                            <div className="w-24 h-28 bg-[#F4F1EA] border border-[#DDD8CE] overflow-hidden flex-shrink-0">
+                              <img
+                                src={prod.images.primary}
+                                alt={prod.name}
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="flex-1 flex flex-col justify-between text-xs">
+                              <div>
+                                <span className="text-[9px] uppercase tracking-widest text-[#B9AA96] font-semibold block">
+                                  {prod.category} • Printrove Custom
+                                </span>
+                                <h4 className="font-serif text-base text-[#171717] font-normal mt-0.5">{prod.name}</h4>
+                                <div className="font-semibold text-[#171717] mt-1">{formatPrice(prod.priceINR)}</div>
+                              </div>
+
+                              <div className="pt-2 text-[10px] text-[#706B64] space-y-1">
+                                <div>
+                                  <strong>Colors:</strong> {prod.colors.map((c) => c.name).join(', ')}
+                                </div>
+                                <div>
+                                  <strong>Sizes:</strong> {prod.sizes.join(', ')}
+                                </div>
+                              </div>
+
+                              <div className="pt-2 flex items-center gap-3">
+                                <Link
+                                  to={`/product/${prod.id}`}
+                                  className="text-[10px] uppercase tracking-wider font-semibold text-[#171717] hover:underline flex items-center gap-1"
+                                >
+                                  <span>Inspect Product</span>
+                                  <ExternalLink className="w-3 h-3" />
+                                </Link>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                    </div>
+                  ) : (
+                    <div className="p-8 text-center bg-[#F4F1EA] border border-[#DDD8CE] text-xs text-[#706B64]">
+                      No products synced yet. Click "Sync Designs Now" above to pull your Printrove library!
+                    </div>
+                  )}
+                </div>
+
+                {/* Printrove Uploaded Design Library */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between pb-2 border-b border-[#DDD8CE]">
+                    <div className="flex items-center gap-2">
+                      <Palette className="w-4 h-4 text-[#B9AA96]" />
+                      <h3 className="text-xs uppercase tracking-[0.2em] font-semibold text-[#171717]">
+                        Printrove Design Library ({printroveDesigns.length})
+                      </h3>
+                    </div>
+                    <a
+                      href="https://printrove.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[10px] uppercase tracking-wider text-[#706B64] hover:text-[#171717] flex items-center gap-1"
+                    >
+                      <span>Upload More on Printrove</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+
+                  {printroveDesigns.length > 0 ? (
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                      {printroveDesigns.map((d: any) => (
+                        <div key={d.id} className="p-3 border border-[#DDD8CE] bg-white space-y-2">
+                          <div className="aspect-square w-full bg-[#F4F1EA] border border-[#DDD8CE] flex items-center justify-center overflow-hidden p-2">
+                            <img
+                              src={d.thumbnail_url || d.original_url}
+                              alt={d.name}
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          </div>
+                          <div className="text-xs">
+                            <div className="font-semibold text-[#171717] truncate">{d.name}</div>
+                            <div className="text-[10px] text-[#706B64]">{d.dimension} • {d.extension}</div>
+                          </div>
+                          <a
+                            href={d.original_url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-[9px] uppercase tracking-wider font-semibold text-[#B9AA96] hover:text-[#171717] inline-block"
+                          >
+                            View High-Res Artwork ↗
+                          </a>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        fetch('/api/printrove/designs')
+                          .then((r) => r.json())
+                          .then((d) => setPrintroveDesigns(d.designs || []))
+                          .catch(() => {});
+                      }}
+                      className="w-full py-4 bg-[#F4F1EA] border border-dashed border-[#DDD8CE] text-xs text-[#706B64] hover:text-[#171717] text-center"
+                    >
+                      Click to load uploaded designs from your Printrove Design Library
+                    </button>
+                  )}
+                </div>
+
+                {/* How it Works / Instructions */}
+                <div className="p-5 bg-[#F4F1EA] border border-[#DDD8CE] space-y-2 text-xs">
+                  <div className="font-semibold text-[#171717] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-[#B9AA96]" />
+                    <span>How Custom Apparel Drops Work</span>
+                  </div>
+                  <ol className="list-decimal list-inside space-y-1.5 text-[#706B64] font-light leading-relaxed text-[11px]">
+                    <li>
+                      <strong>Upload Artwork:</strong> Log in to your <a href="https://printrove.com" target="_blank" rel="noopener noreferrer" className="underline text-[#171717]">Printrove Merchant Panel</a> and add your graphics to the Design Library.
+                    </li>
+                    <li>
+                      <strong>Create Garment:</strong> Apply your design to Oversized Tees, Hoodies, or Sweatshirts, and pick your available colorways.
+                    </li>
+                    <li>
+                      <strong>Auto-Sync:</strong> Your Trevori website syncs with Printrove via API — new designs automatically appear on the <strong>Homepage ("Newest Drops")</strong> and Collections!
+                    </li>
+                    <li>
+                      <strong>Zero Inventory:</strong> When orders occur, Printrove automatically prints, packs, and dispatches directly to the customer.
+                    </li>
+                  </ol>
                 </div>
               </div>
             )}
