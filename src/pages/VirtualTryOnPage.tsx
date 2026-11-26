@@ -115,34 +115,34 @@ export const STUDIO_BACKDROPS: StudioBackdrop[] = [
 const MODEL_PRESETS = [
   {
     id: 'preset-man-athletic',
-    name: "Men's Athletic Silhouette (5'11\")",
+    name: "Men's Studio Torso (5'11\")",
     gender: 'Men',
-    url: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=1000&q=85',
-    defaultY: 28,
+    url: '/images/runway/men_tank_top.jpg',
+    defaultY: 5,
     defaultScale: 1.05,
   },
   {
-    id: 'preset-man-street',
-    name: "Men's Streetwear Slouch (5'9\")",
-    gender: 'Men',
-    url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1000&q=85',
-    defaultY: 30,
-    defaultScale: 1.0,
-  },
-  {
     id: 'preset-woman-oversized',
-    name: "Women's Oversized Drape (5'7\")",
+    name: "Women's Studio Torso (5'7\")",
     gender: 'Women',
-    url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=1000&q=85',
-    defaultY: 32,
+    url: '/images/runway/women_tank_top.jpg',
+    defaultY: 5,
     defaultScale: 0.95,
   },
   {
+    id: 'preset-man-street',
+    name: "Streetwear Standing Model",
+    gender: 'Men',
+    url: '/images/models/man_street_standing.jpg',
+    defaultY: -5,
+    defaultScale: 0.85,
+  },
+  {
     id: 'preset-mannequin',
-    name: 'Sculptural Tailor Mannequin',
+    name: '3D Studio Mannequin Stand',
     gender: 'Neutral',
-    url: 'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1000&q=85',
-    defaultY: 30,
+    url: '',
+    defaultY: 0,
     defaultScale: 1.0,
   },
 ];
@@ -701,21 +701,16 @@ export const VirtualTryOnPage: React.FC = () => {
               >
                 <div
                   style={{
-                    transform: `perspective(1000px) rotateY(${rotationY}deg) rotateX(${rotationX}deg) scale(${garmentScale}) translate(${garmentPosX}px, ${garmentPosY - 30}%)`,
-                    filter: 'drop-shadow(0px 20px 30px rgba(0,0,0,0.55)) contrast(1.05)',
+                    transform: `perspective(1000px) rotateY(${rotationY}deg) rotateX(${rotationX}deg) scale(${garmentScale}) translate(${garmentPosX}px, ${garmentPosY - 25}%)`,
+                    mixBlendMode: 'multiply',
                   }}
                   className="relative w-[78%] sm:w-[70%] max-w-[420px] transition-transform duration-75 ease-out"
                 >
                   <img
                     src={activeGarmentImage}
                     alt={`${selectedProduct.name} in ${selectedColor}`}
-                    className="w-full h-auto object-contain mix-blend-multiply"
-                    style={{
-                      mixBlendMode: 'multiply',
-                    }}
+                    className="w-full h-auto object-contain"
                   />
-                  {/* Subtle Studio Sheen Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-tr from-black/25 via-transparent to-white/15 pointer-events-none" />
                 </div>
               </div>
             )}
