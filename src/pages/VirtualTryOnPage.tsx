@@ -27,6 +27,7 @@ import {
 } from 'lucide-react';
 import { startRazorpayCheckout } from '../services/razorpay';
 import { Product } from '../types';
+import { RealisticClothEngine } from '../components/studio/RealisticClothEngine';
 
 const COLOR_TRANSPARENT_MAP: Record<string, string> = {
   'Ash Grey': '/images/cutouts/ash-grey.png',
@@ -201,11 +202,11 @@ export const VirtualTryOnPage: React.FC = () => {
   );
   const [selectedSize, setSelectedSize] = useState<string>(sizeParam);
 
-  // STUDIO ENVIRONMENT STATE: Adaptive Background
-  const [activeBackdropId, setActiveBackdropId] = useState<string>('auto');
+  // STUDIO ENVIRONMENT STATE: Adaptive Background (Automatically configured according to garment & color)
+  const [is3DVolumetricMode, setIs3DVolumetricMode] = useState<boolean>(false);
 
-  // Automatic Background Recommendation based on Garment & Color
-  const recommendedBackdrop = useMemo(() => {
+  // Automatic Background Intelligence: Dynamically sets studio ambiance based on the exact garment & color
+  const currentBackdrop = useMemo(() => {
     const cat = (selectedProduct.category || '').toLowerCase();
     const name = (selectedProduct.name || '').toLowerCase();
     const c = (selectedColor || '').toLowerCase();
@@ -224,9 +225,9 @@ export const VirtualTryOnPage: React.FC = () => {
     ) {
       return STUDIO_BACKDROPS[3]; // Nordic Winter Atelier
     }
-    // Color-based matching
+    // Color-based matching for T-shirts and tops
     if (c.includes('black') || c.includes('noir') || c.includes('charcoal')) {
-      return STUDIO_BACKDROPS[1]; // Tokyo Brutalist Concrete
+      return STUDIO_BACKDROPS[1]; // Tokyo Brutalist Concrete (Contrast studio keylight)
     }
     if (
       c.includes('white') ||
@@ -235,21 +236,22 @@ export const VirtualTryOnPage: React.FC = () => {
       c.includes('cream') ||
       c.includes('taupe')
     ) {
-      return STUDIO_BACKDROPS[0]; // Sunlit Sandstone Terrace
+      return STUDIO_BACKDROPS[0]; // Sunlit Sandstone Terrace (Golden hour sunbeams)
     }
-    if (c.includes('olive') || c.includes('green') || c.includes('sage') || c.includes('khaki')) {
-      return STUDIO_BACKDROPS[5]; // Kyoto Brutalist Garden
+    if (c.includes('navy') || c.includes('blue')) {
+      return STUDIO_BACKDROPS[2]; // Metropolitan London Night (Cinematic edge rim light)
     }
-    if (c.includes('red') || c.includes('maroon') || c.includes('crimson') || c.includes('burgundy')) {
-      return STUDIO_BACKDROPS[4]; // Milan Runway
+    if (c.includes('olive') || c.includes('green') || c.includes('forest') || c.includes('sage') || c.includes('khaki')) {
+      return STUDIO_BACKDROPS[5]; // Kyoto Brutalist Garden (Organic slate & natural earth tone)
+    }
+    if (c.includes('red') || c.includes('brick') || c.includes('maroon') || c.includes('crimson') || c.includes('burgundy')) {
+      return STUDIO_BACKDROPS[4]; // Milan Runway (Dramatic spotlight depth)
+    }
+    if (c.includes('grey') || c.includes('ash') || c.includes('gray')) {
+      return STUDIO_BACKDROPS[1]; // Tokyo Brutalist Concrete (High contrast)
     }
     return STUDIO_BACKDROPS[0];
   }, [selectedProduct, selectedColor]);
-
-  const currentBackdrop = useMemo(() => {
-    if (activeBackdropId === 'auto') return recommendedBackdrop;
-    return STUDIO_BACKDROPS.find((b) => b.id === activeBackdropId) || recommendedBackdrop;
-  }, [activeBackdropId, recommendedBackdrop]);
 
   // LIVE CAMERA STATE
   const [isLiveCameraActive, setIsLiveCameraActive] = useState(false);
@@ -577,25 +579,61 @@ export const VirtualTryOnPage: React.FC = () => {
           </p>
         </div>
 
-        {/* Live Camera Main Toggle */}
-        <div className="flex items-center gap-3">
+        {/* Studio Mode Switcher */}
+        <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
           <button
-            onClick={isLiveCameraActive ? stopLiveCamera : startLiveCamera}
-            className={`px-5 py-3 text-xs uppercase tracking-[0.2em] font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-md border ${
+            onClick={() => {
+              if (isLiveCameraActive) stopLiveCamera();
+              setIs3DVolumetricMode(false);
+            }}
+            className={`px-4 py-2.5 text-xs uppercase tracking-wider font-semibold border transition-all cursor-pointer ${
+              !isLiveCameraActive && !is3DVolumetricMode
+                ? 'bg-[#171717] text-white border-[#171717] shadow-sm'
+                : 'bg-white text-[#706B64] border-[#DDD8CE] hover:text-[#171717]'
+            }`}
+          >
+            <span>Runway Model Fit</span>
+          </button>
+
+          <button
+            onClick={() => {
+              if (isLiveCameraActive) stopLiveCamera();
+              setIs3DVolumetricMode(true);
+            }}
+            className={`px-4 py-2.5 text-xs uppercase tracking-wider font-semibold border transition-all cursor-pointer flex items-center gap-1.5 ${
+              is3DVolumetricMode && !isLiveCameraActive
+                ? 'bg-[#171717] text-white border-[#171717] shadow-sm'
+                : 'bg-white text-[#706B64] border-[#DDD8CE] hover:text-[#171717]'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-[#B9AA96]" />
+            <span>3D Volumetric Studio</span>
+          </button>
+
+          <button
+            onClick={() => {
+              if (isLiveCameraActive) {
+                stopLiveCamera();
+              } else {
+                setIs3DVolumetricMode(false);
+                startLiveCamera();
+              }
+            }}
+            className={`px-5 py-2.5 text-xs uppercase tracking-wider font-semibold flex items-center gap-2 transition-all cursor-pointer shadow-md border ${
               isLiveCameraActive
                 ? 'bg-red-600 hover:bg-red-700 text-white border-red-700'
-                : 'bg-[#171717] hover:bg-black text-white border-[#171717]'
+                : 'bg-[#C8411F] hover:bg-[#a83416] text-white border-[#C8411F]'
             }`}
           >
             {isLiveCameraActive ? (
               <>
                 <VideoOff className="w-4 h-4" />
-                <span>Turn Off Camera</span>
+                <span>Stop Camera</span>
               </>
             ) : (
               <>
-                <Video className="w-4 h-4 text-[#C8411F]" />
-                <span>Wear Live with Camera</span>
+                <Video className="w-4 h-4" />
+                <span>Wear Live with AI Camera</span>
               </>
             )}
           </button>
@@ -700,24 +738,69 @@ export const VirtualTryOnPage: React.FC = () => {
 
             {/* 3D Fitted Garment Layer with Real-Time Scaling & Orbit */}
             {(!compareMode || compareSlider < 95) && (
-              <div
-                className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
-                style={{ perspective: '1000px' }}
-              >
+              isLiveCameraActive ? (
+                <RealisticClothEngine
+                  videoRef={videoRef}
+                  isActive={isLiveCameraActive}
+                  garmentImage={activeGarmentImage}
+                  selectedColor={selectedColor}
+                  selectedSize={selectedSize}
+                  garmentScale={garmentScale}
+                  manualOffsetY={garmentPosY}
+                  manualOffsetX={garmentPosX}
+                  lightingAmbiance={currentBackdrop.lightingAmbiance}
+                  is3DVolumetricMode={false}
+                />
+              ) : is3DVolumetricMode ? (
+                <RealisticClothEngine
+                  videoRef={videoRef}
+                  isActive={false}
+                  garmentImage={activeGarmentImage}
+                  selectedColor={selectedColor}
+                  selectedSize={selectedSize}
+                  garmentScale={garmentScale}
+                  manualOffsetY={garmentPosY}
+                  manualOffsetX={garmentPosX}
+                  lightingAmbiance={currentBackdrop.lightingAmbiance}
+                  is3DVolumetricMode={true}
+                />
+              ) : (
                 <div
-                  style={{
-                    transform: `perspective(1000px) rotateY(${rotationY}deg) rotateX(${rotationX}deg) scale(${garmentScale}) translate(${garmentPosX}px, ${garmentPosY - 25}%)`,
-                    filter: 'drop-shadow(0px 20px 30px rgba(0,0,0,0.5))',
-                  }}
-                  className="relative w-[78%] sm:w-[70%] max-w-[420px] transition-transform duration-75 ease-out"
+                  className="absolute inset-0 z-30 flex items-center justify-center pointer-events-none"
+                  style={{ perspective: '1000px' }}
                 >
-                  <img
-                    src={activeGarmentImage}
-                    alt={`${selectedProduct.name} in ${selectedColor}`}
-                    className="w-full h-auto object-contain"
-                  />
+                  <div
+                    style={{
+                      transform: `perspective(1000px) rotateY(${rotationY}deg) rotateX(${rotationX}deg) scale(${garmentScale}) translate(${garmentPosX}px, ${garmentPosY - 25}%)`,
+                      filter: 'drop-shadow(0px 20px 30px rgba(0,0,0,0.5))',
+                    }}
+                    className="relative w-[78%] sm:w-[70%] max-w-[420px] transition-transform duration-75 ease-out"
+                  >
+                    <img
+                      src={activeGarmentImage}
+                      alt={`${selectedProduct.name} in ${selectedColor}`}
+                      className="w-full h-auto object-contain"
+                    />
+
+                    {/* Volumetric Body Curvature Overlay (Gives Realistic 3D Torso Roundness) */}
+                    <div
+                      className="absolute inset-0 pointer-events-none mix-blend-multiply opacity-75"
+                      style={{
+                        background:
+                          'linear-gradient(90deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.02) 20%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.02) 80%, rgba(0,0,0,0.3) 100%)',
+                      }}
+                    />
+
+                    {/* Collar Scoop Neck Shadow */}
+                    <div
+                      className="absolute top-[8%] left-[34%] w-[32%] h-[14%] rounded-full pointer-events-none opacity-60"
+                      style={{
+                        background: 'radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.4) 0%, transparent 75%)',
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
+              )
             )}
 
             {/* Shoulder & Torso Alignment Guide Grid */}
@@ -795,44 +878,20 @@ export const VirtualTryOnPage: React.FC = () => {
             )}
           </div>
 
-          {/* Adaptive Studio Environment Switcher */}
-          <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-4 text-[#171717]">
-            <div className="flex items-center justify-between mb-2.5">
-              <span className="text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 text-[#171717]">
-                <Palette className="w-3.5 h-3.5 text-[#C8411F]" />
-                <span>Adaptive Studio Background</span>
+          {/* Intelligent Studio Lighting & Background Status (Auto-configured to Garment) */}
+          <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs shadow-xs">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+              <span className="font-semibold text-[#171717] uppercase tracking-wider text-[11px]">
+                Adaptive Backdrop:
               </span>
-              <span className="text-[10px] uppercase tracking-wider text-[#706B64]">
-                Auto-complements garment
+              <span className="text-[#706B64]">
+                Auto-matched to <strong className="text-[#171717] capitalize">{selectedColor}</strong> ({currentBackdrop.name})
               </span>
             </div>
-
-            <div className="flex flex-wrap gap-2">
-              <button
-                onClick={() => setActiveBackdropId('auto')}
-                className={`px-3 py-1.5 text-xs uppercase tracking-wider font-semibold border transition-all cursor-pointer ${
-                  activeBackdropId === 'auto'
-                    ? 'border-[#171717] bg-[#171717] text-white'
-                    : 'border-[#DDD8CE] bg-white text-[#706B64] hover:border-[#171717]'
-                }`}
-              >
-                ✦ Auto ({recommendedBackdrop.name.split(' ')[0]})
-              </button>
-
-              {STUDIO_BACKDROPS.map((backdrop) => (
-                <button
-                  key={backdrop.id}
-                  onClick={() => setActiveBackdropId(backdrop.id)}
-                  className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium border transition-all cursor-pointer ${
-                    activeBackdropId === backdrop.id
-                      ? 'border-[#171717] bg-[#171717] text-white'
-                      : 'border-[#DDD8CE] bg-white text-[#706B64] hover:border-[#171717]'
-                  }`}
-                >
-                  {backdrop.name}
-                </button>
-              ))}
-            </div>
+            <span className="text-[10px] uppercase font-mono tracking-wider text-[#B9AA96] bg-[#F4F1EA] px-2.5 py-1 border border-[#DDD8CE] rounded self-start sm:self-auto">
+              {currentBackdrop.lightingAmbiance.split('&')[0]}
+            </span>
           </div>
         </div>
 

@@ -743,11 +743,11 @@ export const CollectionsPage: React.FC = () => {
               <div className="relative aspect-[16/9] w-full overflow-hidden bg-[#171717] border border-[#DDD8CE]">
                 <img
                   src="/images/banners/trevori_women_editorial_banner_4k.jpg"
-                  alt="TREVORI Women's Streetwear Drop 4K Master"
+                  alt="TREVORI Women's Streetwear Drop Atelier Master"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute top-4 left-4 bg-[#171717]/90 text-white text-[9px] uppercase px-3 py-1.5 tracking-widest font-semibold backdrop-blur-sm border border-white/20">
-                  4K Editorial Master View
+                  Editorial Master View
                 </div>
                 <div className="absolute bottom-4 right-4 bg-white/95 text-[#171717] text-[9px] uppercase px-2.5 py-1 tracking-wider font-semibold backdrop-blur-sm border border-[#DDD8CE]">
                   3440 × 1920 UHD
@@ -801,7 +801,7 @@ export const CollectionsPage: React.FC = () => {
                       rel="noopener noreferrer"
                       className="px-4 py-3 border border-[#DDD8CE] text-[#171717] text-[10px] uppercase tracking-widest font-medium hover:bg-[#F4F1EA] transition-colors flex items-center gap-1.5"
                     >
-                      <span>Full 4K</span>
+                      <span>Full Resolution</span>
                       <ExternalLink className="w-3 h-3" />
                     </a>
                   </div>

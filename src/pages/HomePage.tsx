@@ -531,7 +531,7 @@ export const HomePage: React.FC<{ scrollTo?: string }> = ({ scrollTo }) => {
                     className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute top-3 left-3 bg-[#171717]/90 text-white text-[9px] uppercase px-2.5 py-1 tracking-widest font-semibold backdrop-blur-sm border border-white/20">
-                    4K Editorial Master
+                    Editorial Master
                   </div>
                   <div className="absolute bottom-3 right-3 bg-white/90 text-[#171717] text-[9px] uppercase px-2 py-0.5 tracking-wider font-semibold backdrop-blur-sm border border-[#DDD8CE]">
                     {activeLookIndex === 3 ? '2728 × 4096 UHD' : '3904 × 4096 UHD'}
@@ -579,7 +579,7 @@ export const HomePage: React.FC<{ scrollTo?: string }> = ({ scrollTo }) => {
                       rel="noopener noreferrer"
                       className="w-full block py-2.5 text-center border border-[#DDD8CE] text-[#171717] text-[10px] uppercase tracking-widest font-medium hover:bg-[#F4F1EA] transition-colors"
                     >
-                      Inspect Master 4K Resolution ↗
+                      Inspect Master Resolution ↗
                     </a>
                   </div>
                 </div>

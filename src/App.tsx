@@ -22,6 +22,7 @@ import { VirtualTryOnPage } from './pages/VirtualTryOnPage';
 import { LoginPage } from './pages/LoginPage';
 import { SignUpPage } from './pages/SignUpPage';
 import { DashboardPage } from './pages/DashboardPage';
+import { AdminDashboardPage } from './pages/AdminDashboardPage';
 import { AIStylistPage } from './pages/AIStylistPage';
 import { OrderConfirmationPage } from './pages/OrderConfirmationPage';
 
@@ -42,6 +43,8 @@ function MainStorefront() {
   const navigate = useNavigate();
   const { login } = useShop();
   const isAuthPage = pathname === '/login' || pathname === '/signup';
+  const isAdminPage = pathname.startsWith('/admin');
+  const hideCustomerChrome = isAuthPage || isAdminPage;
 
   // Listen for Google OAuth callback access_token hash
   useEffect(() => {
@@ -80,7 +83,7 @@ function MainStorefront() {
       <ScrollToTop />
 
       {/* 1. Minimal Sticky Navigation */}
-      {!isAuthPage && <Navbar />}
+      {!hideCustomerChrome && <Navbar />}
 
       {/* Main Multi-Page Routed Content */}
       <main className="flex-1 w-full max-w-full bg-[#F4F1EA]">
@@ -123,6 +126,10 @@ function MainStorefront() {
           <Route path="/account" element={<DashboardPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
 
+          {/* Private Executive Owner Admin Portal (Restricted Gate) */}
+          <Route path="/admin" element={<AdminDashboardPage />} />
+          <Route path="/admin/login" element={<AdminDashboardPage />} />
+
           {/* Trevori AI Personal Shopping Stylist Studio */}
           <Route path="/ai-stylist" element={<AIStylistPage />} />
 
@@ -132,7 +139,7 @@ function MainStorefront() {
       </main>
 
       {/* 12. Premium Footer */}
-      {!isAuthPage && <Footer />}
+      {!hideCustomerChrome && <Footer />}
 
       {/* Global Slide-Over Drawers & Modals */}
       <CartDrawer />
@@ -141,7 +148,7 @@ function MainStorefront() {
       <SizingModal />
 
       {/* Floating 24/7 AI Stylist Assistant (Across Website) */}
-      {!isAuthPage && <TrevoriAIWidget />}
+      {!hideCustomerChrome && <TrevoriAIWidget />}
     </div>
   );
 }

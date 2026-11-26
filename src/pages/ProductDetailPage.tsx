@@ -389,7 +389,7 @@ export const ProductDetailPage: React.FC = () => {
                 </div>
 
                 <div className="absolute bottom-3 left-3 text-[10px] text-[#706B64] bg-white/95 px-2.5 py-0.5 rounded border border-[#DDD8CE] shadow-xs">
-                  Trevori 240 GSM Combed Cotton &bull; Click image for 4K Lightbox
+                  Trevori 240 GSM Combed Cotton &bull; Click image for Atelier Lightbox
                 </div>
               </div>
             </div>
@@ -710,7 +710,7 @@ export const ProductDetailPage: React.FC = () => {
                 {product.name}
               </h2>
               <p className="text-xs text-[#B9AA96] uppercase tracking-widest mt-0.5">
-                4K Fabric &amp; Detail Inspection &bull; Colorway: {activeColor}
+                Ultra-HD Fabric &amp; Detail Inspection &bull; Colorway: {activeColor}
               </p>
             </div>
             <div className="flex items-center gap-3">
