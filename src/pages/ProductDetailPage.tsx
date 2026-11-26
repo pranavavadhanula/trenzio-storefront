@@ -27,13 +27,18 @@ import { SizingModal } from '../components/SizingModal';
 import { startRazorpayCheckout } from '../services/razorpay';
 
 const COLOR_IMAGE_MAP: Record<string, string> = {
-  'Ash Grey': '/images/products/ash-grey.png',
-  'Beige': '/images/products/beige.png',
-  'Black': '/images/products/black.png',
-  'Olive Green': '/images/products/green.png',
-  'Navy Blue': '/images/products/navy.png',
-  'Crimson Red': '/images/products/red.png',
-  'Maroon': '/images/products/maroon.png',
+  'Ash Grey': '/images/cutouts/ash-grey.png',
+  'Beige': '/images/cutouts/beige.png',
+  'Black': '/images/cutouts/black.png',
+  'Olive Green': '/images/cutouts/forest-green.png',
+  'Forest Green': '/images/cutouts/forest-green.png',
+  'Navy Blue': '/images/cutouts/navy-blue.png',
+  'Crimson Red': '/images/cutouts/red.png',
+  'Red': '/images/cutouts/red.png',
+  'Maroon': '/images/cutouts/brick-red.png',
+  'Brick Red': '/images/cutouts/brick-red.png',
+  'Ivory': '/images/cutouts/ivory.png',
+  'White': '/images/cutouts/white.png',
 };
 
 const SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', '4XL'];

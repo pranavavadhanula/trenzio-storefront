@@ -93,10 +93,10 @@ export const Lookbook3DCard: React.FC<Lookbook3DCardProps> = ({
               transform: 'translateZ(0)',
             }}
           />
-          {/* 4K Master Badge in Top-Left */}
+          {/* Atelier Master Badge in Top-Left */}
           <div className="absolute top-4 left-4 z-20 flex items-center gap-1.5 bg-[#171717]/85 backdrop-blur-md px-2.5 py-1 text-[9px] uppercase tracking-widest text-[#F4F1EA] font-semibold border border-white/20">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
-            <span>4K Campaign</span>
+            <span>Editorial Campaign</span>
           </div>
 
           {/* Very subtle bottom vignette for depth, keeping image crystal clear */}
@@ -113,7 +113,7 @@ export const Lookbook3DCard: React.FC<Lookbook3DCardProps> = ({
           className="absolute bottom-5 left-5 bg-[#171717]/90 hover:bg-[#171717] backdrop-blur-md text-white px-4 py-2.5 text-[10px] uppercase tracking-widest font-medium transition-all flex items-center gap-2 cursor-pointer shadow-xl border border-white/20 group-hover:scale-105"
         >
           <Eye className="w-3.5 h-3.5" />
-          <span>Inspect 4K Details</span>
+          <span>Inspect Atelier Details</span>
         </button>
       </div>
     </div>

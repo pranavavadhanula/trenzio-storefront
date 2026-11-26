@@ -29,18 +29,23 @@ import { startRazorpayCheckout } from '../services/razorpay';
 import { Product } from '../types';
 
 const COLOR_TRANSPARENT_MAP: Record<string, string> = {
-  'Ash Grey': '/images/products/ash-grey.png',
-  'Beige': '/images/products/beige.png',
-  'Black': '/images/products/black.png',
-  'Obsidian Black': '/images/products/black.png',
-  'Olive Green': '/images/products/green.png',
-  'Navy Blue': '/images/products/navy.png',
-  'Crimson Red': '/images/products/red.png',
-  'Maroon': '/images/products/maroon.png',
-  'Ivory': '/images/products/beige.png',
-  'Ecru White': '/images/products/beige.png',
-  'Warm Taupe': '/images/products/ash-grey.png',
-  'Classic': '/images/products/black.png',
+  'Ash Grey': '/images/cutouts/ash-grey.png',
+  'White': '/images/cutouts/white.png',
+  'Black': '/images/cutouts/black.png',
+  'Obsidian Black': '/images/cutouts/black.png',
+  'Ivory': '/images/cutouts/ivory.png',
+  'Forest Green': '/images/cutouts/forest-green.png',
+  'Olive Green': '/images/cutouts/forest-green.png',
+  'Navy Blue': '/images/cutouts/navy-blue.png',
+  'Navy': '/images/cutouts/navy-blue.png',
+  'Brick Red': '/images/cutouts/brick-red.png',
+  'Red': '/images/cutouts/red.png',
+  'Crimson Red': '/images/cutouts/red.png',
+  'Maroon': '/images/cutouts/brick-red.png',
+  'Beige': '/images/cutouts/beige.png',
+  'Ecru White': '/images/cutouts/white.png',
+  'Warm Taupe': '/images/cutouts/beige.png',
+  'Classic': '/images/cutouts/black.png',
 };
 
 export interface StudioBackdrop {
@@ -702,7 +707,7 @@ export const VirtualTryOnPage: React.FC = () => {
                 <div
                   style={{
                     transform: `perspective(1000px) rotateY(${rotationY}deg) rotateX(${rotationX}deg) scale(${garmentScale}) translate(${garmentPosX}px, ${garmentPosY - 25}%)`,
-                    mixBlendMode: 'multiply',
+                    filter: 'drop-shadow(0px 20px 30px rgba(0,0,0,0.5))',
                   }}
                   className="relative w-[78%] sm:w-[70%] max-w-[420px] transition-transform duration-75 ease-out"
                 >
