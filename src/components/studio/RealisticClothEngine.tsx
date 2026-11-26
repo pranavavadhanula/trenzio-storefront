@@ -320,7 +320,9 @@ export const RealisticClothEngine: React.FC<RealisticClothEngineProps> = ({
             // 2. Main Garment Fabric Rendering
             ctx.drawImage(gImg, -targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
 
-            // 3. Volumetric Body Curvature Gradient (Gives 3D Torso Roundness)
+            // 3. Volumetric Body Curvature Gradient (Clipped strictly to garment pixels with source-atop)
+            ctx.save();
+            ctx.globalCompositeOperation = 'source-atop';
             const bodyGradient = ctx.createLinearGradient(-targetWidth / 2, 0, targetWidth / 2, 0);
             bodyGradient.addColorStop(0, 'rgba(0, 0, 0, 0.22)');
             bodyGradient.addColorStop(0.18, 'rgba(0, 0, 0, 0.03)');
@@ -328,43 +330,24 @@ export const RealisticClothEngine: React.FC<RealisticClothEngineProps> = ({
             bodyGradient.addColorStop(0.82, 'rgba(0, 0, 0, 0.03)');
             bodyGradient.addColorStop(1, 'rgba(0, 0, 0, 0.28)');
 
-            ctx.globalCompositeOperation = 'multiply';
             ctx.fillStyle = bodyGradient;
             ctx.fillRect(-targetWidth / 2, -targetHeight / 2, targetWidth, targetHeight);
-            ctx.globalCompositeOperation = 'source-over';
+            ctx.restore();
 
-            // 4. Anatomical Collar Scoop Shading (Highlights Neck Opening)
-            const collarGrad = ctx.createRadialGradient(
-              0,
-              -targetHeight * 0.38,
-              targetWidth * 0.02,
-              0,
-              -targetHeight * 0.38,
-              targetWidth * 0.22
-            );
-            collarGrad.addColorStop(0, 'rgba(0, 0, 0, 0.35)');
-            collarGrad.addColorStop(0.6, 'rgba(0, 0, 0, 0.08)');
-            collarGrad.addColorStop(1, 'rgba(0, 0, 0, 0)');
-
-            ctx.fillStyle = collarGrad;
-            ctx.beginPath();
-            ctx.ellipse(0, -targetHeight * 0.38, targetWidth * 0.18, targetHeight * 0.08, 0, 0, Math.PI * 2);
-            ctx.fill();
-
-            // 5. Environmental Lighting Rim Accent (Adapts to Studio Backdrops)
+            // 4. Environmental Lighting Rim Accent (Adapts to Studio Backdrops - Clipped strictly with source-atop)
             const isNightStudio = lightingAmbiance.toLowerCase().includes('night');
             const isGoldenHour = lightingAmbiance.toLowerCase().includes('sun');
             ctx.save();
-            ctx.globalCompositeOperation = 'screen';
+            ctx.globalCompositeOperation = 'source-atop';
             const rimGradient = ctx.createLinearGradient(-targetWidth / 2, -targetHeight / 2, targetWidth / 2, targetHeight / 2);
             if (isGoldenHour) {
-              rimGradient.addColorStop(0, 'rgba(255, 220, 160, 0.18)');
+              rimGradient.addColorStop(0, 'rgba(255, 220, 160, 0.15)');
               rimGradient.addColorStop(0.3, 'rgba(255, 220, 160, 0.0)');
             } else if (isNightStudio) {
               rimGradient.addColorStop(0.8, 'rgba(0, 180, 255, 0.0)');
-              rimGradient.addColorStop(1, 'rgba(0, 210, 255, 0.22)');
+              rimGradient.addColorStop(1, 'rgba(0, 210, 255, 0.20)');
             } else {
-              rimGradient.addColorStop(0, 'rgba(255, 255, 255, 0.15)');
+              rimGradient.addColorStop(0, 'rgba(255, 255, 255, 0.12)');
               rimGradient.addColorStop(0.2, 'rgba(255, 255, 255, 0.0)');
             }
             ctx.fillStyle = rimGradient;
