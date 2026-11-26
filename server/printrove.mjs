@@ -156,8 +156,19 @@ export async function fetchPrintroveStoreProducts(token = DEFAULT_PRINTROVE_TOKE
           ? Array.from(colorMap.values())
           : [{ name: 'Ivory', hex: '#fffff0' }, { name: 'Black', hex: '#202020' }, { name: 'Ash Grey', hex: '#c9c9c9' }];
         
-        const sizes = sizeSet.size > 0 
-          ? Array.from(sizeSet) 
+        // Standard streetwear size sorting order
+        const sizeOrder = ['XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', '4XL'];
+        const sortedSizes = Array.from(sizeSet).sort((a, b) => {
+          const idxA = sizeOrder.indexOf(a.toUpperCase());
+          const idxB = sizeOrder.indexOf(b.toUpperCase());
+          if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+          if (idxA !== -1) return -1;
+          if (idxB !== -1) return 1;
+          return a.localeCompare(b);
+        });
+
+        const sizes = sortedSizes.length > 0 
+          ? sortedSizes 
           : ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
         // Retail pricing: Use selling price or apply standard luxury streetwear markup

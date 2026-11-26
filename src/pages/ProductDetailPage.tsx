@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import {
@@ -14,6 +14,13 @@ import {
   AlertCircle,
   Camera,
   Sparkles,
+  ZoomIn,
+  ZoomOut,
+  Maximize2,
+  X,
+  Move,
+  Info,
+  CheckCircle2,
 } from 'lucide-react';
 import { SizingModal } from '../components/SizingModal';
 import { startRazorpayCheckout } from '../services/razorpay';
@@ -26,6 +33,19 @@ const COLOR_IMAGE_MAP: Record<string, string> = {
   'Navy Blue': '/images/products/navy.png',
   'Crimson Red': '/images/products/red.png',
   'Maroon': '/images/products/maroon.png',
+};
+
+const SIZE_ORDER = ['XS', 'S', 'M', 'L', 'XL', '2XL', 'XXL', '3XL', '4XL'];
+
+const SIZE_DETAILS: Record<string, { chest: string; length: string; fit: string; stock: string }> = {
+  'XS': { chest: '40"', length: '27"', fit: 'Slim/Fitted silhouette', stock: 'Low Stock — 3 left' },
+  'S': { chest: '42"', length: '28"', fit: 'Trim streetwear fit', stock: 'In Stock' },
+  'M': { chest: '44"', length: '29"', fit: 'Signature slouchy relaxed fit', stock: 'In Stock · Ready to Dispatch' },
+  'L': { chest: '46"', length: '30"', fit: 'Authentic oversized boxy drape', stock: 'In Stock · Ready to Dispatch' },
+  'XL': { chest: '48"', length: '31"', fit: 'Generous oversized volume', stock: 'In Stock' },
+  '2XL': { chest: '50"', length: '32"', fit: 'Extended slouch silhouette', stock: 'In Stock' },
+  'XXL': { chest: '50"', length: '32"', fit: 'Extended slouch silhouette', stock: 'In Stock' },
+  '3XL': { chest: '52"', length: '33"', fit: 'Maximum statement drape', stock: 'Limited Edition' },
 };
 
 export const ProductDetailPage: React.FC = () => {
@@ -48,12 +68,75 @@ export const ProductDetailPage: React.FC = () => {
 
   const [selectedColor, setSelectedColor] = useState(initialColor);
   const [hoveredColor, setHoveredColor] = useState<string | null>(null);
-  const [selectedSize, setSelectedSize] = useState(product?.sizes[1] || product?.sizes[0] || 'M');
+
+  // Sorted sizes in standard logical order (XS, S, M, L, XL, 2XL, XXL, 3XL)
+  const sortedSizes = useMemo(() => {
+    if (!product?.sizes || product.sizes.length === 0) return ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
+    return [...product.sizes].sort((a, b) => {
+      const idxA = SIZE_ORDER.indexOf(a.toUpperCase());
+      const idxB = SIZE_ORDER.indexOf(b.toUpperCase());
+      if (idxA !== -1 && idxB !== -1) return idxA - idxB;
+      if (idxA !== -1) return -1;
+      if (idxB !== -1) return 1;
+      return a.localeCompare(b);
+    });
+  }, [product?.sizes]);
+
+  const [selectedSize, setSelectedSize] = useState(() => {
+    if (product?.sizes && product.sizes.length > 0) {
+      return product.sizes.find((s: string) => s.toUpperCase() === 'M') || product.sizes[0];
+    }
+    return 'M';
+  });
+
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
+
+  // Interactive Zoom State
+  const [zoomLevel, setZoomLevel] = useState(100); // 100% to 350%
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isHoveringImage, setIsHoveringImage] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [lightboxZoom, setLightboxZoom] = useState(130);
+  const [lightboxPos, setLightboxPos] = useState({ x: 50, y: 50 });
+  const imageContainerRef = useRef<HTMLDivElement>(null);
+
+  // Reset zoom level whenever gallery image or color changes
+  useEffect(() => {
+    setZoomLevel(100);
+  }, [activeGalleryIndex, selectedColor, hoveredColor]);
+
+  // Keyboard shortcut listener for Lightbox
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isLightboxOpen) {
+        setIsLightboxOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isLightboxOpen]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
+    const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
+    setMousePos({ x, y });
+  };
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    // Only capture wheel zoom when hovered over image
+    e.preventDefault();
+    const delta = e.deltaY < 0 ? 20 : -20;
+    setZoomLevel((prev) => Math.min(350, Math.max(100, prev + delta)));
+  };
+
+  const handleDoubleClick = () => {
+    setZoomLevel((prev) => (prev > 100 ? 100 : 200));
+  };
 
   // Sync initial color if product changes
   useEffect(() => {

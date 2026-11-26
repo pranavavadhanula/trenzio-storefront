@@ -257,7 +257,7 @@ export const VirtualTryOnPage: React.FC = () => {
   const [rotationY, setRotationY] = useState<number>(0); // 360 orbit yaw
   const [rotationX, setRotationX] = useState<number>(0); // tilt
   const [garmentScale, setGarmentScale] = useState<number>(1.05);
-  const [garmentPosY, setGarmentPosY] = useState<number>(30); // percentage offset
+  const [garmentPosY, setGarmentPosY] = useState<number>(40); // percentage offset - placed at natural torso/shoulder line
   const [garmentPosX, setGarmentPosX] = useState<number>(0);
   const [showBodyGuide, setShowBodyGuide] = useState<boolean>(true);
   const [compareMode, setCompareMode] = useState<boolean>(false);
@@ -709,12 +709,9 @@ export const VirtualTryOnPage: React.FC = () => {
                   <img
                     src={activeGarmentImage}
                     alt={`${selectedProduct.name} in ${selectedColor}`}
-                    className="w-full h-auto object-contain"
+                    className="w-full h-auto object-contain mix-blend-multiply"
                     style={{
-                      mixBlendMode:
-                        activeGarmentImage.includes('printrove') || activeGarmentImage.endsWith('.webp')
-                          ? 'multiply'
-                          : 'normal',
+                      mixBlendMode: 'multiply',
                     }}
                   />
                   {/* Subtle Studio Sheen Overlay */}
@@ -925,7 +922,7 @@ export const VirtualTryOnPage: React.FC = () => {
                 <button
                   onClick={() => {
                     setGarmentScale(1.05);
-                    setGarmentPosY(30);
+                    setGarmentPosY(40);
                     setGarmentPosX(0);
                     setRotationY(0);
                   }}
