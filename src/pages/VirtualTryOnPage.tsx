@@ -771,7 +771,7 @@ export const VirtualTryOnPage: React.FC = () => {
                 >
                   <div
                     style={{
-                      transform: `perspective(1000px) rotateY(${rotationY}deg) rotateX(${rotationX}deg) scale(${garmentScale}) translate(${garmentPosX}px, ${garmentPosY - 25}%)`,
+                      transform: `perspective(1000px) rotateY(${rotationY}deg) rotateX(${rotationX}deg) scale(${garmentScale}) translate(${garmentPosX}px, ${garmentPosY - 38}%)`,
                       filter: 'drop-shadow(0px 20px 30px rgba(0,0,0,0.5))',
                     }}
                     className="relative w-[78%] sm:w-[70%] max-w-[420px] transition-transform duration-75 ease-out"
@@ -782,20 +782,36 @@ export const VirtualTryOnPage: React.FC = () => {
                       className="w-full h-auto object-contain"
                     />
 
-                    {/* Volumetric Body Curvature Overlay (Gives Realistic 3D Torso Roundness) */}
+                    {/* Volumetric Body Curvature Overlay (Masked strictly to Garment Silhouette) */}
                     <div
-                      className="absolute inset-0 pointer-events-none mix-blend-multiply opacity-75"
+                      className="absolute inset-0 pointer-events-none mix-blend-multiply opacity-70"
                       style={{
                         background:
-                          'linear-gradient(90deg, rgba(0,0,0,0.25) 0%, rgba(0,0,0,0.02) 20%, rgba(255,255,255,0.05) 50%, rgba(0,0,0,0.02) 80%, rgba(0,0,0,0.3) 100%)',
+                          'linear-gradient(90deg, rgba(0,0,0,0.28) 0%, rgba(0,0,0,0.02) 20%, rgba(255,255,255,0.08) 50%, rgba(0,0,0,0.02) 80%, rgba(0,0,0,0.32) 100%)',
+                        maskImage: `url(${activeGarmentImage})`,
+                        WebkitMaskImage: `url(${activeGarmentImage})`,
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
                       }}
                     />
 
-                    {/* Collar Scoop Neck Shadow */}
+                    {/* Collar Scoop Neck Shadow (Masked strictly to Garment Silhouette) */}
                     <div
-                      className="absolute top-[8%] left-[34%] w-[32%] h-[14%] rounded-full pointer-events-none opacity-60"
+                      className="absolute top-[6%] left-[32%] w-[36%] h-[16%] rounded-full pointer-events-none opacity-60"
                       style={{
-                        background: 'radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.4) 0%, transparent 75%)',
+                        background: 'radial-gradient(ellipse at 50% 30%, rgba(0,0,0,0.45) 0%, transparent 75%)',
+                        maskImage: `url(${activeGarmentImage})`,
+                        WebkitMaskImage: `url(${activeGarmentImage})`,
+                        maskSize: 'contain',
+                        WebkitMaskSize: 'contain',
+                        maskRepeat: 'no-repeat',
+                        WebkitMaskRepeat: 'no-repeat',
+                        maskPosition: 'center',
+                        WebkitMaskPosition: 'center',
                       }}
                     />
                   </div>
