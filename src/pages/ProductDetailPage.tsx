@@ -21,6 +21,7 @@ import {
   Move,
   Info,
   CheckCircle2,
+  Search,
 } from 'lucide-react';
 import { SizingModal } from '../components/SizingModal';
 import { startRazorpayCheckout } from '../services/razorpay';
@@ -95,19 +96,15 @@ export const ProductDetailPage: React.FC = () => {
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
 
-  // Interactive Zoom State
-  const [zoomLevel, setZoomLevel] = useState(100); // 100% to 350%
-  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  // Amazon & Flipkart Style Ultra-HD Magnifier & Lightbox State
   const [isHoveringImage, setIsHoveringImage] = useState(false);
+  const [zoomScale, setZoomScale] = useState<number>(2.8); // 2.0x, 2.8x, 3.5x
+  const [lensPos, setLensPos] = useState({ left: 0, top: 0, width: 180, height: 225 });
+  const [lensNorm, setLensNorm] = useState({ x: 50, y: 50 });
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
-  const [lightboxZoom, setLightboxZoom] = useState(130);
+  const [lightboxZoom, setLightboxZoom] = useState(150);
   const [lightboxPos, setLightboxPos] = useState({ x: 50, y: 50 });
   const imageContainerRef = useRef<HTMLDivElement>(null);
-
-  // Reset zoom level whenever gallery image or color changes
-  useEffect(() => {
-    setZoomLevel(100);
-  }, [activeGalleryIndex, selectedColor, hoveredColor]);
 
   // Keyboard shortcut listener for Lightbox
   useEffect(() => {
@@ -121,21 +118,32 @@ export const ProductDetailPage: React.FC = () => {
   }, [isLightboxOpen]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = Math.max(0, Math.min(100, ((e.clientX - rect.left) / rect.width) * 100));
-    const y = Math.max(0, Math.min(100, ((e.clientY - rect.top) / rect.height) * 100));
-    setMousePos({ x, y });
+    if (!imageContainerRef.current) return;
+    const rect = imageContainerRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    // Lens dimensions proportional to zoom factor (maintains 4:5 aspect ratio)
+    const lensW = Math.round(rect.width / zoomScale);
+    const lensH = Math.round(rect.height / zoomScale);
+
+    // Center lens around cursor and clamp to image container bounds
+    const left = Math.max(0, Math.min(rect.width - lensW, x - lensW / 2));
+    const top = Math.max(0, Math.min(rect.height - lensH, y - lensH / 2));
+
+    // Normalized origin percentages (0% to 100%)
+    const normX = rect.width > lensW ? (left / (rect.width - lensW)) * 100 : 50;
+    const normY = rect.height > lensH ? (top / (rect.height - lensH)) * 100 : 50;
+
+    setLensPos({ left, top, width: lensW, height: lensH });
+    setLensNorm({ x: normX, y: normY });
   };
 
   const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
-    // Only capture wheel zoom when hovered over image
+    // Zoom in/out via mouse wheel just like Amazon
     e.preventDefault();
-    const delta = e.deltaY < 0 ? 20 : -20;
-    setZoomLevel((prev) => Math.min(350, Math.max(100, prev + delta)));
-  };
-
-  const handleDoubleClick = () => {
-    setZoomLevel((prev) => (prev > 100 ? 100 : 200));
+    const delta = e.deltaY < 0 ? 0.3 : -0.3;
+    setZoomScale((prev) => Math.min(4.0, Math.max(1.8, parseFloat((prev + delta).toFixed(1)))));
   };
 
   // Sync initial color if product changes
@@ -260,30 +268,24 @@ export const ProductDetailPage: React.FC = () => {
       {/* Main Product Layout */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14">
         
-        {/* Left: 4:5 Photography & Gallery */}
-        <div className="lg:col-span-7 space-y-4">
-          {/* Main 4:5 Product Surface Box with Pure Atelier Studio Lighting & Interactive Zoom */}
+        {/* Left: 4:5 Photography & Gallery with Amazon / Flipkart Style Ultra-HD Hover Zoom */}
+        <div className="lg:col-span-7 space-y-4 relative">
+          {/* Main 4:5 Product Surface Box with Amazon/Flipkart Magnifying Lens */}
           <div
             ref={imageContainerRef}
             onMouseMove={handleMouseMove}
             onMouseEnter={() => setIsHoveringImage(true)}
-            onMouseLeave={() => {
-              setIsHoveringImage(false);
-              setMousePos({ x: 50, y: 50 });
-            }}
+            onMouseLeave={() => setIsHoveringImage(false)}
             onWheel={handleWheel}
-            onDoubleClick={handleDoubleClick}
-            className="relative aspect-[4/5] w-full bg-[#FFFFFF] border border-[#DDD8CE] overflow-hidden flex items-center justify-center p-6 sm:p-10 shadow-sm select-none group"
-            style={{
-              cursor: zoomLevel > 100 ? 'crosshair' : 'zoom-in',
-            }}
+            onClick={() => setIsLightboxOpen(true)}
+            className="relative aspect-[4/5] w-full bg-[#FFFFFF] border border-[#DDD8CE] overflow-hidden flex items-center justify-center p-6 sm:p-10 shadow-sm select-none group cursor-crosshair"
           >
-            {/* Main Product Image with Interactive Scale & Dynamic Pan */}
+            {/* Main Product Image (scales in-place on mobile/touch, stays stable on desktop while lens hovers) */}
             <div
               className="w-full h-full flex items-center justify-center transition-transform duration-150 ease-out"
               style={{
-                transformOrigin: `${mousePos.x}% ${mousePos.y}%`,
-                transform: `scale(${zoomLevel > 100 ? (zoomLevel / 100) * 1.15 : 1.15})`,
+                transformOrigin: `${lensNorm.x}% ${lensNorm.y}%`,
+                transform: isHoveringImage ? 'scale(1.22)' : 'scale(1.15)',
               }}
             >
               <img
@@ -295,17 +297,40 @@ export const ProductDetailPage: React.FC = () => {
               />
             </div>
 
-            {/* Quick Status / Zoom Helper Badge */}
+            {/* Amazon Style Shaded Magnifier Lens Box (follows mouse) */}
+            {isHoveringImage && (
+              <div
+                className="hidden lg:block absolute pointer-events-none border-2 border-[#171717] bg-[#171717]/15 backdrop-contrast-125 shadow-sm transition-all duration-75 z-20"
+                style={{
+                  left: `${lensPos.left}px`,
+                  top: `${lensPos.top}px`,
+                  width: `${lensPos.width}px`,
+                  height: `${lensPos.height}px`,
+                }}
+              >
+                {/* Center crosshair grid */}
+                <div className="w-full h-full relative flex items-center justify-center opacity-30">
+                  <div className="w-full h-[1px] bg-[#171717]" />
+                  <div className="h-full w-[1px] bg-[#171717] absolute" />
+                </div>
+              </div>
+            )}
+
+            {/* Amazon Signature Status Badge */}
             <div className="absolute top-4 left-4 z-10 pointer-events-none">
-              <span className="px-2.5 py-1 text-[10px] uppercase font-mono tracking-widest bg-white/90 backdrop-blur-sm border border-[#DDD8CE] text-[#171717] rounded shadow-xs">
-                {zoomLevel > 100 ? `Zoom: ${zoomLevel}% · Double-click to reset` : 'Hover / Scroll to Zoom'}
+              <span className="px-2.5 py-1 text-[10px] uppercase font-mono tracking-widest bg-white/95 backdrop-blur-sm border border-[#DDD8CE] text-[#171717] rounded shadow-xs flex items-center gap-1.5">
+                <Search className="w-3 h-3 text-[#B9AA96]" />
+                <span>Roll over image to zoom</span>
               </span>
             </div>
 
             {/* Wishlist Button */}
             <button
-              onClick={() => toggleWishlist(product.id)}
-              className={`absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
+              onClick={(e) => {
+                e.stopPropagation();
+                toggleWishlist(product.id);
+              }}
+              className={`absolute top-4 right-4 z-30 w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                 isSaved
                   ? 'bg-[#171717] text-white shadow-sm'
                   : 'bg-[#FFFFFF] text-[#171717] hover:bg-[#171717] hover:text-white border border-[#DDD8CE]'
@@ -315,71 +340,88 @@ export const ProductDetailPage: React.FC = () => {
               <Heart className={`w-4 h-4 ${isSaved ? 'fill-current' : ''}`} />
             </button>
 
-            {/* Floating Luxury Interactive Zoom Controls Toolbar */}
-            <div
-              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20 bg-white/95 backdrop-blur-md border border-[#DDD8CE] shadow-lg rounded-full px-3 py-1.5 flex items-center gap-2 sm:gap-2.5 transition-all opacity-95 group-hover:opacity-100"
-              onClick={(e) => e.stopPropagation()}
+            {/* Click to Expand Helper Pill */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLightboxOpen(true);
+              }}
+              className="absolute bottom-4 right-4 z-20 px-3 py-1.5 bg-white/95 hover:bg-[#171717] hover:text-white text-[#171717] text-[10px] uppercase font-medium tracking-wider rounded-full border border-[#DDD8CE] shadow-md flex items-center gap-1.5 transition-all cursor-pointer"
+              title="Click to open expanded full screen view"
             >
-              <button
-                type="button"
-                onClick={() => setZoomLevel((prev) => Math.max(100, prev - 25))}
-                disabled={zoomLevel <= 100}
-                className="w-7 h-7 rounded-full flex items-center justify-center text-[#171717] hover:bg-[#F4F1EA] disabled:opacity-30 disabled:hover:bg-transparent transition-all cursor-pointer"
-                title="Zoom Out (-25%)"
-              >
-                <ZoomOut className="w-3.5 h-3.5" />
-              </button>
+              <Maximize2 className="w-3 h-3" />
+              <span className="hidden sm:inline">Click to expand</span>
+            </button>
+          </div>
 
-              {/* Interactive Zoom Slider */}
-              <div className="flex items-center gap-2">
-                <input
-                  type="range"
-                  min={100}
-                  max={350}
-                  step={10}
-                  value={zoomLevel}
-                  onChange={(e) => setZoomLevel(Number(e.target.value))}
-                  className="w-20 sm:w-28 h-1.5 bg-[#DDD8CE] rounded-lg appearance-none cursor-pointer accent-[#171717]"
-                  title="Adjust zoom level according to your will"
-                />
-                <span className="text-[11px] font-mono font-semibold text-[#171717] min-w-[36px] text-right">
-                  {zoomLevel}%
-                </span>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setZoomLevel((prev) => Math.min(350, prev + 25))}
-                disabled={zoomLevel >= 350}
-                className="w-7 h-7 rounded-full flex items-center justify-center text-[#171717] hover:bg-[#F4F1EA] disabled:opacity-30 disabled:hover:bg-transparent transition-all cursor-pointer"
-                title="Zoom In (+25%)"
-              >
-                <ZoomIn className="w-3.5 h-3.5" />
-              </button>
-
-              {zoomLevel > 100 && (
-                <button
-                  type="button"
-                  onClick={() => setZoomLevel(100)}
-                  className="px-2 py-0.5 text-[10px] uppercase font-bold tracking-wider bg-[#171717] text-white rounded-full hover:bg-[#333333] transition-all cursor-pointer"
-                  title="Reset to 100%"
+          {/* Amazon / Flipkart Ultra-Clear Side Zoom Flyout Window */}
+          {isHoveringImage && (
+            <div
+              className="hidden lg:block absolute top-0 left-[calc(100%+1.5rem)] w-[520px] xl:w-[580px] aspect-[4/5] z-50 bg-[#FFFFFF] border-2 border-[#171717] shadow-2xl overflow-hidden pointer-events-none animate-in fade-in duration-100"
+            >
+              <div className="relative w-full h-full overflow-hidden bg-[#FFFFFF] flex items-center justify-center">
+                {/* Ultra HD Zoomed Garment Canvas */}
+                <div
+                  className="w-full h-full flex items-center justify-center pointer-events-none"
+                  style={{
+                    transformOrigin: `${lensNorm.x}% ${lensNorm.y}%`,
+                    transform: `scale(${zoomScale})`,
+                  }}
                 >
-                  1x
+                  <img
+                    src={displayedImage}
+                    alt={`${product.name} Zoom Detail`}
+                    className="w-full h-full object-contain scale-120 select-none"
+                    draggable={false}
+                  />
+                </div>
+
+                {/* Header watermark badge */}
+                <div className="absolute top-3 left-3 bg-[#171717]/95 text-white text-[10px] uppercase font-mono tracking-wider px-2.5 py-1 rounded shadow-md flex items-center gap-1.5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>Ultra HD {zoomScale}x Magnification</span>
+                </div>
+
+                <div className="absolute bottom-3 left-3 text-[10px] text-[#706B64] bg-white/95 px-2.5 py-0.5 rounded border border-[#DDD8CE] shadow-xs">
+                  Trevori 240 GSM Combed Cotton &bull; Click image for 4K Lightbox
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Amazon/Flipkart Instruction & Zoom Level Controls */}
+          <div className="flex items-center justify-between text-xs text-[#706B64] pt-1 border-b border-[#DDD8CE]/60 pb-2">
+            <div className="flex items-center gap-1.5 font-medium text-[#171717]">
+              <Search className="w-3.5 h-3.5 text-[#B9AA96]" />
+              <span>Roll over image to zoom in &bull; Click to open expanded view</span>
+            </div>
+
+            {/* Zoom multiplier options (2.0x, 2.8x, 3.5x) */}
+            <div className="flex items-center gap-1.5">
+              <span className="text-[10px] uppercase tracking-wider text-[#8C867D] font-medium">Zoom:</span>
+              {[2.0, 2.8, 3.5].map((scale) => (
+                <button
+                  key={scale}
+                  type="button"
+                  onClick={() => setZoomScale(scale)}
+                  className={`px-2 py-0.5 text-[10px] font-mono font-semibold rounded transition-all cursor-pointer ${
+                    zoomScale === scale
+                      ? 'bg-[#171717] text-white shadow-xs'
+                      : 'bg-[#FFFFFF] text-[#706B64] border border-[#DDD8CE] hover:border-[#171717] hover:text-[#171717]'
+                  }`}
+                  title={`Set Zoom to ${scale}x`}
+                >
+                  {scale}x
                 </button>
-              )}
-
-              <div className="w-[1px] h-4 bg-[#DDD8CE]" />
-
+              ))}
               <button
                 type="button"
-                onClick={() => {
-                  setLightboxZoom(Math.max(140, zoomLevel));
-                  setIsLightboxOpen(true);
-                }}
-                className="w-7 h-7 rounded-full flex items-center justify-center text-[#171717] hover:bg-[#F4F1EA] transition-all cursor-pointer"
-                title="Full-Screen High Definition Inspection"
+                onClick={() => setIsLightboxOpen(true)}
+                className="ml-1 p-1 rounded border border-[#DDD8CE] text-[#171717] hover:bg-[#171717] hover:text-white transition-colors cursor-pointer"
+                title="Full-Screen Lightbox View"
               >
-                <Maximize2 className="w-3.5 h-3.5" />
+                <Maximize2 className="w-3 h-3" />
               </button>
             </div>
           </div>
