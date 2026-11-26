@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useShop } from '../context/ShopContext';
 import {
@@ -12,6 +12,8 @@ import {
   ArrowRight,
   ShoppingBag,
   AlertCircle,
+  Camera,
+  Sparkles,
 } from 'lucide-react';
 import { SizingModal } from '../components/SizingModal';
 import { startRazorpayCheckout } from '../services/razorpay';
@@ -33,13 +35,46 @@ export const ProductDetailPage: React.FC = () => {
 
   const product = products.find((p) => p.id === id) || products[0];
 
-  const [selectedColor, setSelectedColor] = useState(product?.colors[0]?.name || 'Default');
+  // Pick signature initial colorway (Black, Ivory, or first color)
+  const initialColor = useMemo(() => {
+    if (!product?.colors || product.colors.length === 0) return 'Default';
+    const preferredPriority = ['black', 'ivory', 'forest green', 'navy blue', 'ash grey'];
+    for (const p of preferredPriority) {
+      const match = product.colors.find((c) => c.name.toLowerCase() === p);
+      if (match) return match.name;
+    }
+    return product.colors[0].name;
+  }, [product?.colors]);
+
+  const [selectedColor, setSelectedColor] = useState(initialColor);
+  const [hoveredColor, setHoveredColor] = useState<string | null>(null);
   const [selectedSize, setSelectedSize] = useState(product?.sizes[1] || product?.sizes[0] || 'M');
   const [isSizeGuideOpen, setIsSizeGuideOpen] = useState(false);
   const [isAdded, setIsAdded] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
   const [checkoutError, setCheckoutError] = useState<string | null>(null);
   const [activeGalleryIndex, setActiveGalleryIndex] = useState(0);
+
+  // Sync initial color if product changes
+  useEffect(() => {
+    setSelectedColor(initialColor);
+  }, [initialColor]);
+
+  // Preload all color variants into browser cache
+  useEffect(() => {
+    if (product?.variants && Array.isArray(product.variants)) {
+      product.variants.forEach((v: any) => {
+        if (v.mockupFront) {
+          const img = new Image();
+          img.src = v.mockupFront;
+        }
+        if (v.mockupBack) {
+          const img = new Image();
+          img.src = v.mockupBack;
+        }
+      });
+    }
+  }, [product?.variants]);
 
   if (!product) {
     return (
@@ -56,10 +91,13 @@ export const ProductDetailPage: React.FC = () => {
   }
 
   const isSaved = isWishlisted(product.id);
-  
+
+  // Active color: hovered color takes precedence for instant live preview
+  const activeColor = hoveredColor || selectedColor;
+
   // Dynamic variant mockups for Printrove & custom garments
   const variantForColor = product.variants?.find(
-    (v: any) => v.color?.toLowerCase() === selectedColor.toLowerCase() && (v.mockupFront || v.mockupBack)
+    (v: any) => v.color?.toLowerCase() === activeColor.toLowerCase() && (v.mockupFront || v.mockupBack)
   );
   const colorMockupFront = (variantForColor as any)?.mockupFront;
   const colorMockupBack = (variantForColor as any)?.mockupBack;
@@ -68,7 +106,7 @@ export const ProductDetailPage: React.FC = () => {
     colorMockupFront ||
     (product.id.startsWith('printrove-')
       ? product.images.primary
-      : COLOR_IMAGE_MAP[selectedColor] || product.images.primary);
+      : COLOR_IMAGE_MAP[activeColor] || product.images.primary);
 
   const galleryImages = [
     colorMappedImage,
@@ -141,12 +179,13 @@ export const ProductDetailPage: React.FC = () => {
         
         {/* Left: 4:5 Photography & Gallery */}
         <div className="lg:col-span-7 space-y-4">
-          {/* Main 4:5 Product Surface Box */}
+          {/* Main 4:5 Product Surface Box with Pure Atelier Studio Lighting */}
           <div className="relative aspect-[4/5] w-full bg-[#FFFFFF] border border-[#DDD8CE] overflow-hidden flex items-center justify-center p-6 sm:p-10 shadow-sm">
             <img
+              key={displayedImage}
               src={displayedImage}
-              alt={product.name}
-              className="w-full h-full object-contain transition-transform duration-700 ease-out hover:scale-105"
+              alt={`${product.name} in ${activeColor}`}
+              className="w-full h-full object-contain scale-115 transition-transform duration-700 ease-out hover:scale-120"
             />
 
             {/* Wishlist Button */}
@@ -154,7 +193,7 @@ export const ProductDetailPage: React.FC = () => {
               onClick={() => toggleWishlist(product.id)}
               className={`absolute top-4 right-4 z-10 w-9 h-9 rounded-full flex items-center justify-center transition-all cursor-pointer ${
                 isSaved
-                  ? 'bg-[#171717] text-white'
+                  ? 'bg-[#171717] text-white shadow-sm'
                   : 'bg-[#FFFFFF] text-[#171717] hover:bg-[#171717] hover:text-white border border-[#DDD8CE]'
               }`}
               title={isSaved ? "Saved in Wishlist" : "Save to Wishlist"}
@@ -176,7 +215,7 @@ export const ProductDetailPage: React.FC = () => {
                       : 'border-[#DDD8CE] opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt="thumbnail" className="w-full h-full object-contain" />
+                  <img src={img} alt="thumbnail" className="w-full h-full object-contain scale-110" />
                 </button>
               ))}
             </div>
@@ -205,29 +244,45 @@ export const ProductDetailPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Color Selector */}
+          {/* Color Selector with Instant Live Preview on Hover */}
           <div className="pt-4 border-t border-[#DDD8CE] space-y-2">
             <div className="flex items-center justify-between text-xs">
               <span className="uppercase tracking-wider text-[#706B64] font-medium">Colorway:</span>
-              <span className="font-semibold text-[#171717]">{selectedColor}</span>
+              <span className="font-semibold text-[#171717]">
+                {activeColor}{' '}
+                {hoveredColor && (
+                  <span className="text-[#B9AA96] text-[10px] uppercase font-normal tracking-wider ml-1">
+                    (Hover Preview)
+                  </span>
+                )}
+              </span>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               {product.colors.map((color) => {
                 const isSelected = selectedColor === color.name;
+                const isHovered = hoveredColor === color.name;
                 return (
                   <button
                     key={color.name}
-                    onClick={() => {
-                      setSelectedColor(color.name);
+                    onMouseEnter={() => {
+                      setHoveredColor(color.name);
                       setActiveGalleryIndex(0);
                     }}
-                    className={`w-7 h-7 rounded-full border transition-all cursor-pointer ${
+                    onMouseLeave={() => setHoveredColor(null)}
+                    onClick={() => {
+                      setSelectedColor(color.name);
+                      setHoveredColor(null);
+                      setActiveGalleryIndex(0);
+                    }}
+                    className={`w-7 h-7 rounded-full border transition-all cursor-pointer relative ${
                       isSelected
-                        ? 'border-[#171717] scale-110 ring-2 ring-[#171717] ring-offset-2'
+                        ? 'border-[#171717] scale-110 ring-2 ring-[#171717] ring-offset-2 z-10'
+                        : isHovered
+                        ? 'border-[#171717] scale-110 ring-1 ring-[#171717]'
                         : 'border-[#DDD8CE] hover:scale-105 opacity-80 hover:opacity-100'
                     }`}
                     style={{ backgroundColor: color.hex }}
-                    title={color.name}
+                    title={`${color.name} (hover to preview)`}
                   />
                 );
               })}
@@ -284,6 +339,26 @@ export const ProductDetailPage: React.FC = () => {
               <span>{isCheckingOut ? 'Opening Secure Payment...' : 'Instant Secure Checkout'}</span>
               <ArrowRight className="w-4 h-4" />
             </button>
+
+            {/* 3D Trying Studio Button */}
+            <Link
+              to={`/try-on?product=${product.id}&color=${encodeURIComponent(selectedColor)}&size=${selectedSize}`}
+              className="w-full py-3.5 bg-gradient-to-r from-[#171717] via-[#2A2A2A] to-[#171717] text-white hover:opacity-95 transition-all text-xs uppercase tracking-[0.18em] font-bold flex items-center justify-center gap-2 shadow-md border border-[#333333] cursor-pointer"
+            >
+              <Camera className="w-4 h-4 text-[#C8411F]" />
+              <span>3D Trying Studio — Wear Live with Camera</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#B9AA96]" />
+            </Link>
+
+            {/* 3D Trying Studio Button */}
+            <Link
+              to={`/try-on?product=${product.id}&color=${encodeURIComponent(selectedColor)}&size=${selectedSize}`}
+              className="w-full py-3.5 bg-gradient-to-r from-[#171717] via-[#2D2D2D] to-[#171717] hover:opacity-95 text-white transition-all text-xs uppercase tracking-[0.18em] font-semibold flex items-center justify-center gap-2 shadow-md border border-[#333333] cursor-pointer"
+            >
+              <Camera className="w-4 h-4 text-[#C8411F]" />
+              <span>3D Trying Studio — Wear Live with Camera</span>
+              <Sparkles className="w-3.5 h-3.5 text-[#B9AA96]" />
+            </Link>
 
             {checkoutError && (
               <p className="flex items-start gap-2 text-[11px] text-red-700 bg-red-50 border border-red-200 px-3 py-2">

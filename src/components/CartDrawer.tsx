@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { X, Trash2, ShieldCheck, ArrowRight, CheckCircle2, AlertCircle, Tag } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { X, Trash2, ShieldCheck, ArrowRight, CheckCircle2, AlertCircle, Tag, Camera, Sparkles } from 'lucide-react';
 import { useShop } from '../context/ShopContext';
 import {
   computeOrderTotals,
@@ -335,6 +335,20 @@ export const CartDrawer: React.FC = () => {
                 <span>{isCheckingOut ? 'Opening Secure Payment...' : 'Proceed to Secure Payment'}</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
+
+              {/* 3D Trying Studio Button */}
+              <Link
+                to={
+                  cart.length > 0
+                    ? `/try-on?product=${cart[0].product.id}&color=${encodeURIComponent(cart[0].selectedColor)}&size=${cart[0].selectedSize}`
+                    : '/try-on'
+                }
+                onClick={() => setIsCartOpen(false)}
+                className="w-full py-2.5 bg-[#FFFFFF] border border-[#171717] hover:bg-[#F4F1EA] text-[#171717] text-[11px] uppercase tracking-wider font-semibold flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              >
+                <Camera className="w-3.5 h-3.5 text-[#C8411F]" />
+                <span>3D Trying Studio — Wear Live with Camera</span>
+              </Link>
 
               <div className="flex items-center justify-center gap-1.5 text-[10px] text-[#706B64]">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#B9AA96]" />
