@@ -27,11 +27,16 @@ export const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const isSaved = isWishlisted(product.id);
 
-  // Dynamic image based on selected color or fallback
-  const basePrimary = COLOR_IMAGE_MAP[selectedColor] || product.images.primary;
-  const secondaryImage = product.images.secondary && product.images.secondary !== product.images.primary
+  // Dynamic image based on selected color or fallback: prioritizes real Printrove variant mockups
+  const variantForColor = product.variants?.find(
+    (v: any) => v.color?.toLowerCase() === selectedColor.toLowerCase() && (v.mockupFront || v.mockupBack)
+  );
+  const colorMockup = (variantForColor as any)?.mockupFront;
+  const basePrimary = colorMockup || (product.id.startsWith('printrove-') ? product.images.primary : (COLOR_IMAGE_MAP[selectedColor] || product.images.primary));
+  const secondaryMockup = (variantForColor as any)?.mockupBack;
+  const secondaryImage = secondaryMockup || (product.images.secondary && product.images.secondary !== product.images.primary
     ? product.images.secondary
-    : product.images.detail || basePrimary;
+    : product.images.detail || basePrimary);
 
   const handleQuickAdd = (size: string, e: React.MouseEvent) => {
     e.preventDefault();

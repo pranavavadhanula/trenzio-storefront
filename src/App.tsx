@@ -95,6 +95,7 @@ function MainStorefront() {
 
           {/* Dedicated Product Detail Page (PDP) */}
           <Route path="/products/:id" element={<ProductDetailPage />} />
+          <Route path="/product/:id" element={<ProductDetailPage />} />
 
           {/* Dedicated Shopping Bag Page */}
           <Route path="/cart" element={<CartPage />} />

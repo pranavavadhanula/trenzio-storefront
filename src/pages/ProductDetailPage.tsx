@@ -56,12 +56,26 @@ export const ProductDetailPage: React.FC = () => {
   }
 
   const isSaved = isWishlisted(product.id);
-  const colorMappedImage = COLOR_IMAGE_MAP[selectedColor] || product.images.primary;
+  
+  // Dynamic variant mockups for Printrove & custom garments
+  const variantForColor = product.variants?.find(
+    (v: any) => v.color?.toLowerCase() === selectedColor.toLowerCase() && (v.mockupFront || v.mockupBack)
+  );
+  const colorMockupFront = (variantForColor as any)?.mockupFront;
+  const colorMockupBack = (variantForColor as any)?.mockupBack;
+
+  const colorMappedImage =
+    colorMockupFront ||
+    (product.id.startsWith('printrove-')
+      ? product.images.primary
+      : COLOR_IMAGE_MAP[selectedColor] || product.images.primary);
 
   const galleryImages = [
     colorMappedImage,
-    product.images.secondary !== product.images.primary ? product.images.secondary : null,
-    product.images.detail !== product.images.primary ? product.images.detail : null,
+    colorMockupBack || (product.images.secondary !== product.images.primary ? product.images.secondary : null),
+    product.images.detail !== product.images.primary && product.images.detail !== colorMappedImage
+      ? product.images.detail
+      : null,
   ].filter(Boolean) as string[];
 
   const displayedImage = galleryImages[activeGalleryIndex] || colorMappedImage;
