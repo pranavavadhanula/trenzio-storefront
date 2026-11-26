@@ -28,15 +28,19 @@ import {
 import { startRazorpayCheckout } from '../services/razorpay';
 import { Product } from '../types';
 
-const COLOR_IMAGE_MAP: Record<string, string> = {
+const COLOR_TRANSPARENT_MAP: Record<string, string> = {
   'Ash Grey': '/images/products/ash-grey.png',
   'Beige': '/images/products/beige.png',
   'Black': '/images/products/black.png',
+  'Obsidian Black': '/images/products/black.png',
   'Olive Green': '/images/products/green.png',
   'Navy Blue': '/images/products/navy.png',
   'Crimson Red': '/images/products/red.png',
   'Maroon': '/images/products/maroon.png',
-  'Ivory': 'https://cdn.printrove.com/merchants/301918/templates/1001005158/store-mockups/ivory/mockups/2b892250-b024-41c3-8437-37ce5f6ddafe-mockup-1440-734-ivory-1793564504489.webp',
+  'Ivory': '/images/products/beige.png',
+  'Ecru White': '/images/products/beige.png',
+  'Warm Taupe': '/images/products/ash-grey.png',
+  'Classic': '/images/products/black.png',
 };
 
 export interface StudioBackdrop {
@@ -179,15 +183,16 @@ export const VirtualTryOnPage: React.FC = () => {
   // Selected Product & Options
   const [selectedProductId, setSelectedProductId] = useState<string>(productIdParam);
   const selectedProduct: Product = useMemo(() => {
-    if (selectedProductId) {
+    if (selectedProductId && products?.length) {
       const found = products.find((p) => p.id === selectedProductId);
       if (found) return found;
     }
-    return products[0] || FALLBACK_PRODUCT;
+    if (products && products.length > 0) return products[0];
+    return FALLBACK_PRODUCT;
   }, [products, selectedProductId]);
 
   const [selectedColor, setSelectedColor] = useState<string>(
-    colorParam || selectedProduct.colors[0]?.name || 'Ivory'
+    colorParam || selectedProduct?.colors?.[0]?.name || 'Ash Grey'
   );
   const [selectedSize, setSelectedSize] = useState<string>(sizeParam);
 
@@ -282,19 +287,19 @@ export const VirtualTryOnPage: React.FC = () => {
     }
   }, [selectedProduct]);
 
-  // Dynamic garment image based on selected color
+  // Dynamic garment image based on selected color (prioritizes clean transparent PNG cutouts)
   const activeGarmentImage = useMemo(() => {
-    const variantMatch = selectedProduct.variants?.find(
+    if (COLOR_TRANSPARENT_MAP[selectedColor]) {
+      return COLOR_TRANSPARENT_MAP[selectedColor];
+    }
+    const variantMatch = selectedProduct?.variants?.find(
       (v: any) =>
         v.color?.toLowerCase() === selectedColor.toLowerCase() && (v.mockupFront || v.mockupBack)
     );
     if ((variantMatch as any)?.mockupFront) {
       return (variantMatch as any).mockupFront;
     }
-    if (COLOR_IMAGE_MAP[selectedColor]) {
-      return COLOR_IMAGE_MAP[selectedColor];
-    }
-    return selectedProduct.images.primary;
+    return selectedProduct?.images?.primary || '/images/products/ash-grey.png';
   }, [selectedProduct, selectedColor]);
 
   // Size scale adaptation
@@ -653,13 +658,24 @@ export const VirtualTryOnPage: React.FC = () => {
                 alt="Your fitting photo"
                 className="absolute inset-0 z-10 w-full h-full object-cover"
               />
+            ) : MODEL_PRESETS[modelPresetIndex].id === 'preset-mannequin' ? (
+              /* 3D Atelier Studio Pedestal: Adaptive Backdrop is 100% visible */
+              <div className="absolute inset-0 z-10 flex flex-col items-center justify-end pointer-events-none pb-10">
+                <div className="w-56 h-8 rounded-full bg-black/50 backdrop-blur-md shadow-2xl border border-white/20" />
+              </div>
             ) : (
-              /* 3D Runway Model Preset */
-              <img
-                src={MODEL_PRESETS[modelPresetIndex].url}
-                alt={MODEL_PRESETS[modelPresetIndex].name}
-                className="absolute inset-0 z-10 w-full h-full object-cover object-center filter brightness-95"
-              />
+              /* 3D Runway Model Preset with Studio Lighting Blend */
+              <div className="absolute inset-0 z-10 overflow-hidden">
+                <img
+                  src={MODEL_PRESETS[modelPresetIndex].url}
+                  alt={MODEL_PRESETS[modelPresetIndex].name}
+                  className="w-full h-full object-cover object-center opacity-85 filter contrast-110"
+                  style={{
+                    maskImage: 'radial-gradient(circle at 50% 45%, black 60%, transparent 95%)',
+                    WebkitMaskImage: 'radial-gradient(circle at 50% 45%, black 60%, transparent 95%)',
+                  }}
+                />
+              </div>
             )}
 
             {/* Split Screen Before/After Compare View Slider */}
@@ -694,6 +710,12 @@ export const VirtualTryOnPage: React.FC = () => {
                     src={activeGarmentImage}
                     alt={`${selectedProduct.name} in ${selectedColor}`}
                     className="w-full h-auto object-contain"
+                    style={{
+                      mixBlendMode:
+                        activeGarmentImage.includes('printrove') || activeGarmentImage.endsWith('.webp')
+                          ? 'multiply'
+                          : 'normal',
+                    }}
                   />
                   {/* Subtle Studio Sheen Overlay */}
                   <div className="absolute inset-0 bg-gradient-to-tr from-black/25 via-transparent to-white/15 pointer-events-none" />
