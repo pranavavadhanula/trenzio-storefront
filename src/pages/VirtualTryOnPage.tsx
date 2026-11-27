@@ -55,65 +55,85 @@ export interface StudioBackdrop {
   url: string;
   lightingAmbiance: string;
   themeColor: string;
+  contrastTarget: 'light-clothes' | 'dark-clothes' | 'earth-clothes' | 'vibrant-clothes' | 'universal';
   recommendedFor: string;
   badge: string;
+  contrastReason: string;
   overlayGradient?: string;
 }
 
 export const STUDIO_BACKDROPS: StudioBackdrop[] = [
   {
-    id: 'sandstone-terrace',
-    name: 'Sunlit Sandstone Terrace',
-    url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=85',
-    lightingAmbiance: 'Warm Golden Hour Sunbeams & Dappled Light',
-    themeColor: '#F4F1EA',
-    recommendedFor: 'White, Ivory & Light Cotton Drapes',
-    badge: 'Best for Ivory / White Tees',
+    id: 'tokyo-brutalist',
+    name: 'Tokyo Dark Brutalist Concrete Loft',
+    url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85',
+    lightingAmbiance: 'Chiaroscuro Studio Keylight & Deep Charcoal Shadows',
+    themeColor: '#121212',
+    contrastTarget: 'light-clothes',
+    recommendedFor: 'White, Ivory, Beige & Ash Grey Garments',
+    badge: 'High-Contrast for Ivory & White',
+    contrastReason: 'Dark architectural concrete creates striking chiaroscuro contrast against light cotton, sculpting the drop-shoulder drape.',
+    overlayGradient: 'radial-gradient(circle at 50% 40%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.65) 100%)',
   },
   {
-    id: 'tokyo-brutalist',
-    name: 'Tokyo Brutalist Concrete Loft',
-    url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85',
-    lightingAmbiance: 'Chiaroscuro Studio Keylight & High Contrast',
-    themeColor: '#171717',
-    recommendedFor: 'Obsidian Black, Charcoal & Noir Drops',
-    badge: 'Best for Black & Dark Drops',
+    id: 'sandstone-terrace',
+    name: 'Sunlit Warm Sandstone Colonnade',
+    url: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=85',
+    lightingAmbiance: 'Golden Hour Sunbeams & Luminous Alabaster Stone',
+    themeColor: '#EBE7DF',
+    contrastTarget: 'dark-clothes',
+    recommendedFor: 'Obsidian Black, Charcoal, Navy & Dark Drops',
+    badge: 'High-Contrast for Black & Navy',
+    contrastReason: 'Bright warm sandstone carves out deep black silhouettes, accentuating the boxy streetwear posture and fabric density.',
+    overlayGradient: 'linear-gradient(180deg, rgba(244,241,234,0.1) 0%, rgba(0,0,0,0.3) 100%)',
   },
   {
     id: 'london-night',
-    name: 'Metropolitan London Night',
+    name: 'Metropolitan London Midnight',
     url: 'https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1600&q=85',
-    lightingAmbiance: 'Cinematic Neon City Bokeh & Edge Rim Light',
-    themeColor: '#0F172A',
-    recommendedFor: 'Outerwear, Bombers & Utilitarian Jackets',
-    badge: 'Best for Jackets & Outerwear',
-  },
-  {
-    id: 'nordic-winter',
-    name: 'Nordic Winter Atelier Courtyard',
-    url: 'https://images.unsplash.com/photo-1517299321909-504289274659?auto=format&fit=crop&w=1600&q=85',
-    lightingAmbiance: 'Soft Diffuse Studio Atmosphere & Fine Snow Aura',
-    themeColor: '#334155',
-    recommendedFor: 'Heavyweight Loopback Hoodies & Knits',
-    badge: 'Best for Winter Hoodies',
+    lightingAmbiance: 'Cinematic City Bokeh & Cool Cyan Edge Rim Light',
+    themeColor: '#0A0F1D',
+    contrastTarget: 'light-clothes',
+    recommendedFor: 'Ivory Streetwear, Outerwear & Ash Grey',
+    badge: 'Cinematic Night Contrast',
+    contrastReason: 'Nocturnal skyline bokeh casts subtle neon rim light that highlights the garment borders and user posture.',
+    overlayGradient: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.2) 0%, rgba(10,15,29,0.8) 100%)',
   },
   {
     id: 'milan-runway',
-    name: 'Milan Fashion Week Catwalk',
+    name: 'Milan Fashion Atelier Spotlight',
     url: 'https://images.unsplash.com/photo-1469334031218-e382a71b716b?auto=format&fit=crop&w=1600&q=85',
-    lightingAmbiance: 'Editorial Spotlight & Runway Dramatic Flare',
-    themeColor: '#881337',
-    recommendedFor: 'Crimson, Burgundy & Bold Runway Pieces',
-    badge: 'Best for Red & Bold Colors',
+    lightingAmbiance: 'Directional Runway Keylight & Deep Crimson Flare',
+    themeColor: '#4A0E17',
+    contrastTarget: 'light-clothes',
+    recommendedFor: 'Ivory, White, Ash Grey & Streetwear Drops',
+    badge: 'Editorial Catwalk Contrast',
+    contrastReason: 'Dramatic catwalk spotlights draw immediate focus to the chest drape and heavyweight 240 GSM collar.',
+    overlayGradient: 'radial-gradient(circle at 50% 45%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%)',
   },
   {
     id: 'kyoto-zen',
-    name: 'Kyoto Brutalist Slate Garden',
+    name: 'Kyoto Warm Hinoki Cedar Garden',
     url: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1600&q=85',
-    lightingAmbiance: 'Overcast Organic Slate & Natural Earth Tone',
-    themeColor: '#2D3748',
-    recommendedFor: 'Vintage Olive, Khaki & Earth Tones',
-    badge: 'Best for Olive & Earth Tones',
+    lightingAmbiance: 'Overcast Organic Warmth & Natural Wood Tones',
+    themeColor: '#2B2621',
+    contrastTarget: 'earth-clothes',
+    recommendedFor: 'Forest Green, Olive, Navy Blue & Earth Tones',
+    badge: 'Organic Earth Contrast',
+    contrastReason: 'Warm natural cedar wood and tranquil stone create a sophisticated earthy contrast that elevates green and muted tones.',
+    overlayGradient: 'radial-gradient(circle at 50% 50%, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.6) 100%)',
+  },
+  {
+    id: 'nordic-winter',
+    name: 'Nordic Crisp Gallery Studio',
+    url: 'https://images.unsplash.com/photo-1517299321909-504289274659?auto=format&fit=crop&w=1600&q=85',
+    lightingAmbiance: 'Soft Diffuse Natural Skylight & Cool Mist',
+    themeColor: '#1E293B',
+    contrastTarget: 'vibrant-clothes',
+    recommendedFor: 'Brick Red, Crimson, Maroon & Vibrant Drops',
+    badge: 'Cool Contrast for Red & Warm',
+    contrastReason: 'Cool overcast slate grey tones create vivid complementary contrast with warm red, making the color pop intensely.',
+    overlayGradient: 'linear-gradient(180deg, rgba(0,0,0,0.2) 0%, rgba(15,23,42,0.7) 100%)',
   },
 ];
 
@@ -202,56 +222,73 @@ export const VirtualTryOnPage: React.FC = () => {
   );
   const [selectedSize, setSelectedSize] = useState<string>(sizeParam);
 
-  // STUDIO ENVIRONMENT STATE: Adaptive Background (Automatically configured according to garment & color)
+  // STUDIO ENVIRONMENT STATE: Adaptive High-Contrast Background
+  const [activeBackdropId, setActiveBackdropId] = useState<string>('auto');
   const [is3DVolumetricMode, setIs3DVolumetricMode] = useState<boolean>(false);
 
-  // Automatic Background Intelligence: Dynamically sets studio ambiance based on the exact garment & color
-  const currentBackdrop = useMemo(() => {
+  // Dynamic High-Contrast Studio Intelligence:
+  // Automatically computes the ideal high-contrast backdrop based on garment color luminance & style
+  const recommendedContrastBackdrop = useMemo(() => {
+    const c = (selectedColor || '').toLowerCase();
     const cat = (selectedProduct.category || '').toLowerCase();
     const name = (selectedProduct.name || '').toLowerCase();
-    const c = (selectedColor || '').toLowerCase();
 
-    // Jackets & Outerwear
-    if (cat.includes('jacket') || name.includes('jacket') || name.includes('bomber') || name.includes('coat')) {
-      return STUDIO_BACKDROPS[2]; // Metropolitan London Night
-    }
-    // Hoodies & Winterwear
-    if (
-      cat.includes('hoodie') ||
-      cat.includes('sweatshirt') ||
-      name.includes('hoodie') ||
-      name.includes('sweatshirt') ||
-      name.includes('fleece')
-    ) {
-      return STUDIO_BACKDROPS[3]; // Nordic Winter Atelier
-    }
-    // Color-based matching for T-shirts and tops
-    if (c.includes('black') || c.includes('noir') || c.includes('charcoal')) {
-      return STUDIO_BACKDROPS[1]; // Tokyo Brutalist Concrete (Contrast studio keylight)
-    }
+    // 1. Light garments (White, Ivory, Beige, Cream, Ash Grey, Ecru)
+    // Contrast: High-end dark chiaroscuro backdrop so the light garment pops!
     if (
       c.includes('white') ||
       c.includes('ivory') ||
       c.includes('beige') ||
       c.includes('cream') ||
+      c.includes('ash') ||
       c.includes('taupe')
     ) {
-      return STUDIO_BACKDROPS[0]; // Sunlit Sandstone Terrace (Golden hour sunbeams)
+      return STUDIO_BACKDROPS[0]; // Tokyo Dark Brutalist Concrete Loft (#121212)
     }
+
+    // 2. Dark garments (Black, Obsidian, Charcoal, Noir)
+    // Contrast: Luminous warm sandstone colonnade so the dark silhouette is sculpted!
+    if (
+      c.includes('black') ||
+      c.includes('noir') ||
+      c.includes('charcoal') ||
+      c.includes('obsidian')
+    ) {
+      return STUDIO_BACKDROPS[1]; // Sunlit Warm Sandstone Colonnade (#EBE7DF)
+    }
+
+    // 3. Dark Navy / Blue
     if (c.includes('navy') || c.includes('blue')) {
-      return STUDIO_BACKDROPS[2]; // Metropolitan London Night (Cinematic edge rim light)
+      return STUDIO_BACKDROPS[1]; // Sunlit Sandstone Colonnade (High-contrast against deep navy)
     }
-    if (c.includes('olive') || c.includes('green') || c.includes('forest') || c.includes('sage') || c.includes('khaki')) {
-      return STUDIO_BACKDROPS[5]; // Kyoto Brutalist Garden (Organic slate & natural earth tone)
-    }
+
+    // 4. Vibrant & Warm garments (Brick Red, Crimson, Maroon)
+    // Contrast: Cool gallery slate makes the warm red vibrant and commanding!
     if (c.includes('red') || c.includes('brick') || c.includes('maroon') || c.includes('crimson') || c.includes('burgundy')) {
-      return STUDIO_BACKDROPS[4]; // Milan Runway (Dramatic spotlight depth)
+      return STUDIO_BACKDROPS[5]; // Nordic Crisp Gallery Studio
     }
-    if (c.includes('grey') || c.includes('ash') || c.includes('gray')) {
-      return STUDIO_BACKDROPS[1]; // Tokyo Brutalist Concrete (High contrast)
+
+    // 5. Earth tones (Forest Green, Olive, Sage, Khaki)
+    // Contrast: Kyoto Hinoki cedar provides warm organic harmony!
+    if (c.includes('green') || c.includes('olive') || c.includes('forest') || c.includes('sage') || c.includes('khaki')) {
+      return STUDIO_BACKDROPS[4]; // Kyoto Warm Hinoki Cedar Garden
     }
+
+    // Jackets & Outerwear
+    if (cat.includes('jacket') || name.includes('jacket') || name.includes('bomber') || name.includes('coat')) {
+      return STUDIO_BACKDROPS[2]; // Metropolitan London Midnight
+    }
+
     return STUDIO_BACKDROPS[0];
   }, [selectedProduct, selectedColor]);
+
+  const currentBackdrop = useMemo(() => {
+    if (activeBackdropId !== 'auto') {
+      const found = STUDIO_BACKDROPS.find((b) => b.id === activeBackdropId);
+      if (found) return found;
+    }
+    return recommendedContrastBackdrop;
+  }, [activeBackdropId, recommendedContrastBackdrop]);
 
   // LIVE CAMERA STATE
   const [isLiveCameraActive, setIsLiveCameraActive] = useState(false);
@@ -878,20 +915,68 @@ export const VirtualTryOnPage: React.FC = () => {
             )}
           </div>
 
-          {/* Intelligent Studio Lighting & Background Status (Auto-configured to Garment) */}
-          <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs shadow-xs">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
-              <span className="font-semibold text-[#171717] uppercase tracking-wider text-[11px]">
-                Adaptive Backdrop:
-              </span>
-              <span className="text-[#706B64]">
-                Auto-matched to <strong className="text-[#171717] capitalize">{selectedColor}</strong> ({currentBackdrop.name})
+          {/* Intelligent High-Contrast Studio Background Engine */}
+          <div className="bg-[#FFFFFF] border border-[#DDD8CE] p-4 space-y-3 shadow-xs">
+            {/* Header Status & Contrast Target */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs pb-2 border-b border-[#DDD8CE]">
+              <div className="flex items-center gap-2">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                <span className="font-semibold text-[#171717] uppercase tracking-wider text-[11px] flex items-center gap-1.5">
+                  <Palette className="w-3.5 h-3.5 text-[#C8411F]" />
+                  <span>High-Contrast Backdrop:</span>
+                </span>
+                <span className="text-[#171717] font-semibold">
+                  {currentBackdrop.name}
+                </span>
+              </div>
+              <span className="text-[10px] uppercase font-mono tracking-wider text-[#171717] bg-[#F4F1EA] px-2.5 py-1 border border-[#DDD8CE] rounded self-start sm:self-auto font-semibold">
+                {currentBackdrop.badge}
               </span>
             </div>
-            <span className="text-[10px] uppercase font-mono tracking-wider text-[#B9AA96] bg-[#F4F1EA] px-2.5 py-1 border border-[#DDD8CE] rounded self-start sm:self-auto">
-              {currentBackdrop.lightingAmbiance.split('&')[0]}
-            </span>
+
+            {/* Contrast Marketing & Visual Appeal Note */}
+            <div className="text-[11px] text-[#706B64] font-light leading-relaxed bg-[#F4F1EA]/60 p-2.5 border-l-2 border-[#171717]">
+              <p>
+                <strong className="text-[#171717] font-medium">Visual Contrast Optimization: </strong>
+                {currentBackdrop.contrastReason}
+              </p>
+            </div>
+
+            {/* Backdrop Switcher Options with Direct Previews */}
+            <div className="pt-1">
+              <div className="text-[10px] uppercase font-mono tracking-wider text-[#706B64] mb-2 font-medium">
+                Choose Contrast Environment:
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  onClick={() => setActiveBackdropId('auto')}
+                  className={`px-3 py-1.5 text-xs uppercase tracking-wider font-semibold border transition-all cursor-pointer ${
+                    activeBackdropId === 'auto'
+                      ? 'border-[#171717] bg-[#171717] text-white shadow-sm'
+                      : 'border-[#DDD8CE] bg-white text-[#706B64] hover:border-[#171717]'
+                  }`}
+                  title="Automatically pairs with the ideal contrast backdrop whenever you select a new color"
+                >
+                  ✦ Auto High-Contrast ({recommendedContrastBackdrop.name.split(' ')[0]})
+                </button>
+
+                {STUDIO_BACKDROPS.map((backdrop) => (
+                  <button
+                    key={backdrop.id}
+                    type="button"
+                    onClick={() => setActiveBackdropId(backdrop.id)}
+                    className={`px-3 py-1.5 text-xs uppercase tracking-wider font-medium border transition-all cursor-pointer flex items-center gap-1.5 ${
+                      activeBackdropId === backdrop.id
+                        ? 'border-[#171717] bg-[#171717] text-white shadow-sm'
+                        : 'border-[#DDD8CE] bg-white text-[#706B64] hover:border-[#171717]'
+                    }`}
+                  >
+                    <span>{backdrop.name.split(' ')[0]} {backdrop.name.split(' ')[1]}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
